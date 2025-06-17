@@ -25,7 +25,9 @@
 			</div>
 
 			<div>
-				<button class="shadow_button"> Continue </button>
+				<a href="/" class="block">
+					<button class="shadow_button"> Continue </button>
+				</a>
 			</div>
 
 			<div class="mt-6">
