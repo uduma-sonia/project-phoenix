@@ -1,0 +1,32 @@
+@import url('./styles/components.css');
+
+@import '@fontsource/suez-one';
+@import '@fontsource/crete-round';
+@import '@fontsource-variable/lexend-deca';
+@import '@fontsource-variable/lexend';
+
+@import 'tailwindcss';
+
+@theme {
+	--font-lexend-deca: 'Lexend Deca Variable', sans-serif;
+	--font-lexend: 'Lexend Variable', sans-serif;
+	--font-suez: 'Suez One', serif;
+	--font-crete: 'Crete Round', serif;
+
+	--color-brand-green: #1eb564;
+	--color-brand-light: #f5ecd5;
+
+	--radius-5: 5px;
+	--radius-10: 10px;
+
+	--text-13: 13px;
+}
+
+body {
+	font-family: 'Crete Round', serif;
+}
+
+label,
+input {
+	display: block;
+}
