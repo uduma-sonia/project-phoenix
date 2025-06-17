@@ -25,7 +25,7 @@
 			</div>
 
 			<div>
-				<a href="/" class="block">
+				<a href="/dashboard" class="block">
 					<button class="shadow_button"> Continue </button>
 				</a>
 			</div>
