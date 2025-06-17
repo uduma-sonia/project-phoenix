@@ -30,3 +30,8 @@ label,
 input {
 	display: block;
 }
+
+input {
+	font-family: 'Lexend Variable', sans-serif;
+	font-weight: 300;
+}
