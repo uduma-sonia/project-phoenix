@@ -34,7 +34,6 @@
 	transition-property: transform, box-shadow, outline-offset;
 	transition: 100ms ease-in;
 	width: 100%;
-	/* height: 45px; */
 	border-radius: 8px;
 }
 

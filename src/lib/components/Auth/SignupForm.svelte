@@ -25,7 +25,7 @@
 			</div>
 
 			<div>
-				<a href="/dashboard" class="block">
+				<a href="/tracker" class="block">
 					<button class="shadow_button"> Continue </button>
 				</a>
 			</div>

@@ -1,12 +1,29 @@
-<div class="h-28">
-	<div class="flex h-full items-center justify-between">
-		<div>
-			<p class="font-lexend text-xl">Hi,</p>
-			<p class="text-3xl">Sonia Uduma</p>
-		</div>
+<script lang="ts">
+	import { page } from '$app/state';
 
-		<div>
-			<div class="h-16 w-16 rounded-full bg-black"></div>
-		</div>
+	const routesList = [
+		{
+			label: 'Habit Tracker',
+			route: '/tracker'
+		},
+		{
+			label: 'Shopping List',
+			route: '/shopping'
+		},
+		{
+			label: 'Travel Planner',
+			route: '/travel'
+		}
+	];
+</script>
+
+<div class="h-16">
+	<div class="flex h-full items-center justify-center gap-5">
+		{#each routesList as { route, label } (label)}
+			{@const isActive = route == page.url.pathname}
+			<a href={route} class={`font-lexend font-light hover:underline`} class:font-medium={isActive}>
+				{label}
+			</a>
+		{/each}
 	</div>
 </div>
