@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
 	import { Minus, Plus } from '@lucide/svelte';
 

@@ -7,9 +7,10 @@
 	import HabitItem from './Utilities/HabitItem.svelte';
 	import HabitSearch from './Utilities/HabitSearch.svelte';
 	import Calendar from './Utilities/Calendar.svelte';
+	import Stats from './Stats.svelte';
 </script>
 
-<div class="mx-auto w-full max-w-[1000px]">
+<div class="mx-auto w-full max-w-[1000px] pb-14">
 	<NavBar />
 	<NameCard />
 	<DateScroller />
@@ -19,14 +20,14 @@
 	</div>
 
 	<div class="mt-10 flex items-start gap-4">
-		<div class="h-20 w-1/2">
+		<div class="w-1/2">
 			<div class="space-y-4">
 				<HabitItem />
 				<HabitItem />
 			</div>
 		</div>
 
-		<div class="h-20 w-1/2">
+		<div class="w-1/2">
 			<div class="rounded-lg border-2 bg-white p-4">
 				<div class="flex items-start justify-between gap-4">
 					<div>
@@ -40,7 +41,13 @@
 					</div>
 				</div>
 
-				<Calendar />
+				<div>
+					<Calendar />
+
+					<div class="mt-6">
+						<Stats />
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
