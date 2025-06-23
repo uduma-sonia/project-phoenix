@@ -8,6 +8,16 @@
 	import HabitSearch from './Utilities/HabitSearch.svelte';
 	import Calendar from './Utilities/Calendar.svelte';
 	import Stats from './Stats.svelte';
+
+	let currentView = $state('monthly');
+
+	const changeView = () => {
+		if (currentView === 'monthly') {
+			currentView = 'yearly';
+		} else if (currentView === 'yearly') {
+			currentView = 'monthly';
+		}
+	};
 </script>
 
 <div class="mx-auto w-full max-w-[1000px] pb-14">
@@ -28,7 +38,29 @@
 		</div>
 
 		<div class="w-1/2">
-			<div class="rounded-lg border-2 bg-white p-4">
+			<div class="bg-whit mb-4 flex rounded-lg border-2 bg-white">
+				<div class="w-1/2 rounded-lg">
+					<button
+						onclick={changeView}
+						class:activeView={currentView === 'monthly'}
+						class="h-[45px] w-full rounded-lg bg-[#ffffff] text-black"
+					>
+						Monthly
+					</button>
+				</div>
+
+				<div class="w-1/2 rounded-lg">
+					<button
+						onclick={changeView}
+						class:activeView={currentView === 'yearly'}
+						class="h-[45px] w-full rounded-lg bg-[#ffffff] text-black"
+					>
+						Yearly
+					</button>
+				</div>
+			</div>
+
+			<div class="rounded-lg border-2 bg-white p-4 pb-20">
 				<div class="flex items-start justify-between gap-4">
 					<div>
 						<p class="font-lexend text-lg font-light">Drink water</p>
@@ -52,3 +84,9 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.activeView {
+		background-color: #a0c878 !important;
+	}
+</style>
