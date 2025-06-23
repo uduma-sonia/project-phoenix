@@ -1,5 +1,5 @@
-<div class="flex gap-3">
-	<div class="max-w-[350px] flex-1">
+<div class="flex max-w-[300px] flex-1 gap-3">
+	<div class="max-w-[300px] flex-1">
 		<div class="input_wrapper">
 			<input
 				placeholder="Search tracker"

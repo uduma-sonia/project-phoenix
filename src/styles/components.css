@@ -22,6 +22,26 @@
 	padding: 20px;
 }
 
+.retro_ui_block_wrapper {
+	position: relative;
+}
+
+.retro_ui_block_wrapper::before {
+	content: '';
+	position: absolute;
+	top: 3px;
+	left: 5px;
+	border: 2px solid black;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+}
+
+.retro_ui_block {
+	position: relative;
+	z-index: 2;
+}
+
 .shadow_button {
 	font-family: 'Crete Round', serif;
 	font-optical-sizing: auto;
@@ -29,7 +49,9 @@
 	font-style: normal;
 	background: #a0c878;
 	border: 2px solid black;
-	padding: 8px 20px;
+	height: 50px;
+	padding-left: 20px;
+	padding-right: 20px;
 	box-shadow: 4px 4px black;
 	transition-property: transform, box-shadow, outline-offset;
 	transition: 100ms ease-in;
@@ -49,4 +71,12 @@
 .shadow_button:active {
 	box-shadow: 2px 2px #2f2e2e;
 	transform: scale(0.99);
+}
+
+.button_active {
+	transition: all 0.3s linear;
+}
+
+.button_active:active {
+	transform: scale(0.9);
 }

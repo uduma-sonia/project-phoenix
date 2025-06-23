@@ -1,13 +1,17 @@
 <script lang="ts">
 	import NameCard from '../Common/NameCard.svelte';
 	import NavBar from '../Common/NavBar.svelte';
-	import HabitSearch from '../Habit/HabitSearch.svelte';
+	import DateScroller from './Utilities/DateScroller.svelte';
+	import FilterForm from './Utilities/FilterForm.svelte';
+	import HabitSearch from './Utilities/HabitSearch.svelte';
 </script>
 
 <div class="mx-auto w-full max-w-[1000px]">
 	<NavBar />
 	<NameCard />
-	<div class="mt-4">
+	<DateScroller />
+	<!-- <div class="mt-6 flex items-center gap-6">
 		<HabitSearch />
-	</div>
+		<FilterForm />
+	</div> -->
 </div>
