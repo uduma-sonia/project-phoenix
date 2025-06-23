@@ -13,8 +13,8 @@
 	};
 </script>
 
-<div class="relative border">
-	<button aria-label="presentation" class="space-y-0.5 border" onclick={toggleDropDownMenu}>
+<div class="relative">
+	<button aria-label="presentation" class="space-y-0.5" onclick={toggleDropDownMenu}>
 		<div class="h-[3px] w-4 rounded-full bg-black"></div>
 		<div class="h-[3px] w-4 rounded-full bg-black"></div>
 		<div class="h-[3px] w-4 rounded-full bg-black"></div>
@@ -31,7 +31,7 @@
 					{#if option.link}
 						<a href={option.link} class="block">
 							<button
-								class="font-montserrat flex h-10 w-48 min-w-max items-center gap-1 px-3 text-sm font-normal text-white hover:bg-[#191a1c] focus:bg-[#191a1c] active:bg-[#191a1c]"
+								class="font-montserrat font-lexend flex h-10 w-48 min-w-max items-center gap-1 rounded-lg px-3 text-sm font-normal text-black hover:bg-[#d9d9da] focus:bg-[#d9d9da] active:bg-[#d9d9da]"
 							>
 								<div class="w-6">
 									<option.icon />
@@ -41,7 +41,7 @@
 						</a>
 					{:else}
 						<button
-							class="font-montserrat font-lexend flex h-10 w-48 min-w-max items-center gap-1 rounded-lg px-3 text-sm font-normal text-black hover:bg-[#d9d9da] focus:bg-[#191a1c] active:bg-[#191a1c]"
+							class="font-montserrat font-lexend flex h-10 w-48 min-w-max items-center gap-1 rounded-lg px-3 text-sm font-normal text-black hover:bg-[#d9d9da] focus:bg-[#d9d9da] active:bg-[#d9d9da]"
 							onclick={() => {
 								option.action?.(option.label);
 							}}
