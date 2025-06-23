@@ -16,13 +16,13 @@
 		<FilterForm />
 	</div>
 
-	<div class="mt-6 flex items-start gap-4">
-		<div class="h-20 w-1/2 bg-black">
+	<div class="mt-10 flex items-start gap-4">
+		<div class="h-20 w-1/2">
 			<div class="space-y-4">
 				<HabitItem />
 				<HabitItem />
 			</div>
 		</div>
-		<div class="h-20 w-1/2 bg-black">RIGHT</div>
+		<div class="h-20 w-1/2"></div>
 	</div>
 </div>
