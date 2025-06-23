@@ -4,6 +4,8 @@
 
 	let { type = 'quit' } = $props();
 
+	// todo@ different state for different types
+
 	const moreOptions = [
 		{
 			label: 'Done',
@@ -87,7 +89,7 @@
 		border: 2px solid black;
 		z-index: 1;
 		border-radius: 8px;
-		width: 100%;
+		width: 90%;
 		height: 100%;
 	}
 

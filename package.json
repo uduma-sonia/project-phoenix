@@ -45,6 +45,7 @@
 		"@fontsource-variable/lexend-deca": "^5.2.9",
 		"@fontsource/crete-round": "^5.2.6",
 		"@fontsource/suez-one": "^5.2.6",
-		"@lucide/svelte": "^0.522.0"
+		"@lucide/svelte": "^0.522.0",
+		"date-fns": "^4.1.0"
 	}
 }
