@@ -25,7 +25,9 @@
 			<img src="/images/arrow_down_thick.svg" class="absolute top-2.5 right-2 z-50 w-8" alt="" />
 
 			{#if showStatusDropdown}
-				<div class="py2 relative z-50 px-1">
+				<div
+					class=" absolute z-50 rounded-lg rounded-t-none border-2 border-t-0 border-black bg-white px-1"
+				>
 					<button
 						class="font-lexend hover:bg-brand-lime h-[40px] w-full rounded-md px-3 text-left font-light"
 					>
