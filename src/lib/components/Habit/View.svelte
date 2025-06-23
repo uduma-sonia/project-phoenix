@@ -10,8 +10,8 @@
 	<NavBar />
 	<NameCard />
 	<DateScroller />
-	<!-- <div class="mt-6 flex items-center gap-6">
+	<div class="mt-3 flex items-center gap-6">
 		<HabitSearch />
 		<FilterForm />
-	</div> -->
+	</div>
 </div>
