@@ -1,6 +1,6 @@
 <script lang="ts">
 	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
-	import { Minus, Plus } from '@lucide/svelte';
+	import { Check, Minus, Plus, SkipForward, SquarePen, Trash2, X } from '@lucide/svelte';
 
 	let { type = 'quit' } = $props();
 
@@ -9,27 +9,50 @@
 	const moreOptions = [
 		{
 			label: 'Done',
-			icon: Plus
+			icon: Check
 			// action: openInsightsModal
 		},
 		{
 			label: 'Delete',
-			icon: Plus
+			icon: SkipForward
+			// action: openInsightsModal
+		},
+		{
+			label: 'Fail',
+			icon: X
+			// action: openInsightsModal
+		},
+		{
+			label: 'Edit',
+			icon: SquarePen
+			// action: openInsightsModal
+		},
+		{
+			label: 'Delete',
+			icon: Trash2,
+			iconColor: 'red'
 			// action: openInsightsModal
 		}
 	];
 </script>
 
-<div class="dropdown_wrapper h-100">
+<div class="dropdown_wrapper h-100 bg-pink-800">
 	<div
-		class="cursor-pointe pt- relative z-10 flex h-100 w-full items-center gap-3 rounded-lg border-2 border-black bg-white px-3"
+		class="relative z-10 flex h-100 w-full items-center gap-3 rounded-lg border-2 border-black bg-white px-3"
 	>
 		<div class="w-8">
 			<img src="/images/walk.svg" alt="walk icon" class="w-6" />
 		</div>
 
 		<div class="flex flex-1 items-center justify-between">
-			<div>
+			<div
+				role="button"
+				tabindex={0}
+				onclick={() => console.log('clicked')}
+				onkeydown={() => console.log('clicked')}
+				class="cursor-pointer"
+				aria-label="presentation"
+			>
 				<div>
 					<p class="font-lexend text-lg font-light">Drink water</p>
 				</div>
@@ -54,7 +77,7 @@
 						</button>
 					</div>
 
-					<div class="font-lexend">1</div>
+					<div class="font-lexend text-sm font-light">1</div>
 
 					<div class="w-fit">
 						<button
@@ -65,9 +88,13 @@
 					</div>
 				</div>
 
-				<HamburgerDropdown options={moreOptions} />
+				<div class="w-6 p-2"></div>
 			</div>
 		</div>
+	</div>
+
+	<div class="absolute top-1/2 right-4 z-50 -translate-y-1/2">
+		<HamburgerDropdown options={moreOptions} />
 	</div>
 </div>
 
@@ -89,7 +116,7 @@
 		border: 2px solid black;
 		z-index: 1;
 		border-radius: 8px;
-		width: 90%;
+		width: 100%;
 		height: 100%;
 	}
 

@@ -24,14 +24,14 @@
 		<div
 			use:Helpers.clickOutside
 			onclick_outside={handleClickOutside}
-			class="slide_in_down absolute top-[-30px] right-6 z-[9999] gap-4 overflow-hidden rounded-lg shadow-2xl"
+			class="slide_in_down absolute top-[-30px] right-6 z-[9999] gap-4 overflow-hidden rounded-lg shadow-2xl shadow-black"
 		>
-			<div class="rounded-lg border-2 border-black bg-[#FFFFFF] p-0.5">
+			<div class="w-[150px] rounded-lg border-2 border-black bg-[#FFFFFF] p-0.5">
 				{#each options as option}
 					{#if option.link}
 						<a href={option.link} class="block">
 							<button
-								class="font-montserrat font-lexend flex h-10 w-48 min-w-max items-center gap-1 rounded-lg px-3 text-sm font-normal text-black hover:bg-[#d9d9da] focus:bg-[#d9d9da] active:bg-[#d9d9da]"
+								class="font-montserrat font-lexend flex h-10 w-full items-center gap-1 rounded-lg px-3 text-sm font-normal text-black hover:bg-[#d9d9da] focus:bg-[#d9d9da] active:bg-[#d9d9da]"
 							>
 								<div class="w-6">
 									<option.icon />
@@ -41,12 +41,12 @@
 						</a>
 					{:else}
 						<button
-							class="font-montserrat font-lexend flex h-10 w-48 min-w-max items-center gap-1 rounded-lg px-3 text-sm font-normal text-black hover:bg-[#d9d9da] focus:bg-[#d9d9da] active:bg-[#d9d9da]"
+							class="font-montserrat font-lexend flex h-10 w-full items-center gap-1 rounded-lg px-3 text-sm font-normal text-black hover:bg-[#d9d9da] focus:bg-[#d9d9da] active:bg-[#d9d9da]"
 							onclick={() => {
 								option.action?.(option.label);
 							}}
 						>
-							<div class="w-6">
+							<div class="w-6" style="color: {option.iconColor};">
 								<option.icon />
 							</div>
 							{option.label}
