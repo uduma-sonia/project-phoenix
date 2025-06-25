@@ -1,12 +1,11 @@
 <script lang="ts">
-	import NameCard from '../Common/NameCard.svelte';
-	import NavBar from '../Common/NavBar.svelte';
 	import DateScroller from './Utilities/DateScroller.svelte';
 	import FilterForm from './Utilities/FilterForm.svelte';
 	import HabitItem from './Utilities/HabitItem.svelte';
 	import HabitSearch from './Utilities/HabitSearch.svelte';
 	import MonthlyStats from './MonthlyStats.svelte';
 	import YearlyStats from './YearlyStats.svelte';
+	import TopSection from '../Common/TopSection.svelte';
 
 	let currentView = $state('monthly');
 
@@ -20,9 +19,9 @@
 </script>
 
 <div class="mx-auto w-full max-w-[1000px] pb-64">
-	<NavBar />
-	<NameCard />
+	<TopSection />
 	<DateScroller />
+
 	<div class="relative z-30 mt-3 flex items-start gap-6">
 		<HabitSearch />
 		<FilterForm />
