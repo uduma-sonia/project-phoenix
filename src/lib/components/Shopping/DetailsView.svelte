@@ -8,17 +8,23 @@
 	<TopSection withName={false} />
 
 	<div>
-		<div class="mb-10 flex items-center gap-4">
-			<div>
-				<a href="/shopping">
-					<button class="shadow_button backbtn">
-						<MoveLeft />
-					</button>
-				</a>
+		<div class="mt-10 mb-10 flex justify-between">
+			<div class="flex items-center gap-4">
+				<div>
+					<a href="/shopping">
+						<button class="shadow_button backbtn">
+							<MoveLeft />
+						</button>
+					</a>
+				</div>
+
+				<div>
+					<p>January Shopping</p>
+				</div>
 			</div>
 
 			<div>
-				<p>January Shopping</p>
+				<button class="shadow_button"> Add from standard </button>
 			</div>
 		</div>
 
