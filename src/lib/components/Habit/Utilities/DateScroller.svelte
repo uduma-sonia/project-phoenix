@@ -12,7 +12,7 @@
 </script>
 
 <div class="my-4">
-	<div class="flex items-center gap-3 overflow-hidden">
+	<div class="flex items-center gap-3 overflow-hidden py-1">
 		<div>
 			<button class="shadow_button" onclick={handleScrollLeft}>
 				<span class="block rotate-180">

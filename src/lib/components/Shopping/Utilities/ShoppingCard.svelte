@@ -1,4 +1,4 @@
-<div role="button" tabindex="0" aria-label="folder button" class="button_active cursor-pointer">
+<a href="/shopping/38rufjce" class="button_active cursor-pointer">
 	<div class="bg-brand-folder relative h-6 w-16 rounded-tl-lg border-2 border-b-0">
 		<div class="bg-brand-folder absolute top-2 -right-10 h-20 w-full -rotate-45 border-r-2"></div>
 	</div>
@@ -12,7 +12,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</a>
 
 <style>
 	.card_wrapper {

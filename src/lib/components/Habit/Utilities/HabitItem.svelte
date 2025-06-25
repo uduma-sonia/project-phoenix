@@ -36,7 +36,7 @@
 	];
 </script>
 
-<div class="dropdown_wrapper h-100 bg-pink-800">
+<div class="dropdown_wrapper h-100">
 	<div
 		class="relative z-10 flex h-100 w-full items-center gap-3 rounded-lg border-2 border-black bg-white px-3"
 	>

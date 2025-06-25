@@ -4,24 +4,32 @@
 	const routesList = [
 		{
 			label: 'Habit Tracker',
-			route: '/tracker'
+			route: '/tracker',
+			keyword: 'tracker'
 		},
 		{
 			label: 'Shopping List',
-			route: '/shopping'
+			route: '/shopping',
+			keyword: 'shopping'
 		},
 		{
 			label: 'Travel Planner',
-			route: '/travel'
+			route: '/travel',
+			keyword: 'travel'
 		}
 	];
 </script>
 
 <div class="h-16">
 	<div class="flex h-full items-center justify-center gap-5">
-		{#each routesList as { route, label } (label)}
-			{@const isActive = route == page.url.pathname}
-			<a href={route} class={`font-lexend font-light hover:underline`} class:font-medium={isActive}>
+		{#each routesList as { route, label, keyword } (label)}
+			{@const isActive = route == page.url.pathname || page.url.pathname.includes(keyword)}
+			<a
+				href={route}
+				class={`font-lexend font-light underline-offset-2 hover:underline`}
+				class:font-medium={isActive}
+				class:underline={isActive}
+			>
 				{label}
 			</a>
 		{/each}
