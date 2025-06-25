@@ -23,12 +23,12 @@
 	<NavBar />
 	<NameCard />
 	<DateScroller />
-	<div class="mt-3 flex items-start gap-6">
+	<div class="relative z-30 mt-3 flex items-start gap-6">
 		<HabitSearch />
 		<FilterForm />
 	</div>
 
-	<div class="mt-10 flex items-start gap-4">
+	<div class="relative z-10 mt-10 flex items-start gap-4">
 		<div class="w-1/2">
 			<div class="space-y-4">
 				<HabitItem />

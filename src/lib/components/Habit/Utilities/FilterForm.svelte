@@ -26,7 +26,7 @@
 
 			{#if showStatusDropdown}
 				<div
-					class=" absolute z-50 rounded-lg rounded-t-none border-2 border-t-0 border-black bg-white px-1"
+					class="absolute z-[9999] rounded-lg rounded-t-none border-2 border-t-0 border-black bg-white px-1 py-1"
 				>
 					<button
 						class="font-lexend hover:bg-brand-lime h-[40px] w-full rounded-md px-3 text-left font-light"

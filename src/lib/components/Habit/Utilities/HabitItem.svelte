@@ -68,22 +68,22 @@
 			</div>
 
 			<div class="flex items-center gap-4">
-				<div class="flex items-center gap-4">
+				<div class="flex items-center gap-2">
 					<div class="w-fit">
 						<button
-							class="button_active flex h-8 w-8 items-center justify-center rounded-full bg-[#a0c878] font-normal"
+							class="button_active flex h-8 w-8 items-center justify-center rounded-full bg-[#3c3c3c] font-normal"
 						>
-							<Minus size="18px" />
+							<Plus size="18px" color="#FFFFFF" />
 						</button>
 					</div>
 
-					<div class="font-lexend text-sm font-light">1</div>
+					<div class="font-lexend text-sm font-light">100</div>
 
 					<div class="w-fit">
 						<button
-							class="button_active flex h-8 w-8 items-center justify-center rounded-full bg-[#a0c878] font-normal"
+							class="button_active flex h-8 w-8 items-center justify-center rounded-full bg-[#3c3c3c] font-normal"
 						>
-							<Plus size="18px" />
+							<Plus size="18px" color="#FFFFFF" />
 						</button>
 					</div>
 				</div>
