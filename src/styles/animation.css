@@ -1,0 +1,57 @@
+.animation_delay_1 {
+	animation-delay: 0.1s;
+}
+
+.animation_delay_2 {
+	animation-delay: 0.2s;
+}
+
+.animation_delay_3 {
+	animation-delay: 0.3s;
+}
+
+.animation_delay_4 {
+	animation-delay: 0.4s;
+}
+
+.animation_delay_5 {
+	animation-delay: 0.5s;
+}
+
+.animation_delay_6 {
+	animation-delay: 0.6s;
+}
+
+.animation_delay_7 {
+	animation-delay: 0.7s;
+}
+
+.animation_delay_8 {
+	animation-delay: 0.8s;
+}
+
+.animation_delay_9 {
+	animation-delay: 0.9s;
+}
+
+.animation_delay_10 {
+	animation-delay: 9s;
+}
+
+.slide_in_up {
+	animation-name: slideInUp;
+	animation-duration: 0.8s;
+	animation-fill-mode: forwards;
+}
+
+@keyframes slideInUp {
+	0% {
+		transform: translateY(30px);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translateY(0%);
+		opacity: 1;
+	}
+}
