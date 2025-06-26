@@ -16,7 +16,7 @@
 
 			<div class="font-lexend flex-1 space-y-1 font-light">
 				<div class="flex">
-					<p><b class="font-medium">2</b> X Paper towels</p>
+					<p>2 Paper towels</p>
 				</div>
 				<p class="text-sm">₦3,450</p>
 			</div>

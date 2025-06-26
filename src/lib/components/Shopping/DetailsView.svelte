@@ -2,6 +2,7 @@
 	import { MoveLeft } from '@lucide/svelte';
 	import TopSection from '../Common/TopSection.svelte';
 	import ListItem from './Utilities/ListItem.svelte';
+	import StandardListItem from './Utilities/StandardListItem.svelte';
 </script>
 
 <div class="mx-auto w-full max-w-[1000px] pb-64">
@@ -19,7 +20,7 @@
 				</div>
 
 				<div>
-					<p>January Shopping</p>
+					<p class="text-lg">January Shopping</p>
 				</div>
 			</div>
 
@@ -28,7 +29,7 @@
 			</div>
 		</div>
 
-		<div class="grid grid-cols-2 gap-5">
+		<div class="grid grid-cols-2 gap-10">
 			<div class="space-y-2">
 				<ListItem />
 				<ListItem />
@@ -36,7 +37,11 @@
 				<ListItem />
 			</div>
 
-			<div class="border2 h-40"></div>
+			<div class="h-40 rounded-lg border-2 bg-white p-2">
+				<StandardListItem />
+				<StandardListItem />
+				<StandardListItem />
+			</div>
 		</div>
 	</div>
 </div>

@@ -5,7 +5,7 @@
 
 	<div class="card_wrapper bg-brand-folder rounded-lg rounded-tl-none">
 		<div
-			class="bg-brand-folder relative z-10 h-32 w-full max-w-[350px] rounded-lg rounded-tl-none border-2 border-t-0"
+			class="bg-brand-folder relative z-10 h-32 w-full max-w-[350px] rounded-lg rounded-tl-none border-2"
 		>
 			<div class="flex h-full items-center p-3">
 				<p class="font-lexend font-light">January list</p>
