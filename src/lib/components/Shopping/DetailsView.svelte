@@ -1,5 +1,5 @@
 <script>
-	import { MoveLeft } from '@lucide/svelte';
+	import { MoveLeft, Plus } from '@lucide/svelte';
 	import TopSection from '../Common/TopSection.svelte';
 	import ListItem from './Utilities/ListItem.svelte';
 	import StandardListItem from './Utilities/StandardListItem.svelte';
@@ -10,13 +10,11 @@
 	<TopSection withName={false} />
 
 	<div>
-		<div class="mt-10 mb-10 flex justify-between">
+		<div class="mt-6 mb-10 flex justify-between">
 			<div class="flex items-center gap-4">
 				<div>
 					<a href="/shopping">
-						<button class="shadow_button backbtn">
-							<MoveLeft />
-						</button>
+						<MoveLeft />
 					</a>
 				</div>
 
@@ -25,8 +23,16 @@
 				</div>
 			</div>
 
-			<div>
-				<button class="shadow_button"> Add from standard </button>
+			<div class="flex flex-1 items-center justify-end gap-4">
+				<div>
+					<button class="shadow_button shadow_button_thin shadow_button_with_icon">
+						<Plus size="20px" />
+						Invite
+					</button>
+				</div>
+				<div>
+					<button class="shadow_button shadow_button_thin"> Add from standard </button>
+				</div>
 			</div>
 		</div>
 
@@ -50,9 +56,3 @@
 		</div>
 	</div>
 </div>
-
-<style>
-	.backbtn {
-		height: 40px !important;
-	}
-</style>

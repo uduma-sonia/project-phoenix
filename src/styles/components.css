@@ -59,6 +59,19 @@
 	border-radius: 8px;
 }
 
+.shadow_button_thin {
+	height: 40px !important;
+	box-shadow: 2px 2px black !important;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.shadow_button_with_icon {
+	display: flex;
+	gap: 5px;
+	align-items: center;
+}
+
 .shadow_button:hover {
 	cursor: pointer;
 }
@@ -70,7 +83,7 @@
 
 .shadow_button:active {
 	box-shadow: 2px 2px #2f2e2e;
-	transform: scale(0.99);
+	transform: scale(0.96);
 }
 
 .button_active {
