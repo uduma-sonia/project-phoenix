@@ -3,6 +3,7 @@
 	import TopSection from '../Common/TopSection.svelte';
 	import ListItem from './Utilities/ListItem.svelte';
 	import StandardListItem from './Utilities/StandardListItem.svelte';
+	import AddItem from './Utilities/AddItem.svelte';
 </script>
 
 <div class="mx-auto w-full max-w-[1000px] pb-64">
@@ -30,11 +31,15 @@
 		</div>
 
 		<div class="grid grid-cols-2 gap-10">
-			<div class="space-y-2">
-				<ListItem />
-				<ListItem />
-				<ListItem />
-				<ListItem />
+			<div>
+				<div class="mb-6 space-y-2">
+					<ListItem />
+					<ListItem />
+					<ListItem />
+					<ListItem />
+				</div>
+
+				<AddItem />
 			</div>
 
 			<div class="h-40 rounded-lg border-2 bg-white p-2">
