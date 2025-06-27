@@ -1,7 +1,15 @@
+<script lang="ts">
+	import Profile from '../Profile/Profile.svelte';
+
+	import { closeProfile, modalsState, openProfile } from '$lib/state/modal.svelte';
+</script>
+
 <div class="flex h-full items-center justify-between py-4">
-	<div class="flex items-center gap-4">
+	<button class="flex items-center gap-4" onclick={openProfile}>
 		<div class="h-16 w-16 rounded-full bg-black"></div>
 
 		<p class="font-suez text-2xl">Hi Sonia</p>
-	</div>
+	</button>
 </div>
+
+<Profile onClose={closeProfile} isOpen={modalsState.data.isOpenProfile} />

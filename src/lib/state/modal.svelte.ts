@@ -1,6 +1,7 @@
 export const modalsState = $state({
 	data: {
-		isOpen: false
+		isOpen: false,
+		isOpenProfile: false
 	}
 });
 
@@ -9,4 +10,11 @@ export function openModal() {
 }
 export function closeModal() {
 	modalsState.data.isOpen = false;
+}
+
+export function openProfile() {
+	modalsState.data.isOpenProfile = true;
+}
+export function closeProfile() {
+	modalsState.data.isOpenProfile = false;
 }
