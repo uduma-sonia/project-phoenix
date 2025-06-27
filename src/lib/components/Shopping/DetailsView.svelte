@@ -2,7 +2,6 @@
 	import { MoveLeft, UserRoundPlus } from '@lucide/svelte';
 	import TopSection from '../Common/TopSection.svelte';
 	import ListItem from './Utilities/ListItem.svelte';
-	import StandardListItem from './Utilities/StandardListItem.svelte';
 	import AddItem from './Utilities/AddItem.svelte';
 	import Search from './Utilities/Search.svelte';
 	import InviteModal from './InviteModal.svelte';
@@ -43,9 +42,15 @@
 			</div>
 		</div>
 
-		<Search />
+		<div class="flex items-center gap-6">
+			<Search />
 
-		<div class="mt-6 grid grid-cols-2 gap-10">
+			<div>
+				<p class="font-lexend text-sm">0/5</p>
+			</div>
+		</div>
+
+		<div class="mt-6 grid grid-cols-1 gap-10 md:grid-cols-2">
 			<div>
 				<div class="mb-6 space-y-2">
 					<ListItem />
@@ -55,13 +60,17 @@
 				</div>
 
 				<AddItem />
+
+				<div class="mt-10">
+					<button class="shadow_button"> Shopping done </button>
+				</div>
 			</div>
 
-			<div class="h-40 rounded-lg border-2 bg-white p-2">
+			<!-- <div class="h-fit rounded-lg border-2 bg-white p-2">
 				<StandardListItem />
 				<StandardListItem />
 				<StandardListItem />
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div>
