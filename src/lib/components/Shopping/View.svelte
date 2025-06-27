@@ -1,18 +1,9 @@
 <script>
-	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import TopSection from '../Common/TopSection.svelte';
 	import StandardListModal from './StandardListModal.svelte';
 	import Search from './Utilities/Search.svelte';
 	import ShoppingCard from './Utilities/ShoppingCard.svelte';
-
-	let showStandardList = $state(false);
-
-	const handleShowList = () => {
-		showStandardList = true;
-	};
-	const handleCloseList = () => {
-		showStandardList = false;
-	};
+	import { closeModal, modalsState, openModal } from '$lib/state/modal.svelte';
 </script>
 
 <div class="mx-auto w-full max-w-[1000px] pb-64">
@@ -22,7 +13,7 @@
 		<Search />
 
 		<div>
-			<button class="shadow_button" onclick={handleShowList}> Standard list </button>
+			<button class="shadow_button" onclick={openModal}> Standard list </button>
 		</div>
 	</div>
 
@@ -35,6 +26,4 @@
 	</div>
 </div>
 
-<ModalWrapper onClose={handleCloseList} isOpen={showStandardList}>
-	<StandardListModal />
-</ModalWrapper>
+<StandardListModal onClose={closeModal} isOpen={modalsState.data.isOpen} />

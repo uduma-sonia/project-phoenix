@@ -5,6 +5,8 @@
 	import StandardListItem from './Utilities/StandardListItem.svelte';
 	import AddItem from './Utilities/AddItem.svelte';
 	import Search from './Utilities/Search.svelte';
+	import InviteModal from './InviteModal.svelte';
+	import { closeModal, modalsState, openModal } from '$lib/state/modal.svelte';
 </script>
 
 <div class="mx-auto w-full max-w-[1000px] pb-64">
@@ -26,7 +28,10 @@
 
 			<div class="flex flex-1 items-center justify-end gap-4">
 				<div>
-					<button class="shadow_button shadow_button_thin shadow_button_with_icon">
+					<button
+						class="shadow_button shadow_button_thin shadow_button_with_icon"
+						onclick={openModal}
+					>
 						<UserRoundPlus size="20px" />
 
 						Invite
@@ -60,3 +65,5 @@
 		</div>
 	</div>
 </div>
+
+<InviteModal onClose={closeModal} isOpen={modalsState.data.isOpen} />
