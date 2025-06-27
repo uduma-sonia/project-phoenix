@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { X } from '@lucide/svelte';
 
-	let { onClose, isOpen, children } = $props();
+	let { onClose, isOpen, children, maxWidth = 'max-w-[500px]' } = $props();
 
 	let innerHeight = $state(typeof window !== 'undefined' ? window.innerHeight : 0);
 
@@ -28,7 +28,7 @@
 	>
 		<div class="mx-4 flex min-h-full items-center justify-center">
 			<div
-				class="slide_in_up relative my-8 w-screen max-w-[500px] rounded-lg border-2 bg-white p-4"
+				class={`slide_in_up relative my-8 w-screen  rounded-lg border-2 bg-white p-4 ${maxWidth}`}
 			>
 				<div class="absolute top-4 right-4 flex justify-end">
 					<button class="shadow_button close_btn" onclick={onClose}>
