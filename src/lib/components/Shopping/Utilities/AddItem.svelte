@@ -3,7 +3,7 @@
 		<form class="flex items-center gap-4" onsubmit={() => console.log('submitted')}>
 			<input
 				type="text"
-				class="h-[50px] w-full border-b-2 outline-none"
+				class="h-[50px] w-full border-b border-b-[#393838] outline-none"
 				placeholder="Type and enter"
 			/>
 		</form>

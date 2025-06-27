@@ -1,4 +1,5 @@
 <script>
+	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import TopSection from '../Common/TopSection.svelte';
 	import StandardListModal from './StandardListModal.svelte';
 	import Search from './Utilities/Search.svelte';
@@ -34,6 +35,6 @@
 	</div>
 </div>
 
-{#if showStandardList}
-	<StandardListModal {handleCloseList} />
-{/if}
+<ModalWrapper onClose={handleCloseList} isOpen={showStandardList}>
+	<StandardListModal />
+</ModalWrapper>
