@@ -4,7 +4,7 @@
 
 <div class="flex items-start justify-between gap-4">
 	<div>
-		<p class="font-lexend text-lg font-light">Drink water</p>
+		<p class="font-lexend text-lg font-medium">Drink water</p>
 	</div>
 
 	<div>

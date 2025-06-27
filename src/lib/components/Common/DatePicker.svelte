@@ -102,21 +102,6 @@
 		font-weight: 500;
 	}
 
-	/* .arrow-container {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background-color: transparent;
-		border-radius: 8px;
-		width: 50px;
-		height: 30px;
-		outline: none;
-		border: 2px solid black;
-		color: white;
-		font-size: 18px;
-		padding: 0;
-	} */
-
 	.date-picker-days {
 		display: grid;
 		grid-template-columns: repeat(7, 1fr);
@@ -159,6 +144,5 @@
 
 	.date-color {
 		color: #000000 !important;
-		/* font-weight: 400 !important; */
 	}
 </style>

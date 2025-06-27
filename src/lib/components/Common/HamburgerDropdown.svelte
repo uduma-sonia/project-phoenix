@@ -31,7 +31,7 @@
 					{#if option.link}
 						<a href={option.link} class="block">
 							<button
-								class="font-montserrat font-lexend flex h-10 w-full items-center gap-1 rounded-lg px-3 text-sm font-normal text-black hover:bg-[#d9d9da] focus:bg-[#d9d9da] active:bg-[#d9d9da]"
+								class="button_active font-montserrat font-lexend flex h-10 w-full items-center gap-1 rounded-lg px-3 text-sm font-normal text-black hover:bg-[#d9d9da] focus:bg-[#d9d9da] active:bg-[#d9d9da]"
 							>
 								<div class="w-6">
 									<option.icon />
@@ -41,7 +41,7 @@
 						</a>
 					{:else}
 						<button
-							class="font-montserrat font-lexend flex h-10 w-full items-center gap-1 rounded-lg px-3 text-sm font-normal text-black hover:bg-[#d9d9da] focus:bg-[#d9d9da] active:bg-[#d9d9da]"
+							class="button_active font-montserrat font-lexend flex h-10 w-full items-center gap-1 rounded-lg px-3 text-sm font-normal text-black hover:bg-[#d9d9da] focus:bg-[#d9d9da] active:bg-[#d9d9da]"
 							onclick={() => {
 								option.action?.(option.label);
 							}}
