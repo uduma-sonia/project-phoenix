@@ -1,11 +1,12 @@
 <script>
-	import { MoveLeft, UserRoundPlus } from '@lucide/svelte';
+	import { UserRoundPlus } from '@lucide/svelte';
 	import TopSection from '../Common/TopSection.svelte';
 	import ListItem from './Utilities/ListItem.svelte';
 	import AddItem from './Utilities/AddItem.svelte';
 	import Search from './Utilities/Search.svelte';
 	import InviteModal from './InviteModal.svelte';
 	import { closeModal, modalsState, openModal } from '$lib/state/modal.svelte';
+	import BackComponent from '../Common/BackComponent.svelte';
 </script>
 
 <div class="mx-auto w-full max-w-[1000px] pb-64">
@@ -13,17 +14,7 @@
 
 	<div>
 		<div class="my-6 flex justify-between">
-			<div class="flex items-center gap-4">
-				<div>
-					<a href="/shopping">
-						<MoveLeft />
-					</a>
-				</div>
-
-				<div>
-					<p class="text-lg">January Shopping</p>
-				</div>
-			</div>
+			<BackComponent title="Shopping" backLink="/shopping" />
 
 			<div class="flex flex-1 items-center justify-end gap-4">
 				<div>
