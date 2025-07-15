@@ -1,22 +1,38 @@
 <script>
-	import TopSection from '../Common/TopSection.svelte';
+	import { UserRoundPlus } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
+	import TopSection from '../Common/TopSection.svelte';
+	import DetailsTopSection from './Utilities/DetailsTopSection.svelte';
+	import GroupTab from './Utilities/GroupTab.svelte';
 </script>
 
 <div class="mx-auto w-full max-w-[1000px] pb-64">
 	<TopSection withName={false} />
 
-	<!-- <div class="flex items-center gap-4">
-		<a href="/shopping" class="block">
-			<MoveLeft />
-		</a>
+	<div class="my-6 flex justify-between gap-3">
+		<BackComponent backLink="/travel" title="Ghana vacation 2025" />
 
 		<div>
-			<p class="text-lg">Santorini</p>
-		</div>
-	</div> -->
+			<button class="shadow_button shadow_button_thin shadow_button_with_icon">
+				<UserRoundPlus size="20px" />
 
-	<div class="mt-6">
-		<BackComponent backLink="/travel" title="Ghana vacation 2025" />
+				Invite
+			</button>
+		</div>
+	</div>
+
+	<div class="flex items-start gap-4">
+		<div class="w-1/2">
+			<DetailsTopSection />
+			<GroupTab />
+		</div>
+
+		<div class="w-1/2">
+			<div class="dropdown_wrapper">
+				<div
+					class="relative z-10 w-full space-y-4 rounded-lg border-2 border-black bg-white p-4"
+				></div>
+			</div>
+		</div>
 	</div>
 </div>
