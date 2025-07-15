@@ -24,31 +24,37 @@
 		<div class="mb-3 flex gap-6">
 			<a
 				href="https://google.com/"
-				class="inline-flex items-center gap-1 text-sm font-normal underline"
+				class="inline-flex items-center gap-1 text-sm font-light underline"
 			>
 				Instagram link
 			</a>
 			<a
 				href="https://google.com/"
-				class="inline-flex items-center gap-1 text-sm font-normal underline"
+				class="inline-flex items-center gap-1 text-sm font-light underline"
 			>
 				Website link
 			</a>
 			<a
 				href="https://google.com/"
-				class="inline-flex items-center gap-1 text-sm font-normal underline"
+				class="inline-flex items-center gap-1 text-sm font-light underline"
 			>
 				Other link
 			</a>
 		</div>
 
-		<div>
+		<div class="mb-3 flex gap-6">
 			<a
 				href="tel:+2348017181777"
-				class="inline-flex items-center gap-1 text-sm font-normal underline"
+				class="inline-flex items-center gap-1 text-sm font-light underline"
 			>
 				<Phone size="14px" />
 				Call
+			</a>
+			<a
+				href="tel:+2348017181777"
+				class="inline-flex items-center gap-1 text-sm font-light underline"
+			>
+				Menu link
 			</a>
 		</div>
 
