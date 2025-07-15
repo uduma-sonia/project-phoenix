@@ -1,9 +1,11 @@
-<script>
+<script lang="ts">
 	import { UserRoundPlus } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import TopSection from '../Common/TopSection.svelte';
 	import DetailsTopSection from './Utilities/DetailsTopSection.svelte';
 	import GroupTab from './Utilities/GroupTab.svelte';
+	import Budget from './Utilities/Budget.svelte';
+	import Calendar from './Utilities/Calendar.svelte';
 </script>
 
 <div class="mx-auto w-full max-w-[1000px] pb-64">
@@ -28,24 +30,8 @@
 		</div>
 
 		<div class="w-1/2">
-			<div class="flex gap-4">
-				<div class="w-1/2">
-					<div class="retro_wrapper">
-						<div class="retro_wrapper_inner">
-							<p class="font-lexend mb-2 text-sm font-light">Budget</p>
-							<p class="font-lexend text-base font-normal md:text-xl">₦3,000,000</p>
-						</div>
-					</div>
-				</div>
-				<div class="w-1/2">
-					<div class="retro_wrapper">
-						<div class="retro_wrapper_inner">
-							<p class="font-lexend mb-2 text-sm font-light">Amount spent</p>
-							<p class="font-lexend text-base font-normal md:text-xl">₦3,000,000</p>
-						</div>
-					</div>
-				</div>
-			</div>
+			<Budget />
+			<Calendar />
 		</div>
 	</div>
 </div>
