@@ -3,7 +3,7 @@
 </script>
 
 <div class="retro_wrapper">
-	<div class="relative z-10 w-full space-y-4 rounded-lg border-2 border-black bg-white p-4">
+	<div class="retro_wrapper_inner space-y-4">
 		<div class="flex items-center gap-4">
 			<div class="w-8">
 				<img src="/images/vacation.svg" class="w-8" alt="" />

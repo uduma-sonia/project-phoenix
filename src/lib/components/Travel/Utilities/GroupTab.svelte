@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { Plus } from '@lucide/svelte';
 	import NewGroup from './NewGroup.svelte';
+	import ActivityCard from './ActivityCard.svelte';
 
 	let addNewGroup = $state(false);
 </script>
 
 <div class="mt-8">
 	<div
-		class="middle_container no-scrollbar relative flex flex-nowrap items-center gap-4 overflow-x-auto pr-1"
+		class="middle_container no-scrollbar relative mb-6 flex flex-nowrap items-center gap-6 overflow-x-auto pr-1"
 	>
 		{#if !addNewGroup}
 			<div class="min-w-[100px]">
@@ -49,5 +50,9 @@
 		{#if addNewGroup}
 			<NewGroup />
 		{/if}
+	</div>
+
+	<div>
+		<ActivityCard />
 	</div>
 </div>
