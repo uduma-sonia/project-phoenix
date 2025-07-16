@@ -9,6 +9,13 @@
 
 			<div class="mb-10 space-y-5 pt-5">
 				<div>
+					<label for="email" class="mb-2">Username</label>
+					<input
+						type="text"
+						class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
+					/>
+				</div>
+				<div>
 					<label for="email" class="mb-2">Email Address</label>
 					<input
 						type="email"
