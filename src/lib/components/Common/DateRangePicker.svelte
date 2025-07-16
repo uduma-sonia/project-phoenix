@@ -16,7 +16,8 @@
 		isBefore
 	} from 'date-fns';
 
-	let selectedDate = $state(new Date());
+	let { isClickable = false } = $props();
+
 	let currentMonth = $state(new Date());
 	let _startOfWeek = startOfWeek(new Date());
 	let daysArray = Array.from({ length: 7 }, (_, i) => i + 1);
@@ -85,7 +86,11 @@
 				class:selected_day={renderDateBgColor(day)}
 				class:not={!isSameMonth(day, currentMonth)}
 				class:date_weight={isSameMonth(day, currentMonth)}
-				onclick={() => handleDateRangeSelect(day)}
+				onclick={() => {
+					if (isClickable) {
+						handleDateRangeSelect(day);
+					}
+				}}
 			>
 				{format(day, 'd')}
 			</button>
