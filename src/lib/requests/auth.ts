@@ -1,10 +1,10 @@
 import type { ReqConfig, Service } from '../../types/axios';
 import type { User } from '../../types/user';
 
-// type Login = {
-// 	email: string;
-// 	password: string;
-// };
+type Login = {
+	email: string;
+	password: string;
+};
 
 class AuthService {
 	private api;
@@ -18,13 +18,13 @@ class AuthService {
 		return await this.api.post(`${this.prefix}/signup`, data, { ...reqConfig });
 	}
 
-	// async login(data: Login, reqConfig?: ReqConfig) {
-	// 	return await this.api.post(`${this.prefix}/login`, data, { ...reqConfig });
-	// }
+	async login(data: Login, reqConfig?: ReqConfig) {
+		return await this.api.post(`${this.prefix}/signin`, data, { ...reqConfig });
+	}
 
-	// async verifyEmail(token: string, reqConfig?: ReqConfig) {
-	// 	return await this.api.get(`${this.prefix}/verify-email?token=${token}`, { ...reqConfig });
-	// }
+	async requestPasswordReset(data: { email: string }, reqConfig?: ReqConfig) {
+		return await this.api.post(`${this.prefix}/request-password-reset`, data, { ...reqConfig });
+	}
 }
 
 export default AuthService;

@@ -7,7 +7,6 @@
 
 	let formElement = $state();
 	let email = $state('');
-	let username = $state('');
 	let password = $state('');
 	let isSubmitting = $state(false);
 
@@ -16,10 +15,10 @@
 		try {
 			isSubmitting = true;
 
-			const result = await AuthRequest.register({ username, password, email, avatar: '' });
+			const result = await AuthRequest.login({ password, email });
 
 			if (result) {
-				Helpers.setCookie(AUTH_TOKEN, result?.data?.token, 400000);
+				Helpers.setCookie(AUTH_TOKEN, result?.data?.data?.access_token, 400000);
 				goto('/tracker');
 			}
 		} catch (error: any) {
@@ -56,7 +55,7 @@
 					/>
 				</div>
 				<div>
-					<label for="email" class="mb-2">Password</label>
+					<label for="password" class="mb-2">Password</label>
 					<input
 						type="password"
 						bind:value={password}
@@ -69,7 +68,13 @@
 			</div>
 
 			<div>
-				<button class="shadow_button"> Continue </button>
+				<button class="shadow_button" type="submit">
+					{#if isSubmitting}
+						<div class="spinner_white border-2 border-black"></div>
+					{:else}
+						Continue
+					{/if}
+				</button>
 			</div>
 
 			<div class="mt-6">

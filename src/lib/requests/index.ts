@@ -19,7 +19,9 @@ class ApiService {
 		});
 		this.token = Helpers.getCookie(AUTH_TOKEN);
 		this.api.interceptors.request.use(this.addTokenToRequest.bind(this));
-		this.api.interceptors.response.use((response: any) => response, this.handleError.bind(this));
+		this.api.interceptors.response.use((response: any) => {
+			return response.data;
+		}, this.handleError.bind(this));
 	}
 
 	async addTokenToRequest(request: any) {
