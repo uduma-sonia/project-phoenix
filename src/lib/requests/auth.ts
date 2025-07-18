@@ -15,7 +15,7 @@ class AuthService {
 	}
 
 	async register(data: User, reqConfig?: ReqConfig) {
-		return await this.api.post(`${this.prefix}/register`, data, { ...reqConfig });
+		return await this.api.post(`${this.prefix}/signup`, data, { ...reqConfig });
 	}
 
 	// async login(data: Login, reqConfig?: ReqConfig) {

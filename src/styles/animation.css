@@ -44,6 +44,23 @@
 	animation-fill-mode: forwards;
 }
 
+.spinner_white {
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	/* border: 2px solid #ffffff; */
+	border-top: transparent;
+	border-left: transparent;
+	margin: 0 auto;
+	animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
 @keyframes slideInUp {
 	0% {
 		transform: translateY(30px);
