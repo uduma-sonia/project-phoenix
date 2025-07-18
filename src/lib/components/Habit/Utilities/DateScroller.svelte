@@ -11,10 +11,10 @@
 	};
 </script>
 
-<div class="my-4">
-	<div class="flex items-center gap-3 overflow-hidden py-1">
+<div class="my-4 px-3">
+	<div class="flex items-center gap-3 overflow-hidden py-1 pr-1">
 		<div>
-			<button class="shadow_button" onclick={handleScrollLeft}>
+			<button class="shadow_button shadow_button_sm" onclick={handleScrollLeft}>
 				<span class="block rotate-180">
 					<Play />
 				</span>
@@ -23,19 +23,19 @@
 
 		<div
 			bind:this={middle_container}
-			class="middle_container no-scrollbar flex max-w-[83.5%] flex-1 flex-nowrap items-center gap-4 overflow-x-auto"
+			class="middle_container no-scrollbar flex max-w-[83.5%] flex-1 flex-nowrap items-center gap-3 overflow-x-auto sm:gap-4"
 		>
-			<div class="min-w-[110px]">
+			<div class="min-w-[90px] sm:min-w-[110px]">
 				<button
-					class="bg-brand-lime font-lexend button_active h-[50px] w-[110px] rounded-lg border-2 border-black font-normal"
+					class="bg-brand-lime font-lexend button_active h-[50px] w-full rounded-lg border-2 border-black text-sm font-normal sm:text-base"
 				>
 					Today
 				</button>
 			</div>
-			{#each [...new Array(30)] as item}
-				<div class="min-w-[110px]">
+			{#each [...new Array(30)] as _, index (index)}
+				<div class="min-w-[90px] sm:min-w-[110px]">
 					<button
-						class="bg-brand-rose font-lexend button_active h-[50px] w-[110px] rounded-lg border-2 border-black font-light"
+						class="bg-brand-rose font-lexend button_active h-[50px] w-full rounded-lg border-2 border-black text-sm font-normal sm:text-base"
 					>
 						23 Jun
 					</button>
@@ -44,7 +44,7 @@
 		</div>
 
 		<div>
-			<button class="shadow_button" onclick={handleScrollRight}>
+			<button class="shadow_button shadow_button_sm" onclick={handleScrollRight}>
 				<Play />
 			</button>
 		</div>

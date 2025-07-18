@@ -21,6 +21,7 @@
 <div class="mx-auto w-full max-w-[1000px] pb-64">
 	<TopSection />
 	<DateScroller />
+	<!-- 
 
 	<div class="relative z-30 mt-3 flex items-start gap-6">
 		<HabitSearch />
@@ -65,11 +66,11 @@
 				<YearlyStats />
 			{/if}
 		</div>
-	</div>
+	</div> -->
 </div>
 
-<style>
+<!-- <style>
 	.activeView {
 		background-color: #a0c878 !important;
 	}
-</style>
+</style> -->

@@ -5,7 +5,7 @@
 	let { withName = true } = $props();
 </script>
 
-<div>
+<div class="px-3">
 	<NavBar />
 	{#if withName}
 		<NameCard />

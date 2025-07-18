@@ -24,8 +24,7 @@
 		left: 50%;
 		transform: translateX(-50%);
 		z-index: 9999;
-		width: 100%;
-		max-width: 500px;
+		width: fit-content;
 	}
 
 	.toast {
@@ -35,13 +34,13 @@
 		border-radius: 14px;
 		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 		text-align: center;
-		font-size: 13px;
+		font-size: 14px;
 		font-weight: 500;
 		font-family: 'Montserrat Variable', sans-serif;
 	}
 
 	.toast_success {
-		background-color: rgba(3, 94, 76, 1) !important;
+		background-color: #1eb564 !important;
 	}
 
 	.toast_error {

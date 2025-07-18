@@ -12,20 +12,22 @@
 
 	async function handleSubmit(e: any) {
 		e.preventDefault();
-		try {
-			isSubmitting = true;
+		goto('/tracker');
 
-			const result = await AuthRequest.login({ password, email });
+		// try {
+		// 	isSubmitting = true;
 
-			if (result) {
-				Helpers.setCookie(AUTH_TOKEN, result?.data?.data?.access_token, 400000);
-				goto('/tracker');
-			}
-		} catch (error: any) {
-			addToast(error?.error || 'An error occured', 'error');
-		} finally {
-			isSubmitting = false;
-		}
+		// 	const result = await AuthRequest.login({ password, email });
+
+		// 	if (result) {
+		// 		Helpers.setCookie(AUTH_TOKEN, result?.data?.data?.access_token, 400000);
+		// 		goto('/tracker');
+		// 	}
+		// } catch (error: any) {
+		// 	addToast(error?.message || 'An error occured', 'error');
+		// } finally {
+		// 	isSubmitting = false;
+		// }
 	}
 </script>
 
@@ -54,16 +56,23 @@
 						class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
 					/>
 				</div>
+
 				<div>
-					<label for="password" class="mb-2">Password</label>
-					<input
-						type="password"
-						bind:value={password}
-						id="password"
-						name="password"
-						autocomplete="new-password"
-						class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-					/>
+					<div>
+						<label for="password" class="mb-2">Password</label>
+						<input
+							type="password"
+							bind:value={password}
+							id="password"
+							name="password"
+							autocomplete="new-password"
+							class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
+						/>
+					</div>
+
+					<p class="font-lexend mt-2 flex justify-end text-sm font-light">
+						<a href="/forgot-password" class="font-medium">Forgot password?</a>
+					</p>
 				</div>
 			</div>
 

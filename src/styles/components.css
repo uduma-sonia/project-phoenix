@@ -138,3 +138,9 @@
 	background-color: white;
 	padding: 16px;
 }
+.shadow_button_sm {
+	@media (width <= 40rem) {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+}

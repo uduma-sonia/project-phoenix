@@ -54,7 +54,7 @@
 				aria-label="presentation"
 			>
 				<div>
-					<p class="font-lexend text-lg font-light">Drink water</p>
+					<p class="font-lexend font-light">Drink water</p>
 				</div>
 
 				<div>
