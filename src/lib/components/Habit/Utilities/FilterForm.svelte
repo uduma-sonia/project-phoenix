@@ -21,6 +21,12 @@
 				onblur={closeStatus}
 				class="relative z-10 h-[50px] w-full max-w-[350px] cursor-pointer rounded-lg border-2 border-black bg-white px-3 outline-none placeholder:font-light"
 			/>
+			<!-- 
+			<button
+				class="relative z-10 h-[50px] w-full max-w-[350px] cursor-pointer rounded-lg border-2 border-black bg-white px-3 outline-none placeholder:font-light"
+			>
+				Pending
+			</button> -->
 
 			<img src="/images/arrow_down_thick.svg" class="absolute top-2.5 right-2 z-50 w-8" alt="" />
 

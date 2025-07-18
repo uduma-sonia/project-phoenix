@@ -18,25 +18,27 @@
 	};
 </script>
 
-<div class="mx-auto w-full max-w-[1000px] pb-64">
+<div class="mx-auto w-full max-w-[1000px] overflow-x-hidden pb-64">
 	<TopSection />
 	<DateScroller />
-	<!-- 
-
-	<div class="relative z-30 mt-3 flex items-start gap-6">
-		<HabitSearch />
-		<FilterForm />
+	<div class="relative z-30 mt-3 flex items-start gap-3 px-3 sm:gap-6">
+		<div>
+			<HabitSearch />
+		</div>
+		<div>
+			<FilterForm />
+		</div>
 	</div>
 
-	<div class="relative z-10 mt-10 flex items-start gap-4">
-		<div class="w-1/2">
+	<div class="relative z-10 mt-10 items-start gap-4 px-3 sm:flex">
+		<div class="sm:w-1/2">
 			<div class="space-y-4">
 				<HabitItem />
 				<HabitItem />
 			</div>
 		</div>
 
-		<div class="w-1/2">
+		<div class="hidden w-1/2 sm:block">
 			<div class="bg-whit mb-4 flex rounded-lg border-2 bg-white">
 				<div class="w-1/2 rounded-lg">
 					<button
@@ -66,7 +68,7 @@
 				<YearlyStats />
 			{/if}
 		</div>
-	</div> -->
+	</div>
 </div>
 
 <!-- <style>
