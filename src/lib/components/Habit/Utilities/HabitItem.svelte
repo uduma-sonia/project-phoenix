@@ -1,6 +1,6 @@
 <script lang="ts">
 	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
-	import { Check, Minus, Plus, SkipForward, SquarePen, Trash2, X } from '@lucide/svelte';
+	import { Check, Plus, SkipForward, SquarePen, Trash2, X } from '@lucide/svelte';
 
 	let { type = 'quit' } = $props();
 
