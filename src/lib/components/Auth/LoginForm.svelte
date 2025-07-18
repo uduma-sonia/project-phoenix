@@ -25,9 +25,7 @@
 			</div>
 
 			<div>
-				<a href="/tracker" class="block">
-					<button class="shadow_button"> Continue </button>
-				</a>
+				<button class="shadow_button"> Continue </button>
 			</div>
 
 			<div class="mt-6">

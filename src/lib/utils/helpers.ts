@@ -11,7 +11,7 @@ class Helpers {
 	}
 
 	static getCookie(name: string) {
-		if (!browser) return null;
+		if (!browser) return '';
 		const cookieName = `${name}=`;
 		const decodedCookie = decodeURIComponent(document.cookie);
 		const cookies = decodedCookie.split(';');
@@ -22,7 +22,7 @@ class Helpers {
 				return cookie.substring(cookieName.length);
 			}
 		}
-		return null;
+		return '';
 	}
 
 	static deleteCookie(name: string) {
