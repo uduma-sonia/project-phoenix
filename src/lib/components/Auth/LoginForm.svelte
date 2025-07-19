@@ -12,22 +12,21 @@
 
 	async function handleSubmit(e: any) {
 		e.preventDefault();
-		goto('/tracker');
 
-		// try {
-		// 	isSubmitting = true;
+		try {
+			isSubmitting = true;
 
-		// 	const result = await AuthRequest.login({ password, email });
+			const result = await AuthRequest.login({ password, email });
 
-		// 	if (result) {
-		// 		Helpers.setCookie(AUTH_TOKEN, result?.data?.data?.access_token, 400000);
-		// 		goto('/tracker');
-		// 	}
-		// } catch (error: any) {
-		// 	addToast(error?.message || 'An error occured', 'error');
-		// } finally {
-		// 	isSubmitting = false;
-		// }
+			if (result) {
+				Helpers.setCookie(AUTH_TOKEN, result?.data?.data?.access_token, 400000);
+				goto('/tracker');
+			}
+		} catch (error: any) {
+			addToast(error?.message || 'An error occured', 'error');
+		} finally {
+			isSubmitting = false;
+		}
 	}
 </script>
 
@@ -52,6 +51,7 @@
 						type="email"
 						id="email"
 						name="email"
+						required
 						autocomplete="email"
 						class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
 					/>
@@ -65,6 +65,7 @@
 							bind:value={password}
 							id="password"
 							name="password"
+							required
 							autocomplete="new-password"
 							class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
 						/>
