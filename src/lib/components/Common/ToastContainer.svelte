@@ -1,18 +1,13 @@
 <script lang="ts">
 	import { toasts } from '../../store/toast';
-	// $effect(() => console.log($toasts));
 </script>
 
 <div class="toast-container">
 	<div class="flex flex-col gap-2 px-4">
 		{#each $toasts as toast (toast.id)}
-			<div
-				class="toast slide_down"
-				class:toast_success={toast.type === 'success'}
-				class:toast_error={toast.type === 'error'}
-			>
+			<button class="toast slide_down" class:toast_error={toast.type === 'error'}>
 				{toast.message}
-			</div>
+			</button>
 		{/each}
 	</div>
 </div>
@@ -24,12 +19,13 @@
 		left: 50%;
 		transform: translateX(-50%);
 		z-index: 9999;
-		width: fit-content;
+		width: 100%;
+		width: max-content;
 	}
 
 	.toast {
-		background: #333;
-		color: white;
+		background: #ffffff;
+		color: black;
 		padding: 0.75rem 1.2rem;
 		border-radius: 14px;
 		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
@@ -37,10 +33,7 @@
 		font-size: 14px;
 		font-weight: 500;
 		font-family: 'Montserrat Variable', sans-serif;
-	}
-
-	.toast_success {
-		background-color: #1eb564 !important;
+		border: 2px solid black;
 	}
 
 	.toast_error {

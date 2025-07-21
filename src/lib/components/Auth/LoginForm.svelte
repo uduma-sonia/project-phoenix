@@ -72,7 +72,7 @@
 					</div>
 
 					<p class="font-lexend mt-2 flex justify-end text-sm font-light">
-						<a href="/forgot-password" class="font-medium">Forgot password?</a>
+						<a href="/forgot-password" class="font-medium underline">Forgot password?</a>
 					</p>
 				</div>
 			</div>

@@ -6,6 +6,7 @@
 	import MonthlyStats from './MonthlyStats.svelte';
 	import YearlyStats from './YearlyStats.svelte';
 	import TopSection from '../Common/TopSection.svelte';
+	import { Plus } from '@lucide/svelte';
 
 	let currentView = $state('monthly');
 
@@ -21,12 +22,23 @@
 <div class="mx-auto w-full max-w-[1000px] overflow-x-hidden pb-64">
 	<TopSection />
 	<DateScroller />
-	<div class="relative z-30 mt-3 flex items-start gap-3 px-3 sm:gap-6">
-		<div>
-			<HabitSearch />
+
+	<div class="flex items-center justify-between">
+		<div class="relative z-30 mt-3 flex items-start gap-3 px-3 sm:gap-6">
+			<div>
+				<HabitSearch />
+			</div>
+			<div>
+				<FilterForm />
+			</div>
 		</div>
-		<div>
-			<FilterForm />
+
+		<div class="pr-4">
+			<a href="/tracker/create" class="block">
+				<button class="shadow_button shadow_button_thin shadow_button_with_icon">
+					<Plus /> Create
+				</button>
+			</a>
 		</div>
 	</div>
 

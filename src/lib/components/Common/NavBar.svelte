@@ -21,12 +21,13 @@
 </script>
 
 <div class="h-16">
-	<div class="flex h-full items-center justify-center gap-5">
+	<div class="flex h-full flex-nowrap items-center justify-center gap-5 px-4">
 		{#each routesList as { route, label, keyword } (label)}
 			{@const isActive = route == page.url.pathname || page.url.pathname.includes(keyword)}
+
 			<a
+				class="font-lexend block min-w-max text-sm font-light sm:text-base"
 				href={route}
-				class={`font-lexend min-w-fit px-4 font-light underline-offset-2 hover:underline`}
 				class:font-medium={isActive}
 				class:underline={isActive}
 			>

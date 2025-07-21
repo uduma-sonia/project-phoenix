@@ -4,6 +4,8 @@ import { browser } from '$app/environment';
 import { goto } from '$app/navigation';
 import Helpers from '$lib/utils/helpers';
 import AuthService from './auth';
+import UserService from './user';
+import TrackerService from './tracker';
 import { AUTH_TOKEN } from '$lib/constants/global';
 
 export const API_ENDPOINT = import.meta.env.VITE_API_URL;
@@ -32,6 +34,8 @@ class ApiService {
 		if (this.token) {
 			request.headers['x-access-token'] = this.token;
 		}
+
+		console.log(this);
 
 		return request;
 	}
@@ -66,3 +70,5 @@ const apiService = new ApiService();
 const api = apiService.getInstance();
 
 export const AuthRequest = new AuthService({ api });
+export const UserRequest = new UserService({ api });
+export const TrackerRequest = new TrackerService({ api });

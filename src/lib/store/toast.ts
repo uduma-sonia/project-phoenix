@@ -12,3 +12,7 @@ export function addToast(message: any, type: string) {
 		toasts.update((all: any) => all.filter((toast: any) => toast.id !== id));
 	}, 4000);
 }
+
+export function removeToast(id: string) {
+	toasts.update((all: any) => all.filter((toast: any) => toast.id !== id));
+}

@@ -22,6 +22,12 @@
 	padding: 20px;
 }
 
+.login_form {
+	@media (width <= 40rem /* 640px */) {
+		padding: 14px !important;
+	}
+}
+
 .retro_ui_block_wrapper {
 	position: relative;
 }

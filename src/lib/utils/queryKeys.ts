@@ -1,7 +1,7 @@
 // import Helpers from './helpers';
 
 const userKeys = {
-	getCurrentUser: [`/auth/me`]
+	getCurrentUser: [`/user`]
 };
 
 export const queryKeys = {

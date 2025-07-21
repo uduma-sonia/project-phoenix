@@ -1,5 +1,5 @@
 <script>
-	import DateRangePicker from '$lib/components/Common/DateRangePicker.svelte';
+	import DateRangePicker from '$lib/components/Common/DatePicker/DateRangePicker.svelte';
 </script>
 
 <div class="retro_wrapper mt-4 bg-white">

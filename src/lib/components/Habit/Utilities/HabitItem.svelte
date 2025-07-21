@@ -41,7 +41,7 @@
 		class="relative z-10 flex h-100 w-full items-center gap-3 rounded-lg border-2 border-black bg-white px-3"
 	>
 		<div class="w-6 sm:w-8">
-			<img src="/images/walk.svg" alt="walk icon" class="w-5 sm:w-6" />
+			<img src="/images/icons/walk.svg" alt="walk icon" class="w-5 sm:w-6" />
 		</div>
 
 		<div class="flex flex-1 items-center justify-between">
