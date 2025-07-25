@@ -8,6 +8,8 @@
 	import TopSection from '../Common/TopSection.svelte';
 	import { Plus } from '@lucide/svelte';
 
+	let { trackersList } = $props();
+
 	let currentView = $state('monthly');
 
 	const changeView = () => {
@@ -44,9 +46,10 @@
 
 	<div class="relative z-10 mt-10 items-start gap-4 px-3 sm:flex">
 		<div class="sm:w-1/2">
-			<div class="space-y-4">
-				<HabitItem />
-				<HabitItem />
+			<div class="space-y-6">
+				{#each trackersList as habit, index (index)}
+					<HabitItem {habit} />
+				{/each}
 			</div>
 		</div>
 

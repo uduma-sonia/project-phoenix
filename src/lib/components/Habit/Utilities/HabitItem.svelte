@@ -2,7 +2,7 @@
 	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
 	import { Check, Plus, SkipForward, SquarePen, Trash2, X } from '@lucide/svelte';
 
-	let { type = 'quit' } = $props();
+	let { habit } = $props();
 
 	// todo@ different state for different types
 
@@ -34,14 +34,16 @@
 			// action: openInsightsModal
 		}
 	];
+
+	$effect(() => console.log(habit));
 </script>
 
 <div class="dropdown_wrapper h-100">
 	<div
 		class="relative z-10 flex h-100 w-full items-center gap-3 rounded-lg border-2 border-black bg-white px-3"
 	>
-		<div class="w-6 sm:w-8">
-			<img src="/images/icons/walk.svg" alt="walk icon" class="w-5 sm:w-6" />
+		<div class="w-6 sm:w-6">
+			<img src={habit.icon} alt="walk icon" class="w-5 sm:w-6" />
 		</div>
 
 		<div class="flex flex-1 items-center justify-between">
@@ -54,16 +56,19 @@
 				aria-label="presentation"
 			>
 				<div>
-					<p class="font-lexend font-light">Drink water</p>
+					<p class="font-lexend font-light">{habit.name}</p>
 				</div>
 
 				<div>
-					<p
-						class:bg-brand-quit={type === 'quit'}
-						class="font-lexend bg-brand-build inline-block rounded-sm px-3 py-0.5 text-xs font-light text-white capitalize"
-					>
-						{type}
-					</p>
+					<div class="absolute -top-3 left-3 -rotate-3">
+						<p
+							class:bg-brand-quit={habit.type === 'QUIT'}
+							class:bg-brand-build={habit.type === 'BUILD'}
+							class="font-lexend bg-brand-build inline-block rounded-sm px-2 py-0.5 text-[10px] font-light text-white capitalize"
+						>
+							{habit.type}
+						</p>
+					</div>
 				</div>
 			</div>
 

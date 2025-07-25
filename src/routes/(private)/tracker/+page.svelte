@@ -9,11 +9,9 @@
 		queryFn: () => TrackerRequest.getAllHabits()
 	});
 
-	let tracker = $derived($trackerQuery?.data?.data);
-
-	$effect(() => console.log($trackerQuery?.data?.data?.trackers));
+	let trackersList = $derived($trackerQuery?.data?.data?.trackers);
 </script>
 
 <div class="bg-brand-light min-h-screen">
-	<View />
+	<View {trackersList} />
 </div>
