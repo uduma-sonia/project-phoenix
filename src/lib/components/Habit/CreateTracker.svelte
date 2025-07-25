@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { daysOfWeek, iconsList } from '$lib/constants/tracker';
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';
@@ -56,6 +57,10 @@
 		icon = arg;
 	}
 
+	function isBuild(arg: string | number[], type: string) {
+		return type === 'BUILD' ? arg : '';
+	}
+
 	async function handleSubmit(e: any) {
 		e.preventDefault();
 		try {
@@ -64,22 +69,28 @@
 			const payload = {
 				name: habitName,
 				type,
-				interval,
+				interval: isBuild(interval, type),
 				startDate: startDateValue,
 				endDate: endDateValue,
-				unitMeasurement,
-				goalValue,
+				unitMeasurement: isBuild(unitMeasurement, type),
+				goalValue: isBuild(goalValue, type),
 				isIndefinite: endDateValue ? false : true,
-				selectedDays: selectedDays?.map((item) => item),
+				selectedDays: isBuild(
+					selectedDays?.map((item) => item),
+					type
+				),
 				isActive: true,
 				ownerId: user?._id,
 				description,
 				icon
 			};
 
-			// const result = await TrackerRequest.createHabit(payload)
+			Helpers.removeEmptyFields(payload);
+			const result = await TrackerRequest.createHabit(payload);
 
-			console.log(payload);
+			if (result) {
+				console.log(result);
+			}
 		} catch (error: any) {
 			addToast(error?.message, 'error');
 		} finally {
@@ -146,71 +157,75 @@
 							class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
 						/>
 					</div>
-					<div>
-						<label for="unitM" class="mb-2">Interval</label>
-						<div class="flex items-center gap-4">
-							<button
-								class:bg-brand-lime={interval === 'DAILY'}
-								class="button_active h-[35px] rounded-lg border-2 px-4"
-								onclick={() => changeInterval('DAILY')}
-								type="button"
-							>
-								Daily
-							</button>
-							<button
-								class:bg-brand-lime={interval === 'WEEKLY'}
-								class="button_active h-[35px] rounded-lg border-2 px-4"
-								onclick={() => changeInterval('WEEKLY')}
-								type="button"
-							>
-								Weekly
-							</button>
-							<button
-								class:bg-brand-lime={interval === 'MONTHLY'}
-								class="button_active h-[35px] rounded-lg border-2 px-4"
-								onclick={() => changeInterval('MONTHLY')}
-								type="button"
-							>
-								Monthly
-							</button>
-						</div>
-					</div>
-					<div>
-						<label for="unitM" class="mb-2">Unit measurement</label>
-						<input
-							type="text"
-							id="unitMeasurement"
-							name="unitMeasurement"
-							bind:value={unitMeasurement}
-							placeholder="Kg, Steps, Min"
-							class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-						/>
-					</div>
-					<div>
-						<label for="unitM" class="mb-2">Goal value</label>
-						<input
-							type="text"
-							id="goalValue"
-							name="goalValue"
-							bind:value={goalValue}
-							class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-						/>
-					</div>
-					<div>
-						<div class="flex flex-wrap items-center gap-4">
-							{#each daysOfWeek as day, index (index)}
-								{@const isSelected = selectedDays.includes(day.id)}
+
+					{#if type === 'BUILD'}
+						<div>
+							<label for="unitM" class="mb-2">Interval</label>
+							<div class="flex items-center gap-4">
 								<button
-									class:bg-brand-lime={isSelected}
+									class:bg-brand-lime={interval === 'DAILY'}
 									class="button_active h-[35px] rounded-lg border-2 px-4"
-									onclick={() => selectDay(day.id)}
+									onclick={() => changeInterval('DAILY')}
 									type="button"
 								>
-									{day.value}
+									Daily
 								</button>
-							{/each}
+								<button
+									class:bg-brand-lime={interval === 'WEEKLY'}
+									class="button_active h-[35px] rounded-lg border-2 px-4"
+									onclick={() => changeInterval('WEEKLY')}
+									type="button"
+								>
+									Weekly
+								</button>
+								<button
+									class:bg-brand-lime={interval === 'MONTHLY'}
+									class="button_active h-[35px] rounded-lg border-2 px-4"
+									onclick={() => changeInterval('MONTHLY')}
+									type="button"
+								>
+									Monthly
+								</button>
+							</div>
 						</div>
-					</div>
+						<div>
+							<label for="unitM" class="mb-2">Unit measurement</label>
+							<input
+								type="text"
+								id="unitMeasurement"
+								name="unitMeasurement"
+								bind:value={unitMeasurement}
+								placeholder="Kg, Steps, Min"
+								class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
+							/>
+						</div>
+						<div>
+							<label for="unitM" class="mb-2">Goal value</label>
+							<input
+								type="text"
+								id="goalValue"
+								name="goalValue"
+								bind:value={goalValue}
+								class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
+							/>
+						</div>
+
+						<div>
+							<div class="flex flex-wrap items-center gap-4">
+								{#each daysOfWeek as day, index (index)}
+									{@const isSelected = selectedDays.includes(day.id)}
+									<button
+										class:bg-brand-lime={isSelected}
+										class="button_active h-[35px] rounded-lg border-2 px-4"
+										onclick={() => selectDay(day.id)}
+										type="button"
+									>
+										{day.value}
+									</button>
+								{/each}
+							</div>
+						</div>
+					{/if}
 
 					<div class="flex items-center gap-4">
 						<div class="w-1/2">
@@ -266,14 +281,21 @@
 						</div>
 					</div>
 
-					<div class="flex flex-wrap gap-3">
-						{#each iconsList as icon, index (index)}
-							<div>
-								<button onclick={() => selectIcon(icon)} type="button">
-									<img src={icon} class="h-7 min-w-10" alt="walk icon" />
-								</button>
-							</div>
-						{/each}
+					<div>
+						<label for="habitName" class="mb-2"> Icons</label>
+						<div class="flex flex-wrap gap-3">
+							{#each iconsList as icon, index (index)}
+								<div>
+									<button
+										onclick={() => selectIcon(icon)}
+										class="flex h-11 w-11 items-center justify-center rounded-full border-2 border-black"
+										type="button"
+									>
+										<img src={icon} class="h-6 min-w-9" alt="walk icon" />
+									</button>
+								</div>
+							{/each}
+						</div>
 					</div>
 				</div>
 

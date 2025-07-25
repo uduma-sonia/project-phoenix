@@ -1,9 +1,12 @@
-// import Helpers from './helpers';
-
 const userKeys = {
 	getCurrentUser: [`/user`]
 };
 
+const trackerKeys = {
+	getAllHabits: [`/tracker/all`]
+};
+
 export const queryKeys = {
-	...userKeys
+	...userKeys,
+	...trackerKeys
 };

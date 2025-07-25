@@ -10,7 +10,7 @@
 		queryFn: () => UserRequest.getCurrentUser()
 	});
 
-	let user = $derived($userQuery?.data?.data?.data?.user);
+	let user = $derived($userQuery?.data?.data?.user);
 </script>
 
 <div class="flex h-full items-center justify-between py-4">

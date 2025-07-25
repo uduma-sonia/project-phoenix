@@ -1,6 +1,5 @@
 <script>
 	import CreateTracker from '$lib/components/Habit/CreateTracker.svelte';
-
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { UserRequest } from '$lib/requests';
 	import { createQuery } from '@tanstack/svelte-query';

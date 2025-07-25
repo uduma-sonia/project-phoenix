@@ -1,24 +1,25 @@
 import type { ReqConfig, Service } from '../../types/axios';
 
 export type CreateHabit = {
+	createdAt?: Date;
+	updatedAt?: Date;
+
 	name: string;
 	type: string;
-	interval: string;
-	//   startDate: any;
-	unitMeasurement: string;
-	color: string;
-	goalValue: string;
+	interval?: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	startDate: any;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	endDate?: any;
+	unitMeasurement?: string;
+	goalValue?: string;
 	isIndefinite: boolean;
-	selectedDays: number[];
+	color?: string;
+	selectedDays?: number[];
 	isActive: boolean;
-	createdAt: Date;
-	updatedAt: Date;
 	ownerId: string;
-	habitId: string;
-	//   endDate?: any;
-	docId: string;
-	//   habitLog: HabitLog; // This is the log for the date viewed
 	description: string;
+	icon: string;
 };
 
 class TrackerService {
@@ -34,7 +35,7 @@ class TrackerService {
 	}
 
 	async getAllHabits(reqConfig?: ReqConfig) {
-		return await this.api.get(`${this.prefix}`, { ...reqConfig });
+		return await this.api.get(`${this.prefix}/all`, { ...reqConfig });
 	}
 }
 

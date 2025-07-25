@@ -22,7 +22,7 @@ class ApiService {
 		this.token = Helpers.getCookie(AUTH_TOKEN);
 		this.api.interceptors.request.use(this.addTokenToRequest.bind(this));
 		this.api.interceptors.response.use((response: any) => {
-			return response.data;
+			return response;
 		}, this.handleError.bind(this));
 	}
 
@@ -34,8 +34,6 @@ class ApiService {
 		if (this.token) {
 			request.headers['x-access-token'] = this.token;
 		}
-
-		console.log(this);
 
 		return request;
 	}
