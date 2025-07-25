@@ -37,6 +37,10 @@ class TrackerService {
 	async getAllHabits(reqConfig?: ReqConfig) {
 		return await this.api.get(`${this.prefix}/all`, { ...reqConfig });
 	}
+
+	async deleteHabit(id: string, reqConfig?: ReqConfig) {
+		return await this.api.delete(`${this.prefix}/${id}`, { ...reqConfig });
+	}
 }
 
 export default TrackerService;

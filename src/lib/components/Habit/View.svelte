@@ -7,10 +7,14 @@
 	import YearlyStats from './YearlyStats.svelte';
 	import TopSection from '../Common/TopSection.svelte';
 	import { Plus } from '@lucide/svelte';
+	import { TrackerRequest } from '$lib/requests';
+	import { addToast } from '$lib/store/toast';
+	// import {QueryClient} from '@tanstack/svelte-query'
 
 	let { trackersList } = $props();
 
 	let currentView = $state('monthly');
+	let isDeleting = $state(false);
 
 	const changeView = () => {
 		if (currentView === 'monthly') {
@@ -19,6 +23,18 @@
 			currentView = 'monthly';
 		}
 	};
+
+	async function deleteHabit(id: string) {
+		try {
+			isDeleting = true;
+
+			const result = await TrackerRequest.deleteHabit(id);
+		} catch (error: any) {
+			addToast(error?.message, 'error');
+		} finally {
+			isDeleting = false;
+		}
+	}
 </script>
 
 <div class="mx-auto w-full max-w-[1000px] overflow-x-hidden pb-64">
@@ -48,7 +64,7 @@
 		<div class="sm:w-1/2">
 			<div class="space-y-6">
 				{#each trackersList as habit, index (index)}
-					<HabitItem {habit} />
+					<HabitItem {habit} deleteHabit={() => deleteHabit(habit._id)} />
 				{/each}
 			</div>
 		</div>

@@ -2,9 +2,7 @@
 	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
 	import { Check, Plus, SkipForward, SquarePen, Trash2, X } from '@lucide/svelte';
 
-	let { habit } = $props();
-
-	// todo@ different state for different types
+	let { habit, deleteHabit } = $props();
 
 	const moreOptions = [
 		{
@@ -30,12 +28,10 @@
 		{
 			label: 'Delete',
 			icon: Trash2,
-			iconColor: 'red'
-			// action: openInsightsModal
+			iconColor: 'red',
+			action: deleteHabit
 		}
 	];
-
-	$effect(() => console.log(habit));
 </script>
 
 <div class="dropdown_wrapper h-100">

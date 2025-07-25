@@ -1,5 +1,9 @@
 Project Phoenix
 
+<!-- @TODO -->
+
+- invalid query after deleting a habit
+
 Shopping list app for effectiveness of my shopping
 
 - create a shopping list for each trip
