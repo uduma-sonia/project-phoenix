@@ -3,6 +3,7 @@ Project Phoenix
 <!-- @TODO -->
 
 - invalid query after deleting a habit
+- update habit
 
 Shopping list app for effectiveness of my shopping
 

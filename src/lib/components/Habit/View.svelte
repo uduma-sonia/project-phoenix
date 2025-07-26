@@ -9,9 +9,11 @@
 	import { Plus } from '@lucide/svelte';
 	import { TrackerRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
-	// import {QueryClient} from '@tanstack/svelte-query'
+	import { useQueryClient } from '@tanstack/svelte-query';
+	import { queryKeys } from '$lib/utils/queryKeys';
 
 	let { trackersList } = $props();
+	const queryClient = useQueryClient();
 
 	let currentView = $state('monthly');
 	let isDeleting = $state(false);
@@ -29,6 +31,7 @@
 			isDeleting = true;
 
 			const result = await TrackerRequest.deleteHabit(id);
+			queryClient.invalidateQueries({ queryKey: queryKeys.getAllHabits });
 		} catch (error: any) {
 			addToast(error?.message, 'error');
 		} finally {

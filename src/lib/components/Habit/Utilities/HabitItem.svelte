@@ -78,7 +78,7 @@
 						</button>
 					</div>
 
-					<div class="font-lexend text-sm font-light">100</div>
+					<div class="font-lexend text-sm font-light">{habit.goalValue}</div>
 
 					<div class="w-fit">
 						<button

@@ -9,7 +9,7 @@
 		queryFn: () => UserRequest.getCurrentUser()
 	});
 
-	let user = $derived($userQuery?.data?.data?.data?.user);
+	let user = $derived($userQuery?.data?.data?.user);
 </script>
 
 <div class="bg-brand-light min-h-screen">

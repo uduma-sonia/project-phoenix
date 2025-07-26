@@ -7,6 +7,8 @@
 	import DatePickerMini from '../Common/DatePicker/DatePickerMini.svelte';
 	import TopSection from '../Common/TopSection.svelte';
 	import { TrackerRequest } from '$lib/requests';
+	import { Check } from '@lucide/svelte';
+	import { goto } from '$app/navigation';
 
 	let { user } = $props();
 
@@ -22,7 +24,8 @@
 	let endDateValue = $state(addDays(new Date(), 30));
 	let isStartDateOpen = $state(false);
 	let isEndDateOpen = $state(false);
-	let icon = $state('');
+	let isIndefinite = $state(true);
+	let selectedIcon = $state('');
 
 	const toggleStart = () => {
 		isStartDateOpen = !isStartDateOpen;
@@ -54,15 +57,17 @@
 	}
 
 	function selectIcon(arg: string) {
-		icon = arg;
+		selectedIcon = arg;
 	}
 
 	function isBuild(arg: string | number[], type: string) {
 		return type === 'BUILD' ? arg : '';
 	}
+	$effect(() => console.log(user));
 
 	async function handleSubmit(e: any) {
 		e.preventDefault();
+
 		try {
 			isSubmitting = true;
 
@@ -82,14 +87,14 @@
 				isActive: true,
 				ownerId: user?._id,
 				description,
-				icon
+				icon: selectedIcon
 			};
 
 			Helpers.removeEmptyFields(payload);
 			const result = await TrackerRequest.createHabit(payload);
 
 			if (result) {
-				console.log(result);
+				goto('/tracker');
 			}
 		} catch (error: any) {
 			addToast(error?.message, 'error');
@@ -97,8 +102,6 @@
 			isSubmitting = false;
 		}
 	}
-
-	$effect(() => console.log(user));
 </script>
 
 <div>
@@ -254,31 +257,67 @@
 							</div>
 						</div>
 
-						<div class="w-1/2">
-							<label for="habitName" class="mb-2"> End date</label>
+						{#if !isIndefinite}
+							<div class="w-1/2">
+								<label for="habitName" class="mb-2"> End date</label>
 
-							<div class="relative">
-								<button
-									class="button_active font-lexend h-[50px] w-full rounded-lg border-2 px-4 text-left text-sm font-light sm:text-base"
-									type="button"
-									onclick={toggleEnd}
-								>
-									{format(new Date(endDateValue), 'PPP')}
-								</button>
-
-								{#if isEndDateOpen}
-									<div
-										use:Helpers.clickOutside
-										onclick_outside={handleClickOutside}
-										class="absolute top-[54px] right-0 z-[9999] gap-4 overflow-hidden rounded-lg bg-white shadow-md"
+								<div class="relative">
+									<button
+										class="button_active font-lexend h-[50px] w-full rounded-lg border-2 px-4 text-left text-sm font-light sm:text-base"
+										type="button"
+										onclick={toggleEnd}
 									>
-										<div class="w-[260px] rounded-lg border-2 p-1">
-											<DatePickerMini bind:selectedDate={endDateValue} />
+										{format(new Date(endDateValue), 'PPP')}
+									</button>
+
+									{#if isEndDateOpen}
+										<div
+											use:Helpers.clickOutside
+											onclick_outside={handleClickOutside}
+											class="absolute top-[54px] right-0 z-[9999] gap-4 overflow-hidden rounded-lg bg-white shadow-md"
+										>
+											<div class="w-[260px] rounded-lg border-2 p-1">
+												<DatePickerMini bind:selectedDate={endDateValue} />
+											</div>
 										</div>
-									</div>
-								{/if}
+									{/if}
+								</div>
 							</div>
-						</div>
+						{/if}
+
+						{#if isIndefinite}
+							<div class="w-1/2">
+								<label for="habitName" class="mb-2">No end date</label>
+
+								<div class="h-[50px]">
+									<button
+										class="button_active relative flex h-7 w-7 items-center justify-center rounded-md border-2 p-0"
+										onclick={() => (isIndefinite = !isIndefinite)}
+									>
+										<Check size="22px" />
+									</button>
+								</div>
+							</div>
+						{/if}
+					</div>
+
+					<div>
+						{#if !isIndefinite}
+							<div class="w-1/2">
+								<label for="habitName" class="mb-2">No end date</label>
+
+								<div class="h-[50px]">
+									<button
+										class="button_active relative flex h-7 w-7 items-center justify-center rounded-md border-2 p-0"
+										onclick={() => (isIndefinite = !isIndefinite)}
+									>
+										{#if isIndefinite}
+											<Check size="22px" />
+										{/if}
+									</button>
+								</div>
+							</div>
+						{/if}
 					</div>
 
 					<div>
@@ -288,8 +327,9 @@
 								<div>
 									<button
 										onclick={() => selectIcon(icon)}
-										class="flex h-11 w-11 items-center justify-center rounded-full border-2 border-black"
+										class="button_active flex h-11 w-11 items-center justify-center rounded-full border-black"
 										type="button"
+										class:border-2={selectedIcon === icon}
 									>
 										<img src={icon} class="h-6 min-w-9" alt="walk icon" />
 									</button>
