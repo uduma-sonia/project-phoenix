@@ -63,7 +63,6 @@
 	function isBuild(arg: string | number[], type: string) {
 		return type === 'BUILD' ? arg : '';
 	}
-	$effect(() => console.log(user));
 
 	async function handleSubmit(e: any) {
 		e.preventDefault();

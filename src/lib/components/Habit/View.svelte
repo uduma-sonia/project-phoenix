@@ -9,12 +9,23 @@
 	import { Plus } from '@lucide/svelte';
 	import { TrackerRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
-	import { useQueryClient } from '@tanstack/svelte-query';
+	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 
-	let { trackersList } = $props();
-	const queryClient = useQueryClient();
+	const trackerQuery = createQuery({
+		queryKey: queryKeys.getAllHabits,
+		queryFn: () => TrackerRequest.getAllHabits()
+	});
 
+	let searchQuery = $state('');
+
+	let trackersList = $derived(
+		$trackerQuery?.data?.data?.trackers?.filter((item: any) =>
+			item.name.toUpperCase().includes(searchQuery?.toUpperCase())
+		)
+	);
+
+	const queryClient = useQueryClient();
 	let currentView = $state('monthly');
 	let isDeleting = $state(false);
 
@@ -47,7 +58,7 @@
 	<div class="flex items-center justify-between">
 		<div class="relative z-30 mt-3 flex items-start gap-3 px-3 sm:gap-6">
 			<div>
-				<HabitSearch />
+				<HabitSearch bind:searchQuery />
 			</div>
 			<div>
 				<FilterForm />
@@ -105,8 +116,8 @@
 	</div>
 </div>
 
-<!-- <style>
+<style>
 	.activeView {
 		background-color: #a0c878 !important;
 	}
-</style> -->
+</style>
