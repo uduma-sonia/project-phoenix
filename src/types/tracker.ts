@@ -18,6 +18,7 @@ export type Habit = {
 	docId: string;
 	description: string;
 	icon: string;
+	_id: string;
 };
 
 export enum HabitStatus {

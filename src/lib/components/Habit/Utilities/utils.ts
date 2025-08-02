@@ -44,14 +44,10 @@ export default class TrackerUtils {
 	}
 
 	static calculateStreakTime(startDate: any) {
-		console.log(startDate);
-
 		const start: any = new Date(startDate);
 		const now: any = new Date();
-
 		const timeDifference = now - start;
 
-		// Calculate the components
 		const seconds = Math.floor((timeDifference / 1000) % 60);
 		const minutes = Math.floor((timeDifference / (1000 * 60)) % 60);
 		const hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24);

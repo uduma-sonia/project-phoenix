@@ -1,10 +1,7 @@
 <script lang="ts">
 	import DateScroller from './Utilities/DateScroller.svelte';
-	import FilterForm from './Utilities/FilterForm.svelte';
 	import HabitItem from './Utilities/HabitItem.svelte';
 	import HabitSearch from './Utilities/HabitSearch.svelte';
-	import MonthlyStats from './MonthlyStats.svelte';
-	import YearlyStats from './YearlyStats.svelte';
 	import TopSection from '../Common/TopSection.svelte';
 	import { Plus } from '@lucide/svelte';
 	import { TrackerLogRequest, TrackerRequest } from '$lib/requests';
@@ -14,8 +11,7 @@
 	import TrackerUtils from './Utilities/utils';
 	import { trackerState } from '$lib/state/tracker.svelte';
 	import Helpers from '$lib/utils/helpers';
-	import { format } from 'date-fns';
-	import { HabitStatus } from '../../../types/tracker';
+	import { HabitStatus, type Habit } from '../../../types/tracker';
 
 	let { user } = $props();
 
@@ -55,13 +51,13 @@
 		}
 	}
 
-	async function updateLog(id: string, status: HabitStatus, type: string, logId: string) {
+	async function updateLog(trackerId: string, status: HabitStatus, type: string, logId: string) {
 		try {
 			isDeleting = true;
 
 			const payload = {
 				ownerId: user._id,
-				trackerId: id,
+				trackerId: trackerId,
 				date: TrackerUtils.getISODate(trackerState.data.selectedDay),
 				status: status
 				// value: 1,
@@ -73,7 +69,7 @@
 			if (type === 'create') {
 				await TrackerLogRequest.createLog(payload);
 				queryClient.invalidateQueries({
-					queryKey: queryKeys.getLogs(id, {
+					queryKey: queryKeys.getLogs(trackerId, {
 						date: TrackerUtils.getISODate(trackerState.data.selectedDay)
 					})
 				});
@@ -82,7 +78,49 @@
 			if (type === 'update') {
 				await TrackerLogRequest.updateLog(logId, payload);
 				queryClient.invalidateQueries({
-					queryKey: queryKeys.getLogs(id, {
+					queryKey: queryKeys.getLogs(trackerId, {
+						date: TrackerUtils.getISODate(trackerState.data.selectedDay)
+					})
+				});
+			}
+		} catch (error: any) {
+			addToast(error?.message, 'error');
+		} finally {
+			isDeleting = false;
+		}
+	}
+
+	let userId = $derived(user?._id);
+
+	async function updateBuildLog(tracker: Habit, status: HabitStatus, type: string, log: any) {
+		try {
+			isDeleting = true;
+
+			const _goal = Number(tracker.goalValue);
+			const payload = {
+				ownerId: userId,
+				trackerId: tracker._id,
+				date: TrackerUtils.getISODate(trackerState.data.selectedDay),
+				status: status,
+				value: _goal,
+				goalValue: _goal,
+				goalPeriod: tracker.interval,
+				unitMeasurement: tracker.unitMeasurement
+			};
+
+			if (type === 'create') {
+				await TrackerLogRequest.createLog(payload);
+				queryClient.invalidateQueries({
+					queryKey: queryKeys.getLogs(tracker._id, {
+						date: TrackerUtils.getISODate(trackerState.data.selectedDay)
+					})
+				});
+			}
+
+			if (type === 'update') {
+				await TrackerLogRequest.updateLog(log._id, payload);
+				queryClient.invalidateQueries({
+					queryKey: queryKeys.getLogs(tracker._id, {
 						date: TrackerUtils.getISODate(trackerState.data.selectedDay)
 					})
 				});
@@ -114,7 +152,7 @@
 			{@const isActive = TrackerUtils.isHabitActive(habit, dateViewing)}
 
 			{#if isActive}
-				<HabitItem {habit} {deleteHabit} {updateLog} />
+				<HabitItem {habit} {deleteHabit} {updateLog} {updateBuildLog} />
 				<!-- deleteHabit={() => deleteHabit(habit._id)}
 					stopHabit={(status: HabitStatus) => updateLog(habit._id, status)} -->
 			{/if}

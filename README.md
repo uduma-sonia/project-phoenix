@@ -1,3 +1,4 @@
-STEPS TO CONNECT HABIT TRACKER FULLY
+features
 
--
+- tracker log history for quit type
+- hide certain options in tracker dropdown
