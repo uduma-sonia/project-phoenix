@@ -19,3 +19,12 @@ export type Habit = {
 	description: string;
 	icon: string;
 };
+
+export enum HabitStatus {
+	PENDING = 'PENDING',
+	COMPLETED = 'COMPLETED',
+	SKIPPED = 'SKIPPED',
+	FAILED = 'FAILED',
+	STOP = 'STOP',
+	START = 'START'
+}

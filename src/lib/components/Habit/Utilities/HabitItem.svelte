@@ -1,25 +1,58 @@
 <script lang="ts">
 	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
-	import { Check, Minus, Plus, SkipForward, SquarePen, Trash2, X } from '@lucide/svelte';
+	import {
+		Check,
+		Ban,
+		Minus,
+		Plus,
+		SkipForward,
+		SquarePen,
+		Trash2,
+		X,
+		StepForward
+	} from '@lucide/svelte';
 	import TrackerUtils from './utils';
+	import { HabitStatus } from '../../../../types/tracker';
+	import { createQuery } from '@tanstack/svelte-query';
+	import { queryKeys } from '$lib/utils/queryKeys';
+	import { TrackerLogRequest } from '$lib/requests';
+	import { trackerState } from '$lib/state/tracker.svelte';
 
-	let { habit, deleteHabit } = $props();
+	let { habit, deleteHabit, updateLog } = $props();
+
+	const logQuery = $derived(
+		createQuery({
+			queryKey: queryKeys.getLogs(habit._id, {
+				date: TrackerUtils.getISODate(trackerState.data.selectedDay)
+			}),
+			queryFn: () =>
+				TrackerLogRequest.getLog(habit._id, {
+					date: TrackerUtils.getISODate(trackerState.data.selectedDay)
+				})
+		})
+	);
+
+	let logDetails = $derived($logQuery?.data?.data?.trackerLog);
+
+	// $effect(() => console.log(logDetails));
+
+	function statusAction() {
+		const _status = logDetails?.status == HabitStatus.STOP ? HabitStatus.START : HabitStatus.STOP;
+		const type = logDetails?._id ? 'update' : 'create';
+
+		updateLog(habit._id, _status, type, logDetails?._id);
+	}
 
 	const moreOptions = [
 		{
-			label: 'Done',
-			icon: Check
-			// action: openInsightsModal
+			label: 'Stop',
+			icon: Ban,
+			action: statusAction
 		},
 		{
-			label: 'Delete',
-			icon: SkipForward
-			// action: openInsightsModal
-		},
-		{
-			label: 'Fail',
-			icon: X
-			// action: openInsightsModal
+			label: 'Start',
+			icon: StepForward,
+			action: statusAction
 		},
 		{
 			label: 'Edit',
@@ -33,6 +66,35 @@
 			action: deleteHabit
 		}
 	];
+
+	// const moreOptions = [
+	// 	{
+	// 		label: 'Done',
+	// 		icon: Check
+	// 		// action: openInsightsModal
+	// 	},
+	// 	{
+	// 		label: 'Delete',
+	// 		icon: SkipForward
+	// 		// action: openInsightsModal
+	// 	},
+	// 	{
+	// 		label: 'Fail',
+	// 		icon: X
+	// 		// action: openInsightsModal
+	// 	},
+	// 	{
+	// 		label: 'Edit',
+	// 		icon: SquarePen
+	// 		// action: openInsightsModal
+	// 	},
+	// 	{
+	// 		label: 'Delete',
+	// 		icon: Trash2,
+	// 		iconColor: 'red',
+	// 		action: deleteHabit
+	// 	}
+	// ];
 </script>
 
 <div class="item_wrapper h-[170px]">
@@ -41,7 +103,7 @@
 			<p
 				class:bg-brand-quit={habit.type === 'QUIT'}
 				class:bg-brand-build={habit.type === 'BUILD'}
-				class="font-lexend bg-brand-build inline-block rounded-sm px-2 py-0.5 text-[10px] font-light text-white capitalize"
+				class="font-lexend bg-brand-build inline-block rounded-sm px-2 py-0.5 text-[10px] font-normal text-black capitalize"
 			>
 				{habit.type}
 			</p>
@@ -49,7 +111,9 @@
 		<div class="flex h-full flex-col justify-between">
 			<div>
 				<div>
-					<img src={habit.icon} alt="walk icon" class="mx-auto w-6" />
+					{#if habit.icon}
+						<img src={habit.icon} alt="walk icon" class="mx-auto h-6" />
+					{/if}
 				</div>
 				<p class="font-lexend mt-3 text-center font-normal">{habit.name}</p>
 			</div>
@@ -81,14 +145,20 @@
 				{/if}
 				{#if habit.type === 'QUIT'}
 					<div>
-						<p class="font-lexend text-center text-[13px] font-light">
-							{TrackerUtils.renderStreakCountdown(
-								TrackerUtils.calculateStreakTime(habit?.startDate)
-							)}
-							{TrackerUtils.renderStreakCountdownSuffix(
-								TrackerUtils.calculateStreakTime(habit?.startDate)
-							)}
-						</p>
+						{#if logDetails?._id && logDetails?.status === HabitStatus.STOP}
+							<p class="font-lexend text-center text-[13px] font-semibold text-red-600">Stopped</p>
+						{/if}
+
+						{#if !logDetails?._id || logDetails?.status === HabitStatus.START}
+							<p class="font-lexend text-center text-[13px] font-light">
+								{TrackerUtils.renderStreakCountdown(
+									TrackerUtils.calculateStreakTime(logDetails?.updatedAt || habit?.startDate)
+								)}
+								{TrackerUtils.renderStreakCountdownSuffix(
+									TrackerUtils.calculateStreakTime(logDetails?.updatedAt || habit?.startDate)
+								)}
+							</p>
+						{/if}
 					</div>
 				{/if}
 			</div>
@@ -121,38 +191,4 @@
 		width: 100%;
 		height: 100%;
 	}
-	/* .dropdown_wrapper {
-		position: relative;
-		border-radius: 8px;
-		transition: all 0.4s linear;
-	}
-
-	.dropdown_wrapper::after {
-		content: '';
-		position: absolute;
-		top: 5px;
-		left: 5px;
-		background-color: #8cbf80;
-		right: 0;
-		bottom: 0;
-		border: 2px solid black;
-		z-index: 1;
-		border-radius: 8px;
-		width: 100%;
-		height: 100%;
-	}
-
-	.dropdown_wrapper::before {
-		content: '';
-		position: absolute;
-		top: 5px;
-		left: 5px;
-		right: 0;
-		bottom: 0;
-		border: 2px solid black;
-		z-index: 1;
-		border-radius: 8px;
-		width: 100%;
-		height: 100%;
-	} */
 </style>

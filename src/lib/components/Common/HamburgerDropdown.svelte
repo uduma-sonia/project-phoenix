@@ -41,13 +41,14 @@
 						</a>
 					{:else}
 						<button
-							class="button_active font-montserrat font-lexend flex h-10 w-full items-center gap-1 rounded-lg px-3 text-sm font-normal text-black hover:bg-[#d9d9da] focus:bg-[#d9d9da] active:bg-[#d9d9da]"
+							class="button_active font-montserrat font-lexend flex h-10 w-full items-center gap-2 rounded-lg px-3 text-sm font-normal text-black hover:bg-[#d9d9da] focus:bg-[#d9d9da] active:bg-[#d9d9da]"
 							onclick={() => {
 								option.action?.(option.label);
+								handleClickOutside();
 							}}
 						>
-							<div class="w-6" style="color: {option.iconColor};">
-								<option.icon />
+							<div class="w-5" style="color: {option.iconColor};">
+								<option.icon size="20" />
 							</div>
 							{option.label}
 						</button>

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { isAfter, isBefore, isSameDay, parseISO } from 'date-fns';
+import { format, isAfter, isBefore, isSameDay, parseISO } from 'date-fns';
 import type { Habit } from '../../../../types/tracker';
 import Helpers from '$lib/utils/helpers';
 
@@ -12,12 +12,6 @@ export default class TrackerUtils {
 		const endDate = habit?.isIndefinite ? null : habit.endDate;
 		const startDateIsValid = isBefore(startDate, viewingDate) || isSameDay(startDate, viewingDate);
 
-		// const endDateIsValid = endDate
-		// 	? isAfter(endDate, viewingDate) || isSameDay(endDate, viewingDate)
-		// 	: false;
-
-		// console.table({ viewingDate, startDate, endDate, startDateIsValid });
-
 		let endDateIsValid = false;
 
 		if (habit.isIndefinite) {
@@ -26,10 +20,7 @@ export default class TrackerUtils {
 			endDateIsValid = isAfter(endDate, viewingDate) || isSameDay(endDate, viewingDate);
 		}
 
-		return (
-			startDateIsValid && endDateIsValid
-			// && habit !== HabitStatus.FAILED
-		);
+		return startDateIsValid && endDateIsValid;
 	}
 
 	static getDayProgressPercent(): number {
@@ -47,7 +38,14 @@ export default class TrackerUtils {
 		return Math.min(Math.max(percent, 0), 100); // Clamp between 0 and 100
 	}
 
+	static toStartOfDayUTC(dateStr: string) {
+		const date = new Date(dateStr);
+		return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())).toISOString();
+	}
+
 	static calculateStreakTime(startDate: any) {
+		console.log(startDate);
+
 		const start: any = new Date(startDate);
 		const now: any = new Date();
 
@@ -92,5 +90,10 @@ export default class TrackerUtils {
 			return `second${Helpers.returnS(seconds)}`;
 		}
 		return 'seconds';
+	}
+
+	static getISODate(arg: any) {
+		const dateFormatted = format(arg, 'yyyy-MM-dd');
+		return dateFormatted;
 	}
 }

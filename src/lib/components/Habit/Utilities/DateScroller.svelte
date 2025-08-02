@@ -19,7 +19,7 @@
 		setTimeout(() => {
 			const todayEl = document.getElementById('today-button');
 			todayEl?.scrollIntoView({ behavior: 'instant', inline: 'center' });
-		}, 20);
+		}, 0);
 	});
 </script>
 

@@ -7,13 +7,17 @@
 	import YearlyStats from './YearlyStats.svelte';
 	import TopSection from '../Common/TopSection.svelte';
 	import { Plus } from '@lucide/svelte';
-	import { TrackerRequest } from '$lib/requests';
+	import { TrackerLogRequest, TrackerRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import TrackerUtils from './Utilities/utils';
 	import { trackerState } from '$lib/state/tracker.svelte';
 	import Helpers from '$lib/utils/helpers';
+	import { format } from 'date-fns';
+	import { HabitStatus } from '../../../types/tracker';
+
+	let { user } = $props();
 
 	let searchQuery = $state('');
 	const queryClient = useQueryClient();
@@ -51,6 +55,45 @@
 		}
 	}
 
+	async function updateLog(id: string, status: HabitStatus, type: string, logId: string) {
+		try {
+			isDeleting = true;
+
+			const payload = {
+				ownerId: user._id,
+				trackerId: id,
+				date: TrackerUtils.getISODate(trackerState.data.selectedDay),
+				status: status
+				// value: 1,
+				// goalValue: 2,
+				// goalPeriod: 'DAILY',
+				// unitMeasurement: 'count',
+			};
+
+			if (type === 'create') {
+				await TrackerLogRequest.createLog(payload);
+				queryClient.invalidateQueries({
+					queryKey: queryKeys.getLogs(id, {
+						date: TrackerUtils.getISODate(trackerState.data.selectedDay)
+					})
+				});
+			}
+
+			if (type === 'update') {
+				await TrackerLogRequest.updateLog(logId, payload);
+				queryClient.invalidateQueries({
+					queryKey: queryKeys.getLogs(id, {
+						date: TrackerUtils.getISODate(trackerState.data.selectedDay)
+					})
+				});
+			}
+		} catch (error: any) {
+			addToast(error?.message, 'error');
+		} finally {
+			isDeleting = false;
+		}
+	}
+
 	let { start: dateViewing } = $derived(
 		Helpers.getStartAndEndDates({
 			dateViewing: trackerState.data.selectedDay
@@ -62,20 +105,18 @@
 	<TopSection />
 	<DateScroller />
 
-	<div class="flex items-center justify-between">
-		<div class="relative z-30 mt-3 flex items-start gap-3 px-3 sm:gap-6">
-			<div>
-				<HabitSearch bind:searchQuery />
-			</div>
-		</div>
+	<div class="relative z-30 mt-8 gap-3 px-3">
+		<HabitSearch bind:searchQuery />
 	</div>
 
-	<div class="relative z-10 mt-10 grid grid-cols-1 gap-4 px-3 sm:grid-cols-2 md:grid-cols-3">
+	<div class="relative z-10 mt-10 grid grid-cols-1 gap-5 px-3 sm:grid-cols-2 md:grid-cols-3">
 		{#each trackersList as habit, index (index)}
 			{@const isActive = TrackerUtils.isHabitActive(habit, dateViewing)}
 
 			{#if isActive}
-				<HabitItem {habit} deleteHabit={() => deleteHabit(habit._id)} />
+				<HabitItem {habit} {deleteHabit} {updateLog} />
+				<!-- deleteHabit={() => deleteHabit(habit._id)}
+					stopHabit={(status: HabitStatus) => updateLog(habit._id, status)} -->
 			{/if}
 		{/each}
 

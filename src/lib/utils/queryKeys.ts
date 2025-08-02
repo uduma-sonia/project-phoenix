@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Helpers from './helpers';
 
 const userKeys = {
@@ -9,7 +10,7 @@ const trackerKeys = {
 };
 
 const trackerLogKeys = {
-	getLogs: (id: string, data: { start: string; end: string }) => [
+	getLogs: (id: string, data: { date: any }) => [
 		`/tracker-log/${id}?${Helpers.formatQueryParams(data)}`
 	]
 };

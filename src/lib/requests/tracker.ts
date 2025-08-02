@@ -34,7 +34,7 @@ class TrackerService {
 	}
 
 	async updateHabit(id: string, data: CreateHabit, reqConfig?: ReqConfig) {
-		return await this.api.post(`${this.prefix}/${id}`, data, { ...reqConfig });
+		return await this.api.put(`${this.prefix}/${id}`, data, { ...reqConfig });
 	}
 
 	async getAllHabits(reqConfig?: ReqConfig) {
