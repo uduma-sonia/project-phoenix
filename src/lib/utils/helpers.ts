@@ -199,6 +199,14 @@ class Helpers {
 			end: formatISO(endOfDay(new Date()))
 		};
 	}
+
+	static returnS(arg: number) {
+		if (arg === 1) {
+			return '';
+		} else {
+			return 's';
+		}
+	}
 }
 
 export default Helpers;

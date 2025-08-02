@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { isAfter, isBefore, isSameDay, parseISO } from 'date-fns';
 import type { Habit } from '../../../../types/tracker';
+import Helpers from '$lib/utils/helpers';
 
 export default class TrackerUtils {
 	static isHabitActive(habit: Habit, dateViewing: string): boolean {
@@ -28,5 +30,67 @@ export default class TrackerUtils {
 			startDateIsValid && endDateIsValid
 			// && habit !== HabitStatus.FAILED
 		);
+	}
+
+	static getDayProgressPercent(): number {
+		const now = new Date();
+		const startOfDay = new Date(now);
+		startOfDay.setHours(0, 0, 0, 0);
+
+		const endOfDay = new Date(now);
+		endOfDay.setHours(23, 59, 59, 999);
+
+		const elapsed = now.getTime() - startOfDay.getTime();
+		const total = endOfDay.getTime() - startOfDay.getTime();
+
+		const percent = (elapsed / total) * 100;
+		return Math.min(Math.max(percent, 0), 100); // Clamp between 0 and 100
+	}
+
+	static calculateStreakTime(startDate: any) {
+		const start: any = new Date(startDate);
+		const now: any = new Date();
+
+		const timeDifference = now - start;
+
+		// Calculate the components
+		const seconds = Math.floor((timeDifference / 1000) % 60);
+		const minutes = Math.floor((timeDifference / (1000 * 60)) % 60);
+		const hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24);
+		const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+		return { days, hours, minutes, seconds };
+	}
+
+	static renderStreakCountdown({ days, hours, minutes, seconds }: any) {
+		if (days) {
+			return `${days}`;
+		}
+		if (hours) {
+			return `${hours}`;
+		}
+		if (minutes) {
+			return `${minutes}`;
+		}
+		if (seconds) {
+			return `${seconds}`;
+		}
+		return '0';
+	}
+
+	static renderStreakCountdownSuffix({ days, hours, minutes, seconds }: any) {
+		if (days) {
+			return `day${Helpers.returnS(days)}`;
+		}
+		if (hours) {
+			return `hour${Helpers.returnS(hours)}`;
+		}
+		if (minutes) {
+			return `minute${Helpers.returnS(minutes)}`;
+		}
+		if (seconds) {
+			return `second${Helpers.returnS(seconds)}`;
+		}
+		return 'seconds';
 	}
 }
