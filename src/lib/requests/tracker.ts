@@ -3,7 +3,6 @@ import type { ReqConfig, Service } from '../../types/axios';
 export type CreateHabit = {
 	createdAt?: Date;
 	updatedAt?: Date;
-
 	name: string;
 	type: string;
 	interval?: string;

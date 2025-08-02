@@ -12,7 +12,10 @@ import {
 	isTomorrow,
 	isYesterday,
 	startOfToday,
-	addDays
+	addDays,
+	endOfDay,
+	formatISO,
+	startOfDay
 } from 'date-fns';
 
 class Helpers {
@@ -166,6 +169,35 @@ class Helpers {
 		}
 
 		return days;
+	}
+
+	static getStartAndEndDates({
+		startDate,
+		endDate,
+		dateViewing
+	}: {
+		startDate?: string | Date;
+		endDate?: string | Date;
+		dateViewing?: string | Date;
+	}) {
+		if (dateViewing) {
+			return {
+				start: formatISO(startOfDay(new Date(dateViewing))),
+				end: formatISO(endOfDay(new Date(dateViewing)))
+			};
+		}
+
+		if (startDate && endDate) {
+			return {
+				start: formatISO(startOfDay(new Date(startDate))),
+				end: formatISO(endOfDay(new Date(endDate)))
+			};
+		}
+
+		return {
+			start: formatISO(startOfDay(new Date())),
+			end: formatISO(endOfDay(new Date()))
+		};
 	}
 }
 

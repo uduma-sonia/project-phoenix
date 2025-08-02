@@ -9,18 +9,16 @@
 	let daysArray = $state(Helpers.generateScrollableDays(180));
 
 	const handleScrollLeft = () => {
-		middle_container.scrollLeft -= 200;
+		middle_container.scrollLeft -= 300;
 	};
 	const handleScrollRight = () => {
-		middle_container.scrollLeft += 200;
+		middle_container.scrollLeft += 300;
 	};
-
-	$effect(() => console.log($state.snapshot(trackerState)));
 
 	onMount(() => {
 		setTimeout(() => {
 			const todayEl = document.getElementById('today-button');
-			todayEl?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+			todayEl?.scrollIntoView({ behavior: 'instant', inline: 'center' });
 		}, 20);
 	});
 </script>

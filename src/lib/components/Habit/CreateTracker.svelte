@@ -78,7 +78,7 @@
 				endDate: endDateValue,
 				unitMeasurement: isBuild(unitMeasurement, type),
 				goalValue: isBuild(goalValue, type),
-				isIndefinite: endDateValue ? false : true,
+				isIndefinite: isIndefinite ? true : false,
 				selectedDays: isBuild(
 					selectedDays?.map((item) => item),
 					type

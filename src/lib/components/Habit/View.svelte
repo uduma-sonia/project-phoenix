@@ -11,6 +11,9 @@
 	import { addToast } from '$lib/store/toast';
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
+	import TrackerUtils from './Utilities/utils';
+	import { trackerState } from '$lib/state/tracker.svelte';
+	import Helpers from '$lib/utils/helpers';
 
 	let searchQuery = $state('');
 	const queryClient = useQueryClient();
@@ -39,8 +42,7 @@
 	async function deleteHabit(id: string) {
 		try {
 			isDeleting = true;
-
-			const result = await TrackerRequest.deleteHabit(id);
+			await TrackerRequest.deleteHabit(id);
 			queryClient.invalidateQueries({ queryKey: queryKeys.getAllHabits });
 		} catch (error: any) {
 			addToast(error?.message, 'error');
@@ -48,6 +50,12 @@
 			isDeleting = false;
 		}
 	}
+
+	let { start: dateViewing } = $derived(
+		Helpers.getStartAndEndDates({
+			dateViewing: trackerState.data.selectedDay
+		})
+	);
 </script>
 
 <div class="mx-auto w-full max-w-[1000px] overflow-x-hidden pb-64">
@@ -59,25 +67,17 @@
 			<div>
 				<HabitSearch bind:searchQuery />
 			</div>
-			<div>
-				<FilterForm />
-			</div>
 		</div>
 	</div>
 
 	<div class="relative z-10 mt-10 grid grid-cols-1 gap-4 px-3 sm:grid-cols-2 md:grid-cols-3">
-		<!-- <div class="relative z-10 mt-10 items-start gap-4 px-3 sm:flex"> -->
-		<!-- <div class="sm:w-1/2">
-			<div class="space-y-6"> -->
 		{#each trackersList as habit, index (index)}
-			<HabitItem {habit} deleteHabit={() => deleteHabit(habit._id)} />
-		{/each}
+			{@const isActive = TrackerUtils.isHabitActive(habit, dateViewing)}
 
-		<!-- {#each trackersList as habit, index (index)}
-			<HabitItem {habit} deleteHabit={() => deleteHabit(habit._id)} />
-		{/each} -->
-		<!-- </div>
-		</div> -->
+			{#if isActive}
+				<HabitItem {habit} deleteHabit={() => deleteHabit(habit._id)} />
+			{/if}
+		{/each}
 
 		<!-- <div class="hidden w-1/2 sm:block">
 			<div class="bg-whit mb-4 flex rounded-lg border-2 bg-white">
