@@ -1,4 +1,19 @@
 import { browser } from '$app/environment';
+import {
+	startOfMonth,
+	endOfMonth,
+	eachDayOfInterval,
+	setHours,
+	setMinutes,
+	setSeconds,
+	setMilliseconds,
+	isToday,
+	format,
+	isTomorrow,
+	isYesterday,
+	startOfToday,
+	addDays
+} from 'date-fns';
 
 class Helpers {
 	static setCookie(name: string, value: string, minutes: number) {
@@ -109,6 +124,48 @@ class Helpers {
 				delete data[key];
 			}
 		});
+	}
+
+	static generateDaysOfMonth(dateInput: string | Date): Date[] {
+		const date = new Date(dateInput);
+
+		const hours = date.getHours();
+		const minutes = date.getMinutes();
+		const seconds = date.getSeconds();
+		const milliseconds = date.getMilliseconds();
+
+		const days = eachDayOfInterval({
+			start: startOfMonth(date),
+			end: endOfMonth(date)
+		});
+
+		return days.map((day) =>
+			setMilliseconds(setSeconds(setMinutes(setHours(day, hours), minutes), seconds), milliseconds)
+		);
+	}
+
+	static getRelativeDate(date: Date, _format = 'dd MMM, yyyy'): string {
+		if (isToday(date)) {
+			return 'Today';
+		} else if (isYesterday(date)) {
+			return 'Yesterday';
+		} else if (isTomorrow(date)) {
+			return 'Tomorrow';
+		} else {
+			return format(date, _format);
+		}
+	}
+
+	static generateScrollableDays(range = 180) {
+		const days = [];
+		const today = startOfToday();
+
+		for (let i = -range; i <= range; i++) {
+			const date = addDays(today, i);
+			days.push(date);
+		}
+
+		return days;
 	}
 }
 

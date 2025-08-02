@@ -19,7 +19,9 @@
 			const result = await AuthRequest.login({ password, email });
 
 			if (result) {
-				Helpers.setCookie(AUTH_TOKEN, result?.data?.data?.access_token, 400000);
+				console.log(result);
+
+				Helpers.setCookie(AUTH_TOKEN, result?.data?.data?.data?.access_token, 400000);
 				goto('/tracker');
 			}
 		} catch (error: any) {

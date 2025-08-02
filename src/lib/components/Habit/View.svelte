@@ -12,22 +12,21 @@
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 
+	let searchQuery = $state('');
+	const queryClient = useQueryClient();
+	let currentView = $state('monthly');
+	let isDeleting = $state(false);
+
 	const trackerQuery = createQuery({
 		queryKey: queryKeys.getAllHabits,
 		queryFn: () => TrackerRequest.getAllHabits()
 	});
-
-	let searchQuery = $state('');
 
 	let trackersList = $derived(
 		$trackerQuery?.data?.data?.trackers?.filter((item: any) =>
 			item.name.toUpperCase().includes(searchQuery?.toUpperCase())
 		)
 	);
-
-	const queryClient = useQueryClient();
-	let currentView = $state('monthly');
-	let isDeleting = $state(false);
 
 	const changeView = () => {
 		if (currentView === 'monthly') {
@@ -64,26 +63,23 @@
 				<FilterForm />
 			</div>
 		</div>
-
-		<div class="pr-4">
-			<a href="/tracker/create" class="block">
-				<button class="shadow_button shadow_button_thin shadow_button_with_icon">
-					<Plus /> Create
-				</button>
-			</a>
-		</div>
 	</div>
 
-	<div class="relative z-10 mt-10 items-start gap-4 px-3 sm:flex">
-		<div class="sm:w-1/2">
-			<div class="space-y-6">
-				{#each trackersList as habit, index (index)}
-					<HabitItem {habit} deleteHabit={() => deleteHabit(habit._id)} />
-				{/each}
-			</div>
-		</div>
+	<div class="relative z-10 mt-10 grid grid-cols-1 gap-4 px-3 sm:grid-cols-2 md:grid-cols-3">
+		<!-- <div class="relative z-10 mt-10 items-start gap-4 px-3 sm:flex"> -->
+		<!-- <div class="sm:w-1/2">
+			<div class="space-y-6"> -->
+		{#each trackersList as habit, index (index)}
+			<HabitItem {habit} deleteHabit={() => deleteHabit(habit._id)} />
+		{/each}
 
-		<div class="hidden w-1/2 sm:block">
+		<!-- {#each trackersList as habit, index (index)}
+			<HabitItem {habit} deleteHabit={() => deleteHabit(habit._id)} />
+		{/each} -->
+		<!-- </div>
+		</div> -->
+
+		<!-- <div class="hidden w-1/2 sm:block">
 			<div class="bg-whit mb-4 flex rounded-lg border-2 bg-white">
 				<div class="w-1/2 rounded-lg">
 					<button
@@ -112,12 +108,22 @@
 			{#if currentView === 'yearly'}
 				<YearlyStats />
 			{/if}
-		</div>
+		</div> -->
+	</div>
+
+	<div
+		class="fixed bottom-0 left-1/2 z-50 flex w-full max-w-[1000px] -translate-x-1/2 items-center justify-end p-5"
+	>
+		<a href="/tracker/create" class="block">
+			<button class="create_button shadow_button">
+				<Plus />
+			</button>
+		</a>
 	</div>
 </div>
 
 <style>
-	.activeView {
+	/* .activeView {
 		background-color: #a0c878 !important;
-	}
+	} */
 </style>

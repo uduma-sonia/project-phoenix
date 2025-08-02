@@ -1,7 +1,12 @@
 <script lang="ts">
+	import { trackerState, updateSelectedDay } from '$lib/state/tracker.svelte';
+	import Helpers from '$lib/utils/helpers';
 	import { Play } from '@lucide/svelte';
+	import { isSameDay } from 'date-fns';
+	import { onMount } from 'svelte';
 
 	let middle_container: any;
+	let daysArray = $state(Helpers.generateScrollableDays(180));
 
 	const handleScrollLeft = () => {
 		middle_container.scrollLeft -= 200;
@@ -9,6 +14,15 @@
 	const handleScrollRight = () => {
 		middle_container.scrollLeft += 200;
 	};
+
+	$effect(() => console.log($state.snapshot(trackerState)));
+
+	onMount(() => {
+		setTimeout(() => {
+			const todayEl = document.getElementById('today-button');
+			todayEl?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+		}, 20);
+	});
 </script>
 
 <div class="my-4 px-3">
@@ -25,19 +39,16 @@
 			bind:this={middle_container}
 			class="middle_container no-scrollbar flex max-w-[83.5%] flex-1 flex-nowrap items-center gap-3 overflow-x-auto sm:gap-4"
 		>
-			<div class="min-w-[90px] sm:min-w-[110px]">
-				<button
-					class="bg-brand-lime font-lexend button_active h-[50px] w-full rounded-lg border-2 border-black text-sm font-normal sm:text-base"
-				>
-					Today
-				</button>
-			</div>
-			{#each [...new Array(30)] as _, index (index)}
-				<div class="min-w-[90px] sm:min-w-[110px]">
+			{#each daysArray as day, index (index)}
+				{@const isToday = isSameDay(new Date(day), trackerState.data.selectedDay)}
+				<div class="min-w-[100px] sm:min-w-[120px]">
 					<button
-						class="bg-brand-rose font-lexend button_active h-[50px] w-full rounded-lg border-2 border-black text-sm font-normal sm:text-base"
+						id={isToday ? 'today-button' : undefined}
+						class="bg-brand-rose font-lexend button_active flex h-[50px] w-full items-center justify-center gap-1 rounded-lg border-2 border-black text-sm font-normal sm:text-base"
+						class:today={isToday}
+						onclick={() => updateSelectedDay(day)}
 					>
-						23 Jun
+						{Helpers.getRelativeDate(day)}
 					</button>
 				</div>
 			{/each}
@@ -55,5 +66,9 @@
 	.middle_container {
 		transition: all 0.3s linear;
 		scroll-behavior: smooth;
+	}
+
+	.today {
+		background-color: #c2e08a !important;
 	}
 </style>
