@@ -8,7 +8,8 @@
 		SkipForward,
 		SquarePen,
 		Trash2,
-		StepForward
+		StepForward,
+		RefreshCcw
 	} from '@lucide/svelte';
 	import TrackerUtils from './utils';
 	import { HabitStatus } from '../../../../types/tracker';
@@ -134,6 +135,27 @@
 			action: _delete
 		}
 	];
+	const restartOpt = [
+		{
+			label: 'Restart',
+			icon: RefreshCcw,
+			type: 'build',
+			action: statusAction
+		},
+
+		{
+			label: 'Edit',
+			icon: SquarePen,
+			type: 'all'
+		},
+		{
+			label: 'Delete',
+			icon: Trash2,
+			iconColor: 'red',
+			type: 'all',
+			action: _delete
+		}
+	];
 
 	function generateOptionsDropdown(arr: any[], type: string, status: string) {
 		let options = [];
@@ -147,8 +169,6 @@
 
 		return options;
 	}
-
-	// $effect(() => console.log(logDetails));
 </script>
 
 <div class="item_wrapper h-[170px]">
