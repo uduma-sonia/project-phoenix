@@ -9,9 +9,11 @@
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import TrackerUtils from './Utilities/utils';
-	import { trackerState } from '$lib/state/tracker.svelte';
+	import { trackerState, updateTrackerDetails } from '$lib/state/tracker.svelte';
 	import Helpers from '$lib/utils/helpers';
 	import { HabitStatus, type Habit } from '../../../types/tracker';
+	import DetailsModal from './DetailsModal.svelte';
+	import { closeHabitDetails, modalsState, openHabitDetails } from '$lib/state/modal.svelte';
 
 	let { user } = $props();
 
@@ -30,6 +32,11 @@
 		$trackerQuery?.data?.data?.trackers?.filter((item: any) =>
 			item.name.toUpperCase().includes(searchQuery?.toUpperCase())
 		)
+	);
+	let { start: dateViewing } = $derived(
+		Helpers.getStartAndEndDates({
+			dateViewing: trackerState.data.selectedDay
+		})
 	);
 
 	const changeView = () => {
@@ -140,11 +147,10 @@
 		}
 	}
 
-	let { start: dateViewing } = $derived(
-		Helpers.getStartAndEndDates({
-			dateViewing: trackerState.data.selectedDay
-		})
-	);
+	function openDetailsModal(arg: Habit) {
+		updateTrackerDetails(arg);
+		openHabitDetails();
+	}
 </script>
 
 <div class="mx-auto w-full max-w-[1000px] overflow-x-hidden pb-64">
@@ -160,7 +166,7 @@
 			{@const isActive = TrackerUtils.isHabitActive(habit, dateViewing)}
 
 			{#if isActive}
-				<HabitItem {habit} {deleteHabit} {updateLog} {updateBuildLog} />
+				<HabitItem {openDetailsModal} {habit} {deleteHabit} {updateLog} {updateBuildLog} />
 			{/if}
 		{/each}
 
@@ -206,6 +212,8 @@
 		</a>
 	</div>
 </div>
+
+<DetailsModal isOpen={modalsState.data.isOpenHabitDetails} onClose={closeHabitDetails} />
 
 <style>
 	/* .activeView {

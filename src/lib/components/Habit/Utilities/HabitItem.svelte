@@ -18,7 +18,7 @@
 	import { TrackerLogRequest } from '$lib/requests';
 	import { trackerState } from '$lib/state/tracker.svelte';
 
-	let { habit, deleteHabit, updateLog, updateBuildLog } = $props();
+	let { habit, deleteHabit, updateLog, updateBuildLog, openDetailsModal } = $props();
 
 	const logQuery = $derived(
 		createQuery({
@@ -189,7 +189,12 @@
 						<img src={habit.icon} alt="walk icon" class="mx-auto h-6" />
 					{/if}
 				</div>
-				<p class="font-lexend mt-3 text-center font-normal">{habit.name}</p>
+				<button
+					class="font-lexend mt-3 line-clamp-2 w-full text-center font-normal hover:underline"
+					onclick={() => openDetailsModal(habit)}
+				>
+					{habit.name}
+				</button>
 			</div>
 
 			<div class="mt-5">
