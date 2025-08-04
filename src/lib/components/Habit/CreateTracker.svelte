@@ -1,5 +1,6 @@
 <script lang="ts">
 	// @ts-nocheck
+
 	import { daysOfWeek, iconsList } from '$lib/constants/tracker';
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';
@@ -18,7 +19,7 @@
 	let habitName = $state('');
 	let unitMeasurement = $state('');
 	let description = $state('');
-	let goalValue = $state('');
+	let goalValue = $state(1);
 	let selectedDays: number[] = $state([0, 1, 2, 3, 4, 5, 6]);
 	let startDateValue = $state(new Date());
 	let endDateValue = $state(addDays(new Date(), 30));
@@ -93,6 +94,7 @@
 			const result = await TrackerRequest.createHabit(payload);
 
 			if (result) {
+				addToast('Habit created', 'success', '/images/confetti.svg');
 				goto('/tracker');
 			}
 		} catch (error: any) {

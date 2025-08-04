@@ -19,6 +19,7 @@
 	const queryClient = useQueryClient();
 	let currentView = $state('monthly');
 	let isDeleting = $state(false);
+	let userId = $derived(user?._id);
 
 	const trackerQuery = createQuery({
 		queryKey: queryKeys.getAllHabits,
@@ -43,6 +44,7 @@
 		try {
 			isDeleting = true;
 			await TrackerRequest.deleteHabit(id);
+			addToast('Habit deleted', 'success');
 			queryClient.invalidateQueries({ queryKey: queryKeys.getAllHabits });
 		} catch (error: any) {
 			addToast(error?.message, 'error');
@@ -90,23 +92,29 @@
 		}
 	}
 
-	let userId = $derived(user?._id);
-
-	async function updateBuildLog(tracker: Habit, status: HabitStatus, type: string, log: any) {
+	async function updateBuildLog({
+		tracker,
+		status,
+		type,
+		log,
+		value
+	}: {
+		tracker: Habit;
+		status: HabitStatus;
+		type: string;
+		log: any;
+		value: number;
+	}) {
 		try {
 			isDeleting = true;
 
-			const _goal = Number(tracker.goalValue);
-			const payload = {
-				ownerId: userId,
-				trackerId: tracker._id,
-				date: TrackerUtils.getISODate(trackerState.data.selectedDay),
-				status: status,
-				value: _goal,
-				goalValue: _goal,
-				goalPeriod: tracker.interval,
-				unitMeasurement: tracker.unitMeasurement
-			};
+			const payload = TrackerUtils.buildLogPayloadBuilder(
+				userId,
+				tracker,
+				value,
+				status,
+				trackerState
+			);
 
 			if (type === 'create') {
 				await TrackerLogRequest.createLog(payload);
@@ -153,8 +161,6 @@
 
 			{#if isActive}
 				<HabitItem {habit} {deleteHabit} {updateLog} {updateBuildLog} />
-				<!-- deleteHabit={() => deleteHabit(habit._id)}
-					stopHabit={(status: HabitStatus) => updateLog(habit._id, status)} -->
 			{/if}
 		{/each}
 

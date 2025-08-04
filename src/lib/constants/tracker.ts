@@ -13,5 +13,6 @@ export const iconsList = [
 	'/images/icons/clock.svg',
 	'/images/icons/gym.svg',
 	'/images/icons/water_icon.svg',
-	'/images/icons/yoga.svg'
+	'/images/icons/yoga.svg',
+	'/images/icons/meal.svg'
 ];

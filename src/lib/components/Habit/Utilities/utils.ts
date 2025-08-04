@@ -1,9 +1,35 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { format, isAfter, isBefore, isSameDay, parseISO } from 'date-fns';
-import type { Habit } from '../../../../types/tracker';
+import type { Habit, HabitStatus } from '../../../../types/tracker';
 import Helpers from '$lib/utils/helpers';
 
 export default class TrackerUtils {
+	static buildLogPayloadBuilder(
+		userId: string,
+		tracker: Habit,
+		value: number,
+		status: HabitStatus,
+		trackerState: any
+	) {
+		const trackerId = tracker._id;
+		const goalPeriod = tracker.interval;
+		const unitMeasurement = tracker.unitMeasurement;
+		const goalValue = Number(tracker.goalValue);
+
+		const payload = {
+			ownerId: userId,
+			trackerId,
+			date: TrackerUtils.getISODate(trackerState.data.selectedDay),
+			status,
+			value,
+			goalValue,
+			goalPeriod,
+			unitMeasurement
+		};
+
+		return payload;
+	}
+
 	static isHabitActive(habit: Habit, dateViewing: string): boolean {
 		if (!dateViewing) return false;
 

@@ -1,11 +1,23 @@
 <script lang="ts">
-	import { toasts } from '../../store/toast';
+	import { removeToast, toasts } from '../../store/toast';
 </script>
 
 <div class="toast-container">
 	<div class="flex flex-col gap-2 px-4">
 		{#each $toasts as toast (toast.id)}
-			<button class="toast slide_down" class:toast_error={toast.type === 'error'}>
+			<button
+				class="toast slide_down flex items-center gap-1"
+				class:toast_error={toast.type === 'error'}
+				onclick={() => {
+					removeToast(toast.id);
+				}}
+			>
+				{#if toast?.imgLink}
+					<div>
+						<img src={toast.imgLink} alt="confetti" class="h-6" />
+					</div>
+				{/if}
+
 				{toast.message}
 			</button>
 		{/each}
@@ -15,9 +27,9 @@
 <style>
 	.toast-container {
 		position: fixed;
-		top: 1rem;
-		left: 50%;
-		transform: translateX(-50%);
+		bottom: 1rem;
+		left: 1rem;
+		/* transform: translateX(-50%); */
 		z-index: 9999;
 		width: 100%;
 		width: max-content;
@@ -49,11 +61,11 @@
 
 	@keyframes slideDown {
 		0% {
-			transform: translateY(-40px);
+			transform: translateX(-40px);
 		}
 
 		100% {
-			transform: translateY(0%);
+			transform: translateX(0%);
 		}
 	}
 </style>

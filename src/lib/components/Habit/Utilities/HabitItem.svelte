@@ -8,7 +8,6 @@
 		SkipForward,
 		SquarePen,
 		Trash2,
-		X,
 		StepForward
 	} from '@lucide/svelte';
 	import TrackerUtils from './utils';
@@ -33,20 +32,64 @@
 	);
 
 	let logDetails = $derived($logQuery?.data?.data?.trackerLog);
+	let logValue = $derived(logDetails?.value || 0);
+	const habitType = $derived(logDetails?._id ? 'update' : 'create');
+
+	let debounceTimer: any = $state();
+
+	function increaseValue() {
+		let goalValue = habit?.goalValue;
+
+		if (logValue + 1 <= goalValue) {
+			logValue = logValue + 1;
+		}
+
+		clearTimeout(debounceTimer);
+
+		debounceTimer = setTimeout(() => {
+			const _status = HabitStatus.PENDING;
+
+			updateBuildLog({
+				tracker: habit,
+				status: _status,
+				type: habitType,
+				log: logDetails,
+				value: logValue
+			});
+		}, 500);
+	}
+
+	function decreaseValue() {
+		if (logValue - 1 >= 0) {
+			logValue = logValue - 1;
+		}
+	}
 
 	function statusAction() {
 		const _status = logDetails?.status == HabitStatus.STOP ? HabitStatus.START : HabitStatus.STOP;
-		const type = logDetails?._id ? 'update' : 'create';
-		updateLog(habit._id, _status, type, logDetails?._id);
+		updateLog(habit._id, _status, habitType, logDetails?._id);
 	}
 
 	function done() {
-		const type = logDetails?._id ? 'update' : 'create';
-		updateBuildLog(habit, HabitStatus.COMPLETED, type, logDetails);
+		updateBuildLog({
+			tracker: habit,
+			status: HabitStatus.COMPLETED,
+			type: habitType,
+			log: logDetails,
+			value: logValue
+		});
 	}
 	function skip() {
-		const type = logDetails?._id ? 'update' : 'create';
-		updateBuildLog(habit, HabitStatus.SKIPPED, type, logDetails);
+		updateBuildLog({
+			tracker: habit,
+			status: HabitStatus.SKIPPED,
+			type: habitType,
+			log: logDetails,
+			value: logValue
+		});
+	}
+	function _delete() {
+		deleteHabit(habit?._id);
 	}
 
 	const moreOptions = [
@@ -88,7 +131,7 @@
 			icon: Trash2,
 			iconColor: 'red',
 			type: 'all',
-			action: deleteHabit
+			action: _delete
 		}
 	];
 
@@ -104,6 +147,8 @@
 
 		return options;
 	}
+
+	// $effect(() => console.log(logDetails));
 </script>
 
 <div class="item_wrapper h-[170px]">
@@ -132,32 +177,37 @@
 					{#if logDetails?._id && logDetails?.status === HabitStatus.SKIPPED}
 						<p class="font-lexend text-center text-[13px] font-semibold text-amber-600">Skipped</p>
 					{/if}
+					{#if !logDetails?._id || logDetails?.status === HabitStatus.PENDING}
+						<div class="flex items-center justify-center gap-2">
+							<div class="w-fit">
+								<button
+									class="button_active flex h-7 w-7 items-center justify-center rounded-full bg-black font-normal"
+									onclick={decreaseValue}
+								>
+									<Minus size="16px" color="#FFFFFF" />
+								</button>
+							</div>
 
-					{#if !logDetails?._id || logDetails?.status === HabitStatus.COMPLETED}
-						<div>
-							<div class="flex items-center justify-center gap-2">
-								<div class="w-fit">
-									<button
-										class="button_active flex h-7 w-7 items-center justify-center rounded-full bg-black font-normal"
-									>
-										<Minus size="16px" color="#FFFFFF" />
-									</button>
-								</div>
+							<div class="font-lexend text-[13px] font-light">
+								{logValue}/{habit.goalValue}
+								{habit?.unitMeasurement}
+							</div>
 
-								<div class="font-lexend text-[13px] font-light">
-									{logDetails?.value || 0} /{habit.goalValue}
-									{habit?.unitMeasurement}
-								</div>
-
-								<div class="w-fit">
-									<button
-										class="button_active flex h-7 w-7 items-center justify-center rounded-full bg-black font-normal"
-									>
-										<Plus size="16px" color="#FFFFFF" />
-									</button>
-								</div>
+							<div class="w-fit">
+								<button
+									class="button_active flex h-7 w-7 items-center justify-center rounded-full bg-black font-normal"
+									onclick={increaseValue}
+								>
+									<Plus size="16px" color="#FFFFFF" />
+								</button>
 							</div>
 						</div>
+					{/if}
+
+					{#if logDetails?.status === HabitStatus.COMPLETED}
+						<p class="font-lexend text-brand-green text-center text-[13px] font-semibold">
+							Completed
+						</p>
 					{/if}
 				{/if}
 				{#if habit.type === 'QUIT'}
@@ -199,8 +249,8 @@
 	.item_wrapper::before {
 		content: '';
 		position: absolute;
-		top: 1px;
-		left: 1px;
+		top: 2px;
+		left: 2px;
 		right: 0;
 		bottom: 0;
 		background-color: black;
