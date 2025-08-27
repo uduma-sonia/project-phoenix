@@ -5,10 +5,8 @@
 	let { onClose, isOpen } = $props();
 </script>
 
-<ModalWrapper {onClose} {isOpen}>
-	<div>
-		<p class="font-lexend text-xl">Invites</p>
-
+<ModalWrapper {onClose} {isOpen} label="Invites">
+	<div class="p-4">
 		<div class="mt-6 flex items-center gap-3">
 			<div class="flex-1">
 				<input
@@ -23,7 +21,7 @@
 			</div>
 		</div>
 
-		<div class="mt-10">
+		<div class="mt-8">
 			<p class="border-b border-b-gray-300 text-xl">Members</p>
 
 			<div class="mt-4 space-y-4">

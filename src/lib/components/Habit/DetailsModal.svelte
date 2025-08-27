@@ -17,26 +17,18 @@
 			currentView = 'monthly';
 		}
 	};
-
-	// $effect(() => console.log($state.snapshot(trackerState.data.trackerDetails)));
 </script>
 
-<ModalWrapper {onClose} {isOpen} maxWidth="max-w-[1000px]">
-	<div class="mb-6 flex items-center gap-2">
-		<div>
-			{#if details?.icon}
-				<img src={details.icon} alt="walk icon" class="h-5" />
-			{/if}
-		</div>
-		<p class="font-lexend text-lg sm:text-xl">{details?.name}</p>
-	</div>
-
-	<div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center">
+<ModalWrapper {onClose} {isOpen} maxWidth="max-w-[1000px]" label={details?.name} height="90vh">
+	<div class="flex flex-col gap-4 p-4 sm:flex-row sm:items-center">
 		<div class="flex w-full rounded-lg border-2 bg-white sm:w-1/2">
 			<div class="w-1/2 rounded-lg">
 				<button
 					onclick={changeView}
-					class:activeView={currentView === 'monthly'}
+					class:bg-brand-build={currentView === 'monthly' &&
+						trackerState?.data?.trackerDetails?.type == 'BUILD'}
+					class:bg-brand-quit={currentView === 'monthly' &&
+						trackerState?.data?.trackerDetails?.type == 'QUIT'}
 					class="h-[40px] w-full rounded-lg bg-[#ffffff] text-black"
 				>
 					Monthly
@@ -46,7 +38,10 @@
 			<div class="w-1/2 rounded-lg">
 				<button
 					onclick={changeView}
-					class:activeView={currentView === 'yearly'}
+					class:bg-brand-build={currentView === 'yearly' &&
+						trackerState?.data?.trackerDetails?.type == 'BUILD'}
+					class:bg-brand-quit={currentView === 'yearly' &&
+						trackerState?.data?.trackerDetails?.type == 'QUIT'}
 					class="h-[40px] w-full rounded-lg bg-[#ffffff] text-black"
 				>
 					Yearly
@@ -59,17 +54,13 @@
 		</div>
 	</div>
 
-	{#if currentView === 'monthly'}
-		<MonthlyStats />
-	{/if}
+	<div class="p-4">
+		{#if currentView === 'monthly'}
+			<MonthlyStats details={trackerState?.data?.trackerDetails} />
+		{/if}
 
-	{#if currentView === 'yearly'}
-		<YearlyStats />
-	{/if}
+		{#if currentView === 'yearly'}
+			<YearlyStats />
+		{/if}
+	</div>
 </ModalWrapper>
-
-<style>
-	.activeView {
-		background-color: #a0c878 !important;
-	}
-</style>

@@ -14,6 +14,8 @@
 		addDays
 	} from 'date-fns';
 
+	let { details } = $props();
+
 	let selectedDate = $state(new Date());
 	let currentMonth = $state(new Date());
 	let _startOfWeek = startOfWeek(new Date());
@@ -41,7 +43,12 @@
 	};
 
 	const renderDateColor = (day: Date) => {
-		return isSameMonth(day, currentMonth);
+		return isSameMonth(day, currentMonth) && details.type == 'BUILD';
+	};
+	const renderQuitDateColor = (day: Date) => {
+		console.log(details.type);
+
+		return isSameMonth(day, currentMonth) && details.type == 'QUIT';
 	};
 </script>
 
@@ -66,10 +73,11 @@
 		{/each}
 	</div>
 
-	<div class="date-picker-dates">
+	<div class="date-picker-dates" class:date-quit={details.type == 'QUIT'}>
 		{#each _eachDayOfInterval as day (day)}
 			<button
 				class:date-selected={renderDateBgColor(day)}
+				class:date-selected-quit={renderQuitDateColor(day)}
 				class:not={!isSameMonth(day, currentMonth)}
 				class:date-color={renderDateColor(day)}
 				onclick={() => {
@@ -121,16 +129,22 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		height: 45px;
+		aspect-ratio: 1/1;
+		height: auto;
+		width: auto;
 		font-family: 'Lexend Deca Variable', sans-serif;
 		font-weight: 300;
 		font-size: 13px;
 		background-color: transparent;
 		color: #7f7e7e;
-		border: 2px solid black;
+		border: 2px solid #8cbf80;
 		text-align: center;
 		border-radius: 8px;
-		padding: 10px 0;
+		padding: 4px;
+	}
+
+	.date-quit button {
+		border: 2px solid #c5472b;
 	}
 
 	.not {
@@ -138,8 +152,14 @@
 	}
 
 	.date-selected {
-		background-color: #c2e08a !important;
+		background-color: #8cbf80 !important;
 		font-weight: 600 !important;
+	}
+
+	.date-selected-quit {
+		background-color: #db7760 !important;
+		font-weight: 600 !important;
+		color: black !important;
 	}
 
 	.date-color {
