@@ -64,6 +64,20 @@
 		if (logValue - 1 >= 0) {
 			logValue = logValue - 1;
 		}
+
+		clearTimeout(debounceTimer);
+
+		debounceTimer = setTimeout(() => {
+			const _status = HabitStatus.PENDING;
+
+			updateBuildLog({
+				tracker: habit,
+				status: _status,
+				type: habitType,
+				log: logDetails,
+				value: logValue
+			});
+		}, 500);
 	}
 
 	function statusAction() {
@@ -172,7 +186,12 @@
 </script>
 
 <div class="item_wrapper h-[170px]">
-	<div class="relative z-10 h-full w-full gap-3 rounded-lg border-2 border-black bg-white p-4">
+	<button
+		class="relative z-10 h-full w-full cursor-pointer gap-3 rounded-lg border-2 border-black bg-white p-4"
+		onclick={() => {
+			openDetailsModal(habit);
+		}}
+	>
 		<div class="absolute -top-3 left-3 -rotate-3">
 			<p
 				class:bg-brand-quit={habit.type === 'QUIT'}
@@ -189,12 +208,9 @@
 						<img src={habit.icon} alt="walk icon" class="mx-auto h-6" />
 					{/if}
 				</div>
-				<button
-					class="font-lexend mt-3 line-clamp-2 w-full text-center font-normal hover:underline"
-					onclick={() => openDetailsModal(habit)}
-				>
+				<div class="font-lexend mt-3 line-clamp-2 w-full text-center font-normal hover:underline">
 					{habit.name}
-				</button>
+				</div>
 			</div>
 
 			<div class="mt-5">
@@ -205,12 +221,19 @@
 					{#if !logDetails?._id || logDetails?.status === HabitStatus.PENDING}
 						<div class="flex items-center justify-center gap-2">
 							<div class="w-fit">
-								<button
+								<!-- svelte-ignore a11y_click_events_have_key_events -->
+								<!-- svelte-ignore a11y_no_static_element_interactions -->
+								<div
 									class="button_active flex h-7 w-7 items-center justify-center rounded-full bg-black font-normal"
-									onclick={decreaseValue}
+									onclick={(e) => {
+										e.preventDefault();
+										e.stopPropagation();
+										decreaseValue();
+									}}
 								>
+									<!-- onkeydown={() => } -->
 									<Minus size="16px" color="#FFFFFF" />
-								</button>
+								</div>
 							</div>
 
 							<div class="font-lexend text-[13px] font-light">
@@ -219,12 +242,18 @@
 							</div>
 
 							<div class="w-fit">
-								<button
+								<!-- svelte-ignore a11y_click_events_have_key_events -->
+								<!-- svelte-ignore a11y_no_static_element_interactions -->
+								<div
 									class="button_active flex h-7 w-7 items-center justify-center rounded-full bg-black font-normal"
-									onclick={increaseValue}
+									onclick={(e) => {
+										e.preventDefault();
+										e.stopPropagation();
+										increaseValue();
+									}}
 								>
 									<Plus size="16px" color="#FFFFFF" />
-								</button>
+								</div>
 							</div>
 						</div>
 					{/if}
@@ -255,7 +284,7 @@
 				{/if}
 			</div>
 		</div>
-	</div>
+	</button>
 
 	<div class="absolute top-6 right-4 z-50 -translate-y-1/2">
 		<HamburgerDropdown

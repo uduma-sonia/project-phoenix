@@ -15,7 +15,11 @@ import {
 	addDays,
 	endOfDay,
 	formatISO,
-	startOfDay
+	startOfDay,
+	endOfWeek,
+	endOfYear,
+	startOfWeek,
+	startOfYear
 } from 'date-fns';
 
 class Helpers {
@@ -205,6 +209,75 @@ class Helpers {
 			return '';
 		} else {
 			return 's';
+		}
+	}
+
+	static generateYearRange(date: Date) {
+		const year = date.getFullYear();
+
+		const months = [
+			{ name: 'january', index: 0 },
+			{ name: 'february', index: 1 },
+			{ name: 'march', index: 2 },
+			{ name: 'april', index: 3 },
+			{ name: 'may', index: 4 },
+			{ name: 'june', index: 5 },
+			{ name: 'july', index: 6 },
+			{ name: 'august', index: 7 },
+			{ name: 'september', index: 8 },
+			{ name: 'october', index: 8 },
+			{ name: 'november', index: 9 },
+			{ name: 'december', index: 10 }
+		];
+
+		const yearRange = months.map(({ name, index }) => {
+			const start = startOfMonth(new Date(year, index));
+			const end = endOfMonth(new Date(year, index));
+
+			const days = eachDayOfInterval({ start, end }).map((d) => d.toISOString());
+
+			return {
+				month: name,
+				days
+			};
+		});
+
+		return yearRange;
+	}
+
+	static getDateRange(dateType: string, dateValue?: string | Date) {
+		const today = dateValue || new Date();
+
+		switch (dateType) {
+			case 'today':
+				return {
+					startDate: formatISO(startOfDay(today)),
+					endDate: formatISO(endOfDay(today))
+				};
+
+			case 'week':
+				return {
+					startDate: formatISO(startOfWeek(today, { weekStartsOn: 0 })),
+					endDate: formatISO(endOfWeek(today, { weekStartsOn: 0 }))
+				};
+
+			case 'month':
+				return {
+					startDate: formatISO(startOfMonth(today)),
+					endDate: formatISO(endOfMonth(today))
+				};
+
+			case 'year':
+				return {
+					startDate: formatISO(startOfYear(today)),
+					endDate: formatISO(endOfYear(today))
+				};
+
+			default:
+				return {
+					startDate: formatISO(startOfDay(today)),
+					endDate: formatISO(endOfDay(today))
+				};
 		}
 	}
 }

@@ -1,16 +1,15 @@
 <script lang="ts">
 	import YearGrid from './Utilities/YearGrid.svelte';
-	import NameCard from './Utilities/NameCard.svelte';
 	import StatItem from './Utilities/StatItem.svelte';
 </script>
 
-<div class="rounded-lg border-2 bg-white p-4 pb-20">
-	<NameCard />
+<div class="rounded-lg bg-white pb-20">
+	<div class="flex flex-col items-start gap-4 sm:flex-row">
+		<div class="w-full rounded-xl border-2 p-4 sm:w-1/2">
+			<YearGrid />
+		</div>
 
-	<div class="mt-4">
-		<YearGrid />
-
-		<div class="mt-16 grid grid-cols-3 gap-6">
+		<div class="grid grid-cols-3 gap-6">
 			<StatItem />
 			<StatItem />
 			<StatItem />

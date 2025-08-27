@@ -1,17 +1,16 @@
 <script lang="ts">
 	import StatItem from './Utilities/StatItem.svelte';
 	import Calendar from './Utilities/Calendar.svelte';
-	import NameCard from './Utilities/NameCard.svelte';
 </script>
 
-<div class="rounded-lg border-2 bg-white p-4 pb-20">
-	<NameCard />
+<div class="rounded-lg bg-white pb-20">
+	<div class="flex flex-col gap-4 sm:flex-row">
+		<div class="w-full rounded-xl border-2 px-4 pb-4 sm:w-1/2">
+			<Calendar />
+		</div>
 
-	<div>
-		<Calendar />
-
-		<div class="mt-6">
-			<div class="grid grid-cols-3 gap-6">
+		<div class="w-full rounded-xl sm:w-1/2">
+			<div class="grid grid-cols-2 gap-6 sm:grid-cols-3">
 				<StatItem />
 				<StatItem />
 				<StatItem />
