@@ -53,9 +53,9 @@
 	}
 </script>
 
-<div class="rounded-lg bg-white pb-20">
+<div class="rounded-lg bg-white pb-0">
 	<div class="flex flex-col gap-4 sm:flex-row">
-		<div class="w-full rounded-xl border-2 p-4 sm:w-[60%]">
+		<div class="h-fit w-full rounded-xl border-2 p-4 sm:w-[60%]">
 			<YearGrid {handleUpdateYear} value={currentStatsYear.year} {logsList} />
 		</div>
 

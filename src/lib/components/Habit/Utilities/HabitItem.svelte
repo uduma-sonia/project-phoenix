@@ -135,12 +135,6 @@
 			type: 'quit',
 			action: statusAction
 		},
-		// {
-		// 	label: 'Start',
-		// 	icon: StepForward,
-		// 	type: 'quit',
-		// 	action: statusAction
-		// },
 
 		// BUILD
 		{

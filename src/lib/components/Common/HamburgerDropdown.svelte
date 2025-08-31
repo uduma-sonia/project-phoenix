@@ -14,7 +14,7 @@
 </script>
 
 <div class="relative">
-	<button aria-label="presentation" class="space-y-0.5" onclick={toggleDropDownMenu}>
+	<button aria-label="presentation" class="space-y-0.5 p-2" onclick={toggleDropDownMenu}>
 		<div class="h-[3px] w-4 rounded-full bg-black"></div>
 		<div class="h-[3px] w-4 rounded-full bg-black"></div>
 		<div class="h-[3px] w-4 rounded-full bg-black"></div>
