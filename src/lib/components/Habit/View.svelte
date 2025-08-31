@@ -14,6 +14,7 @@
 	import { HabitStatus, type Habit } from '../../../types/tracker';
 	import DetailsModal from './DetailsModal.svelte';
 	import { closeHabitDetails, modalsState, openHabitDetails } from '$lib/state/modal.svelte';
+	import FloatingButton from '../Common/FloatingButton.svelte';
 
 	let { user } = $props();
 
@@ -158,15 +159,7 @@
 		{/each}
 	</div>
 
-	<div
-		class="fixed bottom-0 left-1/2 z-50 flex w-full max-w-[1000px] -translate-x-1/2 items-center justify-end p-5"
-	>
-		<a href="/tracker/create" class="block">
-			<button class="create_button shadow_button">
-				<Plus />
-			</button>
-		</a>
-	</div>
+	<FloatingButton link="/tracker/create" />
 </div>
 
 <DetailsModal isOpen={modalsState.data.isOpenHabitDetails} onClose={closeHabitDetails} />

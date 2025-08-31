@@ -1,4 +1,8 @@
-<a href="/shopping/38rufjce" class="button_active cursor-pointer">
+<script lang="ts">
+	let { board } = $props();
+</script>
+
+<a href={`/shopping/${board?._id}`} class="button_active cursor-pointer">
 	<div class="bg-brand-folder relative h-6 w-16 rounded-tl-lg border-2 border-b-0">
 		<div class="bg-brand-folder absolute top-2 -right-10 h-20 w-full -rotate-45 border-r-2"></div>
 	</div>
@@ -8,7 +12,7 @@
 			class="bg-brand-folder relative z-10 h-32 w-full max-w-[350px] rounded-lg rounded-tl-none border-2"
 		>
 			<div class="flex h-full items-center p-3">
-				<p class="font-lexend font-light">January list</p>
+				<p class="font-lexend font-light">{board?.name}</p>
 			</div>
 		</div>
 	</div>

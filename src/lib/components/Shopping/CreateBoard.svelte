@@ -1,0 +1,89 @@
+<script lang="ts">
+	import { goto } from '$app/navigation';
+	import { shoppingRequest } from '$lib/requests';
+	import { addToast } from '$lib/store/toast';
+	import { Shoppingtatus } from '../../../types/shopping';
+	import TopSection from '../Common/TopSection.svelte';
+
+	let { user } = $props();
+
+	let isSubmitting = $state(false);
+	let boardName = $state('');
+	let currency = $state('');
+
+	async function handleSubmit(e: any) {
+		e.preventDefault();
+
+		try {
+			isSubmitting = true;
+
+			const payload = {
+				name: boardName,
+				ownerId: user?._id,
+				status: Shoppingtatus.PENDING,
+				currency: currency
+			};
+
+			const result = await shoppingRequest.createBoard(payload);
+
+			if (result) {
+				addToast('Board created', 'success', '/images/confetti.svg');
+				goto('/shopping');
+			}
+		} catch (error: any) {
+			addToast(error?.message, 'error');
+		} finally {
+			isSubmitting = false;
+		}
+	}
+</script>
+
+<div>
+	<TopSection withName={false} />
+
+	<div class="mt-20 flex items-center justify-center px-4 pb-52">
+		<div class="login_form_wrapper w-full md:max-w-[500px]">
+			<form class="login_form h-full rounded-3xl border-2 bg-white" onsubmit={handleSubmit}>
+				<div class="pb-3">
+					<p class="font-suez text-3xl">Create Board</p>
+				</div>
+
+				<hr />
+
+				<div class="mb-10 space-y-4 pt-5">
+					<div>
+						<label for="boardName" class="mb-2">Name</label>
+						<input
+							type="text"
+							id="boardName"
+							name="boardName"
+							bind:value={boardName}
+							required
+							class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
+						/>
+					</div>
+					<div>
+						<label for="currency" class="mb-2">Currency</label>
+						<input
+							type="text"
+							id="currency"
+							name="currency"
+							bind:value={currency}
+							class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
+						/>
+					</div>
+				</div>
+
+				<div>
+					<button class="shadow_button" type="submit">
+						{#if isSubmitting}
+							<div class="spinner_white border-2 border-black"></div>
+						{:else}
+							Save
+						{/if}
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

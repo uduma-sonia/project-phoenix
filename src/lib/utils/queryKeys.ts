@@ -21,8 +21,13 @@ const trackerLogKeys = {
 	]
 };
 
+const shoppingKeys = {
+	getAllBoards: [`/shopping-board/all`]
+};
+
 export const queryKeys = {
 	...userKeys,
 	...trackerKeys,
-	...trackerLogKeys
+	...trackerLogKeys,
+	...shoppingKeys
 };

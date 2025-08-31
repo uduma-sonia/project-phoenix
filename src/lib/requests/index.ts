@@ -8,6 +8,7 @@ import UserService from './user';
 import TrackerService from './tracker';
 import TrackerLogService from './trackerLog';
 import { AUTH_TOKEN } from '$lib/constants/global';
+import ShoppingService from './shopping';
 
 export const API_ENDPOINT = import.meta.env.VITE_API_URL;
 
@@ -73,3 +74,4 @@ export const AuthRequest = new AuthService({ api });
 export const UserRequest = new UserService({ api });
 export const TrackerRequest = new TrackerService({ api });
 export const TrackerLogRequest = new TrackerLogService({ api });
+export const shoppingRequest = new ShoppingService({ api });
