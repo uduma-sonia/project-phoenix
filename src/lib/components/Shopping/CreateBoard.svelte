@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { shoppingRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
-	import { Shoppingtatus } from '../../../types/shopping';
+	import { ShoppingStatus } from '../../../types/shopping';
 	import TopSection from '../Common/TopSection.svelte';
 
 	let { user } = $props();
@@ -20,7 +20,7 @@
 			const payload = {
 				name: boardName,
 				ownerId: user?._id,
-				status: Shoppingtatus.PENDING,
+				status: ShoppingStatus.PENDING,
 				currency: currency
 			};
 

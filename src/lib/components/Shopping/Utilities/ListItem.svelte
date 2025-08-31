@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Check, SquarePen, X } from '@lucide/svelte';
+	import { Check } from '@lucide/svelte';
 
-	let { data } = $props();
+	let { data, handleUpdateItem, boardId } = $props();
 
 	let qty = data?.quantity > 0 ? data?.quantity : '';
 </script>
@@ -13,8 +13,11 @@
 				<button
 					class="button_active relative flex h-7 w-7 items-center justify-center rounded-md border-2 p-0"
 					aria-label="Checklist"
+					onclick={() => handleUpdateItem(data?._id, !data?.done)}
 				>
-					<Check size="22px" />
+					{#if data?.done}
+						<Check size="22px" />
+					{/if}
 				</button>
 			</div>
 

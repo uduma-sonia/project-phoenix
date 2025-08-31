@@ -23,7 +23,8 @@ const trackerLogKeys = {
 
 const shoppingKeys = {
 	getAllBoards: [`/shopping-board/all`],
-	getBoardItems: (boardId: string) => [`/shopping-items/all?boardId=${boardId}`]
+	getBoardItems: (boardId: string) => [`/shopping-items/all?boardId=${boardId}`],
+	getBoard: (boardId: string) => [`/shopping-board/${boardId}`]
 };
 
 export const queryKeys = {

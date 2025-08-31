@@ -12,8 +12,10 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import { page } from '$app/state';
+	import { ShoppingStatus } from '../../../types/shopping';
 
 	let isLoading = $state(false);
+	let searchQuery = $state('');
 
 	const queryClient = useQueryClient();
 	let boardId = page.params.id;
@@ -23,7 +25,13 @@
 		queryFn: () => shoppingRequest.getBoardItems(boardId)
 	});
 
+	const boardQuery = createQuery({
+		queryKey: queryKeys.getBoard(boardId),
+		queryFn: () => shoppingRequest.getBoard(boardId)
+	});
+
 	let itemsList = $derived($boardItemsQuery?.data?.data?.shoppingItems);
+	let boardDetails = $derived($boardQuery?.data?.data?.board);
 
 	async function handleItemAdd(value: string, boardId: string) {
 		try {
@@ -49,6 +57,58 @@
 			isLoading = false;
 		}
 	}
+
+	async function handleUpdateItem(itemId: string, _done: boolean) {
+		try {
+			isLoading = true;
+
+			const payload = {
+				// name: value,
+				// quantity: 0,
+				// unit: '',
+				done: _done
+				// boardId,
+				// price: 0
+			};
+
+			const result = await shoppingRequest.updateItem(itemId, payload);
+
+			if (result) {
+				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId) });
+			}
+		} catch (error: any) {
+			addToast(error?.error || 'An error occured', 'error');
+		} finally {
+			isLoading = false;
+		}
+	}
+
+	async function handleDoneShopping() {
+		try {
+			isLoading = true;
+
+			const payload = {
+				status: ShoppingStatus.DONE
+			};
+
+			const result = await shoppingRequest.updateBoard(boardId, payload);
+
+			if (result) {
+				addToast('Shopping completed', 'success', '/images/confetti.svg');
+				queryClient.invalidateQueries({ queryKey: queryKeys.getBoard(boardId) });
+			}
+		} catch (error: any) {
+			addToast(error?.error || 'An error occured', 'error');
+		} finally {
+			isLoading = false;
+		}
+	}
+
+	let filteredItems = $derived(
+		itemsList?.filter((item: any) => item.name.toUpperCase().includes(searchQuery.toUpperCase()))
+	);
+
+	let completedLength = $derived(filteredItems?.filter((item: any) => item.done));
 </script>
 
 <div class="mx-auto w-full max-w-[1000px] overflow-x-hidden pb-64">
@@ -56,7 +116,7 @@
 
 	<div>
 		<div class="my-6 justify-between px-3 md:flex">
-			<BackComponent title="Shopping" backLink="/shopping" />
+			<BackComponent title={boardDetails?.name} backLink="/shopping" />
 
 			<div class="mt-6 flex flex-1 items-center gap-4 md:mt-0 md:justify-end">
 				<div>
@@ -76,25 +136,27 @@
 		</div>
 
 		<div class="flex items-center gap-6 px-3">
-			<Search />
+			<Search bind:value={searchQuery} />
 
 			<div>
-				<p class="font-lexend text-sm">0/5</p>
+				<p class="font-lexend text-sm">
+					{completedLength?.length || 0} / {filteredItems?.length || '0'}
+				</p>
 			</div>
 		</div>
 
 		<div class="mt-6 grid grid-cols-1 gap-10 px-3 md:grid-cols-2">
 			<div>
 				<div class="mb-6 space-y-2">
-					{#each itemsList as items, index (index)}
-						<ListItem data={items} />
+					{#each filteredItems as items, index (index)}
+						<ListItem {boardId} data={items} {handleUpdateItem} />
 					{/each}
 				</div>
 
 				<AddItem {boardId} {handleItemAdd} />
 
 				<div class="mt-10">
-					<button class="shadow_button"> Shopping done </button>
+					<button class="shadow_button" onclick={handleDoneShopping}> Shopping done </button>
 				</div>
 			</div>
 
