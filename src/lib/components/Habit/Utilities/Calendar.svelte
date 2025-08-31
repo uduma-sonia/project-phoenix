@@ -4,37 +4,10 @@
 	import { currentStatsMonth, updateCurrentStatMonth } from '$lib/state/tracker.svelte';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { createQuery } from '@tanstack/svelte-query';
-	import { format } from 'date-fns';
+	import { format, formatISO } from 'date-fns';
 	import TrackerUtils from './utils';
 
-	let { details } = $props();
-
-	const logListQuery = $derived(
-		createQuery({
-			queryKey: queryKeys.getLogList(details._id, {
-				year: format(new Date(currentStatsMonth.month), 'yyyy'),
-				month: format(new Date(currentStatsMonth.month), 'MM'),
-				filterBy: 'month'
-			}),
-			queryFn: () =>
-				TrackerLogRequest.getLogList(details._id, {
-					year: format(new Date(currentStatsMonth.month), 'yyyy'),
-					month: format(new Date(currentStatsMonth.month), 'MM'),
-					filterBy: 'month'
-				})
-		})
-	);
-
-	let logsList = $derived($logListQuery?.data?.data?.logs);
-	let currentStreak = $derived(
-		TrackerUtils.getCurrentStreak(
-			logsList,
-			details?.selectedDays,
-			TrackerUtils.getISODate(currentStatsMonth.month)
-		)
-	);
-
-	$effect(() => console.log(currentStreak));
+	let { details, logsList } = $props();
 
 	function handleUpdate(arg: Date) {
 		updateCurrentStatMonth(arg);

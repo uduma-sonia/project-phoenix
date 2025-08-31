@@ -48,14 +48,16 @@
 		clearTimeout(debounceTimer);
 
 		debounceTimer = setTimeout(() => {
-			const _status = HabitStatus.PENDING;
+			const _status =
+				logValue >= Number(habit.goalValue) ? HabitStatus.COMPLETED : HabitStatus.PENDING;
+			const _value = _status === HabitStatus.COMPLETED ? Number(habit.goalValue) : logValue;
 
 			updateBuildLog({
 				tracker: habit,
 				status: _status,
 				type: habitType,
 				log: logDetails,
-				value: logValue
+				value: _value
 			});
 		}, 500);
 	}
@@ -87,7 +89,20 @@
 
 	function restartAction() {
 		const _status = HabitStatus.PENDING;
-		updateLog(habit._id, _status, habitType, logDetails?._id);
+
+		if (habit.type === 'QUIT') {
+			updateLog(habit._id, _status, habitType, logDetails?._id);
+		}
+
+		if (habit.type === 'BUILD') {
+			updateBuildLog({
+				tracker: habit,
+				status: HabitStatus.PENDING,
+				type: habitType,
+				log: logDetails,
+				value: 0
+			});
+		}
 	}
 
 	function done() {
@@ -96,7 +111,7 @@
 			status: HabitStatus.COMPLETED,
 			type: habitType,
 			log: logDetails,
-			value: logValue
+			value: Number(habit.goalValue)
 		});
 	}
 	function skip() {

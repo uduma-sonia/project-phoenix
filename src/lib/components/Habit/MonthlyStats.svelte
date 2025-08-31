@@ -5,8 +5,10 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TrackerLogRequest } from '$lib/requests';
-	import { format } from 'date-fns';
+	import { format, formatISO } from 'date-fns';
 	import StreakCard from './Utilities/StreakCard.svelte';
+	import TrackerUtils from './Utilities/utils';
+	import Helpers from '$lib/utils/helpers';
 
 	let { details } = $props();
 
@@ -24,6 +26,31 @@
 		})
 	);
 
+	const logListQuery = $derived(
+		createQuery({
+			queryKey: queryKeys.getLogList(details._id, {
+				year: format(new Date(currentStatsMonth.month), 'yyyy'),
+				month: format(new Date(currentStatsMonth.month), 'MM'),
+				filterBy: 'month'
+			}),
+			queryFn: () =>
+				TrackerLogRequest.getLogList(details._id, {
+					year: format(new Date(currentStatsMonth.month), 'yyyy'),
+					month: format(new Date(currentStatsMonth.month), 'MM'),
+					filterBy: 'month'
+				})
+		})
+	);
+
+	let logsList = $derived($logListQuery?.data?.data?.logs);
+	let currentStreak = $derived(
+		TrackerUtils.getCurrentStreak(
+			logsList,
+			details?.selectedDays,
+			formatISO(currentStatsMonth.month)
+		)
+	);
+
 	let _stats = $derived($trackerStatsQuery?.data?.data?.stats);
 </script>
 
@@ -31,7 +58,7 @@
 	<div class="flex flex-col gap-4 sm:flex-row">
 		{#if details?.type == 'BUILD'}
 			<div class="w-full rounded-xl border-2 px-4 pb-4 sm:w-1/2">
-				<Calendar {details} />
+				<Calendar {details} {logsList} />
 			</div>
 		{/if}
 		{#if details?.type == 'QUIT'}
@@ -45,14 +72,19 @@
 			{#if details?.type == 'BUILD'}
 				<div class="grid grid-cols-2 gap-6 sm:grid-cols-3">
 					<StatItem
-						value={_stats?.completed || 0}
-						smallText={`Day${_stats?.completed > 1 ? 's' : ''}`}
-						description="Completed"
+						value={currentStreak || 0}
+						smallText={`Day${Helpers.returnS(currentStreak)}`}
+						description="Current Streak"
 					/>
 					<StatItem
 						value={_stats?.skipped || 0}
 						smallText={`Day${_stats?.skipped > 1 ? 's' : ''}`}
 						description="Skipped"
+					/>
+					<StatItem
+						value={_stats?.failed || 0}
+						smallText={`Day${_stats?.failed > 1 ? 's' : ''}`}
+						description="Failed"
 					/>
 					<StatItem
 						value={_stats?.failed || 0}

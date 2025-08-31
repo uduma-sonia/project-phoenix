@@ -7,9 +7,10 @@ import {
 	parseISO,
 	getYear,
 	getMonth,
-	getDaysInMonth
+	getDaysInMonth,
+	getDaysInYear
 } from 'date-fns';
-import { HabitStatus, type Habit } from '../../../../types/tracker';
+import { HabitStatus, type Habit, type HabitLog } from '../../../../types/tracker';
 import Helpers from '$lib/utils/helpers';
 // import { parseISO, getYear, getMonth, getDaysInMonth, format } from "date-fns";
 
@@ -29,7 +30,6 @@ export default class TrackerUtils {
 		const payload = {
 			ownerId: userId,
 			trackerId,
-			// date: convertToISO(trackerState.data.selectedDay),
 			date: TrackerUtils.getISODate(trackerState.data.selectedDay),
 			status,
 			value,
@@ -143,69 +143,63 @@ export default class TrackerUtils {
 		return Math.min(100, Math.max(0, (elapsed / total) * 100));
 	}
 
-	static getDateNum(month: string) {
-		const date = parseISO(month); // month string like "2025-08-01"
+	static getDateNum(month: any) {
+		const date = parseISO(month);
+
+		console.log(date);
 
 		const _year: number = getYear(date);
-		const _month: number = getMonth(date); // 0-indexed
+		const _month: number = getMonth(date);
+		const daysInYear: number = getDaysInYear(date);
 		const daysInMonth: number = getDaysInMonth(date);
 
 		return {
 			_year,
 			_month,
-			daysInMonth
+			daysInMonth,
+			daysInYear
 		};
 	}
 
-	static getCurrentStreak(habitLogs: any[], selectedDays: number[], month: string) {
-		// if (!selectedDays?.length || habitLogs?.length === 0) return 0;
+	static getCurrentStreak(logList: HabitLog[], selectedDays: number[], month: string) {
+		if (!logList?.length || !selectedDays?.length) return 0;
 
-		if (habitLogs?.length > 0) {
-			console.log(habitLogs);
+		const _selectedDays = selectedDays.map((d) => d);
+		const { _month, _year, daysInMonth } = this.getDateNum(month);
 
-			const { _month, _year, daysInMonth } = this.getDateNum(month);
-
-			const logsByDay = new Map<string, HabitStatus>();
-
-			for (const log of habitLogs) {
-				const dateStr = log.date; // already "YYYY-MM-DD"
-				if (!logsByDay.has(dateStr) || log.status === HabitStatus.COMPLETED) {
-					logsByDay.set(dateStr, log.status);
-				}
+		// Build a map of logs by ISO date string
+		const logsByDay = new Map<string, HabitStatus>();
+		for (const log of logList) {
+			if (!logsByDay.has(log.date) || log.status === 'COMPLETED') {
+				logsByDay.set(log.date, log.status);
 			}
-
-			// Get today's date
-			let today = new Date();
-			if (today.getMonth() !== _month || today.getFullYear() !== _year) {
-				today = new Date(_year, _month, daysInMonth); // set to last day of target month
-			}
-
-			let lastStreak = 0;
-			const currentDate = new Date(today);
-
-			// Traverse backward day by day
-			while (currentDate.getDate() >= 1) {
-				const dayOfWeek = currentDate.getDay();
-				const dateStr = format(currentDate, 'yyyy-MM-dd'); // normalize to schema format
-
-				// Only count selected days
-				if (selectedDays.includes(dayOfWeek)) {
-					if (logsByDay.get(dateStr) === HabitStatus.COMPLETED) {
-						lastStreak++;
-					} else {
-						break; // streak broken
-					}
-				}
-
-				// Move back to the previous day
-				do {
-					currentDate.setDate(currentDate.getDate() - 1);
-				} while (currentDate.getDate() >= 1 && !selectedDays.includes(currentDate.getDay()));
-			}
-
-			console.log('last streak', lastStreak);
-
-			return lastStreak;
 		}
+
+		// Start from today or end of month if not current month
+		const today = new Date();
+		if (today.getMonth() !== _month || today.getFullYear() !== _year) {
+			today.setFullYear(_year, _month, daysInMonth);
+		}
+
+		let lastStreak = 0;
+		const currentDate = new Date(today);
+
+		while (currentDate.getDate() >= 1) {
+			const dayOfWeek = currentDate.getDay();
+			const dateStr = currentDate.toISOString().split('T')[0]; // ISO format
+
+			if (_selectedDays.includes(dayOfWeek)) {
+				if (logsByDay.get(dateStr) === 'COMPLETED') {
+					lastStreak++;
+				} else {
+					break; // streak broken
+				}
+			}
+
+			// Move to previous day
+			currentDate.setDate(currentDate.getDate() - 1);
+		}
+
+		return lastStreak;
 	}
 }

@@ -8,7 +8,8 @@
 	>
 		<div>
 			<p class="font-lexend text-xl font-semibold">
-				{value}{#if smallText}
+				{value}
+				{#if smallText}
 					<small class="text-sm font-medium">{smallText}</small>
 				{/if}
 			</p>
