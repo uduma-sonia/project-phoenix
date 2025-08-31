@@ -50,6 +50,15 @@
 			formatISO(currentStatsMonth.month)
 		)
 	);
+	let monthlyCompletionRate = $derived(
+		TrackerUtils.getMonthlyCompletionRate(
+			logsList,
+			details?.selectedDays,
+			formatISO(currentStatsMonth.month)
+		)
+	);
+
+	$effect(() => console.log(monthlyCompletionRate));
 
 	let _stats = $derived($trackerStatsQuery?.data?.data?.stats);
 </script>
@@ -77,15 +86,21 @@
 						description="Current Streak"
 					/>
 					<StatItem
+						value={monthlyCompletionRate || 0}
+						smallText={`%`}
+						description="Completion Rate"
+					/>
+					<StatItem
+						value={_stats?.completed || 0}
+						smallText={`Day${_stats?.completed > 1 ? 's' : ''}`}
+						description="Completed"
+					/>
+					<StatItem
 						value={_stats?.skipped || 0}
 						smallText={`Day${_stats?.skipped > 1 ? 's' : ''}`}
 						description="Skipped"
 					/>
-					<StatItem
-						value={_stats?.failed || 0}
-						smallText={`Day${_stats?.failed > 1 ? 's' : ''}`}
-						description="Failed"
-					/>
+
 					<StatItem
 						value={_stats?.failed || 0}
 						smallText={`Day${_stats?.failed > 1 ? 's' : ''}`}
