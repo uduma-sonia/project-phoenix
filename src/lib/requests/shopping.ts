@@ -1,16 +1,9 @@
 import type { ReqConfig, Service } from '../../types/axios';
-import type { Shoppingtatus } from '../../types/shopping';
-
-export type CreateBooard = {
-	name: string;
-	ownerId: string;
-	status: Shoppingtatus;
-	currency: string;
-};
+import type { BoardItem, CreateBooard } from '../../types/shopping';
 
 class ShoppingService {
 	private api;
-	private prefix = '/tracker';
+	private itemfix = '/shopping-item';
 	private boardPrefix = '/shopping-board';
 
 	constructor({ api }: Service) {
@@ -23,6 +16,14 @@ class ShoppingService {
 
 	async getAllBoards(ownerId: string, reqConfig?: ReqConfig) {
 		return await this.api.get(`${this.boardPrefix}/all?ownerId=${ownerId}`, { ...reqConfig });
+	}
+
+	async createItem(data: BoardItem, reqConfig?: ReqConfig) {
+		return await this.api.post(`${this.itemfix}`, data, { ...reqConfig });
+	}
+
+	async getBoardItems(ownerId: string, reqConfig?: ReqConfig) {
+		return await this.api.get(`${this.itemfix}/all?ownerId=${ownerId}`, { ...reqConfig });
 	}
 }
 

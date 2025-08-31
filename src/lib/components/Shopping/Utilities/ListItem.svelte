@@ -1,5 +1,9 @@
-<script>
+<script lang="ts">
 	import { Check, SquarePen, X } from '@lucide/svelte';
+
+	let { data } = $props();
+
+	let qty = data?.quantity > 0 ? data?.quantity : '';
 </script>
 
 <div class="item_wrapper">
@@ -16,19 +20,21 @@
 
 			<div class="font-lexend flex-1 space-y-1 font-light">
 				<div class="flex">
-					<p>2 Paper towels</p>
+					<p>{qty} {data?.name}</p>
 				</div>
-				<p class="text-sm">₦3,450</p>
+				{#if data?.price > 0}
+					<p class="text-sm">{data?.currency}{data?.price.toLocaleString()}</p>
+				{/if}
 			</div>
 
 			<div class="flex flex-col items-center gap-4">
-				<button>
+				<!-- <button>
 					<X color="#a30309" />
-				</button>
+				</button> -->
 
-				<button>
+				<!-- <button>
 					<SquarePen size="20px" class="cursor-pointer" strokeWidth={2} color="#1eb564" />
-				</button>
+				</button> -->
 			</div>
 		</div>
 	</div>
