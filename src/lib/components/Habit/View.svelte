@@ -124,6 +124,7 @@
 			);
 
 			if (type === 'create') {
+				console.log('create', payload);
 				await TrackerLogRequest.createLog(payload);
 				queryClient.invalidateQueries({
 					queryKey: queryKeys.getLogs(tracker._id, {
@@ -133,6 +134,8 @@
 			}
 
 			if (type === 'update') {
+				console.log('update', trackerState.data.selectedDay);
+
 				await TrackerLogRequest.updateLog(log._id, payload);
 				queryClient.invalidateQueries({
 					queryKey: queryKeys.getLogs(tracker._id, {

@@ -1,10 +1,18 @@
+<script lang="ts">
+	let { smallText, description, value } = $props();
+</script>
+
 <div class="dropdown_wrapper h-100">
 	<div
 		class="relative z-10 flex h-100 w-full items-center gap-3 rounded-[18px] border-2 border-black bg-white px-3"
 	>
 		<div>
-			<p class="font-lexend text-xl font-semibold">33%</p>
-			<p class="font-lexend text-13 font-light">Completion Rate</p>
+			<p class="font-lexend text-xl font-semibold">
+				{value}{#if smallText}
+					<small class="text-sm font-medium">{smallText}</small>
+				{/if}
+			</p>
+			<p class="font-lexend text-13 font-light">{description}</p>
 		</div>
 	</div>
 </div>

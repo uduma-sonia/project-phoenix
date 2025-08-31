@@ -12,6 +12,9 @@ const trackerKeys = {
 const trackerLogKeys = {
 	getLogs: (id: string, data: { date: any }) => [
 		`/tracker-log/${id}?${Helpers.formatQueryParams(data)}`
+	],
+	getLogStats: (id: string, data: { date: any }) => [
+		`/tracker-log/stats/${id}?${Helpers.formatQueryParams(data)}`
 	]
 };
 

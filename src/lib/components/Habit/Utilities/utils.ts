@@ -19,6 +19,7 @@ export default class TrackerUtils {
 		const payload = {
 			ownerId: userId,
 			trackerId,
+			// date: convertToISO(trackerState.data.selectedDay),
 			date: TrackerUtils.getISODate(trackerState.data.selectedDay),
 			status,
 			value,

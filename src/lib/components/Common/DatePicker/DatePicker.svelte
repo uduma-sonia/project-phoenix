@@ -14,9 +14,10 @@
 		addDays
 	} from 'date-fns';
 
-	let { details } = $props();
+	let { details, handleUpdate, value } = $props();
 
-	let selectedDate = $state(new Date());
+	// let selectedDate = $state(new Date());
+	let selectedDate = $state(value);
 	let currentMonth = $state(new Date());
 	let _startOfWeek = startOfWeek(new Date());
 	let daysArray = Array.from({ length: 7 }, (_, i) => i + 1);
@@ -28,10 +29,12 @@
 	);
 
 	const prevMonth = () => {
+		handleUpdate(subMonths(currentMonth, 1));
 		currentMonth = subMonths(currentMonth, 1);
 	};
 
 	const nextMonth = () => {
+		handleUpdate(addMonths(currentMonth, 1));
 		currentMonth = addMonths(currentMonth, 1);
 	};
 
@@ -46,8 +49,6 @@
 		return isSameMonth(day, currentMonth) && details.type == 'BUILD';
 	};
 	const renderQuitDateColor = (day: Date) => {
-		console.log(details.type);
-
 		return isSameMonth(day, currentMonth) && details.type == 'QUIT';
 	};
 </script>

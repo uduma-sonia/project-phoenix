@@ -41,6 +41,16 @@ class TrackerLogService {
 		});
 	}
 
+	async getLogStats(
+		id: string,
+		data: { startDate: string; endDate: string; selectedDays: string },
+		reqConfig?: ReqConfig
+	) {
+		return await this.api.get(`${this.prefix}/stats/${id}?${Helpers.formatQueryParams(data)}`, {
+			...reqConfig
+		});
+	}
+
 	async deleteLog(id: string, reqConfig?: ReqConfig) {
 		return await this.api.delete(`${this.prefix}/${id}`, { ...reqConfig });
 	}
