@@ -14,15 +14,15 @@
 	import { page } from '$app/state';
 	import { ShoppingStatus } from '../../../types/shopping';
 
-	let isLoading = $state(false);
-	let searchQuery = $state('');
-
 	const queryClient = useQueryClient();
 	let boardId = page.params.id;
 
+	let isLoading = $state(false);
+	let searchQuery = $state('');
+
 	const boardItemsQuery = createQuery({
-		queryKey: queryKeys.getBoardItems(boardId),
-		queryFn: () => shoppingRequest.getBoardItems(boardId)
+		queryKey: queryKeys.getBoardItems(boardId, ''),
+		queryFn: () => shoppingRequest.getBoardItems(boardId, '')
 	});
 
 	const boardQuery = createQuery({
@@ -49,7 +49,7 @@
 			const result = await shoppingRequest.createItem(payload);
 
 			if (result) {
-				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId) });
+				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId, '') });
 			}
 		} catch (error: any) {
 			addToast(error?.error || 'An error occured', 'error');
@@ -74,7 +74,7 @@
 			const result = await shoppingRequest.updateItem(itemId, payload);
 
 			if (result) {
-				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId) });
+				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId, '') });
 			}
 		} catch (error: any) {
 			addToast(error?.error || 'An error occured', 'error');

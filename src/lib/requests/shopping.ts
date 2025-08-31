@@ -34,8 +34,16 @@ class ShoppingService {
 		return await this.api.put(`${this.itemfix}/${itemId}`, data, { ...reqConfig });
 	}
 
-	async getBoardItems(ownerId: string, reqConfig?: ReqConfig) {
-		return await this.api.get(`${this.itemfix}/all?ownerId=${ownerId}`, { ...reqConfig });
+	async getBoardItems(boardId: string, ownerId: string, reqConfig?: ReqConfig) {
+		return await this.api.get(`${this.itemfix}/all/${boardId}?ownerId=${ownerId}`, {
+			...reqConfig
+		});
+	}
+
+	async getStandardItems(ownerId: string, reqConfig?: ReqConfig) {
+		return await this.api.get(`${this.itemfix}/standard?ownerId=${ownerId}`, {
+			...reqConfig
+		});
 	}
 
 	async deleteItem(itemId: string, reqConfig?: ReqConfig) {

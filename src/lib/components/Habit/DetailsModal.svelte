@@ -20,7 +20,7 @@
 </script>
 
 <ModalWrapper {onClose} {isOpen} maxWidth="max-w-[1000px]" label={details?.name} height="90vh">
-	<div class="pt flex flex-col gap-4 px-4 pb-0 sm:flex-row sm:items-center">
+	<div class="flex flex-col gap-4 px-4 pb-0 sm:flex-row sm:items-center">
 		{#if trackerState?.data?.trackerDetails?.type == 'BUILD'}
 			<div class="flex w-full rounded-lg border-2 bg-white sm:w-1/2">
 				<div class="w-1/2 rounded-lg">

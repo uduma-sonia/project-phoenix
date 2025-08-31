@@ -1,5 +1,5 @@
 <script lang="ts">
-	let { showSettings = false } = $props();
+	let { showSettings = false, data, handleItemDelete } = $props();
 </script>
 
 <div class="item_wrapper border-b border-b-gray-300">
@@ -7,14 +7,18 @@
 		<div class="flex items-center gap-4">
 			<div class="font-lexend flex-1 space-y-1 font-light">
 				<div class="flex">
-					<p>Paper towels</p>
+					<p>{data?.name}</p>
 				</div>
 			</div>
 
 			{#if showSettings}
 				<div class="flex items-center gap-4">
 					<button class="text-sm hover:underline"> Edit </button>
-					<button class="text-sm text-red-500 hover:underline">Remove </button>
+					<button
+						class="text-sm text-red-500 hover:underline"
+						onclick={() => handleItemDelete(data?._id)}
+						>Remove
+					</button>
 				</div>
 			{:else}
 				<div>
