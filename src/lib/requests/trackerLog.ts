@@ -41,11 +41,7 @@ class TrackerLogService {
 		});
 	}
 
-	async getLogStats(
-		id: string,
-		data: { startDate: string; endDate: string; selectedDays: string },
-		reqConfig?: ReqConfig
-	) {
+	async getLogStats(id: string, data: { month?: string; year: string }, reqConfig?: ReqConfig) {
 		return await this.api.get(`${this.prefix}/stats/${id}?${Helpers.formatQueryParams(data)}`, {
 			...reqConfig
 		});

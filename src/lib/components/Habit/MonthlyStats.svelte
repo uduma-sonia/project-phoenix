@@ -5,25 +5,23 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TrackerLogRequest } from '$lib/requests';
-	import TrackerUtils from './Utilities/utils';
-	import { endOfYear, startOfYear } from 'date-fns';
-	import { HabitStatus } from '../../../types/tracker';
+	import { format } from 'date-fns';
 
 	let { details } = $props();
 
-	const selectedDays = details?.selectedDays;
-
-	const trackerStatsQuery = createQuery({
-		queryKey: queryKeys.getLogStats(details._id, {
-			date: TrackerUtils.getISODate(currentStatsMonth.month)
-		}),
-		queryFn: () =>
-			TrackerLogRequest.getLogStats(details._id, {
-				startDate: TrackerUtils.getISODate(startOfYear(currentStatsMonth.month)),
-				endDate: TrackerUtils.getISODate(endOfYear(currentStatsMonth.month)),
-				selectedDays: JSON.stringify(selectedDays)
-			})
-	});
+	const trackerStatsQuery = $derived(
+		createQuery({
+			queryKey: queryKeys.getLogStats(details._id, {
+				year: format(new Date(currentStatsMonth.month), 'yyyy'),
+				month: format(new Date(currentStatsMonth.month), 'MM')
+			}),
+			queryFn: () =>
+				TrackerLogRequest.getLogStats(details._id, {
+					year: format(new Date(currentStatsMonth.month), 'yyyy'),
+					month: format(new Date(currentStatsMonth.month), 'MM')
+				})
+		})
+	);
 
 	let _stats = $derived($trackerStatsQuery?.data?.data?.stats);
 </script>
@@ -37,19 +35,19 @@
 		<div class="w-full rounded-xl sm:w-1/2">
 			<div class="grid grid-cols-2 gap-6 sm:grid-cols-3">
 				<StatItem
-					value={_stats?.totalCompleted}
-					smallText={`Day${_stats?.totalCompleted > 1 ? 's' : ''}`}
+					value={_stats?.completed || 0}
+					smallText={`Day${_stats?.completed > 1 ? 's' : ''}`}
 					description="Completed"
 				/>
 				<StatItem
-					value={_stats?.totalSkipped}
-					smallText={`Day${_stats?.totalSkipped > 1 ? 's' : ''}`}
+					value={_stats?.skipped || 0}
+					smallText={`Day${_stats?.skipped > 1 ? 's' : ''}`}
 					description="Skipped"
 				/>
 				<StatItem
-					value={_stats?.totalFailed}
-					smallText={`Day${_stats?.totalFailed > 1 ? 's' : ''}`}
-					description="Skipped"
+					value={_stats?.failed || 0}
+					smallText={`Day${_stats?.failed > 1 ? 's' : ''}`}
+					description="Failed"
 				/>
 			</div>
 		</div>

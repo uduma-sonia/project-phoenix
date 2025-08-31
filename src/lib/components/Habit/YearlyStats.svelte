@@ -9,11 +9,11 @@
 			<YearGrid />
 		</div>
 
-		<div class="grid grid-cols-3 gap-6">
+		<!-- <div class="grid grid-cols-3 gap-6">
 			<StatItem />
 			<StatItem />
 			<StatItem />
 			<StatItem />
-		</div>
+		</div> -->
 	</div>
 </div>
