@@ -19,6 +19,20 @@ export type Habit = {
 	description: string;
 	icon: string;
 	_id: string;
+	logDetails?: HabitLog;
+};
+
+export type HabitLog = {
+	ownerId: string;
+	trackerId: string;
+	date: string;
+	value: number;
+	goalValue: number;
+	goalPeriod: string;
+	unitMeasurement: string;
+	status: HabitStatus;
+	createdAt: Date;
+	updatedAt: Date;
 };
 
 export enum HabitStatus {

@@ -1,7 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { format, isAfter, isBefore, isSameDay, parseISO } from 'date-fns';
-import type { Habit, HabitStatus } from '../../../../types/tracker';
+import {
+	format,
+	isAfter,
+	isBefore,
+	isSameDay,
+	parseISO,
+	getYear,
+	getMonth,
+	getDaysInMonth
+} from 'date-fns';
+import { HabitStatus, type Habit } from '../../../../types/tracker';
 import Helpers from '$lib/utils/helpers';
+// import { parseISO, getYear, getMonth, getDaysInMonth, format } from "date-fns";
 
 export default class TrackerUtils {
 	static buildLogPayloadBuilder(
@@ -118,5 +128,84 @@ export default class TrackerUtils {
 	static getISODate(arg: any) {
 		const dateFormatted = format(arg, 'yyyy-MM-dd');
 		return dateFormatted;
+	}
+
+	static getDayProgress(date = new Date()) {
+		const startOfDay = new Date(date);
+		startOfDay.setHours(0, 0, 0, 0);
+
+		const endOfDay = new Date(date);
+		endOfDay.setHours(23, 59, 59, 999);
+
+		const total = endOfDay.getTime() - startOfDay.getTime();
+		const elapsed = date.getTime() - startOfDay.getTime();
+
+		return Math.min(100, Math.max(0, (elapsed / total) * 100));
+	}
+
+	static getDateNum(month: string) {
+		const date = parseISO(month); // month string like "2025-08-01"
+
+		const _year: number = getYear(date);
+		const _month: number = getMonth(date); // 0-indexed
+		const daysInMonth: number = getDaysInMonth(date);
+
+		return {
+			_year,
+			_month,
+			daysInMonth
+		};
+	}
+
+	static getCurrentStreak(habitLogs: any[], selectedDays: number[], month: string) {
+		// if (!selectedDays?.length || habitLogs?.length === 0) return 0;
+
+		if (habitLogs?.length > 0) {
+			console.log(habitLogs);
+
+			const { _month, _year, daysInMonth } = this.getDateNum(month);
+
+			const logsByDay = new Map<string, HabitStatus>();
+
+			for (const log of habitLogs) {
+				const dateStr = log.date; // already "YYYY-MM-DD"
+				if (!logsByDay.has(dateStr) || log.status === HabitStatus.COMPLETED) {
+					logsByDay.set(dateStr, log.status);
+				}
+			}
+
+			// Get today's date
+			let today = new Date();
+			if (today.getMonth() !== _month || today.getFullYear() !== _year) {
+				today = new Date(_year, _month, daysInMonth); // set to last day of target month
+			}
+
+			let lastStreak = 0;
+			const currentDate = new Date(today);
+
+			// Traverse backward day by day
+			while (currentDate.getDate() >= 1) {
+				const dayOfWeek = currentDate.getDay();
+				const dateStr = format(currentDate, 'yyyy-MM-dd'); // normalize to schema format
+
+				// Only count selected days
+				if (selectedDays.includes(dayOfWeek)) {
+					if (logsByDay.get(dateStr) === HabitStatus.COMPLETED) {
+						lastStreak++;
+					} else {
+						break; // streak broken
+					}
+				}
+
+				// Move back to the previous day
+				do {
+					currentDate.setDate(currentDate.getDate() - 1);
+				} while (currentDate.getDate() >= 1 && !selectedDays.includes(currentDate.getDay()));
+			}
+
+			console.log('last streak', lastStreak);
+
+			return lastStreak;
+		}
 	}
 }

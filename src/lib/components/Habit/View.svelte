@@ -172,37 +172,6 @@
 				<HabitItem {openDetailsModal} {habit} {deleteHabit} {updateLog} {updateBuildLog} />
 			{/if}
 		{/each}
-
-		<!-- <div class="hidden w-1/2 sm:block">
-			<div class="bg-whit mb-4 flex rounded-lg border-2 bg-white">
-				<div class="w-1/2 rounded-lg">
-					<button
-						onclick={changeView}
-						class:activeView={currentView === 'monthly'}
-						class="h-[45px] w-full rounded-lg bg-[#ffffff] text-black"
-					>
-						Monthly
-					</button>
-				</div>
-
-				<div class="w-1/2 rounded-lg">
-					<button
-						onclick={changeView}
-						class:activeView={currentView === 'yearly'}
-						class="h-[45px] w-full rounded-lg bg-[#ffffff] text-black"
-					>
-						Yearly
-					</button>
-				</div>
-			</div>
-
-			{#if currentView === 'monthly'}
-				<MonthlyStats />
-			{/if}
-			{#if currentView === 'yearly'}
-				<YearlyStats />
-			{/if}
-		</div> -->
 	</div>
 
 	<div
@@ -217,9 +186,3 @@
 </div>
 
 <DetailsModal isOpen={modalsState.data.isOpenHabitDetails} onClose={closeHabitDetails} />
-
-<style>
-	/* .activeView {
-		background-color: #a0c878 !important;
-	} */
-</style>

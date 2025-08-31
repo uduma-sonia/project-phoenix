@@ -21,33 +21,35 @@
 
 <ModalWrapper {onClose} {isOpen} maxWidth="max-w-[1000px]" label={details?.name} height="90vh">
 	<div class="flex flex-col gap-4 p-4 sm:flex-row sm:items-center">
-		<div class="flex w-full rounded-lg border-2 bg-white sm:w-1/2">
-			<div class="w-1/2 rounded-lg">
-				<button
-					onclick={changeView}
-					class:bg-brand-build={currentView === 'monthly' &&
-						trackerState?.data?.trackerDetails?.type == 'BUILD'}
-					class:bg-brand-quit={currentView === 'monthly' &&
-						trackerState?.data?.trackerDetails?.type == 'QUIT'}
-					class="h-[40px] w-full rounded-lg bg-[#ffffff] text-black"
-				>
-					Monthly
-				</button>
-			</div>
+		{#if trackerState?.data?.trackerDetails?.type == 'BUILD'}
+			<div class="flex w-full rounded-lg border-2 bg-white sm:w-1/2">
+				<div class="w-1/2 rounded-lg">
+					<button
+						onclick={changeView}
+						class:bg-brand-build={currentView === 'monthly' &&
+							trackerState?.data?.trackerDetails?.type == 'BUILD'}
+						class="h-[40px] w-full rounded-lg bg-[#ffffff] text-black"
+					>
+						Monthly
+					</button>
+				</div>
 
-			<div class="w-1/2 rounded-lg">
-				<button
-					onclick={changeView}
-					class:bg-brand-build={currentView === 'yearly' &&
-						trackerState?.data?.trackerDetails?.type == 'BUILD'}
-					class:bg-brand-quit={currentView === 'yearly' &&
-						trackerState?.data?.trackerDetails?.type == 'QUIT'}
-					class="h-[40px] w-full rounded-lg bg-[#ffffff] text-black"
-				>
-					Yearly
-				</button>
+				<div class="w-1/2 rounded-lg">
+					<button
+						onclick={changeView}
+						class:bg-brand-build={currentView === 'yearly' &&
+							trackerState?.data?.trackerDetails?.type == 'BUILD'}
+						class="h-[40px] w-full rounded-lg bg-[#ffffff] text-black"
+					>
+						Yearly
+					</button>
+				</div>
 			</div>
-		</div>
+		{/if}
+
+		{#if trackerState?.data?.trackerDetails?.type == 'QUIT'}
+			<div class="sm:w-1/2"></div>
+		{/if}
 
 		<div class="w-full sm:w-1/2">
 			<ActionCard />

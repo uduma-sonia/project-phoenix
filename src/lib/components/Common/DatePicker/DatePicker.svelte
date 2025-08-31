@@ -1,4 +1,5 @@
 <script lang="ts">
+	import TrackerUtils from '$lib/components/Habit/Utilities/utils';
 	import { Play } from '@lucide/svelte';
 	import {
 		format,
@@ -13,10 +14,10 @@
 		isSameDay,
 		addDays
 	} from 'date-fns';
+	import { HabitStatus } from '../../../../types/tracker';
 
-	let { details, handleUpdate, value } = $props();
+	let { details, handleUpdate, value, logsList, canClick = true } = $props();
 
-	// let selectedDate = $state(new Date());
 	let selectedDate = $state(value);
 	let currentMonth = $state(new Date());
 	let _startOfWeek = startOfWeek(new Date());
@@ -41,8 +42,12 @@
 	const handleDateSelect = (day: Date) => {
 		selectedDate = day;
 	};
-	const renderDateBgColor = (day: Date) => {
-		return isSameDay(day, selectedDate);
+	const renderDateBgColor = (day: Date, canClick: boolean) => {
+		if (canClick) {
+			return isSameDay(day, selectedDate);
+		} else {
+			return false;
+		}
 	};
 
 	const renderDateColor = (day: Date) => {
@@ -51,6 +56,14 @@
 	const renderQuitDateColor = (day: Date) => {
 		return isSameMonth(day, currentMonth) && details.type == 'QUIT';
 	};
+
+	function getLogForDay(arr: any[], day: any) {
+		if (arr?.length) {
+			const _date = TrackerUtils.getISODate(day);
+			const result = arr.find((item: any) => item.date == _date);
+			return result;
+		}
+	}
 </script>
 
 <div class="">
@@ -76,14 +89,19 @@
 
 	<div class="date-picker-dates" class:date-quit={details.type == 'QUIT'}>
 		{#each _eachDayOfInterval as day (day)}
+			{@const getLog = getLogForDay(logsList, day)}
+
 			<button
-				class:date-selected={renderDateBgColor(day)}
+				class:date-selected={renderDateBgColor(day, canClick) ||
+					getLog?.status == HabitStatus.COMPLETED}
 				class:date-selected-quit={renderQuitDateColor(day)}
 				class:not={!isSameMonth(day, currentMonth)}
 				class:date-color={renderDateColor(day)}
 				onclick={() => {
-					if (isSameMonth(day, currentMonth)) {
-						handleDateSelect(new Date(day.getFullYear(), day.getMonth(), day.getDate()));
+					if (canClick) {
+						if (isSameMonth(day, currentMonth)) {
+							handleDateSelect(new Date(day.getFullYear(), day.getMonth(), day.getDate()));
+						}
 					}
 				}}
 			>

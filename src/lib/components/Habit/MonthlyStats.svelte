@@ -6,6 +6,7 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TrackerLogRequest } from '$lib/requests';
 	import { format } from 'date-fns';
+	import StreakCard from './Utilities/StreakCard.svelte';
 
 	let { details } = $props();
 
@@ -28,28 +29,38 @@
 
 <div class="rounded-lg bg-white pb-20">
 	<div class="flex flex-col gap-4 sm:flex-row">
-		<div class="w-full rounded-xl border-2 px-4 pb-4 sm:w-1/2">
-			<Calendar {details} />
-		</div>
+		{#if details?.type == 'BUILD'}
+			<div class="w-full rounded-xl border-2 px-4 pb-4 sm:w-1/2">
+				<Calendar {details} />
+			</div>
+		{/if}
+		{#if details?.type == 'QUIT'}
+			<div class="w-full rounded-xl border-2 px-4 pb-4 sm:w-1/2">
+				<!-- TODO: Move this into parent container -->
+				<StreakCard {details} />
+			</div>
+		{/if}
 
 		<div class="w-full rounded-xl sm:w-1/2">
-			<div class="grid grid-cols-2 gap-6 sm:grid-cols-3">
-				<StatItem
-					value={_stats?.completed || 0}
-					smallText={`Day${_stats?.completed > 1 ? 's' : ''}`}
-					description="Completed"
-				/>
-				<StatItem
-					value={_stats?.skipped || 0}
-					smallText={`Day${_stats?.skipped > 1 ? 's' : ''}`}
-					description="Skipped"
-				/>
-				<StatItem
-					value={_stats?.failed || 0}
-					smallText={`Day${_stats?.failed > 1 ? 's' : ''}`}
-					description="Failed"
-				/>
-			</div>
+			{#if details?.type == 'BUILD'}
+				<div class="grid grid-cols-2 gap-6 sm:grid-cols-3">
+					<StatItem
+						value={_stats?.completed || 0}
+						smallText={`Day${_stats?.completed > 1 ? 's' : ''}`}
+						description="Completed"
+					/>
+					<StatItem
+						value={_stats?.skipped || 0}
+						smallText={`Day${_stats?.skipped > 1 ? 's' : ''}`}
+						description="Skipped"
+					/>
+					<StatItem
+						value={_stats?.failed || 0}
+						smallText={`Day${_stats?.failed > 1 ? 's' : ''}`}
+						description="Failed"
+					/>
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>

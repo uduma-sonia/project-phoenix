@@ -47,6 +47,19 @@ class TrackerLogService {
 		});
 	}
 
+	async getLogList(
+		id: string,
+		data: { month?: string; year: string; filterBy: 'month' },
+		reqConfig?: ReqConfig
+	) {
+		return await this.api.get(
+			`${this.prefix}/stats/list/${id}?${Helpers.formatQueryParams(data)}`,
+			{
+				...reqConfig
+			}
+		);
+	}
+
 	async deleteLog(id: string, reqConfig?: ReqConfig) {
 		return await this.api.delete(`${this.prefix}/${id}`, { ...reqConfig });
 	}

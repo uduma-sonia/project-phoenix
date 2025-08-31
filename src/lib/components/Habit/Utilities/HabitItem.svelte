@@ -85,6 +85,11 @@
 		updateLog(habit._id, _status, habitType, logDetails?._id);
 	}
 
+	function restartAction() {
+		const _status = HabitStatus.PENDING;
+		updateLog(habit._id, _status, habitType, logDetails?._id);
+	}
+
 	function done() {
 		updateBuildLog({
 			tracker: habit,
@@ -115,12 +120,12 @@
 			type: 'quit',
 			action: statusAction
 		},
-		{
-			label: 'Start',
-			icon: StepForward,
-			type: 'quit',
-			action: statusAction
-		},
+		// {
+		// 	label: 'Start',
+		// 	icon: StepForward,
+		// 	type: 'quit',
+		// 	action: statusAction
+		// },
 
 		// BUILD
 		{
@@ -154,6 +159,28 @@
 			label: 'Restart',
 			icon: RefreshCcw,
 			type: 'build',
+			action: restartAction
+		},
+
+		{
+			label: 'Edit',
+			icon: SquarePen,
+			type: 'all'
+		},
+		{
+			label: 'Delete',
+			icon: Trash2,
+			iconColor: 'red',
+			type: 'all',
+			action: _delete
+		}
+	];
+
+	const stopOpt = [
+		{
+			label: 'Start',
+			icon: StepForward,
+			type: 'quit',
 			action: statusAction
 		},
 
@@ -170,6 +197,21 @@
 			action: _delete
 		}
 	];
+
+	function getOptionList(status: HabitStatus, { restart, more, stop }: any) {
+		if (status === HabitStatus.COMPLETED || status === HabitStatus.SKIPPED) {
+			return restart;
+		}
+
+		if (status === HabitStatus.PENDING || status === HabitStatus.START) {
+			return more;
+		}
+		if (status === HabitStatus.STOP) {
+			return stop;
+		}
+
+		return more;
+	}
 
 	function generateOptionsDropdown(arr: any[], type: string, status: string) {
 		let options = [];
@@ -189,7 +231,7 @@
 	<button
 		class="relative z-10 h-full w-full cursor-pointer gap-3 rounded-lg border-2 border-black bg-white p-4"
 		onclick={() => {
-			openDetailsModal(habit);
+			openDetailsModal({ ...habit, logDetails: logDetails });
 		}}
 	>
 		<div class="absolute -top-3 left-3 -rotate-3">
@@ -288,7 +330,15 @@
 
 	<div class="absolute top-6 right-4 z-50 -translate-y-1/2">
 		<HamburgerDropdown
-			options={generateOptionsDropdown(moreOptions, habit?.type, logDetails?.status)}
+			options={generateOptionsDropdown(
+				getOptionList(logDetails?.status, {
+					restart: restartOpt,
+					more: moreOptions,
+					stop: stopOpt
+				}),
+				habit?.type,
+				logDetails?.status
+			)}
 		/>
 	</div>
 </div>
