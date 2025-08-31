@@ -11,6 +11,9 @@ export const trackerState = $state<{ data: { selectedDay: Date; trackerDetails: 
 export const currentStatsMonth = $state({
 	month: new Date()
 });
+export const currentStatsYear = $state({
+	year: new Date()
+});
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function updateSelectedDay(arg: any) {
@@ -23,4 +26,8 @@ export function updateTrackerDetails(arg: Habit) {
 
 export function updateCurrentStatMonth(arg: Date) {
 	currentStatsMonth.month = arg;
+}
+
+export function updateCurrentStatsYear(arg: Date) {
+	currentStatsYear.year = arg;
 }

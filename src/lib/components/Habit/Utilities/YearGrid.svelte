@@ -2,18 +2,26 @@
 	import Helpers from '$lib/utils/helpers';
 	import { Play } from '@lucide/svelte';
 	import { format, subYears, addYears } from 'date-fns';
+	import TrackerUtils from './utils';
+	import { HabitStatus } from '../../../../types/tracker';
 
-	let currentYear = $state(new Date());
+	let { handleUpdateYear, value, logsList } = $props();
+
+	let currentYear = $state(value);
 
 	const prevYear = () => {
+		handleUpdateYear(subYears(currentYear, 1));
 		currentYear = subYears(currentYear, 1);
 	};
 
 	const nextYear = () => {
+		handleUpdateYear(addYears(currentYear, 1));
 		currentYear = addYears(currentYear, 1);
 	};
 
 	let getRange = $derived(Helpers.generateYearRange(currentYear));
+
+	$effect(() => console.log(getRange));
 </script>
 
 <div>
@@ -29,25 +37,62 @@
 		</button>
 	</div>
 
-	<div class="grid grid-cols-2 gap-3">
+	<div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
 		{#each getRange as item, index (index)}
 			<div>
 				<div class="mb-2">
 					<p class="font-lexend text-sm font-light capitalize">{item.month}</p>
 				</div>
 
-				<div class="flex flex-1 flex-wrap gap-x-1 gap-y-1">
-					{#each [...new Array(30)] as item, index}
-						<div
-							class="flex h-5 w-5 min-w-5 items-center justify-center rounded-sm bg-gray-500 text-[11px]"
-						>
-							{index + 1}
-						</div>
+				<div class="grid grid-cols-7 gap-[2px]">
+					{#each TrackerUtils.padMonthDays(item?.days) as day, i}
+						{#if day === null}
+							<div class="h-5 w-5"></div>
+						{:else}
+							{@const dateObj = new Date(day)}
+							{@const getLog = TrackerUtils.getLogForDay(logsList, day)}
+
+							<div
+								class="flex h-5 w-5 items-center justify-center rounded-sm bg-gray-300 text-[10px]"
+								class:date-complete={getLog?.status == HabitStatus.COMPLETED}
+								class:date-skip={getLog?.status == HabitStatus.SKIPPED}
+							>
+								{dateObj.getDate()}
+							</div>
+						{/if}
 					{/each}
 				</div>
 			</div>
 		{/each}
 	</div>
+
+	<!-- <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
+		{#each getRange as item, index (index)}
+			<div>
+				<div class="mb-2">
+					<p class="font-lexend text-sm font-light capitalize">{item.month}</p>
+				</div>
+
+				<div class="grid grid-cols-7 gap-[2px]">
+					{#each buildMonthDays(TrackerUtils.getDateNum(currentStatsYear.year)._year, index) as day, i}
+						{#if day === null}
+							<div class="h-5 w-5"></div>
+						{:else}
+							{@const getLog = getLogForDay(logsList, `${TrackerUtils.getDateNum(currentStatsYear.year)}-${item.monthIndex + 1}-${day}`)}
+
+							<div
+								class="flex h-5 w-5 items-center justify-center rounded-sm bg-gray-300 text-[10px]"
+								class:date-complete={getLog?.status == HabitStatus.COMPLETED}
+								class:date-skip={getLog?.status == HabitStatus.SKIPPED}
+							>
+								{day}
+							</div>
+						{/if}
+					{/each}
+				</div>
+			</div>
+		{/each}
+	</div> -->
 </div>
 
 <style>
@@ -66,5 +111,12 @@
 	.date-picker-header p {
 		font-size: 16px;
 		font-weight: 500;
+	}
+
+	.date-complete {
+		background-color: #8cbf80 !important;
+	}
+	.date-skip {
+		background-color: #e98623 !important;
 	}
 </style>

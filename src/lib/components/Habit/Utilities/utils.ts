@@ -212,57 +212,6 @@ export default class TrackerUtils {
 
 		return lastStreak;
 	}
-	// static getCurrentStreak(logList: HabitLog[], selectedDays: number[], month: string) {
-	// 	if (!logList?.length || !selectedDays?.length) return 0;
-
-	// 	const { _month, _year, daysInMonth } = this.getDateNum(month);
-
-	// 	// Build a map of logs by ISO date string
-	// 	const logsByDay = new Map<string, HabitStatus>();
-
-	// 	for (const log of logList) {
-	// 		const dateStr = new Date(log.date).toDateString();
-	// 		if (!logsByDay.has(dateStr) || log.status === 'COMPLETED') {
-	// 			logsByDay.set(dateStr, log.status);
-	// 		}
-	// 	}
-
-	// 	// Start from today or end of month if not current month
-	// 	const today = new Date();
-	// 	if (today.getMonth() !== _month || today.getFullYear() !== _year) {
-	// 		today.setFullYear(_year, _month, daysInMonth);
-	// 	}
-
-	// 	let lastStreak = 0;
-	// 	const currentDate = new Date(today);
-
-	// 	while (currentDate.getDate() >= 1) {
-	// 		const dayOfWeek = currentDate.getDay();
-	// 		const dateStr = currentDate.toDateString();
-
-	// 		// Only count selected days
-	// 		if (selectedDays.includes(dayOfWeek)) {
-	// 			// console.log('logsByDay.get(dateStr)', logsByDay.get(dateStr));
-
-	// 			if (logsByDay.get(dateStr) === 'COMPLETED') {
-	// 				console.log('completed');
-
-	// 				lastStreak++;
-	// 			} else {
-	// 				console.log('incompleted');
-
-	// 				break; // Streak breaks if a selected day has no completed log
-	// 			}
-	// 		}
-
-	// 		// Move to the previous day
-	// 		do {
-	// 			currentDate.setDate(currentDate.getDate() - 1);
-	// 		} while (currentDate.getDate() >= 1 && !selectedDays.includes(currentDate.getDay())); // Skip unselected days
-	// 	}
-
-	// 	return lastStreak;
-	// }
 
 	static getMonthlyCompletionRate(
 		logList: HabitLog[],
@@ -349,5 +298,66 @@ export default class TrackerUtils {
 		}
 
 		return bestStreak;
+	}
+
+	static getYearlyCompletionRate(
+		habitLogs: HabitLog[],
+		selectedDays: number[],
+		year: string
+	): number {
+		if (!habitLogs?.length || !selectedDays?.length) return 0;
+
+		const { _year, daysInYear } = this.getDateNum(year);
+		let expectedDays = 0;
+		let completedDays = 0;
+		const logsByDay = new Map<string, HabitStatus>();
+
+		// Populate logsByDay with only one log per day, prioritizing COMPLETED over PENDING
+		for (const log of habitLogs) {
+			const dateStr = new Date(log.date).toDateString();
+			if (!logsByDay.has(dateStr) || log.status === 'COMPLETED') {
+				logsByDay.set(dateStr, log.status);
+			}
+		}
+
+		// Loop through all days of the year
+		for (let day = 1; day <= daysInYear; day++) {
+			const date = new Date(_year, 0, day); // Month is 0-based, so 0 = January
+			const dayOfWeek = date.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+
+			if (selectedDays.includes(dayOfWeek)) {
+				expectedDays++;
+
+				if (logsByDay.get(date.toDateString()) === 'COMPLETED') {
+					completedDays++; // User actually logged on this day
+				}
+			}
+		}
+		const result = ((completedDays / expectedDays) * 100).toFixed(1);
+
+		return expectedDays > 0 ? Number(result) : 0;
+	}
+
+	static padMonthDays(days: string[]) {
+		if (!days.length) return [];
+
+		const firstDay = new Date(days[0]);
+		const lastDay = new Date(days[days.length - 1]);
+
+		const startWeekday = firstDay.getDay();
+		const endWeekday = lastDay.getDay();
+
+		const leading = Array(startWeekday).fill(null);
+		const trailing = Array(6 - endWeekday).fill(null);
+
+		return [...leading, ...days, ...trailing];
+	}
+
+	static getLogForDay(arr: any[], day: any) {
+		if (arr?.length) {
+			const _date = TrackerUtils.getISODate(day);
+			const result = arr.find((item: any) => item.date == _date);
+			return result;
+		}
 	}
 }

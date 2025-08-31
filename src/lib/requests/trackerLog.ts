@@ -49,7 +49,7 @@ class TrackerLogService {
 
 	async getLogList(
 		id: string,
-		data: { month?: string; year: string; filterBy: 'month' },
+		data: { month?: string; year: string; filterBy: string },
 		reqConfig?: ReqConfig
 	) {
 		return await this.api.get(

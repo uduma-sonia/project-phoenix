@@ -62,7 +62,7 @@
 		{/if}
 
 		{#if currentView === 'yearly'}
-			<YearlyStats />
+			<YearlyStats details={trackerState?.data?.trackerDetails} />
 		{/if}
 	</div>
 </ModalWrapper>

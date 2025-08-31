@@ -213,8 +213,6 @@ class Helpers {
 	}
 
 	static generateYearRange(date: Date) {
-		const year = date.getFullYear();
-
 		const months = [
 			{ name: 'january', index: 0 },
 			{ name: 'february', index: 1 },
@@ -225,24 +223,23 @@ class Helpers {
 			{ name: 'july', index: 6 },
 			{ name: 'august', index: 7 },
 			{ name: 'september', index: 8 },
-			{ name: 'october', index: 8 },
-			{ name: 'november', index: 9 },
-			{ name: 'december', index: 10 }
+			{ name: 'october', index: 9 },
+			{ name: 'november', index: 10 },
+			{ name: 'december', index: 11 }
 		];
 
-		const yearRange = months.map(({ name, index }) => {
-			const start = startOfMonth(new Date(year, index));
-			const end = endOfMonth(new Date(year, index));
-
-			const days = eachDayOfInterval({ start, end }).map((d) => d.toISOString());
-
-			return {
-				month: name,
-				days
-			};
+		const allDays = eachDayOfInterval({
+			start: startOfYear(date),
+			end: endOfYear(date)
 		});
 
-		return yearRange;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const grouped: any = months.map(({ name, index }) => {
+			const days = allDays.filter((d) => d.getMonth() === index);
+			return { month: name, days };
+		});
+
+		return grouped;
 	}
 
 	static getDateRange(dateType: string, dateValue?: string | Date) {

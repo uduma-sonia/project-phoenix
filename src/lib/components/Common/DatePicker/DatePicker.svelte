@@ -56,14 +56,6 @@
 	const renderQuitDateColor = (day: Date) => {
 		return isSameMonth(day, currentMonth) && details.type == 'QUIT';
 	};
-
-	function getLogForDay(arr: any[], day: any) {
-		if (arr?.length) {
-			const _date = TrackerUtils.getISODate(day);
-			const result = arr.find((item: any) => item.date == _date);
-			return result;
-		}
-	}
 </script>
 
 <div class="">
@@ -89,7 +81,7 @@
 
 	<div class="date-picker-dates" class:date-quit={details.type == 'QUIT'}>
 		{#each _eachDayOfInterval as day (day)}
-			{@const getLog = getLogForDay(logsList, day)}
+			{@const getLog = TrackerUtils.getLogForDay(logsList, day)}
 
 			<button
 				class:date-selected={renderDateBgColor(day, canClick) ||
