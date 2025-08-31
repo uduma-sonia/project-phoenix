@@ -3,6 +3,7 @@
 	import { shoppingRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import { ShoppingStatus } from '../../../types/shopping';
+	import BackComponent from '../Common/BackComponent.svelte';
 	import TopSection from '../Common/TopSection.svelte';
 
 	let { user } = $props();
@@ -41,7 +42,11 @@
 <div>
 	<TopSection withName={false} />
 
-	<div class="mt-20 flex items-center justify-center px-4 pb-52">
+	<div class="mx-auto w-full px-4 md:max-w-[500px]">
+		<BackComponent backLink="/shopping" />
+	</div>
+
+	<div class="mt-4 flex items-center justify-center px-4 pb-52">
 		<div class="login_form_wrapper w-full md:max-w-[500px]">
 			<form class="login_form h-full rounded-3xl border-2 bg-white" onsubmit={handleSubmit}>
 				<div class="pb-3">

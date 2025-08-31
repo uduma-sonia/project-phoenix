@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Check } from '@lucide/svelte';
+	import { Check, Plus } from '@lucide/svelte';
 
-	let { data, handleUpdateItem, boardId } = $props();
+	let { data, handleUpdateItem, boardId, isLast, handleItemAdd } = $props();
 
 	let qty = data?.quantity > 0 ? data?.quantity : '';
 </script>
@@ -30,15 +30,7 @@
 				{/if}
 			</div>
 
-			<div class="flex flex-col items-center gap-4">
-				<!-- <button>
-					<X color="#a30309" />
-				</button> -->
-
-				<!-- <button>
-					<SquarePen size="20px" class="cursor-pointer" strokeWidth={2} color="#1eb564" />
-				</button> -->
-			</div>
+			<div class="flex flex-col items-center gap-4"></div>
 		</div>
 	</div>
 </div>

@@ -13,10 +13,12 @@
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import { page } from '$app/state';
 	import { ShoppingStatus } from '../../../types/shopping';
+	import StandardListItem from './Utilities/StandardListItem.svelte';
 
 	const queryClient = useQueryClient();
 	let boardId = page.params.id;
 
+	let itemName = $state('');
 	let isLoading = $state(false);
 	let searchQuery = $state('');
 
@@ -63,12 +65,7 @@
 			isLoading = true;
 
 			const payload = {
-				// name: value,
-				// quantity: 0,
-				// unit: '',
 				done: _done
-				// boardId,
-				// price: 0
 			};
 
 			const result = await shoppingRequest.updateItem(itemId, payload);
@@ -136,7 +133,7 @@
 		</div>
 
 		<div class="flex items-center gap-6 px-3">
-			<Search bind:value={searchQuery} />
+			<Search bind:value={searchQuery} placeholder="Search board" />
 
 			<div>
 				<p class="font-lexend text-sm">
@@ -149,11 +146,17 @@
 			<div>
 				<div class="mb-6 space-y-2">
 					{#each filteredItems as items, index (index)}
-						<ListItem {boardId} data={items} {handleUpdateItem} />
+						<ListItem
+							{boardId}
+							data={items}
+							{handleUpdateItem}
+							isLast={filteredItems?.length <= index + 1}
+							{handleItemAdd}
+						/>
 					{/each}
 				</div>
 
-				<AddItem {boardId} {handleItemAdd} />
+				<AddItem {itemName} {boardId} {handleItemAdd} />
 
 				<div class="mt-10">
 					<button class="shadow_button" onclick={handleDoneShopping}> Shopping done </button>

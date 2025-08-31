@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { MoveLeft } from '@lucide/svelte';
 
-	let { backLink, title }: { backLink: string; title: string } = $props();
+	let { backLink, title }: { backLink: string; title?: string } = $props();
 </script>
 
 <div class="flex items-center gap-4">
@@ -9,7 +9,9 @@
 		<MoveLeft />
 	</a>
 
-	<div>
-		<p class="text-lg">{title}</p>
-	</div>
+	{#if title}
+		<div>
+			<p class="text-lg">{title}</p>
+		</div>
+	{/if}
 </div>
