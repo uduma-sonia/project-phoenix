@@ -57,8 +57,9 @@
 			formatISO(currentStatsMonth.month)
 		)
 	);
-
-	$effect(() => console.log(monthlyCompletionRate));
+	let bestStreak = $derived(
+		TrackerUtils.getBestStreak(logsList, details?.selectedDays, formatISO(currentStatsMonth.month))
+	);
 
 	let _stats = $derived($trackerStatsQuery?.data?.data?.stats);
 </script>
@@ -86,6 +87,11 @@
 						description="Current Streak"
 					/>
 					<StatItem
+						value={bestStreak || 0}
+						smallText={`Day${Helpers.returnS(bestStreak)}`}
+						description={`Best Streak ${format(new Date(currentStatsMonth.month), 'LLL')}`}
+					/>
+					<StatItem
 						value={monthlyCompletionRate || 0}
 						smallText={`%`}
 						description="Completion Rate"
@@ -99,12 +105,6 @@
 						value={_stats?.skipped || 0}
 						smallText={`Day${_stats?.skipped > 1 ? 's' : ''}`}
 						description="Skipped"
-					/>
-
-					<StatItem
-						value={_stats?.failed || 0}
-						smallText={`Day${_stats?.failed > 1 ? 's' : ''}`}
-						description="Failed"
 					/>
 				</div>
 			{/if}

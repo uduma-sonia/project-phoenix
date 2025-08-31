@@ -53,7 +53,7 @@
 				<Play size="14px" />
 			</span>
 		</button>
-		<p class="text-xs font-light">{format(currentMonth, 'MMMM yyyy')}</p>
+		<p class="text-[6px] font-light">{format(currentMonth, 'MMMM yyyy')}</p>
 		<button class="shadow_button control_button" type="button" onclick={nextMonth}>
 			<Play size="14px" />
 		</button>
