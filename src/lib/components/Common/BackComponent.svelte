@@ -4,14 +4,12 @@
 	let { backLink, title }: { backLink: string; title?: string } = $props();
 </script>
 
-<div class="flex items-center gap-4">
-	<a href={backLink} class="block">
+<div>
+	<a href={backLink} class="inline-flex items-center gap-4">
 		<MoveLeft />
-	</a>
 
-	{#if title}
-		<div>
-			<p class="text-lg">{title}</p>
-		</div>
-	{/if}
+		{#if title}
+			<span class="text-lg">{title}</span>
+		{/if}
+	</a>
 </div>

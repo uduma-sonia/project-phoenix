@@ -35,7 +35,8 @@
 		</div>
 	</div>
 
-	<div class="mt-14 grid grid-cols-2 gap-6 px-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+	<div class="mt-14 grid grid-cols-2 gap-6 px-3 sm:grid-cols-3 md:grid-cols-4">
+		<!-- <div class="mt-14 grid grid-cols-2 gap-6 px-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"> -->
 		{#each boardsList as board, index (index)}
 			<ShoppingCard {board} />
 		{/each}
