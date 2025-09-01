@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Plus } from '@lucide/svelte';
 
-	let { handleItemAdd, boardId, itemName } = $props();
+	let { handleItemAdd, boardId, itemName = $bindable() } = $props();
 </script>
 
 <div class="relative z-10 w-full gap-3 rounded-lg border-2 bg-white p-3">
@@ -9,7 +9,8 @@
 		class="flex items-center gap-4"
 		onsubmit={(e) => {
 			e.preventDefault();
-			handleItemAdd(itemName, boardId);
+			handleItemAdd(boardId);
+			// handleItemAdd(itemName, boardId);
 			itemName = '';
 		}}
 	>
@@ -20,16 +21,4 @@
 			placeholder="Type and enter"
 		/>
 	</form>
-
-	<div class="absolute top-[125%] right-2 z-50 flex -translate-y-1/2 md:top-1/2 md:-right-9">
-		<button
-			class="create_button_sm shadow_button"
-			onclick={() => {
-				handleItemAdd(itemName, boardId);
-				itemName = '';
-			}}
-		>
-			<Plus />
-		</button>
-	</div>
 </div>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { UserRoundPlus } from '@lucide/svelte';
+	import { Plus, UserRoundPlus } from '@lucide/svelte';
 	import TopSection from '../Common/TopSection.svelte';
 	import ListItem from './Utilities/ListItem.svelte';
 	import AddItem from './Utilities/AddItem.svelte';
@@ -49,8 +49,7 @@
 	let completedLength = $derived(filteredItems?.filter((item: any) => item.done));
 
 	function findName(name: string, arr: any[]) {
-		const _find = arr?.find((item) => item?.name.trim().toLowerCase() == name.trim().toLowerCase());
-
+		const _find = arr?.find((item) => item?.name == name);
 		return !_find;
 	}
 
@@ -58,12 +57,12 @@
 		showStandardList = !showStandardList;
 	}
 
-	async function handleItemAdd(value: string, boardId: string) {
+	async function handleItemAdd(boardId: string, value?: string) {
 		try {
 			isLoading = true;
 
 			const payload = {
-				name: value,
+				name: value || itemName,
 				quantity: 0,
 				unit: '',
 				done: false,
@@ -74,6 +73,7 @@
 			const result = await shoppingRequest.createItem(payload);
 
 			if (result) {
+				itemName = '';
 				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId, '') });
 			}
 		} catch (error: any) {
@@ -179,11 +179,38 @@
 					{/each}
 				</div>
 
-				<AddItem {itemName} {boardId} {handleItemAdd} />
-
-				<div class="mt-14">
-					<button class="shadow_button" onclick={handleDoneShopping}> Shopping done </button>
+				<div class="relative z-10 w-full gap-3 rounded-lg border-2 bg-white p-3">
+					<form
+						class="flex items-center gap-4"
+						onsubmit={(e) => {
+							e.preventDefault();
+							handleItemAdd(boardId);
+						}}
+					>
+						<input
+							type="text"
+							bind:value={itemName}
+							class="h-[50px] w-full border-b border-b-[#393838] outline-none"
+							placeholder="Type and enter"
+						/>
+					</form>
 				</div>
+
+				<!-- <AddItem {itemName} {boardId} {handleItemAdd} /> -->
+
+				<div class="mt-4 flex justify-center">
+					<button
+						class="create_button_sm shadow_button"
+						onclick={() => {
+							handleItemAdd(boardId);
+						}}
+					>
+						<Plus size="16px" />
+					</button>
+				</div>
+				<!-- <div class="mt-14">
+					<button class="shadow_button" onclick={handleDoneShopping}> Shopping done </button>
+				</div> -->
 			</div>
 
 			{#if showStandardList}

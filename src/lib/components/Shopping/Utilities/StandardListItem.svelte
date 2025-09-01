@@ -10,7 +10,7 @@
 		boardId?: string;
 		data: { _id: string; name: string };
 		handleItemDelete?: (id: string) => void;
-		handleAddToList?: (id: string, boardId?: any) => void;
+		handleAddToList?: (boardId?: any, name?: string) => void;
 	} = $props();
 </script>
 
@@ -36,7 +36,7 @@
 				<div>
 					<button
 						class="text-sm hover:underline"
-						onclick={() => handleAddToList?.(data?.name, boardId)}
+						onclick={() => handleAddToList?.(boardId, data?.name)}
 					>
 						Add to list
 					</button>

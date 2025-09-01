@@ -8,6 +8,5 @@ NEXT
 
 - create standard item (items created without boardID)
 - update board item
-- add to board from start item
 
 - invite member - (unique email)
