@@ -33,8 +33,8 @@
 	});
 
 	const standardItemsQuery = createQuery({
-		queryKey: queryKeys.getStandardItems(boardId),
-		queryFn: () => shoppingRequest.getStandardItems(boardId)
+		queryKey: queryKeys.getStandardItems(''),
+		queryFn: () => shoppingRequest.getStandardItems('')
 	});
 
 	let itemsList = $derived($boardItemsQuery?.data?.data?.shoppingItems);
@@ -167,7 +167,14 @@
 			<div>
 				<div class="mb-6 space-y-2">
 					{#each filteredItems as items, index (index)}
-						<ListItem {handleUpdate} {canEditId} data={items} {handleUpdateItem} {handleEdit} />
+						<ListItem
+							currency={boardDetails?.currency}
+							{handleUpdate}
+							{canEditId}
+							data={items}
+							{handleUpdateItem}
+							{handleEdit}
+						/>
 					{/each}
 				</div>
 

@@ -2,7 +2,7 @@
 	import { Check } from '@lucide/svelte';
 	import EditItem from './EditItem.svelte';
 
-	let { data, handleUpdateItem, canEditId, handleEdit, handleUpdate } = $props();
+	let { data, handleUpdateItem, currency, canEditId, handleEdit, handleUpdate } = $props();
 
 	let qty = $derived(data?.quantity > 0 ? data?.quantity : '');
 </script>
@@ -30,10 +30,10 @@
 					onclick={() => handleEdit(data?._id)}
 				>
 					<div class="flex">
-						<p>{qty} {data?.name}</p>
+						<p>{qty} {data?.name} <small>{data?.unit}</small></p>
 					</div>
 					{#if data?.price > 0}
-						<p class="text-sm">{data?.currency}{data?.price.toLocaleString()}</p>
+						<p class="text-sm">{currency}{data?.price.toLocaleString()}</p>
 					{/if}
 				</button>
 			</div>
