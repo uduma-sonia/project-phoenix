@@ -2,7 +2,6 @@
 	import { Plus, UserRoundPlus } from '@lucide/svelte';
 	import TopSection from '../Common/TopSection.svelte';
 	import ListItem from './Utilities/ListItem.svelte';
-	import AddItem from './Utilities/AddItem.svelte';
 	import Search from './Utilities/Search.svelte';
 	import InviteModal from './InviteModal.svelte';
 	import { closeModal, modalsState, openModal } from '$lib/state/modal.svelte';
@@ -12,7 +11,6 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import { page } from '$app/state';
-	import { ShoppingStatus } from '../../../types/shopping';
 	import StandardListItem from './Utilities/StandardListItem.svelte';
 
 	const queryClient = useQueryClient();
@@ -22,6 +20,7 @@
 	let isLoading = $state(false);
 	let searchQuery = $state('');
 	let showStandardList = $state(false);
+	let canEditId = $state('');
 
 	const boardItemsQuery = createQuery({
 		queryKey: queryKeys.getBoardItems(boardId, ''),
@@ -51,6 +50,10 @@
 	function findName(name: string, arr: any[]) {
 		const _find = arr?.find((item) => item?.name == name);
 		return !_find;
+	}
+
+	function handleEdit(id: string) {
+		canEditId = id;
 	}
 
 	function toggleShowStandardList() {
@@ -103,19 +106,14 @@
 		}
 	}
 
-	async function handleDoneShopping() {
+	async function handleUpdate(itemId: string, payload: any) {
 		try {
 			isLoading = true;
 
-			const payload = {
-				status: ShoppingStatus.DONE
-			};
-
-			const result = await shoppingRequest.updateBoard(boardId, payload);
+			const result = await shoppingRequest.updateItem(itemId, payload);
 
 			if (result) {
-				addToast('Shopping completed', 'success', '/images/confetti.svg');
-				queryClient.invalidateQueries({ queryKey: queryKeys.getBoard(boardId) });
+				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId, '') });
 			}
 		} catch (error: any) {
 			addToast(error?.error || 'An error occured', 'error');
@@ -169,13 +167,7 @@
 			<div>
 				<div class="mb-6 space-y-2">
 					{#each filteredItems as items, index (index)}
-						<ListItem
-							{boardId}
-							data={items}
-							{handleUpdateItem}
-							isLast={filteredItems?.length <= index + 1}
-							{handleItemAdd}
-						/>
+						<ListItem {handleUpdate} {canEditId} data={items} {handleUpdateItem} {handleEdit} />
 					{/each}
 				</div>
 
@@ -196,21 +188,11 @@
 					</form>
 				</div>
 
-				<!-- <AddItem {itemName} {boardId} {handleItemAdd} /> -->
-
 				<div class="mt-4 flex justify-center">
-					<button
-						class="create_button_sm shadow_button"
-						onclick={() => {
-							handleItemAdd(boardId);
-						}}
-					>
+					<button class="create_button_sm shadow_button" onclick={() => handleItemAdd(boardId)}>
 						<Plus size="16px" />
 					</button>
 				</div>
-				<!-- <div class="mt-14">
-					<button class="shadow_button" onclick={handleDoneShopping}> Shopping done </button>
-				</div> -->
 			</div>
 
 			{#if showStandardList}

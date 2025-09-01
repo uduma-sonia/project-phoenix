@@ -1,37 +1,43 @@
 <script lang="ts">
-	import { Check, Plus } from '@lucide/svelte';
+	import { Check } from '@lucide/svelte';
+	import EditItem from './EditItem.svelte';
 
-	let { data, handleUpdateItem, boardId, isLast, handleItemAdd } = $props();
+	let { data, handleUpdateItem, canEditId, handleEdit, handleUpdate } = $props();
 
-	let qty = data?.quantity > 0 ? data?.quantity : '';
+	let qty = $derived(data?.quantity > 0 ? data?.quantity : '');
 </script>
 
 <div class="item_wrapper">
-	<div class="relative z-10 w-full gap-3 rounded-lg border-2 border-black bg-white p-3">
-		<div class="flex items-center gap-4">
-			<div>
+	<div class="relative z-10 w-full gap-3 rounded-lg border-2 border-black bg-white">
+		{#if canEditId == data?._id}
+			<EditItem {data} {handleEdit} {handleUpdate} />
+		{:else}
+			<div class="flex items-center gap-4">
+				<div class="pl-3">
+					<button
+						class="button_active relative flex h-7 w-7 items-center justify-center rounded-md border-2 p-0"
+						aria-label="Checklist"
+						onclick={() => handleUpdateItem(data?._id, !data?.done)}
+					>
+						{#if data?.done}
+							<Check size="22px" />
+						{/if}
+					</button>
+				</div>
+
 				<button
-					class="button_active relative flex h-7 w-7 items-center justify-center rounded-md border-2 p-0"
-					aria-label="Checklist"
-					onclick={() => handleUpdateItem(data?._id, !data?.done)}
+					class="font-lexend flex-1 space-y-1 py-3 pr-3 text-left font-light"
+					onclick={() => handleEdit(data?._id)}
 				>
-					{#if data?.done}
-						<Check size="22px" />
+					<div class="flex">
+						<p>{qty} {data?.name}</p>
+					</div>
+					{#if data?.price > 0}
+						<p class="text-sm">{data?.currency}{data?.price.toLocaleString()}</p>
 					{/if}
 				</button>
 			</div>
-
-			<div class="font-lexend flex-1 space-y-1 font-light">
-				<div class="flex">
-					<p>{qty} {data?.name}</p>
-				</div>
-				{#if data?.price > 0}
-					<p class="text-sm">{data?.currency}{data?.price.toLocaleString()}</p>
-				{/if}
-			</div>
-
-			<div class="flex flex-col items-center gap-4"></div>
-		</div>
+		{/if}
 	</div>
 </div>
 

@@ -10,3 +10,4 @@ NEXT
 - update board item
 
 - invite member - (unique email)
+- arrange shopping list, done items goes to bottom

@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { Plus } from '@lucide/svelte';
-
 	let { handleItemAdd, boardId, itemName = $bindable() } = $props();
 </script>
 
@@ -10,7 +8,6 @@
 		onsubmit={(e) => {
 			e.preventDefault();
 			handleItemAdd(boardId);
-			// handleItemAdd(itemName, boardId);
 			itemName = '';
 		}}
 	>
