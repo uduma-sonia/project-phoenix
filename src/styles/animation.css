@@ -54,6 +54,16 @@
 	animation: spin 1.2s linear infinite;
 }
 
+.spinner_white_sm {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	border-top: transparent;
+	border-left: transparent;
+	margin: 0 auto;
+	animation: spin 1.2s linear infinite;
+}
+
 @keyframes spin {
 	to {
 		transform: rotate(360deg);

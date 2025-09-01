@@ -18,3 +18,10 @@ export type BoardItem = {
 	boardId?: string;
 	price?: number;
 };
+
+export type BoardMember = {
+	boardId: string;
+	ownerId: string;
+	memberId: string;
+	permissions: string;
+};

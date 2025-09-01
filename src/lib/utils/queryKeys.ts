@@ -2,7 +2,10 @@
 import Helpers from './helpers';
 
 const userKeys = {
-	getCurrentUser: [`/user`]
+	getCurrentUser: [`/user`],
+	getSingleUser: (id: string) => [`/user/single/${id}`],
+	getSingleUserWithEmail: (id: string) => [`/user/single/email${id}`],
+	getUsersByEmails: (id: string) => [`/user/multiple/email${id}`]
 };
 
 const trackerKeys = {
@@ -27,7 +30,8 @@ const shoppingKeys = {
 		`/shopping-items/all/${boardId}?ownerId=${ownerId}`
 	],
 	getStandardItems: (ownerId: string) => [`/shopping-items/standard?ownerId=${ownerId}`],
-	getBoard: (boardId: string) => [`/shopping-board/${boardId}`]
+	getBoard: (boardId: string) => [`/shopping-board/${boardId}`],
+	getBoardMembers: (boardId: string) => [`/shopping-member/${boardId}`]
 };
 
 export const queryKeys = {

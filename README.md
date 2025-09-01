@@ -11,3 +11,6 @@ NEXT
 
 - invite member - (unique email)
 - arrange shopping list, done items goes to bottom
+- Empty state
+- loading state
+- tooltip for invite modal
