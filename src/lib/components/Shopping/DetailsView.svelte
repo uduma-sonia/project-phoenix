@@ -181,13 +181,13 @@
 
 				<AddItem {itemName} {boardId} {handleItemAdd} />
 
-				<div class="mt-10">
+				<div class="mt-14">
 					<button class="shadow_button" onclick={handleDoneShopping}> Shopping done </button>
 				</div>
 			</div>
 
 			{#if showStandardList}
-				<div class="h-fit rounded-lg border-2 bg-white p-2">
+				<div class="hidden h-fit rounded-lg border-2 bg-white p-2 md:block">
 					{#each standardList as item, index (index)}
 						{@const hasBeenAdded = findName(item.name, itemsList)}
 

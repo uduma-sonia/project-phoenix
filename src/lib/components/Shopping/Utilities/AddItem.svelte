@@ -21,7 +21,7 @@
 		/>
 	</form>
 
-	<div class="absolute top-1/2 -right-9 z-50 flex -translate-y-1/2">
+	<div class="absolute top-[125%] right-2 z-50 flex -translate-y-1/2 md:top-1/2 md:-right-9">
 		<button
 			class="create_button_sm shadow_button"
 			onclick={() => {
