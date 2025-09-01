@@ -202,7 +202,7 @@
 				</div>
 			</div>
 
-			{#if showStandardList}
+			{#if showStandardList && standardList?.length > 0}
 				<div class="hidden h-fit rounded-lg border-2 bg-white p-2 md:block">
 					{#each standardList as item, index (index)}
 						{@const hasBeenAdded = findName(item.name, itemsList)}

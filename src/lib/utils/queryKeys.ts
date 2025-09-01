@@ -29,7 +29,7 @@ const shoppingKeys = {
 	getBoardItems: (boardId: string, ownerId: string) => [
 		`/shopping-items/all/${boardId}?ownerId=${ownerId}`
 	],
-	getStandardItems: (ownerId: string) => [`/shopping-items/standard?ownerId=${ownerId}`],
+	getStandardItems: [`/shopping-items/standard`],
 	getBoard: (boardId: string) => [`/shopping-board/${boardId}`],
 	getBoardMembers: (boardId: string) => [`/shopping-member/${boardId}`]
 };

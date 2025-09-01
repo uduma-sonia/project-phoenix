@@ -43,7 +43,7 @@ class ShoppingService {
 		});
 	}
 
-	async getStandardItems(ownerId: string, reqConfig?: ReqConfig) {
+	async getStandardItems(ownerId?: string, reqConfig?: ReqConfig) {
 		return await this.api.get(`${this.itemPrefix}/standard?ownerId=${ownerId}`, {
 			...reqConfig
 		});

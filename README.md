@@ -14,3 +14,8 @@ NEXT
 - Empty state
 - loading state
 - tooltip for invite modal
+
+INPUT
+
+- make the placeholders to be right aligned
+- add the currency symbol in editItem component

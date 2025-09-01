@@ -30,7 +30,7 @@
 			const result = await shoppingRequest.createItem(payload);
 
 			if (result) {
-				queryClient.invalidateQueries({ queryKey: queryKeys.getStandardItems(boardId) });
+				queryClient.invalidateQueries({ queryKey: queryKeys.getStandardItems });
 			}
 		} catch (error: any) {
 			addToast(error?.error || 'An error occured', 'error');
@@ -46,7 +46,27 @@
 			const result = await shoppingRequest.deleteItem(id);
 
 			if (result) {
-				queryClient.invalidateQueries({ queryKey: queryKeys.getStandardItems(boardId) });
+				queryClient.invalidateQueries({ queryKey: queryKeys.getStandardItems });
+			}
+		} catch (error: any) {
+			addToast(error?.error || 'An error occured', 'error');
+		} finally {
+			isLoading = false;
+		}
+	}
+
+	async function handleUpdateItem(itemId: string, name: string) {
+		try {
+			isLoading = true;
+
+			const payload = {
+				name: name
+			};
+
+			const result = await shoppingRequest.updateItem(itemId, payload);
+
+			if (result) {
+				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId, '') });
 			}
 		} catch (error: any) {
 			addToast(error?.error || 'An error occured', 'error');
@@ -56,7 +76,7 @@
 	}
 
 	const standardItemsQuery = createQuery({
-		queryKey: queryKeys.getStandardItems(boardId),
+		queryKey: queryKeys.getStandardItems,
 		queryFn: () => shoppingRequest.getStandardItems(boardId)
 	});
 
@@ -67,7 +87,9 @@
 	<div>
 		<div class="p-4">
 			{#each standardList as item, index (index)}
-				<StandardListItem {handleItemDelete} data={item} showSettings={true} />
+				{#key item?._id}
+					<StandardListItem {handleUpdateItem} {handleItemDelete} {item} showSettings={true} />
+				{/key}
 			{/each}
 
 			<div class="mt-6">
