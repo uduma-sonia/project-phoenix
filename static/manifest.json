@@ -1,0 +1,13 @@
+{
+	"name": "Phoenix",
+	"short_name": "Phoenix",
+	"description": "Track, shop, live",
+	"background_color": "#f5ecd5",
+	"theme_color": "#f5ecd5",
+	"display": "standalone",
+	"scope": "/",
+	"start_url": "/tracker",
+	"orientation": "portrait",
+	"id": "/",
+	"icons": []
+}
