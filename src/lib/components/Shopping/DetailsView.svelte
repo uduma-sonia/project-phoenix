@@ -33,7 +33,7 @@
 	});
 
 	const standardItemsQuery = createQuery({
-		queryKey: queryKeys.getStandardItems(''),
+		queryKey: queryKeys.getStandardItems,
 		queryFn: () => shoppingRequest.getStandardItems('')
 	});
 
@@ -212,7 +212,7 @@
 								{boardId}
 								handleAddToList={handleItemAdd}
 								showSettings={false}
-								data={item}
+								{item}
 							/>
 						{/if}
 					{/each}
