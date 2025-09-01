@@ -1,5 +1,17 @@
 <script lang="ts">
-	let { showSettings = false, data, handleItemDelete } = $props();
+	let {
+		showSettings = false,
+		data,
+		handleItemDelete,
+		handleAddToList,
+		boardId
+	}: {
+		showSettings?: boolean;
+		boardId?: string;
+		data: { _id: string; name: string };
+		handleItemDelete?: (id: string) => void;
+		handleAddToList?: (id: string, boardId?: any) => void;
+	} = $props();
 </script>
 
 <div class="item_wrapper border-b border-b-gray-300">
@@ -16,13 +28,18 @@
 					<button class="text-sm hover:underline"> Edit </button>
 					<button
 						class="text-sm text-red-500 hover:underline"
-						onclick={() => handleItemDelete(data?._id)}
+						onclick={() => handleItemDelete?.(data?._id)}
 						>Remove
 					</button>
 				</div>
 			{:else}
 				<div>
-					<button class="text-sm hover:underline"> Add to list </button>
+					<button
+						class="text-sm hover:underline"
+						onclick={() => handleAddToList?.(data?.name, boardId)}
+					>
+						Add to list
+					</button>
 				</div>
 			{/if}
 		</div>

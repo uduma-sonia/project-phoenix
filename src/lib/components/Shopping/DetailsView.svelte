@@ -21,6 +21,7 @@
 	let itemName = $state('');
 	let isLoading = $state(false);
 	let searchQuery = $state('');
+	let showStandardList = $state(false);
 
 	const boardItemsQuery = createQuery({
 		queryKey: queryKeys.getBoardItems(boardId, ''),
@@ -32,8 +33,30 @@
 		queryFn: () => shoppingRequest.getBoard(boardId)
 	});
 
+	const standardItemsQuery = createQuery({
+		queryKey: queryKeys.getStandardItems(boardId),
+		queryFn: () => shoppingRequest.getStandardItems(boardId)
+	});
+
 	let itemsList = $derived($boardItemsQuery?.data?.data?.shoppingItems);
 	let boardDetails = $derived($boardQuery?.data?.data?.board);
+	let standardList = $derived($standardItemsQuery?.data?.data?.shoppingItems);
+
+	let filteredItems = $derived(
+		itemsList?.filter((item: any) => item.name.toUpperCase().includes(searchQuery.toUpperCase()))
+	);
+
+	let completedLength = $derived(filteredItems?.filter((item: any) => item.done));
+
+	function findName(name: string, arr: any[]) {
+		const _find = arr?.find((item) => item?.name.trim().toLowerCase() == name.trim().toLowerCase());
+
+		return !_find;
+	}
+
+	function toggleShowStandardList() {
+		showStandardList = !showStandardList;
+	}
 
 	async function handleItemAdd(value: string, boardId: string) {
 		try {
@@ -100,12 +123,6 @@
 			isLoading = false;
 		}
 	}
-
-	let filteredItems = $derived(
-		itemsList?.filter((item: any) => item.name.toUpperCase().includes(searchQuery.toUpperCase()))
-	);
-
-	let completedLength = $derived(filteredItems?.filter((item: any) => item.done));
 </script>
 
 <div class="mx-auto w-full max-w-[1000px] overflow-x-hidden pb-64">
@@ -127,7 +144,13 @@
 					</button>
 				</div>
 				<div>
-					<button class="shadow_button shadow_button_thin"> Add from standard </button>
+					<button class="shadow_button shadow_button_thin" onclick={toggleShowStandardList}>
+						{#if showStandardList}
+							Hide standard list
+						{:else}
+							Show standard list
+						{/if}
+					</button>
 				</div>
 			</div>
 		</div>
@@ -163,11 +186,22 @@
 				</div>
 			</div>
 
-			<!-- <div class="h-fit rounded-lg border-2 bg-white p-2">
-				<StandardListItem />
-				<StandardListItem />
-				<StandardListItem />
-			</div> -->
+			{#if showStandardList}
+				<div class="h-fit rounded-lg border-2 bg-white p-2">
+					{#each standardList as item, index (index)}
+						{@const hasBeenAdded = findName(item.name, itemsList)}
+
+						{#if hasBeenAdded}
+							<StandardListItem
+								{boardId}
+								handleAddToList={handleItemAdd}
+								showSettings={false}
+								data={item}
+							/>
+						{/if}
+					{/each}
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>

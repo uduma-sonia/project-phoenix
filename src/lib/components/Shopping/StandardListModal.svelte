@@ -55,17 +55,17 @@
 		}
 	}
 
-	const boardItemsQuery = createQuery({
+	const standardItemsQuery = createQuery({
 		queryKey: queryKeys.getStandardItems(boardId),
 		queryFn: () => shoppingRequest.getStandardItems(boardId)
 	});
 
-	let standardList = $derived($boardItemsQuery?.data?.data?.shoppingItems);
+	let standardList = $derived($standardItemsQuery?.data?.data?.shoppingItems);
 </script>
 
 <ModalWrapper {onClose} {isOpen} label="Standard list">
 	<div>
-		<div class="mt-6 p-4">
+		<div class="p-4">
 			{#each standardList as item, index (index)}
 				<StandardListItem {handleItemDelete} data={item} showSettings={true} />
 			{/each}
