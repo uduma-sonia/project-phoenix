@@ -41,6 +41,13 @@
 	let boardDetails = $derived($boardQuery?.data?.data?.board);
 	let standardList = $derived($standardItemsQuery?.data?.data?.shoppingItems);
 
+	function sortByDone(items: any[]) {
+		return items.sort((a, b) => {
+			if (a.done === b.done) return 0;
+			return a.done ? 1 : -1;
+		});
+	}
+
 	let filteredItems = $derived(
 		itemsList?.filter((item: any) => item.name.toUpperCase().includes(searchQuery.toUpperCase()))
 	);
@@ -166,7 +173,7 @@
 		<div class="mt-6 grid grid-cols-1 gap-10 px-3 md:grid-cols-2">
 			<div>
 				<div class="mb-6 space-y-2">
-					{#each filteredItems as items, index (index)}
+					{#each sortByDone(filteredItems) as items, index (index)}
 						<ListItem
 							currency={boardDetails?.currency}
 							{handleUpdate}
