@@ -42,7 +42,7 @@
 	let standardList = $derived($standardItemsQuery?.data?.data?.shoppingItems);
 
 	function sortByDone(items: any[]) {
-		return items.sort((a, b) => {
+		return items?.sort((a, b) => {
 			if (a.done === b.done) return 0;
 			return a.done ? 1 : -1;
 		});

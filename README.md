@@ -1,6 +1,5 @@
 # Backlogs
 
-- Arrange shopping list, done items goes to bottom
 - Empty states (reusable component - loading, error, text)
 - Hide certain options in tracker dropdown when the viewed date is in the future
 - Fetch tracker for one person
