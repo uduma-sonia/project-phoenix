@@ -30,10 +30,12 @@
 					onclick={() => handleEdit(data?._id)}
 				>
 					<div class="flex">
-						<p>{qty} {data?.name} <small>{data?.unit}</small></p>
+						<p class:line-through={data?.done}>{qty} {data?.name} <small>{data?.unit}</small></p>
 					</div>
 					{#if data?.price > 0}
-						<p class="text-sm">{currency}{data?.price.toLocaleString()}</p>
+						<p class="text-sm" class:line-through={data?.done}>
+							{currency}{data?.price.toLocaleString()}
+						</p>
 					{/if}
 				</button>
 			</div>

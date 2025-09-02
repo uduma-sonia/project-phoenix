@@ -171,3 +171,16 @@
 	justify-content: center;
 	box-shadow: 2px 2px black !important;
 }
+
+.input_right_placeholder {
+	position: absolute;
+	top: 50%;
+	right: 8px;
+	transform: translateY(-50%);
+	font-weight: 200;
+	color: rgba(0, 0, 0, 0.6);
+	font-size: 14px;
+	background-color: white;
+	z-index: 999;
+	font-family: 'Lexend Variable', sans-serif;
+}

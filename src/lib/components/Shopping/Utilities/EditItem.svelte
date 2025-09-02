@@ -1,5 +1,6 @@
 <script lang="ts">
 	// @ts-nocheck
+	import InputField from '$lib/components/Common/InputField.svelte';
 	import Helpers from '$lib/utils/helpers';
 
 	let { data, handleEdit, handleUpdate } = $props();
@@ -23,29 +24,8 @@
 </script>
 
 <div class="p-3" use:Helpers.clickOutside onclick_outside={handleClickOutside}>
-	<input
-		type="text"
-		bind:value={itemName}
-		class="h-[40px] w-full border-b border-b-[#393838] px-3 outline-none"
-		placeholder="Name"
-	/>
-	<input
-		inputmode="numeric"
-		bind:value={quantity}
-		class="h-[40px] w-full border-b border-b-[#393838] px-3 outline-none"
-		placeholder="Quantity"
-	/>
-	<input
-		bind:value={unit}
-		class="h-[40px] w-full border-b border-b-[#393838] px-3 outline-none"
-		type="text"
-		placeholder="Units eg. cartons, packets"
-	/>
-	<input
-		type="number"
-		inputmode="numeric"
-		bind:value={price}
-		class="h-[40px] w-full border-b border-b-[#393838] px-3 outline-none"
-		placeholder="Price"
-	/>
+	<InputField bind:value={itemName} label="Name" />
+	<InputField bind:value={quantity} label="Quantity" type="number" />
+	<InputField bind:value={unit} label="Units eg. cartons, packets" />
+	<InputField bind:value={price} label="Price" type="number" />
 </div>
