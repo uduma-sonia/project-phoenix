@@ -9,6 +9,7 @@
 	import StreakCard from './Utilities/StreakCard.svelte';
 	import TrackerUtils from './Utilities/utils';
 	import Helpers from '$lib/utils/helpers';
+	import HistoryItem from './Utilities/HistoryItem.svelte';
 
 	let { details } = $props();
 
@@ -106,6 +107,17 @@
 						smallText={`Day${_stats?.skipped > 1 ? 's' : ''}`}
 						description="Skipped"
 					/>
+				</div>
+			{/if}
+			{#if details?.type == 'QUIT'}
+				<div class="">
+					<h3 class="mb-4 text-lg">History</h3>
+
+					<div class="space-y-3">
+						<HistoryItem text="Last streak was 5 days" />
+						<HistoryItem text="You stopped this streak" />
+						<HistoryItem text="You started this streak for the first time" />
+					</div>
 				</div>
 			{/if}
 		</div>
