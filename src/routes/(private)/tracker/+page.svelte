@@ -10,8 +10,16 @@
 	});
 
 	let user = $derived($userQuery?.data?.data?.user);
+
+	let innerHeight = $state(typeof window !== 'undefined' ? window.innerHeight : 0);
+
+	if (typeof window !== 'undefined') {
+		window.addEventListener('resize', () => {
+			innerHeight = window.innerHeight;
+		});
+	}
 </script>
 
-<div class="bg-brand-light min-h-screen">
+<div class="bg-brand-light" style="min-height: {innerHeight}px;">
 	<View {user} />
 </div>

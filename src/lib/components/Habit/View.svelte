@@ -3,7 +3,6 @@
 	import HabitItem from './Utilities/HabitItem.svelte';
 	import HabitSearch from './Utilities/HabitSearch.svelte';
 	import TopSection from '../Common/TopSection.svelte';
-	import { Plus } from '@lucide/svelte';
 	import { TrackerLogRequest, TrackerRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
@@ -141,7 +140,7 @@
 	}
 </script>
 
-<div class="mx-auto w-full max-w-[1000px] overflow-x-hidden pb-64">
+<div class="mx-auto w-full max-w-[1000px] overflow-x-hidden pb-8">
 	<TopSection />
 	<DateScroller />
 

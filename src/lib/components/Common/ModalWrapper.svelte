@@ -12,7 +12,7 @@
 		label
 	} = $props();
 
-	let innerHeight = $state(typeof window !== 'undefined' ? window.innerHeight : 0);
+	let innerHeight = $derived(typeof window !== 'undefined' ? window.innerHeight : 0);
 
 	if (typeof window !== 'undefined') {
 		window.addEventListener('resize', () => {
