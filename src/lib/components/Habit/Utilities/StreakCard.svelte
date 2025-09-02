@@ -13,7 +13,12 @@
 
 <div class="relative mt-4 flex h-[200px] items-center justify-center sm:h-[270px]">
 	<div class="absolute top-0 right-0">
-		<Doughnut percentage={50} size={20} innerBgColor="transparent" progressColor={'#db7760'} />
+		<Doughnut
+			percentage={TrackerUtils.getDayProgressPercent()}
+			size={20}
+			innerBgColor="transparent"
+			progressColor={'#db7760'}
+		/>
 	</div>
 	<div class="w-full text-center">
 		<p class="font-lexend text-4xl font-semibold">
