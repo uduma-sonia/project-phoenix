@@ -6,9 +6,9 @@
 	let { data, handleEdit, handleUpdate } = $props();
 
 	let itemName = $state(data?.name);
-	let quantity = $state(data?.quantity || '');
+	let quantity = $state(JSON.stringify(data?.quantity) || '');
 	let unit = $state(data?.unit);
-	let price = $state(data?.price || '');
+	let price = $state(JSON.stringify(data?.price) || '');
 
 	function handleClickOutside() {
 		const payload = {
