@@ -2,7 +2,7 @@
 	import { trackerState, updateSelectedDay } from '$lib/state/tracker.svelte';
 	import Helpers from '$lib/utils/helpers';
 	import { Play } from '@lucide/svelte';
-	import { isSameDay } from 'date-fns';
+	import { isFuture, isSameDay } from 'date-fns';
 	import { onMount } from 'svelte';
 
 	let middle_container: any;
@@ -39,11 +39,15 @@
 		>
 			{#each daysArray as day, index (index)}
 				{@const isToday = isSameDay(new Date(day), trackerState.data.selectedDay)}
+				{@const _isFuture = isFuture(day)}
+
 				<div class="min-w-[100px] sm:min-w-[120px]">
 					<button
 						id={isToday ? 'today-button' : undefined}
 						class="bg-brand-rose font-lexend button_active flex h-[50px] w-full items-center justify-center gap-1 rounded-lg border-2 border-black text-sm font-normal sm:text-base"
 						class:today={isToday}
+						disabled={_isFuture}
+						class:opacity_05={_isFuture}
 						onclick={() => updateSelectedDay(day)}
 					>
 						{Helpers.getRelativeDate(day)}
@@ -61,6 +65,10 @@
 </div>
 
 <style>
+	.opacity_05 {
+		opacity: 0.4;
+		cursor: not-allowed;
+	}
 	.middle_container {
 		transition: all 0.3s linear;
 		scroll-behavior: smooth;
