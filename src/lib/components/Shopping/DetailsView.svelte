@@ -145,7 +145,7 @@
 		<div class="my-6 justify-between px-3 md:flex">
 			<BackComponent title={boardDetails?.name} backLink="/shopping" />
 
-			<div class="mt-6 flex flex-1 items-center gap-4 md:mt-0 md:justify-end">
+			<div class="mt-10 flex flex-1 items-center gap-4 md:mt-0 md:justify-end">
 				<div>
 					<button
 						class="shadow_button shadow_button_thin shadow_button_with_icon"
@@ -178,7 +178,7 @@
 			</div>
 		</div>
 
-		<div class="mt-6 grid grid-cols-1 gap-10 px-3 md:grid-cols-2">
+		<div class="mt-14 grid grid-cols-1 gap-10 px-3 md:grid-cols-2">
 			<div>
 				<div class="mb-6 space-y-2">
 					{#each sortByDone(filteredItems) as items, index (index)}
@@ -218,7 +218,8 @@
 			</div>
 
 			{#if showStandardList && standardList?.length > 0}
-				<div class="hidden h-fit rounded-lg border-2 bg-white p-2 md:block">
+				<div class="h-fit rounded-lg border-2 bg-white p-2">
+					<!-- <div class="hidden h-fit rounded-lg border-2 bg-white p-2 md:block"> -->
 					{#each standardList as item, index (index)}
 						{@const hasBeenAdded = findName(item.name, itemsList)}
 
