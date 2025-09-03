@@ -16,10 +16,12 @@
 
 	let user = $derived($userQuery?.data?.data?.user);
 
-	const boardsQuery = createQuery({
-		queryKey: queryKeys.getAllBoards,
-		queryFn: () => shoppingRequest.getAllBoards(user._id)
-	});
+	const boardsQuery = $derived(
+		createQuery({
+			queryKey: queryKeys.getAllBoards,
+			queryFn: () => shoppingRequest.getAllBoards(user._id)
+		})
+	);
 
 	let boardsList = $derived($boardsQuery?.data?.data?.boards);
 </script>

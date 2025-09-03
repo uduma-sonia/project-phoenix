@@ -7,17 +7,12 @@
 	import { page } from '$app/state';
 	import { addToast } from '$lib/store/toast';
 
-	let { onClose, isOpen } = $props();
+	let { onClose, isOpen, user } = $props();
 	const queryClient = useQueryClient();
 
 	let boardId = page.params.id as string;
 	let isRemoving = $state('');
 	let email = $state('');
-
-	const userQuery = createQuery({
-		queryKey: queryKeys.getCurrentUser,
-		queryFn: () => UserRequest.getCurrentUser()
-	});
 
 	let membersQuery = createQuery({
 		queryKey: queryKeys.getBoardMembers(boardId),
@@ -36,7 +31,6 @@
 		})
 	);
 
-	let user = $derived($userQuery?.data?.data?.user);
 	let usersList = $derived($usersQuery?.data?.data?.users);
 
 	async function inviteMember() {

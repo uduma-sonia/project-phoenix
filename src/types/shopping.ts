@@ -17,6 +17,7 @@ export type BoardItem = {
 	done?: boolean;
 	boardId?: string;
 	price?: number;
+	ownerId: string;
 };
 
 export type BoardMember = {

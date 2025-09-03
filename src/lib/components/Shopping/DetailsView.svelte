@@ -7,7 +7,7 @@
 	import { closeModal, modalsState, openModal } from '$lib/state/modal.svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import { addToast } from '$lib/store/toast';
-	import { shoppingRequest } from '$lib/requests';
+	import { shoppingRequest, UserRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import { page } from '$app/state';
@@ -27,6 +27,11 @@
 		queryFn: () => shoppingRequest.getBoardItems(boardId, '')
 	});
 
+	const userQuery = createQuery({
+		queryKey: queryKeys.getCurrentUser,
+		queryFn: () => UserRequest.getCurrentUser()
+	});
+
 	const boardQuery = createQuery({
 		queryKey: queryKeys.getBoard(boardId),
 		queryFn: () => shoppingRequest.getBoard(boardId)
@@ -40,6 +45,7 @@
 	let itemsList = $derived($boardItemsQuery?.data?.data?.shoppingItems);
 	let boardDetails = $derived($boardQuery?.data?.data?.board);
 	let standardList = $derived($standardItemsQuery?.data?.data?.shoppingItems);
+	let user = $derived($userQuery?.data?.data?.user);
 
 	function sortByDone(items: any[]) {
 		return items?.sort((a, b) => {
@@ -77,7 +83,8 @@
 				unit: '',
 				done: false,
 				boardId,
-				price: 0
+				price: 0,
+				ownerId: user?._id
 			};
 
 			const result = await shoppingRequest.createItem(payload);
@@ -98,7 +105,8 @@
 			isLoading = true;
 
 			const payload = {
-				done: _done
+				done: _done,
+				ownerId: user._id
 			};
 
 			const result = await shoppingRequest.updateItem(itemId, payload);
@@ -229,4 +237,6 @@
 	</div>
 </div>
 
-<InviteModal onClose={closeModal} isOpen={modalsState.data.isOpen} />
+{#if user?._id}
+	<InviteModal onClose={closeModal} isOpen={modalsState.data.isOpen} {user} />
+{/if}

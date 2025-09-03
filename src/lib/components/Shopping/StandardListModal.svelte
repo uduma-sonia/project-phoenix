@@ -3,13 +3,20 @@
 	import AddStandardItem from './Utilities/AddStandardItem.svelte';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import { page } from '$app/state';
-	import { shoppingRequest } from '$lib/requests';
+	import { shoppingRequest, UserRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import { addToast } from '$lib/store/toast';
 
 	let { onClose, isOpen } = $props();
 	const queryClient = useQueryClient();
+
+	const userQuery = createQuery({
+		queryKey: queryKeys.getCurrentUser,
+		queryFn: () => UserRequest.getCurrentUser()
+	});
+
+	let user = $derived($userQuery?.data?.data?.user);
 
 	let boardId = page.params.id;
 	let isLoading = $state(false);
@@ -18,13 +25,15 @@
 		try {
 			isLoading = true;
 
+			// TODO: ADD OWNER ID TO BOARD ITEM PAYLOAD
 			const payload = {
 				name: value,
 				quantity: 0,
 				unit: '',
 				done: false,
 				boardId: '',
-				price: 0
+				price: 0,
+				ownerId: user._id
 			};
 
 			const result = await shoppingRequest.createItem(payload);
@@ -60,7 +69,8 @@
 			isLoading = true;
 
 			const payload = {
-				name: name
+				name: name,
+				ownerId: user._id
 			};
 
 			const result = await shoppingRequest.updateItem(itemId, payload);
@@ -77,7 +87,8 @@
 
 	const standardItemsQuery = createQuery({
 		queryKey: queryKeys.getStandardItems,
-		queryFn: () => shoppingRequest.getStandardItems(boardId)
+		queryFn: () => shoppingRequest.getStandardItems(user._id)
+		// refetchInterval: 5000
 	});
 
 	let standardList = $derived($standardItemsQuery?.data?.data?.shoppingItems);
