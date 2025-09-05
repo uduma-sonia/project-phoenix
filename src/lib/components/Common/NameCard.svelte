@@ -13,7 +13,7 @@
 	let user = $derived($userQuery?.data?.data?.user);
 </script>
 
-<div class="flex h-full items-center justify-between py-4">
+<div class="flex h-full items-center justify-between px-3 py-4">
 	<button class="flex items-center gap-4" onclick={openProfile}>
 		<div class="h-16 w-16 rounded-lg border-2 sm:h-20 sm:w-20"></div>
 

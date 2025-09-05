@@ -23,8 +23,7 @@
 	--color-brand-skip: #e98623;
 	--color-brand-folder: #ffa673;
 	--color-brand-travel-folder: #ff9a9a;
-
-	--height-100: 100px;
+	--color-brand-recipe: #cfc4e7;
 
 	--radius-5: 5px;
 	--radius-10: 10px;
@@ -54,6 +53,16 @@ input {
 
 button {
 	cursor: pointer;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: #030c1c;
 }
 
 .tiny-scrollbar::-webkit-scrollbar {

@@ -1,11 +1,11 @@
 <script lang="ts">
 	import StandardListModal from './StandardListModal.svelte';
-	import Search from './Utilities/Search.svelte';
 	import ShoppingCard from './Utilities/ShoppingCard.svelte';
 	import { closeModal, modalsState, openModal } from '$lib/state/modal.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { shoppingRequest, UserRequest } from '$lib/requests';
+	import HabitSearch from '../Habit/Utilities/HabitSearch.svelte';
 
 	const userQuery = createQuery({
 		queryKey: queryKeys.getCurrentUser,
@@ -24,10 +24,9 @@
 	let boardsList = $derived($boardsQuery?.data?.data?.boards);
 </script>
 
-<div>
+<div class="pt-5">
 	<div class="flex items-center justify-between gap-4 px-3">
-		<Search />
-
+		<HabitSearch />
 		<div>
 			<button class="shadow_button" onclick={openModal}> Standard list </button>
 		</div>

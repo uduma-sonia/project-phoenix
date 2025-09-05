@@ -3,6 +3,6 @@
 	import View from '$lib/components/Shopping/View.svelte';
 </script>
 
-<AppLayout flaotinLgLink="/shopping/create">
+<AppLayout floatingLink="/shopping/create">
 	<View />
 </AppLayout>

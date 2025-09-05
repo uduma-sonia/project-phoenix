@@ -8,8 +8,8 @@
 - Delete shopping item
 - Delete shopping board
 - Implement member permission and invite view for shopping board
-
-Recipe
+- scroll to top
+  Recipe
 
 - View recipe
 - Create Recipe

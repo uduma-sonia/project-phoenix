@@ -2,9 +2,9 @@
 	let { smallText, description, value } = $props();
 </script>
 
-<div class="dropdown_wrapper h-100">
+<div class="dropdown_wrapper h-[100px]">
 	<div
-		class="relative z-10 flex h-100 w-full items-center gap-3 rounded-[18px] border-2 border-black bg-white px-3"
+		class="relative z-10 flex h-[100px] w-full items-center gap-3 rounded-[18px] border-2 border-black bg-white px-3"
 	>
 		<div>
 			<p class="font-lexend text-xl font-semibold">
