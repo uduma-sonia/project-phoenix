@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import DateRangePicker from '$lib/components/Common/DatePicker/DateRangePicker.svelte';
 </script>
 

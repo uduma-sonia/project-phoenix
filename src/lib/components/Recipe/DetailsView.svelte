@@ -1,5 +1,5 @@
 <script>
-	import { Link } from '@lucide/svelte';
+	import { Link, Trash } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import IngredientItem from './Utilities/IngredientItem.svelte';
 	import InstructionItem from './Utilities/InstructionItem.svelte';
@@ -68,6 +68,14 @@
 					<p class="font-lexend font-light">{'Additional notes'}</p>
 				</div>
 			</div>
+		</div>
+	</div>
+
+	<div class="mt-16 flex justify-end">
+		<div>
+			<button class="shadow_button shadow_button_sm text-red-600" style="height: 40px">
+				<Trash size="20px" />
+			</button>
 		</div>
 	</div>
 </div>

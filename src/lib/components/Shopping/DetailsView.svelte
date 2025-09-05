@@ -17,6 +17,7 @@
 
 	let itemName = $state('');
 	let isLoading = $state(false);
+	let isAdding = $state('');
 	let searchQuery = $state('');
 	let showStandardList = $state(false);
 	let canEditId = $state('');
@@ -74,8 +75,6 @@
 
 	async function handleItemAdd(boardId: string, value?: string) {
 		try {
-			isLoading = true;
-
 			const payload = {
 				name: value || itemName,
 				quantity: 0,
@@ -94,8 +93,6 @@
 			}
 		} catch (error: any) {
 			addToast(error?.error || 'An error occured', 'error');
-		} finally {
-			isLoading = false;
 		}
 	}
 
@@ -137,101 +134,99 @@
 	}
 </script>
 
-<div>
-	<div>
-		<div class="my-6 justify-between px-3 md:flex">
-			<BackComponent title={boardDetails?.name} backLink="/shopping" />
+<div class="pb-20">
+	<div class="my-6 justify-between px-3 md:flex">
+		<BackComponent title={boardDetails?.name} backLink="/shopping" />
 
-			<div class="mt-10 flex flex-1 items-center gap-4 md:mt-0 md:justify-end">
-				<div>
-					<button
-						class="shadow_button shadow_button_thin shadow_button_with_icon"
-						onclick={openModal}
-					>
-						<UserRoundPlus size="20px" />
-
-						Invite
-					</button>
-				</div>
-				<div>
-					<button class="shadow_button shadow_button_thin" onclick={toggleShowStandardList}>
-						{#if showStandardList}
-							Hide standard list
-						{:else}
-							Show standard list
-						{/if}
-					</button>
-				</div>
-			</div>
-		</div>
-
-		<div class="flex items-center gap-6 px-3">
-			<Search bind:value={searchQuery} placeholder="Search board" />
-
+		<div class="mt-10 flex flex-1 items-center gap-4 md:mt-0 md:justify-end">
 			<div>
-				<p class="font-lexend text-sm">
-					{completedLength?.length || 0} / {filteredItems?.length || '0'}
-				</p>
-			</div>
-		</div>
+				<button
+					class="shadow_button shadow_button_thin shadow_button_with_icon"
+					onclick={openModal}
+				>
+					<UserRoundPlus size="20px" />
 
-		<div class="mt-14 grid grid-cols-1 gap-10 px-3 md:grid-cols-2">
+					Invite
+				</button>
+			</div>
 			<div>
-				<div class="mb-6 space-y-2">
-					{#each sortByDone(filteredItems) as items, index (index)}
-						<ListItem
-							currency={boardDetails?.currency}
-							{handleUpdate}
-							{canEditId}
-							data={items}
-							{handleUpdateItem}
-							{handleEdit}
-						/>
-					{/each}
-				</div>
+				<button class="shadow_button shadow_button_thin" onclick={toggleShowStandardList}>
+					{#if showStandardList}
+						Hide standard list
+					{:else}
+						Show standard list
+					{/if}
+				</button>
+			</div>
+		</div>
+	</div>
 
-				<div class="relative z-10 w-full gap-3 rounded-lg border-2 bg-white p-3">
-					<form
-						class="flex items-center gap-4"
-						onsubmit={(e) => {
-							e.preventDefault();
-							handleItemAdd(boardId);
-						}}
-					>
-						<input
-							type="text"
-							bind:value={itemName}
-							class="h-[50px] w-full border-b border-b-[#393838] outline-none"
-							placeholder="Type and enter"
-						/>
-					</form>
-				</div>
+	<div class="flex items-center gap-6 px-3">
+		<Search bind:value={searchQuery} placeholder="Search board" />
 
-				<div class="mt-4 flex justify-center">
-					<button class="create_button_sm shadow_button" onclick={() => handleItemAdd(boardId)}>
-						<Plus size="26px" />
-					</button>
-				</div>
+		<div>
+			<p class="font-lexend text-sm">
+				{completedLength?.length || 0} / {filteredItems?.length || '0'}
+			</p>
+		</div>
+	</div>
+
+	<div class="mt-14 grid grid-cols-1 gap-10 px-3 md:grid-cols-2">
+		<div>
+			<div class="mb-6 space-y-2">
+				{#each sortByDone(filteredItems) as items, index (index)}
+					<ListItem
+						currency={boardDetails?.currency}
+						{handleUpdate}
+						{canEditId}
+						data={items}
+						{handleUpdateItem}
+						{handleEdit}
+					/>
+				{/each}
 			</div>
 
-			{#if showStandardList && standardList?.length > 0}
-				<div class="h-fit rounded-lg border-2 bg-white p-2">
-					<!-- <div class="hidden h-fit rounded-lg border-2 bg-white p-2 md:block"> -->
-					{#each standardList as item, index (index)}
-						{@const hasBeenAdded = findName(item.name, itemsList)}
+			<div class="relative z-10 w-full gap-3 rounded-lg border-2 bg-white p-3">
+				<form
+					class="flex items-center gap-4"
+					onsubmit={(e) => {
+						e.preventDefault();
+						handleItemAdd(boardId);
+					}}
+				>
+					<input
+						type="text"
+						bind:value={itemName}
+						class="h-[50px] w-full border-b border-b-[#393838] outline-none"
+						placeholder="Type and enter"
+					/>
+				</form>
+			</div>
 
-						{#if hasBeenAdded}
-							<StandardListItem
-								{boardId}
-								handleAddToList={handleItemAdd}
-								showSettings={false}
-								{item}
-							/>
-						{/if}
-					{/each}
-				</div>
-			{/if}
+			<div class="mt-4 flex justify-center">
+				<button class="create_button_sm shadow_button" onclick={() => handleItemAdd(boardId)}>
+					<Plus size="26px" />
+				</button>
+			</div>
 		</div>
+
+		{#if showStandardList && standardList?.length > 0}
+			<div class="h-fit rounded-lg border-2 bg-white p-2">
+				<!-- <div class="hidden h-fit rounded-lg border-2 bg-white p-2 md:block"> -->
+				{#each standardList as item, index (index)}
+					{@const hasBeenAdded = findName(item.name, itemsList)}
+
+					{#if hasBeenAdded}
+						<StandardListItem
+							{boardId}
+							handleAddToList={handleItemAdd}
+							showSettings={false}
+							{item}
+						/>
+					{/if}
+				{/each}
+			</div>
+		{/if}
 	</div>
 </div>
 
