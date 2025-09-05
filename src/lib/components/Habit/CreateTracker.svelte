@@ -5,7 +5,6 @@
 	import Helpers from '$lib/utils/helpers';
 	import { format, addDays } from 'date-fns';
 	import DatePickerMini from '../Common/DatePicker/DatePickerMini.svelte';
-	import TopSection from '../Common/TopSection.svelte';
 	import { TrackerRequest } from '$lib/requests';
 	import { Check } from '@lucide/svelte';
 	import { goto } from '$app/navigation';
@@ -106,8 +105,6 @@
 </script>
 
 <div>
-	<TopSection withName={false} />
-
 	<div class="mx-auto w-full px-4 md:max-w-[500px]">
 		<BackComponent backLink="/tracker" />
 	</div>

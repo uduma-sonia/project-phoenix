@@ -1,5 +1,4 @@
 <script lang="ts">
-	import TopSection from '../Common/TopSection.svelte';
 	import StandardListModal from './StandardListModal.svelte';
 	import Search from './Utilities/Search.svelte';
 	import ShoppingCard from './Utilities/ShoppingCard.svelte';
@@ -26,9 +25,7 @@
 	let boardsList = $derived($boardsQuery?.data?.data?.boards);
 </script>
 
-<div class="mx-auto w-full max-w-[1000px] overflow-x-hidden pb-64">
-	<TopSection />
-
+<div>
 	<div class="flex items-center justify-between gap-4 px-3">
 		<Search />
 

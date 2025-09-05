@@ -1,8 +1,10 @@
-<!-- <script lang="ts">
+<script lang="ts">
 	let { title, xLabels, yValues, textColor } = $props();
 
 	let canvas: any;
-	const devicePixelRatio = window.devicePixelRatio || 1;
+	const devicePixelRatio = $derived(
+		typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1
+	);
 
 	function drawChart() {
 		const ctx = canvas.getContext('2d');
@@ -63,34 +65,13 @@
 	}
 
 	$effect(() => drawChart());
-
-
 </script>
 
 <div class="chart-container">
 	<canvas bind:this={canvas}></canvas>
 </div>
 
-<style>
-	.chart-container {
-		width: 100%;
-		max-width: 600px;
-		margin: auto;
-		background: #fff;
-		border: 1px solid #ddd;
-		border-radius: 8px;
-		padding: 1rem;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-	}
-
-	canvas {
-		width: 100%;
-		height: 300px;
-		display: block;
-	}
-</style> -->
-
-<script lang="ts">
+<!-- <script lang="ts">
 	let { title, xLabels, yValues, textColor } = $props();
 
 	let canvas: HTMLCanvasElement;
@@ -190,5 +171,24 @@
 		height: 300px;
 		display: block;
 		background: #f7f7f7;
+	}
+</style> -->
+
+<style>
+	.chart-container {
+		width: 100%;
+		max-width: 600px;
+		margin: auto;
+		background: #fff;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		padding: 1rem;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+	}
+
+	canvas {
+		width: 100%;
+		height: 300px;
+		display: block;
 	}
 </style>

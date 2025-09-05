@@ -1,7 +1,8 @@
 <script>
+	import AppLayout from '$lib/components/Common/AppLayout.svelte';
 	import DetailsView from '$lib/components/Shopping/DetailsView.svelte';
 </script>
 
-<div class="bg-brand-light min-h-screen">
+<AppLayout withName={false}>
 	<DetailsView />
-</div>
+</AppLayout>

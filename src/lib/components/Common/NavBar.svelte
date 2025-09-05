@@ -3,14 +3,19 @@
 
 	const routesList = [
 		{
-			label: 'Habit Tracker',
+			label: 'Tracker',
 			route: '/tracker',
 			keyword: 'tracker'
 		},
 		{
-			label: 'Shopping List',
+			label: 'Shopping',
 			route: '/shopping',
 			keyword: 'shopping'
+		},
+		{
+			label: 'Recipe',
+			route: '/recipe',
+			keyword: 'recipe'
 		},
 		{
 			label: 'Travel Planner',

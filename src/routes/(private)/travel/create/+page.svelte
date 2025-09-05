@@ -1,7 +1,8 @@
 <script>
+	import AppLayout from '$lib/components/Common/AppLayout.svelte';
 	import CreateTravel from '$lib/components/Travel/CreateTravel.svelte';
 </script>
 
-<div class="bg-brand-light min-h-screen">
+<AppLayout withName={false}>
 	<CreateTravel />
-</div>
+</AppLayout>

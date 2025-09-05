@@ -5,3 +5,13 @@
 - Tooltip for invite modal - explaining the flow
 - Add the currency symbol in editItem component
 - Track log history for quit type
+- Delete shopping item
+- Delete shopping board
+- Implement member permission and invite view for shopping board
+
+Recipe
+
+- View recipe
+- Create Recipe
+- Delete recipe
+- Share recipe

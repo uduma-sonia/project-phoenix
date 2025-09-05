@@ -1,13 +1,10 @@
-<script>
+<script lang="ts">
 	import FloatingButton from '../Common/FloatingButton.svelte';
-	import TopSection from '../Common/TopSection.svelte';
 	import Search from '../Shopping/Utilities/Search.svelte';
 	import TravelCard from './Utilities/TravelCard.svelte';
 </script>
 
-<div class="mx-auto w-full max-w-[1000px] pb-64">
-	<TopSection />
-
+<div>
 	<div class="flex items-center justify-between gap-4 px-3">
 		<Search />
 	</div>

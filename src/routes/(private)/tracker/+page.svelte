@@ -1,4 +1,5 @@
 <script>
+	import AppLayout from '$lib/components/Common/AppLayout.svelte';
 	import View from '$lib/components/Habit/View.svelte';
 	import { UserRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
@@ -10,16 +11,10 @@
 	});
 
 	let user = $derived($userQuery?.data?.data?.user);
-
-	let innerHeight = $state(typeof window !== 'undefined' ? window.innerHeight : 0);
-
-	if (typeof window !== 'undefined') {
-		window.addEventListener('resize', () => {
-			innerHeight = window.innerHeight;
-		});
-	}
 </script>
 
-<div class="bg-brand-light" style="min-height: {innerHeight}px;">
+<AppLayout>
 	<View {user} />
-</div>
+</AppLayout>
+
+<!-- <BarChart title="Bar" xLabels={['mon', 'tue', 'wed']} yValues={[1, 2, 3, 4]} textColor="red" /> -->

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Plus, UserRoundPlus } from '@lucide/svelte';
-	import TopSection from '../Common/TopSection.svelte';
 	import ListItem from './Utilities/ListItem.svelte';
 	import Search from './Utilities/Search.svelte';
 	import InviteModal from './InviteModal.svelte';
@@ -138,9 +137,7 @@
 	}
 </script>
 
-<div class="mx-auto w-full max-w-[1000px] overflow-x-hidden pb-64">
-	<TopSection withName={false} />
-
+<div>
 	<div>
 		<div class="my-6 justify-between px-3 md:flex">
 			<BackComponent title={boardDetails?.name} backLink="/shopping" />

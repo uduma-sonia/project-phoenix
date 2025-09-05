@@ -4,7 +4,6 @@
 	import { addToast } from '$lib/store/toast';
 	import { ShoppingStatus } from '../../../types/shopping';
 	import BackComponent from '../Common/BackComponent.svelte';
-	import TopSection from '../Common/TopSection.svelte';
 
 	let { user } = $props();
 
@@ -40,8 +39,6 @@
 </script>
 
 <div>
-	<TopSection withName={false} />
-
 	<div class="mx-auto w-full px-4 md:max-w-[500px]">
 		<BackComponent backLink="/shopping" />
 	</div>
