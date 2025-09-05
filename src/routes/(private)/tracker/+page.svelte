@@ -13,7 +13,7 @@
 	let user = $derived($userQuery?.data?.data?.user);
 </script>
 
-<AppLayout>
+<AppLayout flaotinLgLink="/tracker/create">
 	<View {user} />
 </AppLayout>
 

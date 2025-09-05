@@ -1,8 +1,9 @@
 <script lang="ts">
+	import FloatingButton from './FloatingButton.svelte';
 	import NameCard from './NameCard.svelte';
 	import NavBar from './NavBar.svelte';
 
-	let { children, withName = true } = $props();
+	let { children, withName = true, flaotinLgLink = '' } = $props();
 
 	let innerHeight = $state(typeof window !== 'undefined' ? window.innerHeight : 0);
 
@@ -22,5 +23,7 @@
 			{/if}
 		</div>
 		{@render children()}
+
+		<FloatingButton link={flaotinLgLink} />
 	</div>
 </div>

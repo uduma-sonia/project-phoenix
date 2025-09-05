@@ -3,7 +3,6 @@
 	import Search from './Utilities/Search.svelte';
 	import ShoppingCard from './Utilities/ShoppingCard.svelte';
 	import { closeModal, modalsState, openModal } from '$lib/state/modal.svelte';
-	import FloatingButton from '../Common/FloatingButton.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { shoppingRequest, UserRequest } from '$lib/requests';
@@ -39,8 +38,6 @@
 			<ShoppingCard {board} />
 		{/each}
 	</div>
-
-	<FloatingButton link="/shopping/create" />
 </div>
 
 <StandardListModal onClose={closeModal} isOpen={modalsState.data.isOpen} />

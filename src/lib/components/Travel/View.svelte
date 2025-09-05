@@ -1,5 +1,4 @@
 <script lang="ts">
-	import FloatingButton from '../Common/FloatingButton.svelte';
 	import Search from '../Shopping/Utilities/Search.svelte';
 	import TravelCard from './Utilities/TravelCard.svelte';
 </script>
@@ -13,5 +12,4 @@
 		<TravelCard />
 		<TravelCard />
 	</div>
-	<FloatingButton link="/travel/create" />
 </div>

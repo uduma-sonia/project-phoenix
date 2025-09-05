@@ -3,6 +3,6 @@
 	import View from '$lib/components/Travel/View.svelte';
 </script>
 
-<AppLayout>
+<AppLayout flaotinLgLink="/travel/create">
 	<View />
 </AppLayout>
