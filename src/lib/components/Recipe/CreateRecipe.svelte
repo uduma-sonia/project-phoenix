@@ -87,7 +87,7 @@
 
 <div>
 	<div class="mx-auto w-full px-4 md:max-w-[500px]">
-		<BackComponent backLink="/tracker" />
+		<BackComponent backLink="/recipe" />
 	</div>
 
 	<div class="mt-4 flex items-center justify-center px-4 pb-52">

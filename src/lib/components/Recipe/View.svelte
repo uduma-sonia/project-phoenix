@@ -1,10 +1,12 @@
-<script>
+<script lang="ts">
 	import HabitSearch from '../Habit/Utilities/HabitSearch.svelte';
-	import Search from '../Shopping/Utilities/Search.svelte';
+	import GroupScroller from './Utilities/GroupScroller.svelte';
 	import RecipeCard from './Utilities/RecipeCard.svelte';
 </script>
 
-<div>
+<div class="pb-24">
+	<GroupScroller />
+
 	<div class="relative z-30 mt-5 gap-3 px-3">
 		<HabitSearch />
 	</div>
