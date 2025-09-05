@@ -47,7 +47,7 @@
 		<div class="login_form_wrapper w-full md:max-w-[500px]">
 			<form class="login_form h-full rounded-3xl border-2 bg-white" onsubmit={handleSubmit}>
 				<div class="pb-3">
-					<p class="font-suez text-3xl">Create Board</p>
+					<p class="font-suez text-2xl">Create Board</p>
 				</div>
 
 				<hr />

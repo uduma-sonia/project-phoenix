@@ -209,7 +209,7 @@
 
 				<div class="mt-4 flex justify-center">
 					<button class="create_button_sm shadow_button" onclick={() => handleItemAdd(boardId)}>
-						<Plus size="16px" />
+						<Plus size="26px" />
 					</button>
 				</div>
 			</div>

@@ -3,6 +3,6 @@
 	import View from '$lib/components/Recipe/View.svelte';
 </script>
 
-<AppLayout>
+<AppLayout floatingLink="/recipe/create">
 	<View />
 </AppLayout>

@@ -9,6 +9,8 @@
 - Delete shopping board
 - Implement member permission and invite view for shopping board
 - scroll to top
+- add total to shopping board
+
   Recipe
 
 - View recipe

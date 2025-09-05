@@ -277,6 +277,11 @@ class Helpers {
 				};
 		}
 	}
+
+	static checkFileSize(file: File, size: number) {
+		const sizeInMB = file.size / (1024 * 1024);
+		return sizeInMB > size;
+	}
 }
 
 export default Helpers;
