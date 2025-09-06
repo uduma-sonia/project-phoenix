@@ -1,5 +1,6 @@
 <script>
 	import AppLayout from '$lib/components/Common/AppLayout.svelte';
+	import Seo from '$lib/components/Common/SEO.svelte';
 	import View from '$lib/components/Habit/View.svelte';
 	import { UserRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
@@ -14,6 +15,7 @@
 </script>
 
 <AppLayout floatingLink="/tracker/create">
+	<Seo title="Phoenix - Tracker" />
 	<View {user} />
 </AppLayout>
 

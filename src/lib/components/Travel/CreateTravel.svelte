@@ -1,7 +1,6 @@
 <script lang="ts">
 	import BackComponent from '../Common/BackComponent.svelte';
 	import BasicInputField from '../Common/BasicInputField.svelte';
-	import InputField from '../Common/InputField.svelte';
 	let isSubmitting = $state(false);
 </script>
 

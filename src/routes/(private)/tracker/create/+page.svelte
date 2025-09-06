@@ -4,6 +4,7 @@
 	import { UserRequest } from '$lib/requests';
 	import { createQuery } from '@tanstack/svelte-query';
 	import AppLayout from '$lib/components/Common/AppLayout.svelte';
+	import Seo from '$lib/components/Common/SEO.svelte';
 
 	const userQuery = createQuery({
 		queryKey: queryKeys.getCurrentUser,
@@ -14,5 +15,6 @@
 </script>
 
 <AppLayout withName={false}>
+	<Seo title="Phoenix - Create Tracker" />
 	<CreateTracker {user} />
 </AppLayout>

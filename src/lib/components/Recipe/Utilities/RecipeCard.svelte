@@ -2,7 +2,7 @@
 	let { recipe } = $props();
 </script>
 
-<a href={`/recipe/o39idjcei`} class="button_active cursor-pointer">
+<a href={`/recipe/${recipe?._id}`} class="button_active cursor-pointer">
 	<div class="bg-brand-recipe relative h-6 w-16 rounded-tl-lg border-2 border-b-0">
 		<div class="bg-brand-recipe absolute top-2 -right-10 h-20 w-full -rotate-45 border-r-2"></div>
 	</div>

@@ -1,12 +1,41 @@
-<script>
+<script lang="ts">
 	import { Link, Trash } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import IngredientItem from './Utilities/IngredientItem.svelte';
 	import InstructionItem from './Utilities/InstructionItem.svelte';
+	import { createQuery } from '@tanstack/svelte-query';
+	import { queryKeys } from '$lib/utils/queryKeys';
+	import { recipeRequest } from '$lib/requests';
+	import { page } from '$app/state';
+	import Seo from '../Common/SEO.svelte';
+	import { addToast } from '$lib/store/toast';
+
+	const detailsQuery = createQuery({
+		queryKey: queryKeys.getSingleRecipe(page.params.id),
+		queryFn: () => recipeRequest.getSingleRecipe(page.params.id)
+	});
+
+	let isLoading = $state(false);
+
+	const recipe = $derived($detailsQuery?.data?.data?.recipe);
+
+	async function handleDelete(id: string) {
+		try {
+			isLoading = true;
+
+			await recipeRequest.deleteRecipe(id);
+			addToast('Recipe deleted', 'success');
+		} catch (error: any) {
+			addToast(error || 'An error occured', 'error');
+		} finally {
+			isLoading = false;
+		}
+	}
 </script>
 
+<Seo title={recipe?.name} />
 <div class="mx-auto mt-4 max-w-[500px] px-3 pb-24">
-	<BackComponent backLink="/recipe" title="Best Fluffy Pancakes Recipe" />
+	<BackComponent backLink="/recipe" title={recipe?.name} />
 
 	<div class="mt-6">
 		<div class="image_wrapper h-[200px]">
@@ -39,9 +68,9 @@
 				</div>
 
 				<div class="mt-4 space-y-3">
-					<IngredientItem name="1 cup flour" />
-					<IngredientItem name="1 cup sugar" />
-					<IngredientItem name="1 cup cocoa powder" />
+					{#each recipe?.ingredients as item, index (index)}
+						<IngredientItem name={item?.value} />
+					{/each}
 				</div>
 			</div>
 
@@ -49,15 +78,9 @@
 				<h3 class="text-xl">Instructions</h3>
 
 				<div class="mt-4 space-y-4">
-					<InstructionItem
-						name="In a large bowl, sift together the flour, baking powder, salt, and sugar. Make a well in the middle and pour in the milk, egg, butter, and vanilla extract (if using it to add flavor). Break up the egg first with a fork, and then begin to combine the flour, working from the outside of the bowl in, until just combined and mostly smooth."
-						step="1"
-					/>
-
-					<InstructionItem
-						name="Heat a non-stick griddle or large pan over medium-high heat. Once hot, grease, spray, or melt butter on the hot surface. When using an electric griddle, heat it somewhere between 300 and 350F."
-						step="2"
-					/>
+					{#each recipe?.method as item, index (index)}
+						<InstructionItem name={item?.value} step={'' + (index + 1)} />
+					{/each}
 				</div>
 			</div>
 
@@ -73,7 +96,11 @@
 
 	<div class="mt-16 flex justify-end">
 		<div>
-			<button class="shadow_button shadow_button_sm text-red-600" style="height: 40px">
+			<button
+				class="shadow_button shadow_button_sm text-red-600"
+				style="height: 40px"
+				onclick={() => handleDelete(recipe?._id)}
+			>
 				<Trash size="20px" />
 			</button>
 		</div>

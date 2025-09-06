@@ -13,7 +13,7 @@
 
   Recipe
 
-- View recipe
-- Create Recipe
 - Delete recipe
 - Share recipe
+- add is private option
+- get recipe with slug

@@ -17,6 +17,10 @@ class RecipeService {
 		return await this.api.get(`${this.prefix}`, { ...reqConfig });
 	}
 
+	async getSingleRecipe(id: string, reqConfig?: ReqConfig) {
+		return await this.api.get(`${this.prefix}/${id}`, { ...reqConfig });
+	}
+
 	async updateRecipe(id: string, data: Recipe, reqConfig?: ReqConfig) {
 		return await this.api.put(`${this.prefix}/${id}`, data, { ...reqConfig });
 	}

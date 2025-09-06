@@ -11,13 +11,13 @@
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import { page } from '$app/state';
 	import StandardListItem from './Utilities/StandardListItem.svelte';
+	import Seo from '../Common/SEO.svelte';
 
 	const queryClient = useQueryClient();
 	let boardId = page.params.id;
 
 	let itemName = $state('');
 	let isLoading = $state(false);
-	let isAdding = $state('');
 	let searchQuery = $state('');
 	let showStandardList = $state(false);
 	let canEditId = $state('');
@@ -134,6 +134,7 @@
 	}
 </script>
 
+<Seo title={boardDetails?.name} />
 <div class="pb-20">
 	<div class="my-6 justify-between px-3 md:flex">
 		<BackComponent title={boardDetails?.name} backLink="/shopping" />
