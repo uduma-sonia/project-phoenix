@@ -17,3 +17,4 @@
 - Share recipe
 - add is private option
 - get recipe with slug
+- image overlay carousel

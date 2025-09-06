@@ -40,8 +40,12 @@
 	<div class="mt-6">
 		<div class="image_wrapper h-[200px]">
 			<div
-				class="relative z-10 h-full w-full cursor-pointer gap-3 rounded-lg border-2 border-black bg-white p-4"
-			></div>
+				class="relative z-10 h-full w-full cursor-pointer gap-3 overflow-hidden rounded-lg border-2 border-black bg-white"
+			>
+				{#if recipe?.imageUrl}
+					<img src={recipe?.imageUrl} alt="" class="max-h-full w-full max-w-full object-cover" />
+				{/if}
+			</div>
 		</div>
 
 		<div class="mt-4 flex justify-end gap-3">
