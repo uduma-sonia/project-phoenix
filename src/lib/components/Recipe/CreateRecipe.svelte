@@ -3,11 +3,15 @@
 	import BackComponent from '../Common/BackComponent.svelte';
 	import Helpers from '$lib/utils/helpers';
 	import { addToast } from '$lib/store/toast';
+	import { recipeRequest } from '$lib/requests';
+	import { goto } from '$app/navigation';
 
 	let textarea: any = $state(null);
 	let inputElement: any = $state(null);
 	let fileName = $state('');
 	let base64Image = $state('');
+	let recipeName = $state('');
+	let notes = $state('');
 	let isSubmitting = $state(false);
 
 	let ingredientsList = $state([
@@ -48,7 +52,6 @@
 	const resizeTextarea = () => {
 		textarea.style.height = 'auto';
 		textarea.style.height = textarea.scrollHeight + 'px';
-		// updateNote();
 	};
 
 	const handleBrowseClick = () => {
@@ -73,6 +76,37 @@
 			}
 		}
 	};
+
+	async function handleSubmit(e: any) {
+		e.preventDefault();
+
+		try {
+			isSubmitting = true;
+
+			const payload = {
+				name: recipeName,
+				note: notes,
+				imageUrl: '',
+				isPrivate: false,
+				ingredients: ingredientsList.map((item) => {
+					return { value: item.value };
+				}),
+				method: methodsList.map((item) => {
+					return { value: item.value };
+				})
+			};
+
+			const result = await recipeRequest.createRecipe(payload);
+
+			if (result) {
+				goto('/recipe');
+			}
+		} catch (error: any) {
+			addToast(error || 'An error occured', 'error');
+		} finally {
+			isSubmitting = false;
+		}
+	}
 </script>
 
 <input
@@ -80,7 +114,7 @@
 	id="media"
 	name="media"
 	accept="image/*"
-	class="invisible absolute left-[999px]"
+	class="invisible absolute bottom-0 left-0"
 	bind:this={inputElement}
 	onchange={handleFileChange}
 />
@@ -92,7 +126,7 @@
 
 	<div class="mt-4 flex items-center justify-center px-4 pb-52">
 		<div class="login_form_wrapper w-full md:max-w-[500px]">
-			<form class="login_form h-full rounded-3xl border-2 bg-white">
+			<form class="login_form h-full rounded-3xl border-2 bg-white" onsubmit={handleSubmit}>
 				<div class="pb-3">
 					<p class="font-suez text-2xl">Create Recipe</p>
 				</div>
@@ -101,12 +135,13 @@
 
 				<div class="mb-10 space-y-4 pt-5">
 					<div>
-						<label for="boardName" class="mb-2">Name</label>
+						<label for="recipeName" class="mb-2">Name</label>
 						<input
 							type="text"
-							id="boardName"
-							name="boardName"
+							id="recipeName"
+							name="recipeName"
 							required
+							bind:value={recipeName}
 							class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
 						/>
 					</div>
@@ -138,7 +173,7 @@
 							</div>
 						</div>
 
-						<div class="mt-4 flex justify-end">
+						<div class="mt-4">
 							<button
 								type="button"
 								class="text-brand-green flex items-center"
@@ -178,7 +213,7 @@
 							</div>
 						</div>
 
-						<div class="mt-4 flex justify-end">
+						<div class="mt-4">
 							<button
 								type="button"
 								class="text-brand-green flex items-center"
@@ -199,6 +234,7 @@
 							oninput={resizeTextarea}
 							bind:this={textarea}
 							rows={5}
+							bind:value={notes}
 							class="w-full rounded-lg border-2 border-black px-3 text-left outline-none"
 						/>
 					</div>

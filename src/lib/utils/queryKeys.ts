@@ -34,9 +34,14 @@ const shoppingKeys = {
 	getBoardMembers: (boardId: string) => [`/shopping-member/${boardId}`]
 };
 
+const recipeKeys = {
+	getRecipes: [`/recipe`]
+};
+
 export const queryKeys = {
 	...userKeys,
 	...trackerKeys,
 	...trackerLogKeys,
-	...shoppingKeys
+	...shoppingKeys,
+	...recipeKeys
 };

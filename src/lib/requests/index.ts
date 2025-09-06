@@ -7,6 +7,8 @@ import AuthService from './auth';
 import UserService from './user';
 import TrackerService from './tracker';
 import TrackerLogService from './trackerLog';
+import RecipeService from './recipe';
+import RecipeGroupService from './recipeGroup';
 import { AUTH_TOKEN } from '$lib/constants/global';
 import ShoppingService from './shopping';
 
@@ -75,3 +77,5 @@ export const UserRequest = new UserService({ api });
 export const TrackerRequest = new TrackerService({ api });
 export const TrackerLogRequest = new TrackerLogService({ api });
 export const shoppingRequest = new ShoppingService({ api });
+export const recipeRequest = new RecipeService({ api });
+export const recipeGroupRequest = new RecipeGroupService({ api });
