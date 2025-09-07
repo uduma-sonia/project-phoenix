@@ -18,3 +18,6 @@
 - add is private option
 - get recipe with slug
 - image overlay carousel
+- view others recipe
+- share
+- edit

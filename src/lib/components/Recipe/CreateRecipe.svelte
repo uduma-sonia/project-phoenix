@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Minus, Plus } from '@lucide/svelte';
+	import { Check, Minus, Plus } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import Helpers from '$lib/utils/helpers';
 	import { addToast } from '$lib/store/toast';
@@ -13,6 +13,7 @@
 	let recipeName = $state('');
 	let notes = $state('');
 	let isSubmitting = $state(false);
+	let isPrivate = $state(false);
 
 	let ingredientsList = $state([
 		{
@@ -77,17 +78,27 @@
 		}
 	};
 
+	function getValue(arr: any) {
+		return arr?.map((item: any) => {
+			return {
+				value: item?.value
+			};
+		});
+	}
+
 	async function handleSubmit(e: any) {
 		e.preventDefault();
 
 		try {
+			console.log(getValue(ingredientsList));
+
 			isSubmitting = true;
 
 			const payload = {
 				name: recipeName,
 				note: notes,
 				imageUrl: '',
-				isPrivate: false,
+				isPrivate: isPrivate,
 				ingredients: ingredientsList.map((item) => {
 					return { value: item.value };
 				}),
@@ -96,11 +107,13 @@
 				})
 			};
 
-			const result = await recipeRequest.createRecipe(payload);
+			console.log(payload);
 
-			if (result) {
-				goto('/recipe');
-			}
+			// const result = await recipeRequest.createRecipe(payload);
+
+			// if (result) {
+			// 	goto('/recipe');
+			// }
 		} catch (error: any) {
 			addToast(error || 'An error occured', 'error');
 		} finally {
@@ -235,7 +248,7 @@
 							bind:this={textarea}
 							rows={5}
 							bind:value={notes}
-							class="w-full rounded-lg border-2 border-black px-3 text-left outline-none"
+							class="w-full rounded-lg border-2 border-black p-3 text-left outline-none"
 						/>
 					</div>
 
@@ -263,6 +276,25 @@
 								</div>
 							</div>
 						</button>
+					</div>
+
+					<div>
+						<label for="notes" class="mb-2">Private</label>
+
+						<div class="flex items-center gap-2">
+							<button
+								class="button_active relative flex h-7 w-7 items-center justify-center rounded-md border-2 p-0"
+								aria-label="Checklist"
+								type="button"
+								onclick={() => (isPrivate = !isPrivate)}
+							>
+								{#if isPrivate}
+									<Check size="22px" />
+								{/if}
+							</button>
+
+							<p class="font-lexend text-sm font-light">Others can view this recipe</p>
+						</div>
 					</div>
 				</div>
 
