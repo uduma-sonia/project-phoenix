@@ -293,7 +293,7 @@
 								{/if}
 							</button>
 
-							<p class="font-lexend text-sm font-light">Others can view this recipe</p>
+							<p class="font-lexend text-sm font-light">Hide from others</p>
 						</div>
 					</div>
 				</div>

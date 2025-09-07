@@ -8,29 +8,15 @@
 	import { recipeRequest } from '$lib/requests';
 	import { page } from '$app/state';
 	import Seo from '../Common/SEO.svelte';
-	import { addToast } from '$lib/store/toast';
+	import { openDeleteModal } from '$lib/state/modal.svelte';
+	import { handleSelectRecipe } from '$lib/state/recipe.svelte';
 
 	const detailsQuery = createQuery({
 		queryKey: queryKeys.getSingleRecipe(page.params.id),
 		queryFn: () => recipeRequest.getSingleRecipe(page.params.id)
 	});
 
-	let isLoading = $state(false);
-
 	const recipe = $derived($detailsQuery?.data?.data?.recipe);
-
-	async function handleDelete(id: string) {
-		try {
-			isLoading = true;
-
-			await recipeRequest.deleteRecipe(id);
-			addToast('Recipe deleted', 'success');
-		} catch (error: any) {
-			addToast(error || 'An error occured', 'error');
-		} finally {
-			isLoading = false;
-		}
-	}
 </script>
 
 <Seo title={recipe?.name} />
@@ -103,7 +89,10 @@
 			<button
 				class="shadow_button shadow_button_sm text-red-600"
 				style="height: 40px"
-				onclick={() => handleDelete(recipe?._id)}
+				onclick={() => {
+					handleSelectRecipe(recipe);
+					openDeleteModal();
+				}}
 			>
 				<Trash size="20px" />
 			</button>

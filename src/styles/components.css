@@ -48,7 +48,8 @@
 	z-index: 2;
 }
 
-.shadow_button {
+.shadow_button,
+.shadow_button_red {
 	font-family: 'Crete Round', serif;
 	font-optical-sizing: auto;
 	font-weight: 400;
@@ -65,6 +66,14 @@
 	border-radius: 8px;
 }
 
+.shadow_button_red {
+	border: 1px solid #e7000b;
+	box-shadow: 2px 2px #e7000b;
+	background-color: transparent;
+	transition-property: transform, box-shadow, outline-offset;
+	transition: 100ms ease-in;
+}
+
 .shadow_button_thin {
 	height: 40px !important;
 	box-shadow: 2px 2px black !important;
@@ -78,16 +87,19 @@
 	align-items: center;
 }
 
-.shadow_button:hover {
+.shadow_button:hover,
+.shadow_button_red:hover {
 	cursor: pointer;
 }
 
-.shadow_button:focus-visible {
+.shadow_button:focus-visible,
+.shadow_button_red:focus-visible {
 	outline-offset: 12px;
 	outline: 2px dotted #2f2e2e;
 }
 
-.shadow_button:active {
+.shadow_button:active,
+.shadow_button_red:active {
 	box-shadow: 2px 2px #2f2e2e;
 	transform: scale(0.96);
 }

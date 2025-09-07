@@ -2,7 +2,8 @@ export const modalsState = $state({
 	data: {
 		isOpen: false,
 		isOpenProfile: false,
-		isOpenHabitDetails: false
+		isOpenHabitDetails: false,
+		isOpenDeleteModal: false
 	}
 });
 
@@ -25,4 +26,11 @@ export function openHabitDetails() {
 }
 export function closeHabitDetails() {
 	modalsState.data.isOpenHabitDetails = false;
+}
+
+export function openDeleteModal() {
+	modalsState.data.isOpenDeleteModal = true;
+}
+export function closeDeleteModal() {
+	modalsState.data.isOpenDeleteModal = false;
 }

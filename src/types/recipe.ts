@@ -1,9 +1,9 @@
 export interface Ingredient {
-	value: string;
+	value?: string;
 }
 
 export interface MethodStep {
-	value: string;
+	value?: string;
 }
 
 export interface Recipe {
@@ -11,7 +11,8 @@ export interface Recipe {
 	note?: string;
 	imageUrl?: string;
 	groupId?: string;
-	isPrivate: boolean;
-	ingredients: Ingredient[];
-	method: MethodStep[];
+	isPrivate?: boolean;
+	ingredients?: Ingredient[];
+	method?: MethodStep[];
+	_id?: string;
 }
