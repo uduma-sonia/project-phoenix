@@ -13,7 +13,7 @@
 
   Recipe
 
-- Delete recipe
+-
 - Share recipe
 - add is private option
 - get recipe with slug
@@ -21,3 +21,5 @@
 - view others recipe
 - share
 - edit
+- allow room for more sections to be added to recipe
+- turn the input fields to resizable textareas

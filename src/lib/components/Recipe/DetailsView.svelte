@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Link, Trash } from '@lucide/svelte';
+	import { Link, Trash, SquarePen } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import IngredientItem from './Utilities/IngredientItem.svelte';
 	import InstructionItem from './Utilities/InstructionItem.svelte';
@@ -10,6 +10,7 @@
 	import Seo from '../Common/SEO.svelte';
 	import { openDeleteModal } from '$lib/state/modal.svelte';
 	import { handleSelectRecipe } from '$lib/state/recipe.svelte';
+	import Helpers from '$lib/utils/helpers';
 
 	const detailsQuery = createQuery({
 		queryKey: queryKeys.getSingleRecipe(page.params.id),
@@ -17,6 +18,19 @@
 	});
 
 	const recipe = $derived($detailsQuery?.data?.data?.recipe);
+
+	function copyLink() {
+		Helpers.copyToClipboard(window?.location?.href, 'Link copied');
+	}
+
+	function shareToPinterest() {
+		const baseUrl = 'https://www.pinterest.com/pin/create/button';
+		const url = encodeURIComponent(window?.location?.href);
+		const media = encodeURIComponent(recipe?.imageUrl || '');
+		const description = encodeURIComponent(recipe?.name || '');
+		const pinterestUrl = `${baseUrl}?url=${url}&media=${media}&description=${description}`;
+		window.open(pinterestUrl, '_blank', 'noopener,noreferrer');
+	}
 </script>
 
 <Seo title={recipe?.name} />
@@ -34,15 +48,27 @@
 			</div>
 		</div>
 
-		<div class="mt-4 flex justify-end gap-3">
-			<div>
-				<button class="shadow_button shadow_button_sm" style="height: 40px">
-					<img src="/images/pinterest_logo.svg" class="w-5" alt="" />
-				</button>
+		<div class="mt-4 flex items-center justify-between gap-3">
+			<div class="flex items-center gap-3">
+				<div>
+					<button
+						class="shadow_button shadow_button_sm"
+						style="height: 40px"
+						onclick={shareToPinterest}
+					>
+						<img src="/images/pinterest_logo.svg" class="w-5" alt="" />
+					</button>
+				</div>
+				<div>
+					<button class="shadow_button shadow_button_sm" style="height: 40px" onclick={copyLink}>
+						<Link size="20px" />
+					</button>
+				</div>
 			</div>
+
 			<div>
 				<button class="shadow_button shadow_button_sm" style="height: 40px">
-					<Link size="20px" />
+					<SquarePen size="20px" />
 				</button>
 			</div>
 		</div>

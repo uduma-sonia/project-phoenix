@@ -8,6 +8,7 @@ export interface MethodStep {
 
 export interface Recipe {
 	name: string;
+	slug: string;
 	note?: string;
 	imageUrl?: string;
 	groupId?: string;

@@ -1,4 +1,5 @@
 import { browser } from '$app/environment';
+import { addToast } from '$lib/store/toast';
 import {
 	startOfMonth,
 	endOfMonth,
@@ -70,7 +71,7 @@ class Helpers {
 		}
 	}
 
-	static copyToClipboard = (value: string): boolean => {
+	static copyToClipboard = (value: string, successMsg: string = 'Copied!'): boolean => {
 		try {
 			const textarea = document.createElement('textarea');
 			textarea.value = value;
@@ -78,6 +79,7 @@ class Helpers {
 			textarea.select();
 			document.execCommand('copy');
 			document.body.removeChild(textarea);
+			addToast(successMsg, 'success');
 			return true;
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
@@ -281,6 +283,13 @@ class Helpers {
 	static checkFileSize(file: File, size: number) {
 		const sizeInMB = file.size / (1024 * 1024);
 		return sizeInMB > size;
+	}
+
+	static createSlug(str: string) {
+		return str
+			.toLowerCase()
+			.replace(/[^\w\s]/g, '')
+			.replace(/\s+/g, '-');
 	}
 }
 

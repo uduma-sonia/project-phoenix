@@ -38,7 +38,7 @@
 	<div class="p-4">
 		<p class="font-lexend text-center">Do you want to delete this {label}</p>
 
-		<p class="font-lexend text-center text-sm font-light">{'value'}</p>
+		<p class="font-lexend text-center text-sm font-light">{selectedRecipe?.data?.name}</p>
 
 		<div class="mt-8 flex items-center justify-end gap-5">
 			<BasicButton label="Cancel" variant="error" />

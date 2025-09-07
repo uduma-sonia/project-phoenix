@@ -5,6 +5,10 @@
 	import { addToast } from '$lib/store/toast';
 	import { recipeRequest } from '$lib/requests';
 	import { goto } from '$app/navigation';
+	import { useQueryClient } from '@tanstack/svelte-query';
+	import { queryKeys } from '$lib/utils/queryKeys';
+
+	const queryClient = useQueryClient();
 
 	let textarea: any = $state(null);
 	let inputElement: any = $state(null);
@@ -79,41 +83,40 @@
 	};
 
 	function getValue(arr: any) {
-		return arr?.map((item: any) => {
+		const mappedArr = arr?.map((item: any) => {
 			return {
 				value: item?.value
 			};
 		});
+
+		const filteredArr = mappedArr.filter((item: { value: string }) => item.value);
+
+		return filteredArr;
 	}
 
 	async function handleSubmit(e: any) {
 		e.preventDefault();
 
 		try {
-			console.log(getValue(ingredientsList));
-
 			isSubmitting = true;
 
 			const payload = {
 				name: recipeName,
 				note: notes,
-				imageUrl: '',
+				imageUrl:
+					'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg',
 				isPrivate: isPrivate,
-				ingredients: ingredientsList.map((item) => {
-					return { value: item.value };
-				}),
-				method: methodsList.map((item) => {
-					return { value: item.value };
-				})
+				ingredients: getValue(ingredientsList),
+				method: getValue(methodsList),
+				slug: Helpers.createSlug(recipeName)
 			};
 
-			console.log(payload);
+			const result = await recipeRequest.createRecipe(payload);
 
-			// const result = await recipeRequest.createRecipe(payload);
-
-			// if (result) {
-			// 	goto('/recipe');
-			// }
+			if (result) {
+				queryClient.invalidateQueries({ queryKey: queryKeys.getRecipes });
+				goto('/recipe');
+			}
 		} catch (error: any) {
 			addToast(error || 'An error occured', 'error');
 		} finally {
