@@ -1,15 +1,16 @@
 <script lang="ts">
-	let { searchQuery = $bindable() } = $props();
+	let { searchQuery = $bindable(), placeholder = 'Search', ...restProps } = $props();
 </script>
 
 <div class="flex max-w-[300px] flex-1 gap-3">
 	<div class="max-w-[300px] flex-1">
 		<div class="input_wrapper">
 			<input
-				placeholder="Search tracker"
+				{placeholder}
 				type="text"
 				bind:value={searchQuery}
 				class="relative z-10 h-[50px] w-full max-w-[350px] rounded-lg border-2 border-black bg-white px-3 outline-none placeholder:font-light"
+				{...restProps}
 			/>
 
 			<img
