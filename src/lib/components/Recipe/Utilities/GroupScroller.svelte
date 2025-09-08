@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Play } from '@lucide/svelte';
+	import { Play, Plus } from '@lucide/svelte';
 
 	let middle_container: any;
 
@@ -46,6 +46,11 @@
 
 <div class="my-4 px-3">
 	<div class="flex items-center gap-3 overflow-hidden py-1 pr-1">
+		<div>
+			<button class="shadow_button shadow_button_sm">
+				<Plus />
+			</button>
+		</div>
 		<div
 			bind:this={middle_container}
 			class="middle_container no-scrollbar flex max-w-[83.5%] flex-1 flex-nowrap items-center gap-3 overflow-x-auto sm:gap-4"

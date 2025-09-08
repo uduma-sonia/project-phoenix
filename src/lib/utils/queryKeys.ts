@@ -36,7 +36,8 @@ const shoppingKeys = {
 
 const recipeKeys = {
 	getRecipes: [`/recipe`],
-	getSingleRecipe: (id: string) => [`/recipe/${id}`]
+	getSingleRecipe: (id: string) => [`/recipe/${id}`],
+	getOtherUserRecipes: (id: string) => [`/recipe/user${id}`]
 };
 
 export const queryKeys = {

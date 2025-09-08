@@ -6,7 +6,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const token = event.cookies.get(AUTH_TOKEN);
 
 	if (event.route.id?.includes('private')) {
-		if (event.route.id?.includes('/(private)/recipe/[id')) {
+		if (
+			event.route.id?.includes('/(private)/recipe/[id') ||
+			event.route.id?.includes('/(private)/recipe/user/[id')
+		) {
 			console.log('dont redirect');
 		} else {
 			if (!token) {

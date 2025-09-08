@@ -13,7 +13,7 @@
 </script>
 
 <AppLayout withName={false}>
-	<DetailsView {user} />
+	<DetailsView {user} isLoggedIn={Boolean(token)} />
 </AppLayout>
 
 <DeleteModal label="Recipe" />

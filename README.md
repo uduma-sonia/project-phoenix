@@ -10,6 +10,9 @@
 - Implement member permission and invite view for shopping board
 - scroll to top
 - add total to shopping board
+- move some endpoints to use server side calls {
+  - {api/v1/recipe/homemade-tomato-sauce}
+    }
 
   Recipe
 
@@ -21,3 +24,4 @@
 - allow room for more sections to be added to recipe
 - turn the input fields to resizable textareas
 - view count
+- recipe group
