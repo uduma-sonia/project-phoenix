@@ -1,35 +1,77 @@
-<script>
-	import { Play } from '@lucide/svelte';
+<script lang="ts">
+	import { Play, LogOutIcon } from '@lucide/svelte';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
+	import { useQueryClient } from '@tanstack/svelte-query';
+	import Helpers from '$lib/utils/helpers';
+	import { goto } from '$app/navigation';
+	import UserProfile from './UserProfile.svelte';
+	import Security from './Security.svelte';
 
 	let { onClose, isOpen } = $props();
+
+	let currentView = $state('profile');
+	let showLeftSide = $state(false);
+
+	const queryClient = useQueryClient();
+
+	function changeView(params: string) {
+		currentView = params;
+	}
+
+	const handleLogout = async () => {
+		Helpers.deleteCookie('id');
+		goto('/login');
+		queryClient.clear();
+	};
 </script>
 
-<ModalWrapper {onClose} {isOpen} maxWidth="max-w-[900px]">
-	<div class="flex min-h-[400px] items-stretch gap-2">
-		<div class="w-1/2 border-r-2 pr-4">
+<ModalWrapper {onClose} {isOpen} maxWidth="max-w-[800px]" label="Profile">
+	<div class="flex items-stretch gap-2 p-4 pb-20">
+		<div class="w-full md:w-1/2 md:border-r-2 md:pr-4">
 			<div class="space-y-3">
-				<button class="shadow_button rfjnjc flex items-center justify-between">
+				<button
+					class="shadow_button rfjnjc flex items-center justify-between"
+					onclick={() => changeView('profile')}
+				>
 					Profile
 
-					<Play />
+					{#if currentView === 'profile'}
+						<Play />
+					{/if}
+				</button>
+				<button
+					class="shadow_button rfjnjc flex items-center justify-between"
+					onclick={() => changeView('security')}
+				>
+					Security
+					{#if currentView === 'security'}
+						<Play />
+					{/if}
 				</button>
 				<button class="shadow_button rfjnjc flex items-center justify-between">
 					Subscription
 				</button>
 				<button class="shadow_button rfjnjc flex items-center justify-between"> Theme </button>
 			</div>
+			<div class="mt-6">
+				<button
+					class="shadow_button_red rfjnjc flex items-center justify-between text-red-600"
+					onclick={handleLogout}
+				>
+					Logout
+
+					<LogOutIcon />
+				</button>
+			</div>
 		</div>
 
-		<div class="w-1/2">
-			<div class="mt-4 flex items-center gap-4">
-				<div class="h-24 w-24 rounded-lg border-2"></div>
-
-				<div>
-					<p class="font-suez text-xl">Sonia Uduma</p>
-					<p class="font-lexend font-light">soniauduma@icloud.com</p>
-				</div>
-			</div>
+		<div class="hidden w-1/2 md:block">
+			{#if currentView == 'profile'}
+				<UserProfile />
+			{/if}
+			{#if currentView == 'security'}
+				<Security />
+			{/if}
 		</div>
 	</div>
 </ModalWrapper>

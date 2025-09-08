@@ -8,7 +8,7 @@
 
 	let searchQuery = $state('');
 
-	const recipeQuery = createQuery({
+	let recipeQuery = createQuery({
 		queryKey: queryKeys.getRecipes,
 		queryFn: () => recipeRequest.getRecipes()
 	});

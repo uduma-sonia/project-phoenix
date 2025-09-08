@@ -1,7 +1,6 @@
 # Backlogs
 
 - Empty states (reusable component - loading, error, text)
-- Fetch tracker for one person
 - Tooltip for invite modal - explaining the flow
 - Add the currency symbol in editItem component
 - Track log history for quit type
@@ -21,5 +20,4 @@
 - image overlay carousel
 - allow room for more sections to be added to recipe
 - turn the input fields to resizable textareas
-- view count
 - recipe group

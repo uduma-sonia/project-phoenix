@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Link, Trash, SquarePen, LockKeyhole, ChartNoAxesCombined } from '@lucide/svelte';
+	import { Link, Trash, SquarePen, LockKeyhole, LockKeyholeOpen } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import IngredientItem from './Utilities/IngredientItem.svelte';
 	import InstructionItem from './Utilities/InstructionItem.svelte';
@@ -76,6 +76,18 @@
 
 		<div class="mx-auto mt-4 max-w-[500px] px-3 pb-24">
 			<BackComponent {backLink} title={recipe?.name} />
+
+			<!-- <div class="flex items-center justify-end gap-3 px-2">
+				<div>
+					{#if isOwner}
+						{#if recipe?.isPrivate}
+							<LockKeyhole size="16px" />
+						{:else}
+							<LockKeyholeOpen size="16px" />
+						{/if}
+					{/if}
+				</div>
+			</div> -->
 
 			<div class="mt-6">
 				<div class="image_wrapper h-[200px]">
