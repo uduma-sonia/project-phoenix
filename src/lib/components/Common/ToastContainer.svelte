@@ -50,6 +50,7 @@
 
 	.toast_error {
 		background: rgba(199, 10, 36, 1) !important;
+		color: #ffffff;
 	}
 
 	.slide_down {

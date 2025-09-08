@@ -23,7 +23,7 @@
 			closeDeleteModal();
 			goto('/recipe');
 		} catch (error: any) {
-			addToast(error || 'An error occured', 'error');
+			addToast(error?.message || 'An error occured', 'error');
 		} finally {
 			isLoading = false;
 		}

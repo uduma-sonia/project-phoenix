@@ -251,7 +251,7 @@
 							bind:this={textarea}
 							rows={5}
 							bind:value={notes}
-							class="w-full rounded-lg border-2 border-black p-3 text-left outline-none"
+							class="font-lexend w-full rounded-lg border-2 border-black p-3 text-left font-light outline-none"
 						/>
 					</div>
 

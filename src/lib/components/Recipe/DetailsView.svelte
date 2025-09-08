@@ -12,12 +12,15 @@
 	import { handleSelectRecipe } from '$lib/state/recipe.svelte';
 	import Helpers from '$lib/utils/helpers';
 
+	let { user } = $props();
+
 	const detailsQuery = createQuery({
 		queryKey: queryKeys.getSingleRecipe(page.params.id),
 		queryFn: () => recipeRequest.getSingleRecipe(page.params.id)
 	});
 
 	const recipe = $derived($detailsQuery?.data?.data?.recipe);
+	let isOwner = $derived(user?._id ? (user?._id === recipe?.ownerId ? true : false) : false);
 
 	function copyLink() {
 		Helpers.copyToClipboard(window?.location?.href, 'Link copied');
@@ -67,11 +70,13 @@
 			</div>
 
 			<div>
-				<a href={`/recipe/${page.params.id}/edit`}>
-					<button class="shadow_button shadow_button_sm" style="height: 40px">
-						<SquarePen size="20px" />
-					</button>
-				</a>
+				{#if isOwner}
+					<a href={`/recipe/${page.params.id}/edit`}>
+						<button class="shadow_button shadow_button_sm" style="height: 40px">
+							<SquarePen size="20px" />
+						</button>
+					</a>
+				{/if}
 			</div>
 		</div>
 
@@ -81,7 +86,9 @@
 					<h3 class="text-xl">Ingredients</h3>
 
 					<div>
-						<p class="font-lexend text text-xs underline">View my other recipes</p>
+						<a href={`/recipe/user/${recipe?.ownerId}`}>
+							<p class="font-lexend text text-xs underline">View my other recipes</p>
+						</a>
 					</div>
 				</div>
 
@@ -114,16 +121,18 @@
 
 	<div class="mt-16 flex justify-end">
 		<div>
-			<button
-				class="shadow_button shadow_button_sm text-red-600"
-				style="height: 40px"
-				onclick={() => {
-					handleSelectRecipe(recipe);
-					openDeleteModal();
-				}}
-			>
-				<Trash size="20px" />
-			</button>
+			{#if isOwner}
+				<button
+					class="shadow_button shadow_button_sm text-red-600"
+					style="height: 40px"
+					onclick={() => {
+						handleSelectRecipe(recipe);
+						openDeleteModal();
+					}}
+				>
+					<Trash size="20px" />
+				</button>
+			{/if}
 		</div>
 	</div>
 </div>

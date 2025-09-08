@@ -18,7 +18,6 @@
 - add is private option
 - image overlay carousel
 - view others recipe
-- edit
 - allow room for more sections to be added to recipe
 - turn the input fields to resizable textareas
 - view count
