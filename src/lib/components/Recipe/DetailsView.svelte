@@ -23,8 +23,6 @@
 	const recipe = $derived($detailsQuery?.data?.data?.recipe);
 	let isOwner = $derived(user?._id ? (user?._id === recipe?.ownerId ? true : false) : false);
 
-	$effect(() => console.log(recipe));
-
 	function copyLink() {
 		Helpers.copyToClipboard(window?.location?.href, 'Link copied');
 	}
