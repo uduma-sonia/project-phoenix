@@ -41,7 +41,7 @@
 		<p class="font-lexend text-center text-sm font-light">{selectedRecipe?.data?.name}</p>
 
 		<div class="mt-8 flex items-center justify-end gap-5">
-			<BasicButton label="Cancel" variant="error" />
+			<BasicButton label="Cancel" variant="error" action={closeDeleteModal} />
 			<BasicButton
 				label="Delete"
 				{isLoading}

@@ -22,8 +22,10 @@
 	</div>
 
 	<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
-		{#each recipeList as recipe, index (index)}
-			<RecipeCard {recipe} />
-		{/each}
+		{#if !$recipeQuery?.isLoading && recipeList?.length > 0}
+			{#each recipeList as recipe, index (index)}
+				<RecipeCard {recipe} />
+			{/each}
+		{/if}
 	</div>
 </div>
