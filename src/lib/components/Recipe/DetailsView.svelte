@@ -67,9 +67,11 @@
 			</div>
 
 			<div>
-				<button class="shadow_button shadow_button_sm" style="height: 40px">
-					<SquarePen size="20px" />
-				</button>
+				<a href={`/recipe/${page.params.id}/edit`}>
+					<button class="shadow_button shadow_button_sm" style="height: 40px">
+						<SquarePen size="20px" />
+					</button>
+				</a>
 			</div>
 		</div>
 
