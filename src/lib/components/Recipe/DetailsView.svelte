@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Link, Trash, SquarePen, LockKeyhole } from '@lucide/svelte';
+	import { Link, Trash, SquarePen, LockKeyhole, ChartNoAxesCombined } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import IngredientItem from './Utilities/IngredientItem.svelte';
 	import InstructionItem from './Utilities/InstructionItem.svelte';
@@ -12,6 +12,9 @@
 	import { handleSelectRecipe } from '$lib/state/recipe.svelte';
 	import Helpers from '$lib/utils/helpers';
 	import BasicButton from '../Common/BasicButton.svelte';
+	import { RECIPE_COUNT_TRACKER } from '$lib/constants/global';
+	import Stats from '../Common/Stats.svelte';
+	import ViewCount from './ViewCount.svelte';
 
 	let { user, isLoggedIn } = $props();
 
@@ -22,6 +25,9 @@
 
 	const recipe = $derived($detailsQuery?.data?.data?.recipe);
 	let isOwner = $derived(user?._id ? (user?._id === recipe?.ownerId ? true : false) : false);
+	let trackerLogged = $derived(
+		typeof window !== 'undefined' ? sessionStorage.getItem(RECIPE_COUNT_TRACKER) : ''
+	);
 
 	function copyLink() {
 		Helpers.copyToClipboard(window?.location?.href, 'Link copied');
@@ -64,6 +70,10 @@
 			</div>
 		</div>
 	{:else}
+		{#if !isOwner && !trackerLogged}
+			<Stats ref={recipe?._id} section="Recipe" />
+		{/if}
+
 		<div class="mx-auto mt-4 max-w-[500px] px-3 pb-24">
 			<BackComponent {backLink} title={recipe?.name} />
 
@@ -154,9 +164,11 @@
 				</div>
 			</div>
 
-			<div class="mt-16 flex justify-end">
-				<div>
-					{#if isOwner}
+			{#if isOwner}
+				<div class="mt-16 flex items-center justify-between">
+					<ViewCount ref={recipe?._id} />
+
+					<div>
 						<button
 							class="shadow_button shadow_button_sm text-red-600"
 							style="height: 40px"
@@ -167,9 +179,9 @@
 						>
 							<Trash size="20px" />
 						</button>
-					{/if}
+					</div>
 				</div>
-			</div>
+			{/if}
 		</div>
 	{/if}
 {/if}

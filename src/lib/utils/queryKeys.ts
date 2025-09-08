@@ -40,10 +40,15 @@ const recipeKeys = {
 	getOtherUserRecipes: (id: string) => [`/recipe/user${id}`]
 };
 
+const statsKeys = {
+	getStat: (id: string) => [`/stats/${id}`]
+};
+
 export const queryKeys = {
 	...userKeys,
 	...trackerKeys,
 	...trackerLogKeys,
 	...shoppingKeys,
-	...recipeKeys
+	...recipeKeys,
+	...statsKeys
 };

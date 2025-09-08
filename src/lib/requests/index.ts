@@ -11,6 +11,7 @@ import RecipeService from './recipe';
 import RecipeGroupService from './recipeGroup';
 import { AUTH_TOKEN } from '$lib/constants/global';
 import ShoppingService from './shopping';
+import StatsService from './stats';
 
 export const API_ENDPOINT = import.meta.env.VITE_API_URL;
 
@@ -79,3 +80,4 @@ export const TrackerLogRequest = new TrackerLogService({ api });
 export const shoppingRequest = new ShoppingService({ api });
 export const recipeRequest = new RecipeService({ api });
 export const recipeGroupRequest = new RecipeGroupService({ api });
+export const statsRequest = new StatsService({ api });
