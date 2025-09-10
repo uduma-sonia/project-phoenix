@@ -12,6 +12,7 @@
 	import { HabitStatus, type Habit } from '../../../types/tracker';
 	import DetailsModal from './DetailsModal.svelte';
 	import { closeHabitDetails, modalsState, openHabitDetails } from '$lib/state/modal.svelte';
+	import LoaderError from '../Common/LoaderError.svelte';
 
 	let { user } = $props();
 
@@ -145,15 +146,19 @@
 		<HabitSearch bind:searchQuery />
 	</div>
 
-	<div class="relative z-10 mt-10 grid grid-cols-1 gap-5 px-3 sm:grid-cols-2 md:grid-cols-3">
-		{#each trackersList as habit, index (index)}
-			{@const isActive = TrackerUtils.isHabitActive(habit, dateViewing)}
+	<LoaderError isLoading={$trackerQuery?.isLoading} error={$trackerQuery?.isError} />
 
-			{#if isActive}
-				<HabitItem {openDetailsModal} {habit} {deleteHabit} {updateLog} {updateBuildLog} />
-			{/if}
-		{/each}
-	</div>
+	{#if trackersList?.length > 0}
+		<div class="relative z-10 mt-10 grid grid-cols-1 gap-5 px-3 sm:grid-cols-2 md:grid-cols-3">
+			{#each trackersList as habit, index (index)}
+				{@const isActive = TrackerUtils.isHabitActive(habit, dateViewing)}
+
+				{#if isActive}
+					<HabitItem {openDetailsModal} {habit} {deleteHabit} {updateLog} {updateBuildLog} />
+				{/if}
+			{/each}
+		</div>
+	{/if}
 </div>
 
 <DetailsModal isOpen={modalsState.data.isOpenHabitDetails} onClose={closeHabitDetails} />

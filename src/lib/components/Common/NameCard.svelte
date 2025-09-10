@@ -4,6 +4,7 @@
 	import { closeProfile, modalsState, openProfile } from '$lib/state/modal.svelte';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { UserRequest } from '$lib/requests';
+	import { Play } from '@lucide/svelte';
 
 	const userQuery = createQuery({
 		queryKey: queryKeys.getCurrentUser,
@@ -14,8 +15,11 @@
 </script>
 
 <div class="flex h-full items-center justify-between px-3 py-4">
-	<button class="flex items-center gap-4" onclick={openProfile}>
+	<button class="flex items-center gap-2" onclick={openProfile}>
 		<div class="h-16 w-16 rounded-lg border-2 sm:h-20 sm:w-20"></div>
+		<div>
+			<Play />
+		</div>
 
 		<p class="font-suez text-xl sm:text-2xl">Hi {user?.username}</p>
 	</button>

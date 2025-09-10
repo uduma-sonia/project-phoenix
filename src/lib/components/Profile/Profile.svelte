@@ -10,7 +10,6 @@
 	let { onClose, isOpen } = $props();
 
 	let currentView = $state('profile');
-	let showLeftSide = $state(false);
 
 	const queryClient = useQueryClient();
 
