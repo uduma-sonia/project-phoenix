@@ -15,6 +15,7 @@
 	import { RECIPE_COUNT_TRACKER } from '$lib/constants/global';
 	import Stats from '../Common/Stats.svelte';
 	import ViewCount from './ViewCount.svelte';
+	import LoaderError from '../Common/LoaderError.svelte';
 
 	let { user, isLoggedIn } = $props();
 
@@ -53,6 +54,8 @@
 
 <Seo title={recipe?.name || 'Recipe'} />
 
+<LoaderError isLoading={$detailsQuery?.isLoading} error={$detailsQuery?.isError} />
+
 {#if !$detailsQuery?.isLoading && recipe}
 	{#if recipe?.isPrivate && !isOwner}
 		<div class="pt-20">
@@ -76,18 +79,6 @@
 
 		<div class="mx-auto mt-4 max-w-[500px] px-3 pb-24">
 			<BackComponent {backLink} title={recipe?.name} />
-
-			<!-- <div class="flex items-center justify-end gap-3 px-2">
-				<div>
-					{#if isOwner}
-						{#if recipe?.isPrivate}
-							<LockKeyhole size="16px" />
-						{:else}
-							<LockKeyholeOpen size="16px" />
-						{/if}
-					{/if}
-				</div>
-			</div> -->
 
 			<div class="mt-6">
 				<div class="image_wrapper h-[200px]">
