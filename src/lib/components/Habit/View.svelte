@@ -146,9 +146,10 @@
 		<HabitSearch placeholder="Search tracker" bind:searchQuery />
 	</div>
 
-	<LoaderError isLoading={$trackerQuery?.isLoading} error={$trackerQuery?.isError} />
+	<LoaderError isLoading={true} error={$trackerQuery?.isError} />
+	<!-- <LoaderError isLoading={$trackerQuery?.isLoading} error={$trackerQuery?.isError} /> -->
 
-	{#if trackersList?.length > 0}
+	<!-- {#if trackersList?.length > 0}
 		<div class="relative z-10 mt-10 grid grid-cols-1 gap-5 px-3 sm:grid-cols-2 md:grid-cols-3">
 			{#each trackersList as habit, index (index)}
 				{@const isActive = TrackerUtils.isHabitActive(habit, dateViewing)}
@@ -158,7 +159,7 @@
 				{/if}
 			{/each}
 		</div>
-	{/if}
+	{/if} -->
 </div>
 
 <DetailsModal isOpen={modalsState.data.isOpenHabitDetails} onClose={closeHabitDetails} />

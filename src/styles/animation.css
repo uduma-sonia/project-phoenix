@@ -69,7 +69,10 @@
 	margin: 3em auto;
 	width: 2em;
 	height: 4em;
-	animation: hourglass 1s linear infinite;
+	animation-name: hourglass;
+	animation-duration: 2s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
 }
 
 .outer {
@@ -83,6 +86,7 @@
 @keyframes hourglass {
 	0% {
 		transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
 		box-shadow:
 			inset #0b0b0b 0 -0em 0 0,
 			inset #f5ecd5 0 -2em 0 0,
@@ -90,6 +94,8 @@
 	}
 	80% {
 		transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+
 		box-shadow:
 			inset #0b0b0b 0 -2em 0 0,
 			inset #f5ecd5 0 -2em 0 0,
@@ -97,6 +103,7 @@
 	}
 	100% {
 		transform: rotate(180deg);
+		-webkit-transform: rotate(180deg);
 		box-shadow:
 			inset #0b0b0b 0 -2em 0 0,
 			inset #f5ecd5 0 -2em 0 0,
