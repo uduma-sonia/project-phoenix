@@ -12,7 +12,6 @@ import {
 } from 'date-fns';
 import { HabitStatus, type Habit, type HabitLog } from '../../../../types/tracker';
 import Helpers from '$lib/utils/helpers';
-// import { parseISO, getYear, getMonth, getDaysInMonth, format } from "date-fns";
 
 export default class TrackerUtils {
 	static buildLogPayloadBuilder(

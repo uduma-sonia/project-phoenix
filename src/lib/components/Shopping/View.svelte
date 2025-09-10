@@ -6,6 +6,7 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { shoppingRequest, UserRequest } from '$lib/requests';
 	import HabitSearch from '../Habit/Utilities/HabitSearch.svelte';
+	import LoaderError from '../Common/LoaderError.svelte';
 
 	const userQuery = createQuery({
 		queryKey: queryKeys.getCurrentUser,
@@ -13,6 +14,7 @@
 	});
 
 	let user = $derived($userQuery?.data?.data?.user);
+	let searchQuery = $state('');
 
 	const boardsQuery = $derived(
 		createQuery({
@@ -21,22 +23,30 @@
 		})
 	);
 
-	let boardsList = $derived($boardsQuery?.data?.data?.boards);
+	let boardsList = $derived(
+		$boardsQuery?.data?.data?.boards?.filter((item: any) =>
+			item.name.toUpperCase().includes(searchQuery?.toUpperCase())
+		)
+	);
 </script>
 
 <div class="pt-5">
 	<div class="flex items-center justify-between gap-4 px-3">
-		<HabitSearch />
+		<HabitSearch placeholder="Search board" bind:searchQuery />
 		<div>
 			<button class="shadow_button" onclick={openModal}> Standard list </button>
 		</div>
 	</div>
 
-	<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
-		{#each boardsList as board, index (index)}
-			<ShoppingCard {board} />
-		{/each}
-	</div>
+	<LoaderError isLoading={$boardsQuery?.isLoading} error={$boardsQuery?.isError} />
+
+	{#if boardsList?.length > 0}
+		<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
+			{#each boardsList as board, index (index)}
+				<ShoppingCard {board} />
+			{/each}
+		</div>
+	{/if}
 </div>
 
 <StandardListModal onClose={closeModal} isOpen={modalsState.data.isOpen} />

@@ -12,6 +12,7 @@
 	import { page } from '$app/state';
 	import StandardListItem from './Utilities/StandardListItem.svelte';
 	import Seo from '../Common/SEO.svelte';
+	import LoaderError from '../Common/LoaderError.svelte';
 
 	const queryClient = useQueryClient();
 	let boardId = page.params.id;
@@ -174,46 +175,51 @@
 
 	<div class="mt-14 grid grid-cols-1 gap-10 px-3 md:grid-cols-2">
 		<div>
-			<div class="mb-6 space-y-2">
-				{#each sortByDone(filteredItems) as items, index (index)}
-					<ListItem
-						currency={boardDetails?.currency}
-						{handleUpdate}
-						{canEditId}
-						data={items}
-						{handleUpdateItem}
-						{handleEdit}
-					/>
-				{/each}
-			</div>
+			<LoaderError isLoading={$boardItemsQuery?.isLoading} error={$boardItemsQuery?.isError} />
 
-			<div class="relative z-10 w-full gap-3 rounded-lg border-2 bg-white p-3">
-				<form
-					class="flex items-center gap-4"
-					onsubmit={(e) => {
-						e.preventDefault();
-						handleItemAdd(boardId);
-					}}
-				>
-					<input
-						type="text"
-						bind:value={itemName}
-						class="h-[50px] w-full border-b border-b-[#393838] outline-none"
-						placeholder="Type and enter"
-					/>
-				</form>
-			</div>
+			{#if !$boardItemsQuery?.isLoading}
+				<div>
+					<div class="mb-6 space-y-2">
+						{#each sortByDone(filteredItems) as items, index (index)}
+							<ListItem
+								currency={boardDetails?.currency}
+								{handleUpdate}
+								{canEditId}
+								data={items}
+								{handleUpdateItem}
+								{handleEdit}
+							/>
+						{/each}
+					</div>
 
-			<div class="mt-4 flex justify-center">
-				<button class="create_button_sm shadow_button" onclick={() => handleItemAdd(boardId)}>
-					<Plus size="26px" />
-				</button>
-			</div>
+					<div class="relative z-10 w-full gap-3 rounded-lg border-2 bg-white p-3">
+						<form
+							class="flex items-center gap-4"
+							onsubmit={(e) => {
+								e.preventDefault();
+								handleItemAdd(boardId);
+							}}
+						>
+							<input
+								type="text"
+								bind:value={itemName}
+								class="h-[50px] w-full border-b border-b-[#393838] outline-none"
+								placeholder="Type and enter"
+							/>
+						</form>
+					</div>
+
+					<div class="mt-4 flex justify-center">
+						<button class="create_button_sm shadow_button" onclick={() => handleItemAdd(boardId)}>
+							<Plus size="26px" />
+						</button>
+					</div>
+				</div>
+			{/if}
 		</div>
 
 		{#if showStandardList && standardList?.length > 0}
 			<div class="h-fit rounded-lg border-2 bg-white p-2">
-				<!-- <div class="hidden h-fit rounded-lg border-2 bg-white p-2 md:block"> -->
 				{#each standardList as item, index (index)}
 					{@const hasBeenAdded = findName(item.name, itemsList)}
 

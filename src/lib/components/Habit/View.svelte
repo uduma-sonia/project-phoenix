@@ -143,7 +143,7 @@
 	<DateScroller />
 
 	<div class="relative z-30 mt-8 gap-3 px-3">
-		<HabitSearch bind:searchQuery />
+		<HabitSearch placeholder="Search tracker" bind:searchQuery />
 	</div>
 
 	<LoaderError isLoading={$trackerQuery?.isLoading} error={$trackerQuery?.isError} />

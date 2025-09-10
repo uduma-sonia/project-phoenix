@@ -5,6 +5,7 @@
 	import RecipeCard from './Utilities/RecipeCard.svelte';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { recipeRequest } from '$lib/requests';
+	import LoaderError from '../Common/LoaderError.svelte';
 
 	let searchQuery = $state('');
 
@@ -27,11 +28,15 @@
 		<HabitSearch bind:searchQuery placeholder="Search recipe" />
 	</div>
 
-	<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
-		{#if !$recipeQuery?.isLoading && filteredRecipeList?.length > 0}
-			{#each filteredRecipeList as recipe, index (index)}
-				<RecipeCard {recipe} />
-			{/each}
-		{/if}
-	</div>
+	<LoaderError isLoading={$recipeQuery?.isLoading} error={$recipeQuery?.isError} />
+
+	{#if filteredRecipeList?.length > 0}
+		<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
+			{#if !$recipeQuery?.isLoading && filteredRecipeList?.length > 0}
+				{#each filteredRecipeList as recipe, index (index)}
+					<RecipeCard {recipe} />
+				{/each}
+			{/if}
+		</div>
+	{/if}
 </div>
