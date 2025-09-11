@@ -300,7 +300,7 @@
 				</div>
 
 				<div>
-					<button class="shadow_button" type="submit" onclick={handleSubmit}>
+					<button class="shadow_button" type="button" onclick={handleSubmit}>
 						{#if isSubmitting}
 							<div class="spinner_white border-2 border-black"></div>
 						{:else}

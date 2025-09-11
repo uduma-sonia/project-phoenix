@@ -21,3 +21,4 @@
 - allow room for more sections to be added to recipe
 - turn the input fields to resizable textareas
 - recipe group
+- recipe review system, star rating
