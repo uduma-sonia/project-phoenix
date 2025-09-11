@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Plus, UserRoundPlus } from '@lucide/svelte';
+	import { Check, Plus, UserRoundPlus } from '@lucide/svelte';
 	import ListItem from './Utilities/ListItem.svelte';
 	import Search from './Utilities/Search.svelte';
 	import InviteModal from './InviteModal.svelte';
@@ -22,6 +22,7 @@
 	let searchQuery = $state('');
 	let showStandardList = $state(false);
 	let canEditId = $state('');
+	let isAdding = $state(false);
 
 	const boardItemsQuery = createQuery({
 		queryKey: queryKeys.getBoardItems(boardId, ''),
@@ -76,6 +77,7 @@
 
 	async function handleItemAdd(boardId: string, value?: string) {
 		try {
+			isAdding = true;
 			const payload = {
 				name: value || itemName,
 				quantity: 0,
@@ -94,6 +96,8 @@
 			}
 		} catch (error: any) {
 			addToast(error?.error || 'An error occured', 'error');
+		} finally {
+			isAdding = false;
 		}
 	}
 
@@ -141,6 +145,11 @@
 		<BackComponent title={boardDetails?.name} backLink="/shopping" />
 
 		<div class="mt-10 flex flex-1 items-center gap-4 md:mt-0 md:justify-end">
+			<div>
+				<button class="shadow_button shadow_button_thin shadow_button_with_icon">
+					<Check size="20px" />
+				</button>
+			</div>
 			<div>
 				<button
 					class="shadow_button shadow_button_thin shadow_button_with_icon"
@@ -211,7 +220,11 @@
 
 					<div class="mt-4 flex justify-center">
 						<button class="create_button_sm shadow_button" onclick={() => handleItemAdd(boardId)}>
-							<Plus size="26px" />
+							{#if isAdding}
+								<div class="spinner_white border-2 border-black"></div>
+							{:else}
+								<Plus size="26px" />
+							{/if}
 						</button>
 					</div>
 				</div>

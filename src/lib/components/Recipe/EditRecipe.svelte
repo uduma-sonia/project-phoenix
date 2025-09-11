@@ -131,7 +131,6 @@
 			const result = await recipeRequest.updateRecipe(recipe?._id as string, payload);
 
 			if (result) {
-				queryClient.invalidateQueries({ queryKey: queryKeys.getRecipes });
 				goto('/recipe');
 			}
 		} catch (error: any) {
