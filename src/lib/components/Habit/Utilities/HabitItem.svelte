@@ -12,13 +12,15 @@
 		RefreshCcw
 	} from '@lucide/svelte';
 	import TrackerUtils from './utils';
-	import { HabitStatus } from '../../../../types/tracker';
+	import { HabitStatus, type Habit } from '../../../../types/tracker';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TrackerLogRequest } from '$lib/requests';
 	import { trackerState } from '$lib/state/tracker.svelte';
+	import type { HabitItemProps } from '../../../../types/tracker';
 
-	let { habit, deleteHabit, updateLog, updateBuildLog, openDetailsModal } = $props();
+	let { habit, deleteHabit, updateLog, updateBuildLog, openDetailsModal }: HabitItemProps =
+		$props();
 
 	const logQuery = $derived(
 		createQuery({
@@ -150,10 +152,12 @@
 			action: skip
 		},
 
+		// ALL
 		{
 			label: 'Edit',
 			icon: SquarePen,
-			type: 'all'
+			type: 'all',
+			link: `/tracker/${habit?._id}/edit`
 		},
 		{
 			label: 'Delete',
@@ -163,29 +167,7 @@
 			action: _delete
 		}
 	];
-	const restartOpt = [
-		{
-			label: 'Restart',
-			icon: RefreshCcw,
-			type: 'build',
-			action: restartAction
-		},
-
-		{
-			label: 'Edit',
-			icon: SquarePen,
-			type: 'all'
-		},
-		{
-			label: 'Delete',
-			icon: Trash2,
-			iconColor: 'red',
-			type: 'all',
-			action: _delete
-		}
-	];
-
-	const stopOpt = [
+	const stopOptions = [
 		{
 			label: 'Start',
 			icon: StepForward,
@@ -196,7 +178,30 @@
 		{
 			label: 'Edit',
 			icon: SquarePen,
-			type: 'all'
+			type: 'all',
+			link: `/tracker/${habit?._id}/edit`
+		},
+		{
+			label: 'Delete',
+			icon: Trash2,
+			iconColor: 'red',
+			type: 'all',
+			action: _delete
+		}
+	];
+	const restartOptions = [
+		{
+			label: 'Restart',
+			icon: RefreshCcw,
+			type: 'build',
+			action: restartAction
+		},
+
+		{
+			label: 'Edit',
+			icon: SquarePen,
+			type: 'all',
+			link: `/tracker/${habit?._id}/edit`
 		},
 		{
 			label: 'Delete',
@@ -269,6 +274,7 @@
 					{#if logDetails?._id && logDetails?.status === HabitStatus.SKIPPED}
 						<p class="font-lexend skipped text-center text-[13px] font-semibold">Skipped</p>
 					{/if}
+
 					{#if !logDetails?._id || logDetails?.status === HabitStatus.PENDING}
 						<div class="flex items-center justify-center gap-2">
 							<div class="w-fit">
@@ -281,9 +287,8 @@
 										e.stopPropagation();
 										decreaseValue();
 									}}
-									onkeydown={() => console.log('')}
+									onkeydown={() => console.log('keydown::')}
 								>
-									<!-- onkeydown={() => } -->
 									<Minus size="16px" color="#FFFFFF" />
 								</div>
 							</div>
@@ -303,7 +308,7 @@
 										e.stopPropagation();
 										increaseValue();
 									}}
-									onkeydown={() => console.log('')}
+									onkeydown={() => console.log('keydown::')}
 								>
 									<Plus size="16px" color="#FFFFFF" />
 								</div>
@@ -315,6 +320,7 @@
 						<p class="font-lexend completed text-center text-[13px] font-semibold">Completed</p>
 					{/if}
 				{/if}
+
 				{#if habit.type === 'QUIT'}
 					<div>
 						{#if logDetails?._id && logDetails?.status === HabitStatus.STOP}
@@ -341,9 +347,9 @@
 		<HamburgerDropdown
 			options={generateOptionsDropdown(
 				getOptionList(logDetails?.status, {
-					restart: restartOpt,
+					restart: restartOptions,
 					more: moreOptions,
-					stop: stopOpt
+					stop: stopOptions
 				}),
 				habit?.type,
 				logDetails?.status
