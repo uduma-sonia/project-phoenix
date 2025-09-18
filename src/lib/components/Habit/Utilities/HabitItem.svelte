@@ -267,20 +267,21 @@
 			<div class="mt-5">
 				{#if habit.type === 'BUILD'}
 					{#if logDetails?._id && logDetails?.status === HabitStatus.SKIPPED}
-						<p class="font-lexend text-center text-[13px] font-semibold text-amber-600">Skipped</p>
+						<p class="font-lexend skipped text-center text-[13px] font-semibold">Skipped</p>
 					{/if}
 					{#if !logDetails?._id || logDetails?.status === HabitStatus.PENDING}
 						<div class="flex items-center justify-center gap-2">
 							<div class="w-fit">
-								<!-- svelte-ignore a11y_click_events_have_key_events -->
-								<!-- svelte-ignore a11y_no_static_element_interactions -->
 								<div
+									tabindex="0"
+									role="button"
 									class="button_active flex h-7 w-7 items-center justify-center rounded-full bg-black font-normal"
 									onclick={(e) => {
 										e.preventDefault();
 										e.stopPropagation();
 										decreaseValue();
 									}}
+									onkeydown={() => console.log('')}
 								>
 									<!-- onkeydown={() => } -->
 									<Minus size="16px" color="#FFFFFF" />
@@ -293,15 +294,16 @@
 							</div>
 
 							<div class="w-fit">
-								<!-- svelte-ignore a11y_click_events_have_key_events -->
-								<!-- svelte-ignore a11y_no_static_element_interactions -->
 								<div
+									tabindex="0"
+									role="button"
 									class="button_active flex h-7 w-7 items-center justify-center rounded-full bg-black font-normal"
 									onclick={(e) => {
 										e.preventDefault();
 										e.stopPropagation();
 										increaseValue();
 									}}
+									onkeydown={() => console.log('')}
 								>
 									<Plus size="16px" color="#FFFFFF" />
 								</div>
@@ -310,15 +312,13 @@
 					{/if}
 
 					{#if logDetails?.status === HabitStatus.COMPLETED}
-						<p class="font-lexend text-brand-green text-center text-[13px] font-semibold">
-							Completed
-						</p>
+						<p class="font-lexend completed text-center text-[13px] font-semibold">Completed</p>
 					{/if}
 				{/if}
 				{#if habit.type === 'QUIT'}
 					<div>
 						{#if logDetails?._id && logDetails?.status === HabitStatus.STOP}
-							<p class="font-lexend text-center text-[13px] font-semibold text-red-600">Stopped</p>
+							<p class="font-lexend stopped text-center text-[13px] font-semibold">Stopped</p>
 						{/if}
 
 						{#if !logDetails?._id || logDetails?.status === HabitStatus.START}
@@ -353,6 +353,15 @@
 </div>
 
 <style>
+	.completed {
+		color: #1eb564 !important;
+	}
+	.skipped {
+		color: #e98623 !important;
+	}
+	.stopped {
+		color: #e7000b !important;
+	}
 	.item_wrapper {
 		position: relative;
 		border-radius: 8px;
