@@ -6,10 +6,8 @@ export type CreateHabit = {
 	name: string;
 	type: string;
 	interval?: string;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	startDate: any;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	endDate?: any;
+	startDate: Date;
+	endDate?: Date;
 	unitMeasurement?: string;
 	goalValue?: string;
 	isIndefinite: boolean;
@@ -39,6 +37,10 @@ class TrackerService {
 
 	async getAllHabits(reqConfig?: ReqConfig) {
 		return await this.api.get(`${this.prefix}/all`, { ...reqConfig });
+	}
+
+	async getSingleHabit(habitId: string, reqConfig?: ReqConfig) {
+		return await this.api.get(`${this.prefix}/${habitId}`, { ...reqConfig });
 	}
 
 	async deleteHabit(id: string, reqConfig?: ReqConfig) {

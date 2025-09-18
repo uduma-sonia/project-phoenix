@@ -1,8 +1,20 @@
-<script>
+<script lang="ts">
+	// @ts-nocheck
 	import Helpers from '$lib/utils/helpers';
+	import type { IconProps } from '@lucide/svelte';
+	import type { Component } from 'svelte';
+
+	type Options = {
+		label: string;
+		icon?: Component<IconProps, {}, ''>;
+		iconColor?: string;
+		type?: string;
+		action?: (params: any) => void;
+		link?: string;
+	};
 
 	let isDropDownOpen = $state(false);
-	let { options } = $props();
+	let { options }: { options: Options[] } = $props();
 
 	const toggleDropDownMenu = () => {
 		isDropDownOpen = !isDropDownOpen;

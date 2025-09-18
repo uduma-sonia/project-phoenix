@@ -12,13 +12,15 @@
 		RefreshCcw
 	} from '@lucide/svelte';
 	import TrackerUtils from './utils';
-	import { HabitStatus } from '../../../../types/tracker';
+	import { HabitStatus, type Habit } from '../../../../types/tracker';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TrackerLogRequest } from '$lib/requests';
 	import { trackerState } from '$lib/state/tracker.svelte';
+	import type { HabitItemProps } from '../../../../types/tracker';
 
-	let { habit, deleteHabit, updateLog, updateBuildLog, openDetailsModal } = $props();
+	let { habit, deleteHabit, updateLog, updateBuildLog, openDetailsModal }: HabitItemProps =
+		$props();
 
 	const logQuery = $derived(
 		createQuery({
@@ -150,10 +152,12 @@
 			action: skip
 		},
 
+		// ALL
 		{
 			label: 'Edit',
 			icon: SquarePen,
-			type: 'all'
+			type: 'all',
+			link: `/tracker/${habit?._id}/edit`
 		},
 		{
 			label: 'Delete',
@@ -163,29 +167,7 @@
 			action: _delete
 		}
 	];
-	const restartOpt = [
-		{
-			label: 'Restart',
-			icon: RefreshCcw,
-			type: 'build',
-			action: restartAction
-		},
-
-		{
-			label: 'Edit',
-			icon: SquarePen,
-			type: 'all'
-		},
-		{
-			label: 'Delete',
-			icon: Trash2,
-			iconColor: 'red',
-			type: 'all',
-			action: _delete
-		}
-	];
-
-	const stopOpt = [
+	const stopOptions = [
 		{
 			label: 'Start',
 			icon: StepForward,
@@ -196,7 +178,30 @@
 		{
 			label: 'Edit',
 			icon: SquarePen,
-			type: 'all'
+			type: 'all',
+			link: `/tracker/${habit?._id}/edit`
+		},
+		{
+			label: 'Delete',
+			icon: Trash2,
+			iconColor: 'red',
+			type: 'all',
+			action: _delete
+		}
+	];
+	const restartOptions = [
+		{
+			label: 'Restart',
+			icon: RefreshCcw,
+			type: 'build',
+			action: restartAction
+		},
+
+		{
+			label: 'Edit',
+			icon: SquarePen,
+			type: 'all',
+			link: `/tracker/${habit?._id}/edit`
 		},
 		{
 			label: 'Delete',
@@ -267,22 +272,23 @@
 			<div class="mt-5">
 				{#if habit.type === 'BUILD'}
 					{#if logDetails?._id && logDetails?.status === HabitStatus.SKIPPED}
-						<p class="font-lexend text-center text-[13px] font-semibold text-amber-600">Skipped</p>
+						<p class="font-lexend skipped text-center text-[13px] font-semibold">Skipped</p>
 					{/if}
+
 					{#if !logDetails?._id || logDetails?.status === HabitStatus.PENDING}
 						<div class="flex items-center justify-center gap-2">
 							<div class="w-fit">
-								<!-- svelte-ignore a11y_click_events_have_key_events -->
-								<!-- svelte-ignore a11y_no_static_element_interactions -->
 								<div
+									tabindex="0"
+									role="button"
 									class="button_active flex h-7 w-7 items-center justify-center rounded-full bg-black font-normal"
 									onclick={(e) => {
 										e.preventDefault();
 										e.stopPropagation();
 										decreaseValue();
 									}}
+									onkeydown={() => console.log('keydown::')}
 								>
-									<!-- onkeydown={() => } -->
 									<Minus size="16px" color="#FFFFFF" />
 								</div>
 							</div>
@@ -293,15 +299,16 @@
 							</div>
 
 							<div class="w-fit">
-								<!-- svelte-ignore a11y_click_events_have_key_events -->
-								<!-- svelte-ignore a11y_no_static_element_interactions -->
 								<div
+									tabindex="0"
+									role="button"
 									class="button_active flex h-7 w-7 items-center justify-center rounded-full bg-black font-normal"
 									onclick={(e) => {
 										e.preventDefault();
 										e.stopPropagation();
 										increaseValue();
 									}}
+									onkeydown={() => console.log('keydown::')}
 								>
 									<Plus size="16px" color="#FFFFFF" />
 								</div>
@@ -310,15 +317,14 @@
 					{/if}
 
 					{#if logDetails?.status === HabitStatus.COMPLETED}
-						<p class="font-lexend text-brand-green text-center text-[13px] font-semibold">
-							Completed
-						</p>
+						<p class="font-lexend completed text-center text-[13px] font-semibold">Completed</p>
 					{/if}
 				{/if}
+
 				{#if habit.type === 'QUIT'}
 					<div>
 						{#if logDetails?._id && logDetails?.status === HabitStatus.STOP}
-							<p class="font-lexend text-center text-[13px] font-semibold text-red-600">Stopped</p>
+							<p class="font-lexend stopped text-center text-[13px] font-semibold">Stopped</p>
 						{/if}
 
 						{#if !logDetails?._id || logDetails?.status === HabitStatus.START}
@@ -341,9 +347,9 @@
 		<HamburgerDropdown
 			options={generateOptionsDropdown(
 				getOptionList(logDetails?.status, {
-					restart: restartOpt,
+					restart: restartOptions,
 					more: moreOptions,
-					stop: stopOpt
+					stop: stopOptions
 				}),
 				habit?.type,
 				logDetails?.status
@@ -353,6 +359,15 @@
 </div>
 
 <style>
+	.completed {
+		color: #1eb564 !important;
+	}
+	.skipped {
+		color: #e98623 !important;
+	}
+	.stopped {
+		color: #e7000b !important;
+	}
 	.item_wrapper {
 		position: relative;
 		border-radius: 8px;

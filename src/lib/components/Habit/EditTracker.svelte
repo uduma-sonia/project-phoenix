@@ -3,29 +3,36 @@
 	import { daysOfWeek, iconsList } from '$lib/constants/tracker';
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';
-	import { format, addDays } from 'date-fns';
+	import { format } from 'date-fns';
 	import DatePickerMini from '../Common/DatePicker/DatePickerMini.svelte';
 	import { TrackerRequest } from '$lib/requests';
 	import { Check } from '@lucide/svelte';
 	import { goto } from '$app/navigation';
 	import BackComponent from '../Common/BackComponent.svelte';
+	import type { Habit } from '../../../types/tracker';
+	import type { User } from '../../../types/user';
+	import { page } from '$app/state';
+	import { useQueryClient } from '@tanstack/svelte-query';
+	import { queryKeys } from '$lib/utils/queryKeys';
 
-	let { user } = $props();
+	let { user, tracker }: { tracker: Habit; user: User } = $props();
+
+	const queryClient = useQueryClient();
 
 	let isSubmitting = $state(false);
-	let type = $state('BUILD');
-	let interval = $state('DAILY');
-	let habitName = $state('');
-	let unitMeasurement = $state('');
-	let description = $state('');
-	let goalValue = $state(1);
-	let selectedDays: number[] = $state([0, 1, 2, 3, 4, 5, 6]);
-	let startDateValue = $state(new Date());
-	let endDateValue = $state(addDays(new Date(), 30));
+	let type = $state(tracker?.type);
+	let interval = $state(tracker?.interval);
+	let habitName = $state(tracker?.name);
+	let unitMeasurement = $state(tracker?.unitMeasurement);
+	let description = $state(tracker?.description);
+	let goalValue = $state(tracker?.goalValue);
+	let selectedDays: number[] = $state(tracker.selectedDays);
+	let startDateValue = $state(tracker?.startDate);
+	let endDateValue = $state(tracker?.endDate);
 	let isStartDateOpen = $state(false);
 	let isEndDateOpen = $state(false);
 	let isIndefinite = $state(true);
-	let selectedIcon = $state('');
+	let selectedIcon = $state(tracker?.icon);
 
 	function toggleStart() {
 		isStartDateOpen = !isStartDateOpen;
@@ -73,16 +80,16 @@
 			const payload = {
 				name: habitName,
 				type,
-				interval: isBuild(interval, type),
+				interval: isBuild(interval, type) as string,
 				startDate: startDateValue,
 				endDate: endDateValue,
-				unitMeasurement: isBuild(unitMeasurement, type),
-				goalValue: isBuild(goalValue, type),
+				unitMeasurement: isBuild(unitMeasurement, type) as string,
+				goalValue: isBuild(goalValue, type) as string,
 				isIndefinite: isIndefinite ? true : false,
 				selectedDays: isBuild(
 					selectedDays?.map((item) => item),
 					type
-				),
+				) as number[],
 				isActive: true,
 				ownerId: user?._id,
 				description,
@@ -90,10 +97,11 @@
 			};
 
 			Helpers.removeEmptyFields(payload);
-			const result = await TrackerRequest.createHabit(payload);
+			const result = await TrackerRequest.updateHabit(page.params.id, payload);
 
 			if (result) {
-				addToast('Habit created', 'success', '/images/confetti.svg');
+				addToast('Habit updated', 'success', '/images/confetti.svg');
+				queryClient.invalidateQueries({ queryKey: queryKeys.getSingleHabit(page.params.id) });
 				goto('/tracker');
 			}
 		} catch (error: any) {
@@ -113,7 +121,7 @@
 		<div class="login_form_wrapper w-full md:max-w-[500px]">
 			<form class="login_form h-full rounded-3xl border-2 bg-white" onsubmit={handleSubmit}>
 				<div class="pb-3">
-					<p class="font-suez text-2xl">Create Habit</p>
+					<p class="font-suez text-2xl">Edit Habit</p>
 				</div>
 
 				<hr />
@@ -242,7 +250,9 @@
 									type="button"
 									onclick={toggleStart}
 								>
-									{format(new Date(startDateValue), 'PPP')}
+									{#if startDateValue}
+										{format(new Date(startDateValue), 'PPP')}
+									{/if}
 								</button>
 
 								{#if isStartDateOpen}

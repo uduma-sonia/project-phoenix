@@ -43,3 +43,19 @@ export enum HabitStatus {
 	STOP = 'STOP',
 	START = 'START'
 }
+
+export type UpdateBuildLog = {
+	tracker: Habit;
+	status: HabitStatus;
+	type: string;
+	log: HabitLog;
+	value: number;
+};
+
+export type HabitItemProps = {
+	habit: Habit;
+	deleteHabit: (habitId: string) => void;
+	updateLog: (habitId: string, status: HabitStatus, type: string, logId: string) => void;
+	updateBuildLog: (params: UpdateBuildLog) => void;
+	openDetailsModal: (params: Habit) => void;
+};
