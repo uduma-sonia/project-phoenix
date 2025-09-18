@@ -12,8 +12,12 @@
 	import type { Habit } from '../../../types/tracker';
 	import type { User } from '../../../types/user';
 	import { page } from '$app/state';
+	import { useQueryClient } from '@tanstack/svelte-query';
+	import { queryKeys } from '$lib/utils/queryKeys';
 
 	let { user, tracker }: { tracker: Habit; user: User } = $props();
+
+	const queryClient = useQueryClient();
 
 	let isSubmitting = $state(false);
 	let type = $state(tracker?.type);
@@ -30,17 +34,17 @@
 	let isIndefinite = $state(true);
 	let selectedIcon = $state(tracker?.icon);
 
-	const toggleStart = () => {
+	function toggleStart() {
 		isStartDateOpen = !isStartDateOpen;
-	};
-	const toggleEnd = () => {
+	}
+	function toggleEnd() {
 		isEndDateOpen = !isEndDateOpen;
-	};
+	}
 
-	const handleClickOutside = () => {
+	function handleClickOutside() {
 		isStartDateOpen = false;
 		isEndDateOpen = false;
-	};
+	}
 
 	function changeType(arg: string) {
 		type = arg;
@@ -97,6 +101,7 @@
 
 			if (result) {
 				addToast('Habit updated', 'success', '/images/confetti.svg');
+				queryClient.invalidateQueries({ queryKey: queryKeys.getSingleHabit(page.params.id) });
 				goto('/tracker');
 			}
 		} catch (error: any) {

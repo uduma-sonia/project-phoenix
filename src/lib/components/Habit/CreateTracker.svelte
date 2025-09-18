@@ -27,17 +27,17 @@
 	let isIndefinite = $state(true);
 	let selectedIcon = $state('');
 
-	const toggleStart = () => {
+	function toggleStart() {
 		isStartDateOpen = !isStartDateOpen;
-	};
-	const toggleEnd = () => {
+	}
+	function toggleEnd() {
 		isEndDateOpen = !isEndDateOpen;
-	};
+	}
 
-	const handleClickOutside = () => {
+	function handleClickOutside() {
 		isStartDateOpen = false;
 		isEndDateOpen = false;
-	};
+	}
 
 	function changeType(arg: string) {
 		type = arg;

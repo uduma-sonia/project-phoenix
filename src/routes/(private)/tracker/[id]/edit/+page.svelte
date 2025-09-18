@@ -16,7 +16,7 @@
 	let user = $derived($userQuery?.data?.data?.user);
 
 	const trackerQuery = createQuery({
-		queryKey: queryKeys.getRecipes,
+		queryKey: queryKeys.getSingleHabit(page.params.id),
 		queryFn: () => TrackerRequest.getSingleHabit(page.params.id)
 	});
 
