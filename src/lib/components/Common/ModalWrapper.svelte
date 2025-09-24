@@ -2,6 +2,17 @@
 	// @ts-nocheck
 	import Helpers from '$lib/utils/helpers';
 	import { X } from '@lucide/svelte';
+	import type { Snippet } from 'svelte';
+
+	type ModalProps = {
+		onClose: () => void;
+		isOpen: () => void;
+		children: Snippet;
+		maxWidth?: string;
+		height?: string;
+		label?: string;
+		LabelComponent?: Component<$$ComponentProps, {}, ''>;
+	};
 
 	let {
 		onClose,
@@ -9,8 +20,9 @@
 		children,
 		maxWidth = 'max-w-[500px]',
 		height = 'h-auto',
-		label
-	} = $props();
+		label,
+		LabelComponent
+	}: ModalProps = $props();
 
 	let innerHeight = $derived(typeof window !== 'undefined' ? window.innerHeight : 0);
 
@@ -46,7 +58,13 @@
 					class="sticky top-0 right-4 z-50 flex w-full items-center justify-between rounded-2xl bg-white px-4 py-4"
 				>
 					<div>
-						<p class="font-lexend text-lg sm:text-xl">{label}</p>
+						{#if label}
+							<p class="font-lexend text-lg sm:text-xl">
+								{label}
+							</p>
+						{:else if LabelComponent}
+							<LabelComponent />
+						{/if}
 					</div>
 
 					<div>

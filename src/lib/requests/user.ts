@@ -1,4 +1,5 @@
 import type { ReqConfig, Service } from '../../types/axios';
+import type { User } from '../../types/user';
 
 class UserService {
 	private api;
@@ -18,6 +19,9 @@ class UserService {
 
 	async getUsersByEmails(email: string, reqConfig?: ReqConfig) {
 		return await this.api.get(`${this.prefix}/multiple/email?emails=${email}`, { ...reqConfig });
+	}
+	async updateUser(userId: string, data: User, reqConfig?: ReqConfig) {
+		return await this.api.put(`${this.prefix}/${userId}`, data, { ...reqConfig });
 	}
 }
 

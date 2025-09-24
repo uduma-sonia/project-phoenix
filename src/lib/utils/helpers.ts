@@ -291,6 +291,9 @@ class Helpers {
 			.replace(/[^\w\s]/g, '')
 			.replace(/\s+/g, '-');
 	}
+	static generateRandomNumber(min: number, max: number) {
+		return Math.floor(Math.random() * max) + min;
+	}
 }
 
 export default Helpers;

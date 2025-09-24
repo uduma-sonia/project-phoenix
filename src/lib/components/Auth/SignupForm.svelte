@@ -16,7 +16,12 @@
 		try {
 			isSubmitting = true;
 
-			const result = await AuthRequest.register({ username, password, email, avatar: '' });
+			const result = await AuthRequest.register({
+				username,
+				password,
+				email,
+				avatar: `https://robohash.org/${Helpers.generateRandomNumber(1, 10)}?set=${Helpers.generateRandomNumber(1, 5)}&size=200x200`
+			});
 
 			if (result) {
 				Helpers.setCookie(AUTH_TOKEN, result?.data?.token, 400000);
