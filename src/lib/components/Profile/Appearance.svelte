@@ -12,8 +12,6 @@
 
 	async function onSubmit(url: string) {
 		try {
-			isLoading = true;
-
 			const result = await UserRequest.updateUser(user?._id, { avatar: url });
 
 			if (result) {
