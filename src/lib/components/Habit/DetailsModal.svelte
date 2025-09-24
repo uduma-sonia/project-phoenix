@@ -15,6 +15,6 @@
 	{/if}
 
 	{#if trackerState?.data?.trackerDetails?.type == 'QUIT'}
-		<Quit {details} />
+		<Quit />
 	{/if}
 </ModalWrapper>

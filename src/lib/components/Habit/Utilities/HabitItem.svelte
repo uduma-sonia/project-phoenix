@@ -12,12 +12,13 @@
 		RefreshCcw
 	} from '@lucide/svelte';
 	import TrackerUtils from './utils';
-	import { HabitStatus, type Habit } from '../../../../types/tracker';
+	import { HabitStatus } from '../../../../types/tracker';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TrackerLogRequest } from '$lib/requests';
 	import { trackerState } from '$lib/state/tracker.svelte';
 	import type { HabitItemProps } from '../../../../types/tracker';
+	import Helpers from '$lib/utils/helpers';
 
 	let { habit, deleteHabit, updateLog, updateBuildLog, openDetailsModal }: HabitItemProps =
 		$props();
@@ -86,7 +87,9 @@
 
 	function statusAction() {
 		const _status = logDetails?.status == HabitStatus.STOP ? HabitStatus.START : HabitStatus.STOP;
-		updateLog(habit._id, _status, habitType, logDetails?._id);
+
+		const updated_at = Helpers.toISOString(logDetails?.updatedAt);
+		updateLog(habit._id, _status, habitType, logDetails?._id, updated_at);
 	}
 
 	function restartAction() {

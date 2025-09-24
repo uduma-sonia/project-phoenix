@@ -13,6 +13,7 @@
 	import DetailsModal from './DetailsModal.svelte';
 	import { closeHabitDetails, modalsState, openHabitDetails } from '$lib/state/modal.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
+	import { format } from 'date-fns';
 
 	let { user } = $props();
 
@@ -50,7 +51,25 @@
 		}
 	}
 
-	async function updateLog(trackerId: string, status: HabitStatus, type: string, logId: string) {
+	async function updateHistory(id: string, text: string) {
+		try {
+			await TrackerRequest.updateHistory({
+				trackerId: id,
+				text: text,
+				status: HabitStatus.START
+			});
+		} catch (error: any) {
+			addToast(error || 'An error occured', 'error');
+		}
+	}
+
+	async function updateLog(
+		trackerId: string,
+		status: HabitStatus,
+		type: string,
+		logId: string,
+		updated_at?: string
+	) {
 		try {
 			isDeleting = true;
 
@@ -77,6 +96,25 @@
 						date: TrackerUtils.getISODate(trackerState.data.selectedDay)
 					})
 				});
+
+				if (status === HabitStatus.STOP) {
+					const _date = TrackerUtils.renderStreakCountdown(
+						TrackerUtils.calculateStreakTime(updated_at)
+					);
+					const _time = TrackerUtils.renderStreakCountdownSuffix(
+						TrackerUtils.calculateStreakTime(updated_at)
+					);
+
+					const text = `You stopped this streak. Record: ${_date} ${_time}`;
+					updateHistory(trackerId, text);
+				}
+
+				if (status === HabitStatus.START) {
+					if (updated_at) {
+						const text = `You started this streak again on ${format(new Date(updated_at), 'PP')}`;
+						updateHistory(trackerId, text);
+					}
+				}
 			}
 		} catch (error: any) {
 			addToast(error?.message, 'error');

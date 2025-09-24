@@ -1,14 +1,17 @@
 <script lang="ts">
-	import Doughnut from '$lib/components/Common/Doughnut.svelte';
+	// import Doughnut from '$lib/components/Common/Doughnut.svelte';
 	import { trackerState } from '$lib/state/tracker.svelte';
 	import Helpers from '$lib/utils/helpers';
+	import { HabitStatus } from '../../../../types/tracker';
 	import TrackerUtils from './utils';
 
-	let { details } = $props();
+	let details = $derived(trackerState.data.trackerDetails);
 
 	let _date = $derived(
 		trackerState?.data?.trackerDetails?.logDetails?.updatedAt || details?.startDate
 	);
+
+	$effect(() => console.log(details?.logDetails));
 </script>
 
 <div class="relative mt-4 flex h-[200px] items-center justify-center sm:h-[270px]">
@@ -29,12 +32,24 @@
 			</small>
 		</p>
 
-		<p class="font-lexend text-13 mt-4 font-light">
-			Started:
+		{#if details?.logDetails?.status === HabitStatus.STOP}
+			<p class="font-lexend text-13 text-brand-error mt-4 font-light">
+				Stopped:
 
-			{#if _date}
-				{Helpers.getRelativeDate(_date, 'PP')}
-			{/if}
-		</p>
+				{#if _date}
+					{Helpers.getRelativeDate(_date, 'PP')}
+				{/if}
+			</p>
+		{/if}
+
+		{#if details?.logDetails?.status === HabitStatus.START}
+			<p class="font-lexend text-13 mt-4 font-light">
+				Started:
+
+				{#if _date}
+					{Helpers.getRelativeDate(_date, 'PP')}
+				{/if}
+			</p>
+		{/if}
 	</div>
 </div>
