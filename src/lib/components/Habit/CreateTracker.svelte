@@ -7,8 +7,9 @@
 	import DatePickerMini from '../Common/DatePicker/DatePickerMini.svelte';
 	import { TrackerRequest } from '$lib/requests';
 	import { Check } from '@lucide/svelte';
-	import { goto } from '$app/navigation';
 	import BackComponent from '../Common/BackComponent.svelte';
+	import { HabitStatus } from '../../../types/tracker';
+	import { goto } from '$app/navigation';
 
 	let { user } = $props();
 
@@ -64,6 +65,18 @@
 		return type === 'BUILD' ? arg : '';
 	}
 
+	async function updateHistory(id: string) {
+		try {
+			await TrackerRequest.updateHistory({
+				trackerId: id,
+				text: 'You started this streak for the first time',
+				status: HabitStatus.START
+			});
+		} catch (error: any) {
+			addToast(error || 'An error occured', 'error');
+		}
+	}
+
 	async function handleSubmit(e: any) {
 		e.preventDefault();
 
@@ -93,6 +106,14 @@
 			const result = await TrackerRequest.createHabit(payload);
 
 			if (result) {
+				// await TrackerRequest.updateHistory({
+				// 	trackerId: result?.data?._id,
+				// 	text: 'You started this streak for the first time',
+				// 	status: HabitStatus.START
+				// });
+				if (type === 'QUIT') {
+					updateHistory(result?.data?._id);
+				}
 				addToast('Habit created', 'success', '/images/confetti.svg');
 				goto('/tracker');
 			}
