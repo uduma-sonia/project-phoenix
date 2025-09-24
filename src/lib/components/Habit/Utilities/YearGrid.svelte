@@ -20,8 +20,6 @@
 	};
 
 	let getRange = $derived(Helpers.generateYearRange(currentYear));
-
-	$effect(() => console.log(getRange));
 </script>
 
 <div>

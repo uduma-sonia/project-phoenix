@@ -291,6 +291,36 @@ class Helpers {
 			.replace(/[^\w\s]/g, '')
 			.replace(/\s+/g, '-');
 	}
+
+	static generateRandomNumber(min: number, max: number) {
+		return Math.floor(Math.random() * max) + min;
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	static toISOString(arg: any) {
+		if (arg) {
+			const date = new Date(arg); // Current date and time
+
+			const year = date.getFullYear();
+			const month = (date.getMonth() + 1).toString().padStart(2, '0');
+			const day = date.getDate().toString().padStart(2, '0');
+			const hours = date.getHours().toString().padStart(2, '0');
+			const minutes = date.getMinutes().toString().padStart(2, '0');
+			const seconds = date.getSeconds().toString().padStart(2, '0');
+			const milliseconds = date.getMilliseconds().toString().padStart(3, '0');
+
+			const tzOffset = -date.getTimezoneOffset();
+			const tzSign = tzOffset >= 0 ? '+' : '-';
+			const tzHours = Math.floor(Math.abs(tzOffset) / 60)
+				.toString()
+				.padStart(2, '0');
+			const tzMinutes = (Math.abs(tzOffset) % 60).toString().padStart(2, '0');
+
+			const isoStringWithTimezone = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}${tzSign}${tzHours}:${tzMinutes}`;
+
+			return isoStringWithTimezone;
+		}
+	}
 }
 
 export default Helpers;

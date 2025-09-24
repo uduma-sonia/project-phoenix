@@ -55,7 +55,13 @@ export type UpdateBuildLog = {
 export type HabitItemProps = {
 	habit: Habit;
 	deleteHabit: (habitId: string) => void;
-	updateLog: (habitId: string, status: HabitStatus, type: string, logId: string) => void;
+	updateLog: (
+		habitId: string,
+		status: HabitStatus,
+		type: string,
+		logId: string,
+		updated_at?: string
+	) => void;
 	updateBuildLog: (params: UpdateBuildLog) => void;
 	openDetailsModal: (params: Habit) => void;
 };

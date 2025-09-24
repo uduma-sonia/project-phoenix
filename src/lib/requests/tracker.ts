@@ -1,4 +1,5 @@
 import type { ReqConfig, Service } from '../../types/axios';
+import type { HabitStatus } from '../../types/tracker';
 
 export type CreateHabit = {
 	createdAt?: Date;
@@ -22,6 +23,7 @@ export type CreateHabit = {
 class TrackerService {
 	private api;
 	private prefix = '/tracker';
+	private historyPrefix = '/tracker-history';
 
 	constructor({ api }: Service) {
 		this.api = api;
@@ -45,6 +47,17 @@ class TrackerService {
 
 	async deleteHabit(id: string, reqConfig?: ReqConfig) {
 		return await this.api.delete(`${this.prefix}/${id}`, { ...reqConfig });
+	}
+
+	async updateHistory(
+		data: { trackerId: string; text: string; status: HabitStatus },
+		reqConfig?: ReqConfig
+	) {
+		return await this.api.post(`${this.historyPrefix}/`, data, { ...reqConfig });
+	}
+
+	async getTrackerHistory(trackerId: string, reqConfig?: ReqConfig) {
+		return await this.api.get(`${this.historyPrefix}/${trackerId}`, { ...reqConfig });
 	}
 }
 

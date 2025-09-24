@@ -3,7 +3,7 @@
 </script>
 
 <div>
-	<p class="mb-5 text-xl">Security</p>
+	<p class="mb-4 text-lg">Security</p>
 
 	<div class="mb-6 space-y-4">
 		<div>

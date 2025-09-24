@@ -6,10 +6,8 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TrackerLogRequest } from '$lib/requests';
 	import { format, formatISO } from 'date-fns';
-	import StreakCard from './Utilities/StreakCard.svelte';
 	import TrackerUtils from './Utilities/utils';
 	import Helpers from '$lib/utils/helpers';
-	import HistoryItem from './Utilities/HistoryItem.svelte';
 
 	let { details } = $props();
 
@@ -67,6 +65,44 @@
 
 <div class="rounded-lg bg-white pb-20">
 	<div class="flex flex-col gap-4 sm:flex-row">
+		<div class="w-full rounded-xl border-2 px-4 pb-4 sm:w-1/2">
+			<Calendar {details} {logsList} />
+		</div>
+
+		<div class="w-full rounded-xl sm:w-1/2">
+			<div class="grid grid-cols-2 gap-6 sm:grid-cols-3">
+				<StatItem
+					value={currentStreak || 0}
+					smallText={`Day${Helpers.returnS(currentStreak)}`}
+					description="Current Streak"
+				/>
+				<StatItem
+					value={bestStreak || 0}
+					smallText={`Day${Helpers.returnS(bestStreak)}`}
+					description={`Best Streak ${format(new Date(currentStatsMonth.month), 'LLL')}`}
+				/>
+				<StatItem
+					value={monthlyCompletionRate || 0}
+					smallText={`%`}
+					description="Completion Rate"
+				/>
+				<StatItem
+					value={_stats?.completed || 0}
+					smallText={`Day${_stats?.completed > 1 ? 's' : ''}`}
+					description="Completed"
+				/>
+				<StatItem
+					value={_stats?.skipped || 0}
+					smallText={`Day${_stats?.skipped > 1 ? 's' : ''}`}
+					description="Skipped"
+				/>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- <div class="rounded-lg bg-white pb-20">
+	<div class="flex flex-col gap-4 sm:flex-row">
 		{#if details?.type == 'BUILD'}
 			<div class="w-full rounded-xl border-2 px-4 pb-4 sm:w-1/2">
 				<Calendar {details} {logsList} />
@@ -74,7 +110,6 @@
 		{/if}
 		{#if details?.type == 'QUIT'}
 			<div class="w-full rounded-xl border-2 px-4 pb-4 sm:w-1/2">
-				<!-- TODO: Move this into parent container -->
 				<StreakCard {details} />
 			</div>
 		{/if}
@@ -109,6 +144,7 @@
 					/>
 				</div>
 			{/if}
+
 			{#if details?.type == 'QUIT'}
 				<div class="">
 					<h3 class="mb-4 text-lg">History</h3>
@@ -122,4 +158,4 @@
 			{/if}
 		</div>
 	</div>
-</div>
+</div> -->

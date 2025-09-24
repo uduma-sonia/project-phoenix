@@ -10,7 +10,8 @@ const userKeys = {
 
 const trackerKeys = {
 	getAllHabits: [`/tracker/all`],
-	getSingleHabit: (habitId: string) => [`/tracker/${habitId}`]
+	getSingleHabit: (habitId: string) => [`/tracker/${habitId}`],
+	getTrackerHistory: (trackerId: string) => [`/tracker/${trackerId}`]
 };
 
 const trackerLogKeys = {

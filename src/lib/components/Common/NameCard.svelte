@@ -5,6 +5,7 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { UserRequest } from '$lib/requests';
 	import { Play } from '@lucide/svelte';
+	import Avatar from './Avatar.svelte';
 
 	const userQuery = createQuery({
 		queryKey: queryKeys.getCurrentUser,
@@ -16,7 +17,7 @@
 
 <div class="flex h-full items-center justify-between px-3 py-4">
 	<button class="flex items-center gap-2" onclick={openProfile}>
-		<div class="h-16 w-16 rounded-lg border-2 sm:h-20 sm:w-20"></div>
+		<Avatar src={user?.avatar} />
 		<div>
 			<Play />
 		</div>

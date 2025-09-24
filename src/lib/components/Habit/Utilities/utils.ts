@@ -359,4 +359,8 @@ export default class TrackerUtils {
 			return result;
 		}
 	}
+
+	static generateRandomNumber(length: number) {
+		return Math.random().toString(16).substring(2, length);
+	}
 }
