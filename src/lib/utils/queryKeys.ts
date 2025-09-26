@@ -46,11 +46,17 @@ const statsKeys = {
 	getStat: (id: string) => [`/stats/${id}`]
 };
 
+const tripKeys = {
+	getTrip: [`/trip`],
+	getSingleTrip: (id: string) => [`/trip/${id}`]
+};
+
 export const queryKeys = {
 	...userKeys,
 	...trackerKeys,
 	...trackerLogKeys,
 	...shoppingKeys,
 	...recipeKeys,
-	...statsKeys
+	...statsKeys,
+	...tripKeys
 };

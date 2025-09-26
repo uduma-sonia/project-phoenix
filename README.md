@@ -1,8 +1,5 @@
 # Backlogs
 
-- Track log history for quit type
-
-- Empty states (reusable component - loading, error, text)
 - Tooltip for invite modal - explaining the flow
 - Add the currency symbol in editItem component
 - Delete shopping item
@@ -13,6 +10,7 @@
 - move some endpoints to use server side calls {
   - {api/v1/recipe/homemade-tomato-sauce}
     }
+- PWA Alert modal
 
   Recipe
 
