@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Link, Trash, SquarePen, LockKeyhole, LockKeyholeOpen } from '@lucide/svelte';
+	import { Link, Trash, SquarePen, LockKeyhole } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import IngredientItem from './Utilities/IngredientItem.svelte';
 	import InstructionItem from './Utilities/InstructionItem.svelte';

@@ -106,11 +106,6 @@
 			const result = await TrackerRequest.createHabit(payload);
 
 			if (result) {
-				// await TrackerRequest.updateHistory({
-				// 	trackerId: result?.data?._id,
-				// 	text: 'You started this streak for the first time',
-				// 	status: HabitStatus.START
-				// });
 				if (type === 'QUIT') {
 					updateHistory(result?.data?._id);
 				}

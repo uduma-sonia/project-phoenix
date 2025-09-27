@@ -21,8 +21,8 @@ class TripService {
 		return await this.api.get(`${this.prefix}/${tripId}`, { ...reqConfig });
 	}
 
-	async updateTrip(userId: string, data: Trip, reqConfig?: ReqConfig) {
-		return await this.api.put(`${this.prefix}/user/${userId}`, data, { ...reqConfig });
+	async updateTrip(tripId: string, data: Trip, reqConfig?: ReqConfig) {
+		return await this.api.put(`${this.prefix}/${tripId}`, data, { ...reqConfig });
 	}
 
 	async deleteTrip(id: string, reqConfig?: ReqConfig) {

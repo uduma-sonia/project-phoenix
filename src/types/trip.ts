@@ -3,8 +3,8 @@ export type Trip = {
 	name: string;
 	country?: string;
 	city?: string;
-	start?: string;
-	end?: string;
+	start: Date;
+	end: Date;
 	address?: string;
 	hotelName?: string;
 	currency?: string;

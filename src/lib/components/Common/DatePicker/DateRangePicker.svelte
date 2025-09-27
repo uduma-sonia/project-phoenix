@@ -16,7 +16,11 @@
 		isBefore
 	} from 'date-fns';
 
-	let { isClickable = false, range = $bindable() } = $props();
+	let {
+		isClickable = false,
+		range = $bindable(),
+		selectComplete
+	}: { isClickable: boolean; range: any; selectComplete?: () => void } = $props();
 
 	let currentMonth = $state(new Date());
 	let _startOfWeek = startOfWeek(new Date());
@@ -36,6 +40,10 @@
 		} else {
 			range = { start: range.start, end: day };
 		}
+
+		if (range?.start && range.end) {
+			selectComplete?.();
+		}
 	};
 	const prevMonth = () => {
 		currentMonth = subMonths(currentMonth, 1);
@@ -46,10 +54,10 @@
 	};
 
 	const renderDateBgColor = (day: Date) => {
-		const isSelectedStart = range.start && isSameDay(day, range.start);
-		const isSelectedEnd = range.end && isSameDay(day, range.end);
+		const isSelectedStart = range?.start && isSameDay(day, range.start);
+		const isSelectedEnd = range?.end && isSameDay(day, range.end);
 		const isInRange =
-			range.start && range.end && isAfter(day, range.start) && isBefore(day, range.end);
+			range?.start && range?.end && isAfter(day, range.start) && isBefore(day, range.end);
 
 		return isSelectedStart || isSelectedEnd || isInRange;
 	};

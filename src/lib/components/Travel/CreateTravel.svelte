@@ -20,13 +20,13 @@
 	let name = $state('');
 	let address = $state('');
 	let hotelName = $state('');
-	let numberOfPersons = $state('');
+	let numberOfPersons = $state('1');
 	let budget = $state('');
 	let selectedCountry = $state({ value: '', id: '' });
 	let selectedCity = $state({ value: '', id: '' });
 	let selectedCurrency = $state({ value: '', id: '' });
 
-	let dateRange: { start: Date | null; end: Date | null } = $state({
+	let dateRange: { start: Date; end: Date } = $state({
 		start: startOfWeek(new Date()),
 		end: endOfWeek(new Date())
 	});
@@ -56,8 +56,8 @@
 				name: name,
 				country: selectedCountry.value,
 				city: selectedCity?.value,
-				start: Helpers.toISOString(dateRange.start),
-				end: Helpers.toISOString(dateRange.end),
+				start: dateRange.start,
+				end: dateRange.end,
 				address: address,
 				hotelName: hotelName,
 				currency: selectedCurrency.value,
