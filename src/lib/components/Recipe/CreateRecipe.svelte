@@ -54,16 +54,16 @@
 		methodsList = [...methodsList, newObj];
 	}
 
-	const resizeTextarea = () => {
+	function resizeTextarea() {
 		textarea.style.height = 'auto';
 		textarea.style.height = textarea.scrollHeight + 'px';
-	};
+	}
 
-	const handleBrowseClick = () => {
+	function handleBrowseClick() {
 		document.querySelector<HTMLInputElement>('#media')?.click();
-	};
+	}
 
-	const handleFileChange = () => {
+	function handleFileChange() {
 		const file = inputElement?.files[0];
 		const _fileName = file?.name;
 		const reader = new FileReader();
@@ -80,7 +80,7 @@
 				reader.readAsDataURL(file);
 			}
 		}
-	};
+	}
 
 	function getValue(arr: any) {
 		const mappedArr = arr?.map((item: any) => {
@@ -93,7 +93,7 @@
 
 		return filteredArr;
 	}
-
+	// https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg
 	async function handleSubmit() {
 		try {
 			isSubmitting = true;
@@ -101,8 +101,7 @@
 			const payload = {
 				name: recipeName,
 				note: notes,
-				imageUrl:
-					'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg',
+				imageUrl: '',
 				isPrivate: isPrivate,
 				ingredients: getValue(ingredientsList),
 				method: getValue(methodsList),

@@ -16,7 +16,11 @@
 		isBefore
 	} from 'date-fns';
 
-	let { isClickable = false } = $props();
+	let {
+		isClickable = false,
+		range = $bindable(),
+		selectComplete
+	}: { isClickable: boolean; range: any; selectComplete?: () => void } = $props();
 
 	let currentMonth = $state(new Date());
 	let _startOfWeek = startOfWeek(new Date());
@@ -27,10 +31,6 @@
 			end: endOfWeek(endOfMonth(currentMonth))
 		})
 	);
-	let range: { start: Date | null; end: Date | null } = $state({
-		start: startOfWeek(new Date()),
-		end: endOfWeek(new Date())
-	});
 
 	const handleDateRangeSelect = (day: Date) => {
 		if (!range.start || (range.start && range.end)) {
@@ -39,6 +39,10 @@
 			range = { start: day, end: range.start };
 		} else {
 			range = { start: range.start, end: day };
+		}
+
+		if (range?.start && range.end) {
+			selectComplete?.();
 		}
 	};
 	const prevMonth = () => {
@@ -50,10 +54,10 @@
 	};
 
 	const renderDateBgColor = (day: Date) => {
-		const isSelectedStart = range.start && isSameDay(day, range.start);
-		const isSelectedEnd = range.end && isSameDay(day, range.end);
+		const isSelectedStart = range?.start && isSameDay(day, range.start);
+		const isSelectedEnd = range?.end && isSameDay(day, range.end);
 		const isInRange =
-			range.start && range.end && isAfter(day, range.start) && isBefore(day, range.end);
+			range?.start && range?.end && isAfter(day, range.start) && isBefore(day, range.end);
 
 		return isSelectedStart || isSelectedEnd || isInRange;
 	};
@@ -61,13 +65,13 @@
 
 <div class="">
 	<div class="date-picker-header">
-		<button class="shadow_button control_button" onclick={prevMonth}>
+		<button class="shadow_button control_button" type="button" onclick={prevMonth}>
 			<span class="block rotate-180">
 				<Play size="18px" />
 			</span>
 		</button>
 		<p>{format(currentMonth, 'MMMM yyyy')}</p>
-		<button class="shadow_button control_button" onclick={nextMonth}>
+		<button class="shadow_button control_button" type="button" onclick={nextMonth}>
 			<Play size="18px" />
 		</button>
 	</div>
@@ -91,6 +95,7 @@
 						handleDateRangeSelect(day);
 					}
 				}}
+				type="button"
 			>
 				{format(day, 'd')}
 			</button>

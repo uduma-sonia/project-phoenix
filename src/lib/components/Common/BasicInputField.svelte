@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { InputType } from '../../../types/input';
 
-	interface Props {
+	type Props = {
 		label?: string;
 		value?: string;
 		id?: string;
@@ -23,7 +23,7 @@
 			| null
 			| undefined;
 		[key: string]: any;
-	}
+	};
 
 	let {
 		label,
@@ -60,7 +60,6 @@
 	function transformValue(value: any) {
 		const rawValue = value;
 
-		console.log(value);
 		const numericValue = rawValue.replace(/[^\d]/g, '');
 		const formattedValue = numericValue ? new Intl.NumberFormat('en-US').format(numericValue) : '';
 		return formattedValue;

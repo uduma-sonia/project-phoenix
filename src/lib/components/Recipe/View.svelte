@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createQuery } from '@tanstack/svelte-query';
 	import HabitSearch from '../Habit/Utilities/HabitSearch.svelte';
-	import GroupScroller from './Utilities/GroupScroller.svelte';
+	// import GroupScroller from './Utilities/GroupScroller.svelte';
 	import RecipeCard from './Utilities/RecipeCard.svelte';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { recipeRequest } from '$lib/requests';
@@ -22,7 +22,7 @@
 </script>
 
 <div class="pb-24">
-	<GroupScroller />
+	<!-- <GroupScroller /> -->
 
 	<div class="relative z-30 mt-5 gap-3 px-3">
 		<HabitSearch bind:searchQuery placeholder="Search recipe" />

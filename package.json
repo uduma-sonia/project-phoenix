@@ -49,6 +49,7 @@
 		"@lucide/svelte": "^0.511.0",
 		"@tanstack/svelte-query": "^5.40.0",
 		"axios": "^1.9.0",
+		"country-state-city": "^3.2.1",
 		"date-fns": "^4.1.0"
 	}
 }

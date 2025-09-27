@@ -107,6 +107,22 @@ class Helpers {
 		maximumFractionDigits: 3
 	});
 
+	static currencyFormatter = ({
+		currency,
+		maximumFractionDigits,
+		minimumFractionDigits
+	}: {
+		currency: string;
+		maximumFractionDigits: number;
+		minimumFractionDigits: number;
+	}) =>
+		new Intl.NumberFormat('en-NG', {
+			style: 'currency',
+			currency: currency,
+			minimumFractionDigits: minimumFractionDigits,
+			maximumFractionDigits: maximumFractionDigits
+		});
+
 	/** Dispatch event on click outside of node */
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	static clickOutside(node: any) {
@@ -319,6 +335,18 @@ class Helpers {
 			const isoStringWithTimezone = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${milliseconds}${tzSign}${tzHours}:${tzMinutes}`;
 
 			return isoStringWithTimezone;
+		}
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	static transformObjectToList(arg: any) {
+		if (arg) {
+			return Object.keys(arg).map((item) => {
+				return {
+					id: item,
+					details: arg[item]
+				};
+			});
 		}
 	}
 }
