@@ -36,7 +36,7 @@
 		<div
 			use:Helpers.clickOutside
 			onclick_outside={handleClickOutside}
-			class="slide_in_down absolute top-[-30px] right-6 z-[9999] gap-4 overflow-hidden rounded-lg shadow-2xl shadow-black"
+			class="slide_in_down absolute top-[-30px] right-6 z-[9999] gap-4 overflow-hidden rounded-lg shadow-2xl"
 		>
 			<div class="w-[150px] rounded-lg border-2 border-black bg-[#FFFFFF] p-0.5">
 				{#each options as option}
@@ -59,6 +59,8 @@
 								handleClickOutside();
 							}}
 						>
+							<!-- <div class="spinner_white_sm border-2 border-black"></div> -->
+
 							<div class="w-5" style="color: {option.iconColor};">
 								<option.icon size="20" />
 							</div>

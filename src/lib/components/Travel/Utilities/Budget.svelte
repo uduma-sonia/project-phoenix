@@ -9,12 +9,14 @@
 			(item) => item.id === trip.currency
 		);
 
-		const amount = Helpers.currencyFormatter({
-			currency: getCurrency?.details?.code,
-			minimumFractionDigits: getCurrency?.details.rounding,
-			maximumFractionDigits: getCurrency?.details?.decimal_digits
-		}).format(Number(trip?.budget) || 0);
-
+		let amount = '-';
+		if (getCurrency?.details) {
+			amount = Helpers.currencyFormatter({
+				currency: getCurrency?.details?.code,
+				minimumFractionDigits: getCurrency?.details.rounding,
+				maximumFractionDigits: getCurrency?.details?.decimal_digits
+			}).format(Number(trip?.budget) || 0);
+		}
 		return amount;
 	}
 </script>

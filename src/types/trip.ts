@@ -12,4 +12,23 @@ export type Trip = {
 	budget?: string;
 	createdAt?: Date;
 	updatedAt?: Date;
+	_id?: string;
+};
+
+export type TripActivity = {
+	ownerId?: string;
+	tripId: string;
+	name: string;
+	groupId?: string;
+	instagramLink?: string;
+	websiteLink?: string;
+	otherLink?: string;
+	menuLink?: string;
+	mobile?: string;
+	visited?: boolean;
+	note?: string;
+	day?: string;
+	createdAt?: Date;
+	updatedAt?: Date;
+	_id?: string;
 };
