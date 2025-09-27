@@ -3,7 +3,7 @@ import type { Trip } from '../../types/trip';
 
 class TripService {
 	private api;
-	private prefix = '/trip';
+	private prefix = '/travel';
 
 	constructor({ api }: Service) {
 		this.api = api;

@@ -16,7 +16,7 @@
 		isBefore
 	} from 'date-fns';
 
-	let { isClickable = false } = $props();
+	let { isClickable = false, range = $bindable() } = $props();
 
 	let currentMonth = $state(new Date());
 	let _startOfWeek = startOfWeek(new Date());
@@ -27,10 +27,6 @@
 			end: endOfWeek(endOfMonth(currentMonth))
 		})
 	);
-	let range: { start: Date | null; end: Date | null } = $state({
-		start: startOfWeek(new Date()),
-		end: endOfWeek(new Date())
-	});
 
 	const handleDateRangeSelect = (day: Date) => {
 		if (!range.start || (range.start && range.end)) {
@@ -61,13 +57,13 @@
 
 <div class="">
 	<div class="date-picker-header">
-		<button class="shadow_button control_button" onclick={prevMonth}>
+		<button class="shadow_button control_button" type="button" onclick={prevMonth}>
 			<span class="block rotate-180">
 				<Play size="18px" />
 			</span>
 		</button>
 		<p>{format(currentMonth, 'MMMM yyyy')}</p>
-		<button class="shadow_button control_button" onclick={nextMonth}>
+		<button class="shadow_button control_button" type="button" onclick={nextMonth}>
 			<Play size="18px" />
 		</button>
 	</div>
@@ -91,6 +87,7 @@
 						handleDateRangeSelect(day);
 					}
 				}}
+				type="button"
 			>
 				{format(day, 'd')}
 			</button>

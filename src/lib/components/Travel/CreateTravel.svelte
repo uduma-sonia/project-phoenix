@@ -4,17 +4,32 @@
 	import { Country, City } from 'country-state-city';
 	import Dropdown from '../Common/Dropdown.svelte';
 	import { addToast } from '$lib/store/toast';
+	import DateRangePicker from '../Common/DatePicker/DateRangePicker.svelte';
+	import { endOfWeek, startOfWeek } from 'date-fns';
+	import Helpers from '$lib/utils/helpers';
+	import { currencies } from '$lib/constants/currency';
+	import { tripRequest } from '$lib/requests';
+	import { goto } from '$app/navigation';
+	import { useQueryClient } from '@tanstack/svelte-query';
+	import { queryKeys } from '$lib/utils/queryKeys';
+
+	const queryClient = useQueryClient();
 
 	let isLoading = $state(false);
 
 	let name = $state('');
 	let address = $state('');
 	let hotelName = $state('');
-	let currency = $state('');
 	let numberOfPersons = $state('');
 	let budget = $state('');
 	let selectedCountry = $state({ value: '', id: '' });
-	let selectedCity = $state(null);
+	let selectedCity = $state({ value: '', id: '' });
+	let selectedCurrency = $state({ value: '', id: '' });
+
+	let dateRange: { start: Date | null; end: Date | null } = $state({
+		start: startOfWeek(new Date()),
+		end: endOfWeek(new Date())
+	});
 
 	let countryOptions = $derived(
 		Country.getAllCountries()?.map((item) => ({ value: item.name, id: item.isoCode }))
@@ -26,9 +41,36 @@
 		}))
 	);
 
-	function handleSubmit() {
+	let currenciesOptions = $derived(
+		Helpers.transformObjectToList(currencies[0])?.map((item) => ({
+			value: item.id,
+			id: item.details.code
+		}))
+	);
+
+	async function handleSubmit(e: any) {
+		e.preventDefault();
 		try {
 			isLoading = true;
+			const payload = {
+				name: name,
+				country: selectedCountry.value,
+				city: selectedCity?.value,
+				start: Helpers.toISOString(dateRange.start),
+				end: Helpers.toISOString(dateRange.end),
+				address: address,
+				hotelName: hotelName,
+				currency: selectedCurrency.value,
+				numOfPersons: Number(numberOfPersons),
+				budget: budget
+			};
+
+			const result = await tripRequest.createTrip(payload);
+
+			if (result) {
+				queryClient.invalidateQueries({ queryKey: queryKeys.getTrip });
+				goto('/travel');
+			}
 		} catch (error: any) {
 			addToast(error?.message || 'An error occured', 'error');
 		} finally {
@@ -44,7 +86,7 @@
 
 	<div class="mt-4 flex items-center justify-center px-4 pb-52">
 		<div class="login_form_wrapper w-full md:max-w-[500px]">
-			<form class="login_form h-full rounded-3xl border-2 bg-white">
+			<form class="login_form h-full rounded-3xl border-2 bg-white" onsubmit={handleSubmit}>
 				<div class="pb-3">
 					<p class="font-suez text-2xl">Create Trip</p>
 				</div>
@@ -59,22 +101,6 @@
 						id="tripName"
 						name="tripName"
 					/>
-					<BasicInputField label="Address" bind:value={address} id="address" name="address" />
-					<BasicInputField
-						label="Hotel name"
-						bind:value={hotelName}
-						id="hotelName"
-						name="hotelName"
-					/>
-					<BasicInputField label="Currency" bind:value={currency} id="currency" name="currency" />
-					<BasicInputField label="Budget" bind:value={budget} id="budget" name="budget" />
-					<BasicInputField
-						label="Number Of Persons"
-						bind:value={numberOfPersons}
-						id="numberOfPersons"
-						name="numberOfPersons"
-						type="number"
-					/>
 
 					<Dropdown
 						label="Country"
@@ -85,6 +111,44 @@
 					{#if citiesOptions}
 						<Dropdown label="City" options={citiesOptions} bind:selectedOption={selectedCity} />
 					{/if}
+
+					<BasicInputField label="Address" bind:value={address} id="address" name="address" />
+					<BasicInputField
+						label="Hotel name"
+						bind:value={hotelName}
+						id="hotelName"
+						name="hotelName"
+					/>
+
+					<BasicInputField
+						label="Number Of Persons"
+						bind:value={numberOfPersons}
+						id="numberOfPersons"
+						name="numberOfPersons"
+						type="number"
+					/>
+
+					<BasicInputField
+						label="Budget"
+						type="number"
+						bind:value={budget}
+						id="budget"
+						name="budget"
+					/>
+
+					{#if currenciesOptions}
+						<Dropdown
+							label="Currency"
+							options={currenciesOptions}
+							bind:selectedOption={selectedCurrency}
+						/>
+					{/if}
+
+					<div class="pt-4">
+						<div class="rounded-lg border-2 p-4">
+							<DateRangePicker bind:range={dateRange} isClickable={true} />
+						</div>
+					</div>
 				</div>
 
 				<div>

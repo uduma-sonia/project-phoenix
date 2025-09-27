@@ -321,6 +321,18 @@ class Helpers {
 			return isoStringWithTimezone;
 		}
 	}
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	static transformObjectToList(arg: any) {
+		if (arg) {
+			return Object.keys(arg).map((item) => {
+				return {
+					id: item,
+					details: arg[item]
+				};
+			});
+		}
+	}
 }
 
 export default Helpers;
