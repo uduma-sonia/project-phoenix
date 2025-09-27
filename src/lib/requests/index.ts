@@ -12,7 +12,7 @@ import RecipeGroupService from './recipeGroup';
 import { AUTH_TOKEN } from '$lib/constants/global';
 import ShoppingService from './shopping';
 import StatsService from './stats';
-import TripService from './trip';
+import TripService from './Trip';
 
 export const API_ENDPOINT = import.meta.env.VITE_API_URL;
 
