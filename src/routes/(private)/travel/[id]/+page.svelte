@@ -7,6 +7,7 @@
 	import { page } from '$app/state';
 	import SEO from '$lib/components/Common/SEO.svelte';
 	import LoaderError from '$lib/components/Common/LoaderError.svelte';
+	import DeleteTripModal from '$lib/components/Modals/DeleteTripModal.svelte';
 
 	let detailsQuery = createQuery({
 		queryKey: queryKeys.getSingleRecipe(page.params.id),
@@ -28,3 +29,5 @@
 		<DetailsView {trip} />
 	{/if}
 </AppLayout>
+
+<DeleteTripModal />

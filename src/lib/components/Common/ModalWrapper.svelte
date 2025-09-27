@@ -6,7 +6,7 @@
 
 	type ModalProps = {
 		onClose: () => void;
-		isOpen: () => void;
+		isOpen: boolean;
 		children: Snippet;
 		maxWidth?: string;
 		height?: string;
