@@ -1,26 +1,28 @@
 <script lang="ts">
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
-	import InvitedUserItem from './Utilities/InvitedUserItem.svelte';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import { shoppingRequest, UserRequest } from '$lib/requests';
+	import { tripRequest, UserRequest } from '$lib/requests';
 	import { page } from '$app/state';
 	import { addToast } from '$lib/store/toast';
+	import InvitedUserItem from '../Shopping/Utilities/InvitedUserItem.svelte';
 
 	let { onClose, isOpen, user } = $props();
 	const queryClient = useQueryClient();
 
-	let boardId = page.params.id as string;
+	let tripId = page.params.id as string;
 	let isRemoving = $state('');
 	let email = $state('');
 
 	let membersQuery = createQuery({
-		queryKey: queryKeys.getBoardMembers(boardId),
-		queryFn: () => shoppingRequest.getBoardMembers(boardId)
+		queryKey: queryKeys.getTripMembers(tripId),
+		queryFn: () => tripRequest.getTripMembers(tripId)
 	});
 
 	let membersList = $derived(
-		$membersQuery?.data?.data?.members?.members?.map((item: { memberId: string }) => item.memberId)
+		$membersQuery?.data?.data?.travelMembers?.members?.map(
+			(item: { memberId: string }) => item.memberId
+		)
 	);
 
 	let usersQuery = $derived(
@@ -36,16 +38,16 @@
 	async function inviteMember() {
 		try {
 			const payload = {
-				boardId,
+				tripId,
 				ownerId: user?._id,
 				memberId: email,
 				permissions: 'READ,WRITE'
 			};
 
-			const result = await shoppingRequest.addMember(payload);
+			const result = await tripRequest.addTripMember(payload);
 
 			if (result) {
-				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardMembers(boardId) });
+				queryClient.invalidateQueries({ queryKey: queryKeys.getTripMembers(tripId) });
 				email = '';
 			}
 		} catch (error: any) {
@@ -59,10 +61,10 @@
 		try {
 			isRemoving = memberId;
 
-			const result = await shoppingRequest.removeMemberFromBoard(boardId, memberId);
+			const result = await tripRequest.removeTripMember(tripId, memberId);
 
 			if (result) {
-				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardMembers(boardId) });
+				queryClient.invalidateQueries({ queryKey: queryKeys.getTripMembers(tripId) });
 			}
 		} catch (error: any) {
 			addToast(error?.message || 'An error occured', 'error');

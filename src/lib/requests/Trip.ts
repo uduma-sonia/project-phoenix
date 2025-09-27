@@ -1,11 +1,12 @@
 import type { ReqConfig, Service } from '../../types/axios';
-import type { Trip, TripActivity } from '../../types/trip';
+import type { Trip, TripActivity, TripMember } from '../../types/trip';
 
 class TripService {
 	private api;
 	private prefix = '/travel';
 	private groupPrefix = '/travel-group';
 	private activityPrefix = '/travel-activity';
+	private memberPrefix = '/travel-member';
 
 	constructor({ api }: Service) {
 		this.api = api;
@@ -63,6 +64,21 @@ class TripService {
 
 	async deleteTripActivity(id: string, reqConfig?: ReqConfig) {
 		return await this.api.delete(`${this.activityPrefix}/${id}`, { ...reqConfig });
+	}
+
+	// MEMBER
+	async addTripMember(data: TripMember, reqConfig?: ReqConfig) {
+		return await this.api.post(`${this.memberPrefix}`, data, { ...reqConfig });
+	}
+
+	async getTripMembers(tripId: string, reqConfig?: ReqConfig) {
+		return await this.api.get(`${this.memberPrefix}/${tripId}`, { ...reqConfig });
+	}
+
+	async removeTripMember(tripId: string, memberId: string, reqConfig?: ReqConfig) {
+		return await this.api.delete(`${this.memberPrefix}/remove/${tripId}?memberId=${memberId}`, {
+			...reqConfig
+		});
 	}
 }
 

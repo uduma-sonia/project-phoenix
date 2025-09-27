@@ -6,10 +6,20 @@
 	import Budget from './Utilities/Budget.svelte';
 	import Calendar from './Utilities/Calendar.svelte';
 	import type { Trip } from '../../../types/trip';
-	import { openTripDeleteModal } from '$lib/state/modal.svelte';
+	import { closeModal, modalsState, openModal, openTripDeleteModal } from '$lib/state/modal.svelte';
 	import { handleSelectTrip } from '$lib/state/trip.svelte';
+	import InviteModal from './InviteModal.svelte';
+	import { UserRequest } from '$lib/requests';
+	import { queryKeys } from '$lib/utils/queryKeys';
+	import { createQuery } from '@tanstack/svelte-query';
 
 	let { trip }: { trip: Trip } = $props();
+
+	let userQuery = createQuery({
+		queryKey: queryKeys.getCurrentUser,
+		queryFn: () => UserRequest.getCurrentUser()
+	});
+	let user = $derived($userQuery?.data?.data?.user);
 </script>
 
 <div class="pb-20">
@@ -24,7 +34,10 @@
 			</div>
 
 			<div>
-				<button class="shadow_button shadow_button_thin shadow_button_with_icon">
+				<button
+					class="shadow_button shadow_button_thin shadow_button_with_icon"
+					onclick={openModal}
+				>
 					<UserRoundPlus size="20px" />
 
 					Invite
@@ -67,3 +80,7 @@
 		</div>
 	</div>
 </div>
+
+{#if user?._id}
+	<InviteModal onClose={closeModal} isOpen={modalsState.data.isOpen} {user} />
+{/if}

@@ -50,7 +50,8 @@ const tripKeys = {
 	getTrip: [`/travel`],
 	getSingleTrip: (id: string) => [`/travel/${id}`],
 	getTripActivityGroups: (tripId: string) => [`/travel-group/${tripId}`],
-	getTripActivities: (tripId: string) => [`/travel-activity/${tripId}`]
+	getTripActivities: (tripId: string) => [`/travel-activity/${tripId}`],
+	getTripMembers: (tripId: string) => [`/travel-member/${tripId}`]
 };
 
 export const queryKeys = {

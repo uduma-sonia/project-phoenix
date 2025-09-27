@@ -32,3 +32,10 @@ export type TripActivity = {
 	updatedAt?: Date;
 	_id?: string;
 };
+
+export type TripMember = {
+	tripId: string;
+	ownerId: string;
+	memberId: string;
+	permissions: string;
+};
