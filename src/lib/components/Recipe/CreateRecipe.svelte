@@ -54,16 +54,16 @@
 		methodsList = [...methodsList, newObj];
 	}
 
-	const resizeTextarea = () => {
+	function resizeTextarea() {
 		textarea.style.height = 'auto';
 		textarea.style.height = textarea.scrollHeight + 'px';
-	};
+	}
 
-	const handleBrowseClick = () => {
+	function handleBrowseClick() {
 		document.querySelector<HTMLInputElement>('#media')?.click();
-	};
+	}
 
-	const handleFileChange = () => {
+	function handleFileChange() {
 		const file = inputElement?.files[0];
 		const _fileName = file?.name;
 		const reader = new FileReader();
@@ -80,7 +80,7 @@
 				reader.readAsDataURL(file);
 			}
 		}
-	};
+	}
 
 	function getValue(arr: any) {
 		const mappedArr = arr?.map((item: any) => {

@@ -1,7 +1,40 @@
 <script lang="ts">
 	import BackComponent from '../Common/BackComponent.svelte';
 	import BasicInputField from '../Common/BasicInputField.svelte';
-	let isSubmitting = $state(false);
+	import { Country, City } from 'country-state-city';
+	import Dropdown from '../Common/Dropdown.svelte';
+	import { addToast } from '$lib/store/toast';
+
+	let isLoading = $state(false);
+
+	let name = $state('');
+	let address = $state('');
+	let hotelName = $state('');
+	let currency = $state('');
+	let numberOfPersons = $state('');
+	let budget = $state('');
+	let selectedCountry = $state({ value: '', id: '' });
+	let selectedCity = $state(null);
+
+	let countryOptions = $derived(
+		Country.getAllCountries()?.map((item) => ({ value: item.name, id: item.isoCode }))
+	);
+	let citiesOptions = $derived(
+		City.getCitiesOfCountry(selectedCountry?.id)?.map((item) => ({
+			value: item.name,
+			id: item.stateCode
+		}))
+	);
+
+	function handleSubmit() {
+		try {
+			isLoading = true;
+		} catch (error: any) {
+			addToast(error?.message || 'An error occured', 'error');
+		} finally {
+			isLoading = false;
+		}
+	}
 </script>
 
 <div>
@@ -19,16 +52,44 @@
 				<hr />
 
 				<div class="mb-10 space-y-4 pt-5">
-					<BasicInputField label="Name" />
-					<BasicInputField label="Country" />
-					<BasicInputField label="City" />
-					<BasicInputField label="Budget" />
-					<!-- add a date range picker -->
+					<BasicInputField
+						label="Trip name"
+						required
+						bind:value={name}
+						id="tripName"
+						name="tripName"
+					/>
+					<BasicInputField label="Address" bind:value={address} id="address" name="address" />
+					<BasicInputField
+						label="Hotel name"
+						bind:value={hotelName}
+						id="hotelName"
+						name="hotelName"
+					/>
+					<BasicInputField label="Currency" bind:value={currency} id="currency" name="currency" />
+					<BasicInputField label="Budget" bind:value={budget} id="budget" name="budget" />
+					<BasicInputField
+						label="Number Of Persons"
+						bind:value={numberOfPersons}
+						id="numberOfPersons"
+						name="numberOfPersons"
+						type="number"
+					/>
+
+					<Dropdown
+						label="Country"
+						options={countryOptions}
+						bind:selectedOption={selectedCountry}
+					/>
+
+					{#if citiesOptions}
+						<Dropdown label="City" options={citiesOptions} bind:selectedOption={selectedCity} />
+					{/if}
 				</div>
 
 				<div>
 					<button class="shadow_button" type="submit">
-						{#if isSubmitting}
+						{#if isLoading}
 							<div class="spinner_white border-2 border-black"></div>
 						{:else}
 							Save
