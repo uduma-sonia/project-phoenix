@@ -1,15 +1,43 @@
 <script lang="ts">
+	import { tripRequest } from '$lib/requests';
+	import { queryKeys } from '$lib/utils/queryKeys';
+	import { createQuery } from '@tanstack/svelte-query';
 	import HabitSearch from '../Habit/Utilities/HabitSearch.svelte';
 	import TravelCard from './Utilities/TravelCard.svelte';
+	import LoaderError from '../Common/LoaderError.svelte';
+
+	let searchQuery = $state('');
+
+	let tripQuery = createQuery({
+		queryKey: queryKeys.getTrip,
+		queryFn: () => tripRequest.getTrips()
+	});
+
+	let tripsList = $derived($tripQuery?.data?.data?.travel);
+
+	let filteredTripsList = $derived(
+		tripsList?.filter((item: any) => item.name.toUpperCase().includes(searchQuery?.toUpperCase()))
+	);
 </script>
 
-<div class="pt-5">
-	<div class="flex items-center justify-between gap-4 px-3">
-		<HabitSearch />
+<div class="pb-24">
+	<div class="relative z-30 mt-5 gap-3 px-3">
+		<HabitSearch bind:searchQuery placeholder="Search trips" />
 	</div>
-	<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
+
+	<LoaderError isLoading={$tripQuery?.isLoading} error={$tripQuery?.isError} />
+
+	{#if filteredTripsList?.length > 0}
+		<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
+			{#if !$tripQuery?.isLoading && filteredTripsList?.length > 0}
+				{#each filteredTripsList as trip, index (index)}
+					<TravelCard {trip} />
+				{/each}
+			{/if}
+		</div>
+	{/if}
+
+	<!-- <div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
 		<TravelCard />
-		<TravelCard />
-		<TravelCard />
-	</div>
+	</div> -->
 </div>

@@ -47,8 +47,8 @@ const statsKeys = {
 };
 
 const tripKeys = {
-	getTrip: [`/trip`],
-	getSingleTrip: (id: string) => [`/trip/${id}`]
+	getTrip: [`/travel`],
+	getSingleTrip: (id: string) => [`/travel/${id}`]
 };
 
 export const queryKeys = {
