@@ -1,6 +1,38 @@
-<script>
+<script lang="ts">
 	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
 	import { Phone, SquarePen, Trash2 } from '@lucide/svelte';
+	import type { TripActivity } from '../../../../types/trip';
+	import { addToast } from '$lib/store/toast';
+	import { tripRequest } from '$lib/requests';
+	import { useQueryClient } from '@tanstack/svelte-query';
+	import { queryKeys } from '$lib/utils/queryKeys';
+	import { page } from '$app/state';
+
+	let { activity }: { activity: TripActivity } = $props();
+
+	const queryClient = useQueryClient();
+
+	let isDeleting = $state(false);
+
+	async function deleteActivity() {
+		if (activity?._id) {
+			try {
+				isDeleting = true;
+
+				const result = await tripRequest.deleteTripActivity(activity?._id);
+
+				if (result) {
+					queryClient.invalidateQueries({
+						queryKey: queryKeys.getTripActivities(page.params.id)
+					});
+				}
+			} catch (error: any) {
+				addToast(error?.message || 'An error occured', 'error');
+			} finally {
+				isDeleting = true;
+			}
+		}
+	}
 
 	const moreOptions = [
 		{
@@ -11,51 +43,44 @@
 		{
 			label: 'Delete',
 			icon: Trash2,
-			iconColor: 'red'
-			// action: openInsightsModal
+			iconColor: 'red',
+			action: deleteActivity
 		}
 	];
 </script>
 
+{#snippet linkSnippet(link?: string, label?: string)}
+	{#if link}
+		<a
+			href={link}
+			target="_blank"
+			rel="noreferrer"
+			class="inline-flex min-w-max items-center gap-1 text-sm font-light underline"
+		>
+			{label}
+		</a>
+	{/if}
+{/snippet}
+
 <div class="retro_wrapper">
-	<div class="retro_wrapper_inner font-lexend">
-		<p class="mb-2">BluCabana restaurant</p>
+	<div class="retro_wrapper_inner font-lexend relative">
+		<p class="mb-2 text-lg">{activity?.name}</p>
 
-		<div class="mb-3 flex gap-6">
-			<a
-				href="https://google.com/"
-				class="inline-flex items-center gap-1 text-sm font-light underline"
-			>
-				Instagram link
-			</a>
-			<a
-				href="https://google.com/"
-				class="inline-flex items-center gap-1 text-sm font-light underline"
-			>
-				Website link
-			</a>
-			<a
-				href="https://google.com/"
-				class="inline-flex items-center gap-1 text-sm font-light underline"
-			>
-				Other link
-			</a>
-		</div>
+		<div class="mb-3 flex flex-wrap gap-6">
+			{@render linkSnippet(activity?.instagramLink, 'Instagram link')}
+			{@render linkSnippet(activity?.websiteLink, 'Website link')}
+			{@render linkSnippet(activity?.menuLink, 'Menu link')}
+			{@render linkSnippet(activity?.otherLink, 'Other link')}
 
-		<div class="mb-3 flex gap-6">
-			<a
-				href="tel:+2348017181777"
-				class="inline-flex items-center gap-1 text-sm font-light underline"
-			>
-				<Phone size="14px" />
-				Call
-			</a>
-			<a
-				href="tel:+2348017181777"
-				class="inline-flex items-center gap-1 text-sm font-light underline"
-			>
-				Menu link
-			</a>
+			{#if activity.mobile}
+				<a
+					href={`tel:${activity.mobile}`}
+					class="inline-flex items-center gap-1 text-sm font-light underline"
+				>
+					<Phone size="14px" />
+					Call
+				</a>
+			{/if}
 		</div>
 
 		<div class="mt-3 flex items-center gap-1 text-xs font-light">
@@ -63,8 +88,7 @@
 			-
 			<p>2nd day</p>
 		</div>
-
-		<div class="absolute top-1/2 right-4 z-50 -translate-y-1/2">
+		<div class="absolute top-6 right-2 z-50 -translate-y-1/2">
 			<HamburgerDropdown options={moreOptions} />
 		</div>
 	</div>

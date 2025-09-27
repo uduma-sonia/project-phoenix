@@ -1,4 +1,6 @@
 <script lang="ts">
+	import Avatar from '$lib/components/Common/Avatar.svelte';
+
 	let {
 		member,
 		removeMember,
@@ -13,9 +15,9 @@
 </script>
 
 <div class="flex items-center justify-between gap-3">
-	<div class="flex gap-2">
+	<div class="flex items-center gap-2">
 		<div>
-			<div class="h-12 w-12 rounded-full bg-black"></div>
+			<Avatar src={member?.avatar} height="48px" width="48px" />
 		</div>
 		<div class="font-lexend-deca">
 			<p>{member?.username}</p>

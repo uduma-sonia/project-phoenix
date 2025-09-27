@@ -1,7 +1,13 @@
 <script lang="ts">
-	let { src } = $props();
+	let {
+		src,
+		height = '64px',
+		width = '64px'
+	}: { src?: string; height?: string; width?: string } = $props();
 </script>
 
-<div class="h-16 w-16 rounded-lg border-2 sm:h-20 sm:w-20">
-	<img alt="" {src} />
+<div class="rounded-lg border-2 sm:h-20 sm:w-20" style="height: {height}; width: {width};">
+	{#if src}
+		<img alt="avatar" {src} />
+	{/if}
 </div>

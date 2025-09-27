@@ -1,25 +1,61 @@
 <script lang="ts">
-	import { UserRoundPlus } from '@lucide/svelte';
+	import { Check, Trash, UserRoundPlus } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import DetailsTopSection from './Utilities/DetailsTopSection.svelte';
 	import GroupTab from './Utilities/GroupTab.svelte';
 	import Budget from './Utilities/Budget.svelte';
 	import Calendar from './Utilities/Calendar.svelte';
 	import type { Trip } from '../../../types/trip';
+	import { closeModal, modalsState, openModal, openTripDeleteModal } from '$lib/state/modal.svelte';
+	import { handleSelectTrip } from '$lib/state/trip.svelte';
+	import InviteModal from './InviteModal.svelte';
+	import { UserRequest } from '$lib/requests';
+	import { queryKeys } from '$lib/utils/queryKeys';
+	import { createQuery } from '@tanstack/svelte-query';
 
 	let { trip }: { trip: Trip } = $props();
+
+	let userQuery = createQuery({
+		queryKey: queryKeys.getCurrentUser,
+		queryFn: () => UserRequest.getCurrentUser()
+	});
+	let user = $derived($userQuery?.data?.data?.user);
 </script>
 
-<div>
-	<div class="my-6 flex justify-between gap-3 px-3">
+<div class="pb-20">
+	<div class="my-6 justify-between gap-3 px-3 md:flex">
 		<BackComponent backLink="/travel" title={trip.name} />
 
-		<div>
-			<button class="shadow_button shadow_button_thin shadow_button_with_icon">
-				<UserRoundPlus size="20px" />
+		<div class="mt-6 flex flex-1 items-center gap-4 md:mt-0 md:justify-end">
+			<div>
+				<button class="shadow_button shadow_button_thin shadow_button_with_icon">
+					<Check size="20px" />
+				</button>
+			</div>
 
-				Invite
-			</button>
+			<div>
+				<button
+					class="shadow_button shadow_button_thin shadow_button_with_icon"
+					onclick={openModal}
+				>
+					<UserRoundPlus size="20px" />
+
+					Invite
+				</button>
+			</div>
+
+			<div>
+				<button
+					class="shadow_button shadow_button_sm text-red-600"
+					style="height: 40px"
+					onclick={() => {
+						openTripDeleteModal();
+						handleSelectTrip(trip);
+					}}
+				>
+					<Trash size="20px" />
+				</button>
+			</div>
 		</div>
 	</div>
 
@@ -44,3 +80,7 @@
 		</div>
 	</div>
 </div>
+
+{#if user?._id}
+	<InviteModal onClose={closeModal} isOpen={modalsState.data.isOpen} {user} />
+{/if}

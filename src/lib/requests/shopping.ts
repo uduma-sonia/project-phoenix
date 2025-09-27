@@ -28,6 +28,10 @@ class ShoppingService {
 		return await this.api.get(`${this.boardPrefix}/${boardId}`, { ...reqConfig });
 	}
 
+	async shoppingDone(boardId: string, reqConfig?: ReqConfig) {
+		return await this.api.put(`${this.boardPrefix}/done/${boardId}`, { ...reqConfig });
+	}
+
 	// BOARD ITEMS
 	async createItem(data: BoardItem, reqConfig?: ReqConfig) {
 		return await this.api.post(`${this.itemPrefix}`, data, { ...reqConfig });
