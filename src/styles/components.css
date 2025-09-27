@@ -81,6 +81,13 @@
 	padding-right: 15px;
 }
 
+.shadow_button_thin_red {
+	height: 40px !important;
+	box-shadow: 2px 2px black !important;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
 .shadow_button_with_icon {
 	display: flex;
 	gap: 5px;

@@ -49,32 +49,34 @@
 
 <div class="mt-8">
 	<div
-		class="middle_container no-scrollbar relative mb-6 flex flex-nowrap items-center gap-3 overflow-x-auto pr-0.5 sm:gap-4"
+		class="middle_container no-scrollbar relative mb-6 flex flex-nowrap items-center justify-between gap-3 overflow-x-auto pr-0.5 sm:gap-4"
 	>
 		{#if !addNewGroup}
-			<div class="min-w-fit">
-				<button
-					class="bg-brand-rose font-lexend button_active h-[50px] rounded-lg border-2 border-black px-6 font-light"
-					onclick={() => changeTab('ALL')}
-					class:selected={currentTab === 'ALL'}
-				>
-					All
-				</button>
-			</div>
+			<div class="no-scrollbar flex flex-nowrap items-center gap-3">
+				<div class="min-w-fit">
+					<button
+						class="bg-brand-rose font-lexend button_active h-[50px] rounded-lg border-2 border-black px-6 font-light"
+						onclick={() => changeTab('ALL')}
+						class:selected={currentTab === 'ALL'}
+					>
+						All
+					</button>
+				</div>
 
-			{#if groupList?.length > 0}
-				{#each groupList as group (group._id)}
-					<div class="min-w-fit">
-						<button
-							class="bg-brand-rose font-lexend button_active h-[50px] rounded-lg border-2 border-black px-6 font-light"
-							onclick={() => changeTab(group._id)}
-							class:selected={currentTab === group._id}
-						>
-							{group.name}
-						</button>
-					</div>
-				{/each}
-			{/if}
+				{#if groupList?.length > 0}
+					{#each groupList as group (group._id)}
+						<div class="min-w-fit">
+							<button
+								class="bg-brand-rose font-lexend button_active h-[50px] rounded-lg border-2 border-black px-6 font-light"
+								onclick={() => changeTab(group._id)}
+								class:selected={currentTab === group._id}
+							>
+								{group.name}
+							</button>
+						</div>
+					{/each}
+				{/if}
+			</div>
 
 			<div class="sticky top-0 right-0 ml-10">
 				<button class="shadow_button" onclick={toggleView}>

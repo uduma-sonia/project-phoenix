@@ -15,6 +15,7 @@
 
 	async function handleSubmit(e: any) {
 		e.preventDefault();
+		if (!groupName) return false;
 		try {
 			isLoading = true;
 			const payload = {
@@ -43,7 +44,10 @@
 		<BasicInputField bind:value={groupName} placeholder="New group" />
 	</div>
 
-	<div>
+	<div class="flex items-center gap-3">
 		<button onclick={handleSubmit} class="shadow_button shadow_button_thin"> Save </button>
+		<button onclick={toggleView} class="shadow_button shadow_button_red shadow_button_thin_red">
+			Cancel
+		</button>
 	</div>
 </div>
