@@ -13,6 +13,7 @@
 	import StandardListItem from './Utilities/StandardListItem.svelte';
 	import Seo from '../Common/SEO.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
+	import { goto } from '$app/navigation';
 
 	const queryClient = useQueryClient();
 	let boardId = page.params.id;
@@ -137,6 +138,19 @@
 			isLoading = false;
 		}
 	}
+
+	async function handleShoppingDone() {
+		try {
+			const result = await shoppingRequest.shoppingDone(page.params.id);
+
+			if (result) {
+				queryClient.invalidateQueries({ queryKey: queryKeys.getAllBoards });
+				goto('/shopping');
+			}
+		} catch (error: any) {
+			addToast(error?.error || 'An error occured', 'error');
+		}
+	}
 </script>
 
 <Seo title={boardDetails?.name} />
@@ -144,9 +158,12 @@
 	<div class="my-6 justify-between px-3 md:flex">
 		<BackComponent title={boardDetails?.name} backLink="/shopping" />
 
-		<div class="mt-10 flex flex-1 items-center gap-4 md:mt-0 md:justify-end">
+		<div class="mt-6 flex flex-1 items-center gap-4 md:mt-0 md:justify-end">
 			<div>
-				<button class="shadow_button shadow_button_thin shadow_button_with_icon">
+				<button
+					onclick={handleShoppingDone}
+					class="shadow_button shadow_button_thin shadow_button_with_icon"
+				>
 					<Check size="20px" />
 				</button>
 			</div>

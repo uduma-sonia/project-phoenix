@@ -12,11 +12,11 @@
 	let { trip }: { trip: Trip } = $props();
 </script>
 
-<div>
-	<div class="my-6 flex justify-between gap-3 px-3">
+<div class="pb-20">
+	<div class="my-6 justify-between gap-3 px-3 md:flex">
 		<BackComponent backLink="/travel" title={trip.name} />
 
-		<div class="flex flex-1 items-center gap-4 md:mt-0 md:justify-end">
+		<div class="mt-6 flex flex-1 items-center gap-4 md:mt-0 md:justify-end">
 			<div>
 				<button class="shadow_button shadow_button_thin shadow_button_with_icon">
 					<Check size="20px" />
