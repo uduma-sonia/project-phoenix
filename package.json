@@ -47,6 +47,7 @@
 		"@fontsource/crete-round": "^5.2.6",
 		"@fontsource/suez-one": "^5.2.6",
 		"@lucide/svelte": "^0.511.0",
+		"@sveltejs/adapter-netlify": "^5.2.3",
 		"@tanstack/svelte-query": "^5.40.0",
 		"axios": "^1.9.0",
 		"country-state-city": "^3.2.1",
