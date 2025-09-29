@@ -19,7 +19,7 @@
 	let focusedIndex = $state(0);
 	let searchQuery = $state('');
 
-	const toggleDropDownMenu = () => {
+	function toggleDropDownMenu() {
 		isDropDownOpen = !isDropDownOpen;
 		if (isDropDownOpen) {
 			focusedIndex = options.findIndex(
@@ -27,11 +27,11 @@
 			);
 			if (focusedIndex === -1) focusedIndex = 0;
 		}
-	};
+	}
 
-	const handleClickOutside = () => {
+	function handleClickOutside() {
 		isDropDownOpen = false;
-	};
+	}
 
 	let filteredOptions = $derived(
 		options?.filter((option: Options) =>
@@ -41,11 +41,14 @@
 
 	function selectOption(view: Options) {
 		selectedOption = view;
-		if (view?.value) {
-			searchQuery = view?.value;
-		}
 		handleClickOutside();
 	}
+
+	$effect(() => {
+		if (selectedOption?.value) {
+			searchQuery = selectedOption?.value;
+		}
+	});
 
 	function handleKeyDown(event: KeyboardEvent) {
 		if (!isDropDownOpen) return;

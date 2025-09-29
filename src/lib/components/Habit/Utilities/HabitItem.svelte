@@ -346,7 +346,7 @@
 		</div>
 	</button>
 
-	<div class="absolute top-6 right-4 z-50 -translate-y-1/2">
+	<div class="absolute top-6 right-3 z-50 -translate-y-1/2">
 		<HamburgerDropdown
 			options={generateOptionsDropdown(
 				getOptionList(logDetails?.status, {

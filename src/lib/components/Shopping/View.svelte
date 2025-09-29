@@ -30,7 +30,7 @@
 	);
 </script>
 
-<div class="pt-5">
+<div class="pt-5 pb-24">
 	<div class="flex items-center justify-between gap-4 px-3">
 		<HabitSearch placeholder="Search board" bind:searchQuery />
 		<div>

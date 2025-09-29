@@ -5,6 +5,7 @@
 	import HabitSearch from '../Habit/Utilities/HabitSearch.svelte';
 	import TravelCard from './Utilities/TravelCard.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
+	import { openModal } from '$lib/state/modal.svelte';
 
 	let searchQuery = $state('');
 
@@ -20,9 +21,16 @@
 	);
 </script>
 
-<div class="pb-24">
-	<div class="relative z-30 mt-5 gap-3 px-3">
+<div class="pt-5 pb-24">
+	<div class="flex items-center justify-between gap-4 px-3">
 		<HabitSearch bind:searchQuery placeholder="Search trips" />
+
+		<div>
+			<button class="shadow_button">
+				<!-- onclick={openModal} -->
+				Packing list
+			</button>
+		</div>
 	</div>
 
 	<LoaderError isLoading={$tripQuery?.isLoading} error={$tripQuery?.isError} />
@@ -36,8 +44,4 @@
 			{/if}
 		</div>
 	{/if}
-
-	<!-- <div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
-		<TravelCard />
-	</div> -->
 </div>

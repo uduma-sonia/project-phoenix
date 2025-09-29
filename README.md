@@ -1,23 +1,29 @@
 # Backlogs
 
-- Tooltip for invite modal - explaining the flow
-- Add the currency symbol in editItem component
-- Delete shopping item
+## Shopping
+
 - Delete shopping board
-- Implement member permission and invite view for shopping board
-- scroll to top
-- add total to shopping board
-- move some endpoints to use server side calls {
-  - {api/v1/recipe/homemade-tomato-sauce}
-    }
+- Toggle view to see different status of shopping
+- Delete shopping item
+- Display boards a member is part of and use their permission to restrict different functions
+- Add total to shopping board
+
+## Recipe
+
+- Image upload
+- Image overlay carousel
+- Recipe group
+- Recipe review system, star rating
+- Allow room for more sections to be added to recipe
+- Turn the input fields to resizable textareas
+
+## Travel planner
+
+- Packing list feature
+- Display trips a member is part of and use their permission to restrict different functions
+- Manage group
+
+## General
+
 - PWA Alert modal
-
-  Recipe
-
-- image upload
-
-- image overlay carousel
-- allow room for more sections to be added to recipe
-- turn the input fields to resizable textareas
-- recipe group
-- recipe review system, star rating
+- Custom tooltip

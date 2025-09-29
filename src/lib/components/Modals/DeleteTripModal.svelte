@@ -17,7 +17,7 @@
 		try {
 			isLoading = true;
 			await tripRequest.deleteTrip(id);
-			addToast('Recipe deleted', 'success');
+			addToast('Trip deleted', 'success');
 			queryClient.invalidateQueries({ queryKey: queryKeys.getTrip });
 			closeTripDeleteModal();
 			goto('/travel');

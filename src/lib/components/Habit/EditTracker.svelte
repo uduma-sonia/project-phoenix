@@ -26,7 +26,7 @@
 	let unitMeasurement = $state(tracker?.unitMeasurement);
 	let description = $state(tracker?.description);
 	let goalValue = $state(tracker?.goalValue);
-	let selectedDays: number[] = $state(tracker.selectedDays);
+	let selectedDays: number[] = $state(tracker?.selectedDays);
 	let startDateValue = $state(tracker?.startDate);
 	let endDateValue = $state(tracker?.endDate);
 	let isStartDateOpen = $state(false);

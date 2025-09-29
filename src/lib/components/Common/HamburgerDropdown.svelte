@@ -14,19 +14,30 @@
 	};
 
 	let isDropDownOpen = $state(false);
-	let { options }: { options: Options[] } = $props();
+	let { options, variant = 'ghost' }: { options: Options[]; variant?: 'ghost' | 'solid' } =
+		$props();
 
-	const toggleDropDownMenu = () => {
+	function toggleDropDownMenu() {
 		isDropDownOpen = !isDropDownOpen;
-	};
+	}
 
-	const handleClickOutside = () => {
+	function handleClickOutside() {
 		isDropDownOpen = false;
-	};
+	}
+
+	function getVariantClass() {
+		if (variant === 'ghost') {
+			return 'space-y-0.5 p-2';
+		} else if (variant === 'solid') {
+			return 'space-y-0.5 p-2 shadow_button shadow_button_thin';
+		} else {
+			return 'space-y-0.5 p-2';
+		}
+	}
 </script>
 
 <div class="relative">
-	<button aria-label="presentation" class="space-y-0.5 p-2" onclick={toggleDropDownMenu}>
+	<button aria-label="presentation" class={getVariantClass()} onclick={toggleDropDownMenu}>
 		<div class="h-[3px] w-4 rounded-full bg-black"></div>
 		<div class="h-[3px] w-4 rounded-full bg-black"></div>
 		<div class="h-[3px] w-4 rounded-full bg-black"></div>
@@ -36,17 +47,17 @@
 		<div
 			use:Helpers.clickOutside
 			onclick_outside={handleClickOutside}
-			class="slide_in_down absolute top-[-30px] right-6 z-[9999] gap-4 overflow-hidden rounded-lg shadow-2xl"
+			class="slide_in_down absolute top-[-0px] right-8 z-[9999] gap-4 overflow-hidden rounded-lg shadow-2xl"
 		>
-			<div class="w-[150px] rounded-lg border-2 border-black bg-[#FFFFFF] p-0.5">
+			<div class="w-[200px] rounded-lg border-2 border-black bg-[#FFFFFF] p-0.5">
 				{#each options as option}
 					{#if option.link}
 						<a href={option.link} class="block">
 							<button
 								class="button_active font-montserrat font-lexend flex h-10 w-full items-center gap-1 rounded-lg px-3 text-sm font-normal text-black hover:bg-[#d9d9da] focus:bg-[#d9d9da] active:bg-[#d9d9da]"
 							>
-								<div class="w-6">
-									<option.icon />
+								<div class="w-5" style="color: {option.iconColor};">
+									<option.icon size="20" />
 								</div>
 								{option.label}
 							</button>
@@ -59,8 +70,6 @@
 								handleClickOutside();
 							}}
 						>
-							<!-- <div class="spinner_white_sm border-2 border-black"></div> -->
-
 							<div class="w-5" style="color: {option.iconColor};">
 								<option.icon size="20" />
 							</div>
