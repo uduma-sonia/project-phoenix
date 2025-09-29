@@ -10,6 +10,7 @@ export type Trip = {
 	currency?: string;
 	numOfPersons?: number;
 	budget?: string;
+	tripCompleted?: boolean;
 	createdAt?: Date;
 	updatedAt?: Date;
 	_id?: string;

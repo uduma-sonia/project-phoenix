@@ -47,9 +47,9 @@
 		<div
 			use:Helpers.clickOutside
 			onclick_outside={handleClickOutside}
-			class="slide_in_down absolute top-[-30px] right-6 z-[9999] gap-4 overflow-hidden rounded-lg shadow-2xl"
+			class="slide_in_down absolute top-[-0px] right-8 z-[9999] gap-4 overflow-hidden rounded-lg shadow-2xl"
 		>
-			<div class="w-[150px] rounded-lg border-2 border-black bg-[#FFFFFF] p-0.5">
+			<div class="w-[200px] rounded-lg border-2 border-black bg-[#FFFFFF] p-0.5">
 				{#each options as option}
 					{#if option.link}
 						<a href={option.link} class="block">

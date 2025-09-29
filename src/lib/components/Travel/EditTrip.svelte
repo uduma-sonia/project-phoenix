@@ -5,7 +5,6 @@
 	import Dropdown from '../Common/Dropdown.svelte';
 	import { addToast } from '$lib/store/toast';
 	import DateRangePicker from '../Common/DatePicker/DateRangePicker.svelte';
-	import { endOfWeek, startOfWeek } from 'date-fns';
 	import Helpers from '$lib/utils/helpers';
 	import { currencies } from '$lib/constants/currency';
 	import { tripRequest } from '$lib/requests';
@@ -30,8 +29,8 @@
 	let selectedCurrency = $state({ value: '', id: '' });
 
 	let dateRange: { start: Date; end: Date } = $state({
-		start: startOfWeek(new Date(trip?.start)),
-		end: endOfWeek(new Date(trip?.end))
+		start: new Date(trip?.start),
+		end: new Date(trip?.end)
 	});
 
 	let countryOptions = $derived(

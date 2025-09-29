@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Check, SquarePen, Trash, UserRoundPlus, List } from '@lucide/svelte';
+	import { Check, SquarePen, Trash, UserRoundPlus, Settings } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import DetailsTopSection from './Utilities/DetailsTopSection.svelte';
 	import GroupTab from './Utilities/GroupTab.svelte';
@@ -34,14 +34,12 @@
 			link: `/travel/${trip._id}/edit`
 		},
 		{
-			label: 'Packing list',
-			icon: List
-			// action: openInsightsModal
+			label: 'Manage groups',
+			icon: Settings
 		},
 		{
 			label: 'Trip done',
 			icon: Check
-			// action: openInsightsModal
 		},
 
 		{
@@ -58,12 +56,6 @@
 		<BackComponent backLink="/travel" title={trip.name} />
 
 		<div class="mt-6 flex flex-1 items-center gap-4 md:mt-0 md:justify-end">
-			<!-- <div>
-				<button class="shadow_button shadow_button_thin shadow_button_with_icon">
-					<Check size="20px" />
-				</button>
-			</div> -->
-
 			<div>
 				<button
 					class="shadow_button shadow_button_thin shadow_button_with_icon"
