@@ -7,6 +7,7 @@
 	import SEO from '$lib/components/Common/SEO.svelte';
 	import LoaderError from '$lib/components/Common/LoaderError.svelte';
 	import DeleteTripModal from '$lib/components/Modals/DeleteTripModal.svelte';
+	import EditTrip from '$lib/components/Travel/EditTrip.svelte';
 
 	let detailsQuery = createQuery({
 		queryKey: queryKeys.getSingleRecipe(page.params.id),
@@ -24,7 +25,7 @@
 		errorText={$detailsQuery?.error?.message}
 	/>
 
-	<!-- {#if !$detailsQuery?.isLoading && trip}
-		<DetailsView {trip} />
-	{/if} -->
+	{#if !$detailsQuery?.isLoading && trip}
+		<EditTrip {trip} />
+	{/if}
 </AppLayout>
