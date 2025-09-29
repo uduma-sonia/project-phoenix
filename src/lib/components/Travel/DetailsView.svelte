@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Check, Trash, UserRoundPlus } from '@lucide/svelte';
+	import { Check, SquarePen, Trash, UserRoundPlus, List } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import DetailsTopSection from './Utilities/DetailsTopSection.svelte';
 	import GroupTab from './Utilities/GroupTab.svelte';
@@ -12,6 +12,7 @@
 	import { UserRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { createQuery } from '@tanstack/svelte-query';
+	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
 
 	let { trip }: { trip: Trip } = $props();
 
@@ -20,6 +21,36 @@
 		queryFn: () => UserRequest.getCurrentUser()
 	});
 	let user = $derived($userQuery?.data?.data?.user);
+
+	function deleteTrip() {
+		openTripDeleteModal();
+		handleSelectTrip(trip);
+	}
+
+	const moreOptions = [
+		{
+			label: 'Edit',
+			icon: SquarePen,
+			link: `/travel/${trip._id}/edit`
+		},
+		{
+			label: 'Packing list',
+			icon: List
+			// action: openInsightsModal
+		},
+		{
+			label: 'Trip done',
+			icon: Check
+			// action: openInsightsModal
+		},
+
+		{
+			label: 'Delete',
+			icon: Trash,
+			iconColor: 'red',
+			action: deleteTrip
+		}
+	];
 </script>
 
 <div class="pb-20">
@@ -27,11 +58,11 @@
 		<BackComponent backLink="/travel" title={trip.name} />
 
 		<div class="mt-6 flex flex-1 items-center gap-4 md:mt-0 md:justify-end">
-			<div>
+			<!-- <div>
 				<button class="shadow_button shadow_button_thin shadow_button_with_icon">
 					<Check size="20px" />
 				</button>
-			</div>
+			</div> -->
 
 			<div>
 				<button
@@ -45,16 +76,7 @@
 			</div>
 
 			<div>
-				<button
-					class="shadow_button shadow_button_sm text-red-600"
-					style="height: 40px"
-					onclick={() => {
-						openTripDeleteModal();
-						handleSelectTrip(trip);
-					}}
-				>
-					<Trash size="20px" />
-				</button>
+				<HamburgerDropdown variant="solid" options={moreOptions} />
 			</div>
 		</div>
 	</div>

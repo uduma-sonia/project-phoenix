@@ -9,7 +9,7 @@
 	let details = $derived(trackerState.data.trackerDetails);
 </script>
 
-<ModalWrapper {onClose} {isOpen} maxWidth="max-w-[1000px]" label={details?.name} height="90vh">
+<ModalWrapper {onClose} {isOpen} maxWidth="max-w-[1000px]" label={details?.name}>
 	{#if trackerState?.data?.trackerDetails?.type == 'BUILD'}
 		<Build />
 	{/if}
