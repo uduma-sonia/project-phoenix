@@ -8,9 +8,9 @@
 
 	let { toggleView } = $props();
 
-	let groupName = $state('');
 	const queryClient = useQueryClient();
 
+	let groupName = $state('');
 	let isLoading = $state(false);
 
 	async function handleSubmit(e: any) {
@@ -45,7 +45,13 @@
 	</div>
 
 	<div class="flex items-center gap-3">
-		<button onclick={handleSubmit} class="shadow_button shadow_button_thin"> Save </button>
+		<button onclick={handleSubmit} class="shadow_button shadow_button_thin">
+			{#if isLoading}
+				<div class="spinner_white_sm border-2 border-black"></div>
+			{:else}
+				Save
+			{/if}
+		</button>
 		<button onclick={toggleView} class="shadow_button shadow_button_red shadow_button_thin_red">
 			Cancel
 		</button>

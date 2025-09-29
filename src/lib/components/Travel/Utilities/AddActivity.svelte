@@ -85,7 +85,7 @@
 			<!-- <InputField bind:value={note} id="note" type="text" label="Note" /> -->
 
 			{#if groupList?.length > 0}
-				<div class="flex items-center gap-3 py-4">
+				<div class="flex items-center gap-3 pt-4">
 					{#each groupList as group}
 						{@const isSelected = selectedGroup?._id === group._id}
 						<button
