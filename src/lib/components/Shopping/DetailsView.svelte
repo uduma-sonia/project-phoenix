@@ -21,6 +21,7 @@
 	import { goto } from '$app/navigation';
 	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
 	import { handleSelectBoard } from '$lib/state/shopping.svelte';
+	import Helpers from '$lib/utils/helpers';
 
 	const queryClient = useQueryClient();
 	let boardId = page.params.id;
@@ -70,7 +71,6 @@
 
 	let completedLength = $derived(filteredItems?.filter((item: any) => item.done));
 
-	$effect(() => console.log(filteredItems));
 	function findName(name: string, arr: any[]) {
 		const _find = arr?.find((item) => item?.name == name);
 		return !_find;
@@ -83,6 +83,14 @@
 	function toggleShowStandardList() {
 		showStandardList = !showStandardList;
 	}
+
+	function getTotal() {
+		const pricesList = filteredItems?.map((item: { price: number }) => item.price);
+		const sum = Helpers.sumArray(pricesList);
+		return sum ? `${boardDetails?.currency}${sum.toLocaleString()}` : '';
+	}
+
+	let _total = $derived(getTotal());
 
 	async function handleItemAdd(boardId: string, value?: string) {
 		try {
@@ -230,7 +238,7 @@
 
 			{#if !$boardItemsQuery?.isLoading}
 				<div>
-					<div class="mb-6 space-y-2">
+					<div class="mb- space-y-2">
 						{#each sortByDone(filteredItems) as items, index (index)}
 							<ListItem
 								currency={boardDetails?.currency}
@@ -243,7 +251,17 @@
 						{/each}
 					</div>
 
-					<div class="relative z-10 w-full gap-3 rounded-lg border-2 bg-white p-3">
+					{#if _total}
+						<div class="mt-4 flex items-center justify-between px-1">
+							<p class="font-lexend font-medium">Total</p>
+
+							<p class="font-lexend text-right font-light">
+								{_total}
+							</p>
+						</div>
+					{/if}
+
+					<div class="relative z-10 mt-8 w-full gap-3 rounded-lg border-2 bg-white p-3">
 						<form
 							class="flex items-center gap-4"
 							onsubmit={(e) => {

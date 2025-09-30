@@ -60,7 +60,6 @@
 	function transformValue(value: any) {
 		const rawValue = value;
 
-		console.log(value);
 		const numericValue = rawValue.replace(/[^\d]/g, '');
 		const formattedValue = numericValue ? new Intl.NumberFormat('en-US').format(numericValue) : '';
 		return formattedValue;
