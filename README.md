@@ -2,8 +2,6 @@
 
 ## Shopping
 
-- Toggle view to see different status of shopping
-- Delete shopping item
 - Display boards a member is part of and use their permission to restrict different functions
 - Add total to shopping board
 

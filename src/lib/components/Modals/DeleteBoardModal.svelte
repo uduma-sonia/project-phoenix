@@ -18,7 +18,7 @@
 			isLoading = true;
 			await shoppingRequest.deleteBoard(id);
 			addToast('Board deleted', 'success');
-			queryClient.invalidateQueries({ queryKey: queryKeys.getAllBoards });
+			queryClient.invalidateQueries({ queryKey: queryKeys.getInvitedBoards });
 			closeBoardDeleteModal();
 			goto('/shopping');
 		} catch (error: any) {

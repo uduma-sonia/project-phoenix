@@ -1,8 +1,11 @@
 <script lang="ts">
+	import { CircleCheck } from '@lucide/svelte';
+	import { ShoppingStatus } from '../../../../types/shopping';
+
 	let { board } = $props();
 </script>
 
-<a href={`/shopping/${board?._id}`} class="button_active cursor-pointer">
+<a href={`/shopping/${board?._id}`} class="button_active hover_scale_down relative cursor-pointer">
 	<div class="bg-brand-folder relative h-6 w-16 rounded-tl-lg border-2 border-b-0">
 		<div class="bg-brand-folder absolute top-2 -right-10 h-20 w-full -rotate-45 border-r-2"></div>
 	</div>
@@ -16,6 +19,12 @@
 			</div>
 		</div>
 	</div>
+
+	{#if board?.status === ShoppingStatus.DONE}
+		<div class="absolute right-3 bottom-3 z-50">
+			<CircleCheck size="18px" color="#101010" />
+		</div>
+	{/if}
 </a>
 
 <style>

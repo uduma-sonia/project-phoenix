@@ -70,6 +70,7 @@
 
 	let completedLength = $derived(filteredItems?.filter((item: any) => item.done));
 
+	$effect(() => console.log(filteredItems));
 	function findName(name: string, arr: any[]) {
 		const _find = arr?.find((item) => item?.name == name);
 		return !_find;
@@ -190,6 +191,7 @@
 </script>
 
 <Seo title={boardDetails?.name} />
+
 <div class="pb-20">
 	<div class="my-6 justify-between px-3 md:flex">
 		<BackComponent title={boardDetails?.name} backLink="/shopping" />
