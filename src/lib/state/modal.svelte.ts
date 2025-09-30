@@ -4,7 +4,8 @@ export const modalsState = $state({
 		isOpenProfile: false,
 		isOpenHabitDetails: false,
 		isOpenDeleteModal: false,
-		isOpenTripDeleteModal: false
+		isOpenTripDeleteModal: false,
+		isOpenBoardDeleteModal: false
 	}
 });
 
@@ -41,4 +42,11 @@ export function openTripDeleteModal() {
 }
 export function closeTripDeleteModal() {
 	modalsState.data.isOpenTripDeleteModal = false;
+}
+
+export function openBoardDeleteModal() {
+	modalsState.data.isOpenBoardDeleteModal = true;
+}
+export function closeBoardDeleteModal() {
+	modalsState.data.isOpenBoardDeleteModal = false;
 }

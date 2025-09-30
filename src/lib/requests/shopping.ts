@@ -32,6 +32,10 @@ class ShoppingService {
 		return await this.api.put(`${this.boardPrefix}/done/${boardId}`, { ...reqConfig });
 	}
 
+	async deleteBoard(itemId: string, reqConfig?: ReqConfig) {
+		return await this.api.delete(`${this.boardPrefix}/${itemId}`, { ...reqConfig });
+	}
+
 	// BOARD ITEMS
 	async createItem(data: BoardItem, reqConfig?: ReqConfig) {
 		return await this.api.post(`${this.itemPrefix}`, data, { ...reqConfig });

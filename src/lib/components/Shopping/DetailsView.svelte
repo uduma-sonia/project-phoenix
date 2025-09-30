@@ -1,9 +1,14 @@
 <script lang="ts">
-	import { Check, Plus, UserRoundPlus } from '@lucide/svelte';
+	import { Check, List, Plus, SquarePen, Trash, UserRoundPlus } from '@lucide/svelte';
 	import ListItem from './Utilities/ListItem.svelte';
 	import Search from './Utilities/Search.svelte';
 	import InviteModal from './InviteModal.svelte';
-	import { closeModal, modalsState, openModal } from '$lib/state/modal.svelte';
+	import {
+		closeModal,
+		modalsState,
+		openBoardDeleteModal,
+		openModal
+	} from '$lib/state/modal.svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import { addToast } from '$lib/store/toast';
 	import { shoppingRequest, UserRequest } from '$lib/requests';
@@ -14,6 +19,8 @@
 	import Seo from '../Common/SEO.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
 	import { goto } from '$app/navigation';
+	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
+	import { handleSelectBoard } from '$lib/state/shopping.svelte';
 
 	const queryClient = useQueryClient();
 	let boardId = page.params.id;
@@ -151,6 +158,35 @@
 			addToast(error?.error || 'An error occured', 'error');
 		}
 	}
+
+	function deleteTrip() {
+		openBoardDeleteModal();
+		handleSelectBoard(boardDetails);
+	}
+
+	const moreOptions = $derived([
+		{
+			label: 'Edit',
+			icon: SquarePen,
+			link: `/shopping/${boardDetails?._id}/edit`
+		},
+		{
+			label: 'Standard list',
+			icon: List,
+			action: toggleShowStandardList
+		},
+		{
+			label: 'Shopping done',
+			icon: Check,
+			action: handleShoppingDone
+		},
+		{
+			label: 'Delete board',
+			icon: Trash,
+			iconColor: 'red',
+			action: deleteTrip
+		}
+	]);
 </script>
 
 <Seo title={boardDetails?.name} />
@@ -158,15 +194,7 @@
 	<div class="my-6 justify-between px-3 md:flex">
 		<BackComponent title={boardDetails?.name} backLink="/shopping" />
 
-		<div class="mt-6 flex flex-1 items-center gap-4 md:mt-0 md:justify-end">
-			<div>
-				<button
-					onclick={handleShoppingDone}
-					class="shadow_button shadow_button_thin shadow_button_with_icon"
-				>
-					<Check size="20px" />
-				</button>
-			</div>
+		<div class="mt-6 flex flex-1 items-center justify-end gap-4 md:mt-0">
 			<div>
 				<button
 					class="shadow_button shadow_button_thin shadow_button_with_icon"
@@ -177,14 +205,9 @@
 					Invite
 				</button>
 			</div>
+
 			<div>
-				<button class="shadow_button shadow_button_thin" onclick={toggleShowStandardList}>
-					{#if showStandardList}
-						Hide standard list
-					{:else}
-						Show standard list
-					{/if}
-				</button>
+				<HamburgerDropdown variant="solid" options={moreOptions} />
 			</div>
 		</div>
 	</div>

@@ -16,6 +16,7 @@
 - Recipe review system, star rating
 - Allow room for more sections to be added to recipe
 - Turn the input fields to resizable textareas
+- Save recipe
 
 ## Travel planner
 
