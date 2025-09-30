@@ -22,11 +22,13 @@ import {
 	startOfWeek,
 	startOfYear
 } from 'date-fns';
+import { Permissions, type BoardMember } from '../../types/shopping';
+import type { User } from '../../types/user';
 
 class Helpers {
 	static setCookie(name: string, value: string, minutes: number) {
 		const d = new Date();
-		d.setTime(d.getTime() + minutes * 60 * 1000); // Calculate expiration time in milliseconds
+		d.setTime(d.getTime() + minutes * 60 * 1000); // milliseconds
 		const expires = 'expires=' + d.toUTCString();
 		document.cookie = `${name}=${encodeURIComponent(
 			value
@@ -53,8 +55,7 @@ class Helpers {
 		document.cookie = name + '=; Max-Age=-99999999;';
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	static formatQueryParams = (params: any) => {
+	static formatQueryParams = (params: Record<string, string | number | boolean>) => {
 		return params
 			? Object.keys(params)
 					.filter((key) => params[key] !== undefined && params[key] !== null && params[key] !== '')
@@ -84,7 +85,7 @@ class Helpers {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (error: any) {
 			console.error(error);
-			// customErrorToast(error);
+			addToast('Failed', 'error');
 			return false;
 		}
 	};
@@ -96,7 +97,6 @@ class Helpers {
 	static getUserFirstNameAndLastName(user: { fname: string; lname: string }) {
 		const firstName = user?.fname;
 		const lastName = user?.lname;
-
 		return firstName || lastName ? `${firstName || ''} ${lastName || ''}`.trim() : '';
 	}
 
@@ -142,8 +142,7 @@ class Helpers {
 		};
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	static removeEmptyFields(data: any) {
+	static removeEmptyFields(data: Record<string, unknown>) {
 		Object.keys(data).forEach((key) => {
 			if (data[key] === '' || data[key] == null) {
 				delete data[key];
@@ -251,8 +250,7 @@ class Helpers {
 			end: endOfYear(date)
 		});
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const grouped: any = months.map(({ name, index }) => {
+		const grouped = months.map(({ name, index }) => {
 			const days = allDays.filter((d) => d.getMonth() === index);
 			return { month: name, days };
 		});
@@ -312,8 +310,7 @@ class Helpers {
 		return Math.floor(Math.random() * max) + min;
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	static toISOString(arg: any) {
+	static toISOString(arg: Date) {
 		if (arg) {
 			const date = new Date(arg); // Current date and time
 
@@ -338,8 +335,7 @@ class Helpers {
 		}
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	static transformObjectToList(arg: any) {
+	static transformObjectToList(arg: Record<string, unknown>) {
 		if (arg) {
 			return Object.keys(arg).map((item) => {
 				return {
@@ -347,6 +343,36 @@ class Helpers {
 					details: arg[item]
 				};
 			});
+		}
+	}
+
+	static sumArray(numbers: number[] = []): number {
+		return numbers.reduce((sum, num) => sum + num, 0);
+	}
+
+	static getPermission(membersList: BoardMember[], user: User, ownerId: string) {
+		const memberIdList = membersList?.map((item: { memberId: string }) => item.memberId);
+
+		if (user?._id) {
+			if (ownerId === user?._id) {
+				return Permissions.OWNER;
+			}
+
+			if (memberIdList) {
+				if (memberIdList.includes(user.email)) {
+					const getMember = membersList.find(
+						(item: { memberId: string }) => item.memberId === user?.email
+					);
+
+					if (getMember?.permissions === Permissions.CAN_EDIT) {
+						return Permissions.CAN_EDIT;
+					} else {
+						return Permissions.READ_ONLY;
+					}
+				} else {
+					return Permissions.UNAUTHORIZED;
+				}
+			}
 		}
 	}
 }

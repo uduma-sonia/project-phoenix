@@ -4,30 +4,34 @@
 	import { closeModal, modalsState, openModal } from '$lib/state/modal.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import { shoppingRequest, UserRequest } from '$lib/requests';
+	import { shoppingRequest } from '$lib/requests';
 	import HabitSearch from '../Habit/Utilities/HabitSearch.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
+	import { ShoppingStatus } from '../../../types/shopping';
 
-	const userQuery = createQuery({
-		queryKey: queryKeys.getCurrentUser,
-		queryFn: () => UserRequest.getCurrentUser()
-	});
-
-	let user = $derived($userQuery?.data?.data?.user);
 	let searchQuery = $state('');
 
-	const boardsQuery = $derived(
-		createQuery({
-			queryKey: queryKeys.getAllBoards,
-			queryFn: () => shoppingRequest.getAllBoards(user._id)
-		})
-	);
+	const boardsQuery = createQuery({
+		queryKey: queryKeys.getInvitedBoards,
+		queryFn: () => shoppingRequest.getInvitedBoards()
+	});
 
 	let boardsList = $derived(
 		$boardsQuery?.data?.data?.boards?.filter((item: any) =>
 			item.name.toUpperCase().includes(searchQuery?.toUpperCase())
 		)
 	);
+
+	function sortByDone(items: any[]) {
+		return items?.sort((a, b) => {
+			if (a.status === ShoppingStatus.DONE && b.status === ShoppingStatus.DONE) return 0;
+			return a.status === ShoppingStatus.DONE ? 1 : -1;
+		});
+
+		// return items?.sort((a, b) => {
+		// 	return new Date(b.updatedAt) - new Date(a.updatedAt);
+		// });
+	}
 </script>
 
 <div class="pt-5 pb-24">
@@ -42,7 +46,7 @@
 
 	{#if boardsList?.length > 0}
 		<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
-			{#each boardsList as board, index (index)}
+			{#each sortByDone(boardsList) as board, index (index)}
 				<ShoppingCard {board} />
 			{/each}
 		</div>

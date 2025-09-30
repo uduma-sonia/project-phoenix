@@ -3,6 +3,13 @@ export enum ShoppingStatus {
 	DONE = 'DONE'
 }
 
+export enum Permissions {
+	OWNER = 'OWNER',
+	CAN_EDIT = 'READ,WRITE',
+	READ_ONLY = 'READ',
+	UNAUTHORIZED = 'UNAUTHORIZED'
+}
+
 export type CreateBooard = {
 	name?: string;
 	ownerId?: string;

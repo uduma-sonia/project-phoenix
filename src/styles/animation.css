@@ -83,6 +83,12 @@
 	fill: #f5ecd5;
 }
 
+.hover_scale_down:hover,
+.hover_scale_down:active {
+	transform: scale(0.97);
+	transition: all 0.4s linear;
+}
+
 @keyframes hourglass {
 	0% {
 		transform: rotate(0deg);

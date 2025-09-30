@@ -3,7 +3,7 @@ import Helpers from './helpers';
 
 const userKeys = {
 	getCurrentUser: [`/user`],
-	getSingleUser: (id: string) => [`/user/single/${id}`],
+	getSingleUserWithId: (id: string) => [`/user/single/${id}`],
 	getSingleUserWithEmail: (id: string) => [`/user/single/email${id}`],
 	getUsersByEmails: (id: string) => [`/user/multiple/email${id}`]
 };
@@ -28,6 +28,7 @@ const trackerLogKeys = {
 
 const shoppingKeys = {
 	getAllBoards: [`/shopping-board/all`],
+	getInvitedBoards: [`/shopping-board/invited`],
 	getBoardItems: (boardId: string, ownerId: string) => [
 		`/shopping-items/all/${boardId}?ownerId=${ownerId}`
 	],

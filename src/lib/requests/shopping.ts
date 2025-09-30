@@ -24,6 +24,10 @@ class ShoppingService {
 		return await this.api.get(`${this.boardPrefix}/all?ownerId=${ownerId}`, { ...reqConfig });
 	}
 
+	async getInvitedBoards(reqConfig?: ReqConfig) {
+		return await this.api.get(`${this.boardPrefix}/invited`, { ...reqConfig });
+	}
+
 	async getBoard(boardId: string, reqConfig?: ReqConfig) {
 		return await this.api.get(`${this.boardPrefix}/${boardId}`, { ...reqConfig });
 	}
