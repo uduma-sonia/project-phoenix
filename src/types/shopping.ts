@@ -8,6 +8,7 @@ export type CreateBooard = {
 	ownerId?: string;
 	status?: ShoppingStatus;
 	currency?: string;
+	_id?: string;
 };
 
 export type BoardItem = {

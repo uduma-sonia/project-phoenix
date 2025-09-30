@@ -2,7 +2,6 @@
 
 ## Shopping
 
-- Delete shopping board
 - Toggle view to see different status of shopping
 - Delete shopping item
 - Display boards a member is part of and use their permission to restrict different functions
@@ -16,6 +15,7 @@
 - Recipe review system, star rating
 - Allow room for more sections to be added to recipe
 - Turn the input fields to resizable textareas
+- Save recipe
 
 ## Travel planner
 

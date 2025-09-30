@@ -72,6 +72,7 @@
 					Subscription
 				</button>
 				<button class="shadow_button rfjnjc flex items-center justify-between"> Theme </button>
+				<button class="shadow_button rfjnjc flex items-center justify-between"> Help </button>
 			</div>
 			<div class="mt-6">
 				<button

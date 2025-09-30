@@ -6,7 +6,6 @@
 	import { page } from '$app/state';
 	import SEO from '$lib/components/Common/SEO.svelte';
 	import LoaderError from '$lib/components/Common/LoaderError.svelte';
-	import DeleteTripModal from '$lib/components/Modals/DeleteTripModal.svelte';
 	import EditTrip from '$lib/components/Travel/EditTrip.svelte';
 
 	let detailsQuery = createQuery({
