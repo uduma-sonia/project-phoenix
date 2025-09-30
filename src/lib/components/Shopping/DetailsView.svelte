@@ -96,10 +96,10 @@
 				ownerId: user?._id
 			};
 
+			itemName = '';
 			const result = await shoppingRequest.createItem(payload);
 
 			if (result) {
-				itemName = '';
 				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId, '') });
 			}
 		} catch (error: any) {
