@@ -13,6 +13,9 @@ class UserService {
 		return await this.api.get(`${this.prefix}`, { ...reqConfig });
 	}
 
+	async getSingleUserWithId(id: string, reqConfig?: ReqConfig) {
+		return await this.api.get(`${this.prefix}/single/${id}`, { ...reqConfig });
+	}
 	async getSingleUserWithEmail(id: string, reqConfig?: ReqConfig) {
 		return await this.api.get(`${this.prefix}/single/email/${id}`, { ...reqConfig });
 	}

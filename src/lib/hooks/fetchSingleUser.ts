@@ -2,10 +2,10 @@ import { UserRequest } from '$lib/requests';
 import { queryKeys } from '$lib/utils/queryKeys';
 import { createQuery } from '@tanstack/svelte-query';
 
-export default function (email: string) {
+export default function (id: string) {
 	return createQuery({
-		queryKey: queryKeys.getSingleUserWithEmail(email),
-		queryFn: () => UserRequest.getSingleUserWithEmail(email),
-		enabled: !!email
+		queryKey: queryKeys.getSingleUserWithId(id),
+		queryFn: () => UserRequest.getSingleUserWithId(id),
+		enabled: !!id
 	});
 }

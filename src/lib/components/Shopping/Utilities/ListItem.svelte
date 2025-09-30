@@ -2,9 +2,20 @@
 	import { Check } from '@lucide/svelte';
 	import EditItem from './EditItem.svelte';
 
-	let { data, handleUpdateItem, currency, canEditId, handleEdit, handleUpdate } = $props();
+	let { data, handleUpdateItem, currency, canEditId, handleEdit, handleUpdate, canEdit } = $props();
 
 	let qty = $derived(data?.quantity > 0 ? data?.quantity : '');
+
+	function editItem() {
+		if (canEdit) {
+			handleEdit(data?._id);
+		}
+	}
+	function checkItem() {
+		if (canEdit) {
+			handleUpdateItem(data?._id, !data?.done);
+		}
+	}
 </script>
 
 <div class="item_wrapper">
@@ -17,7 +28,7 @@
 					<button
 						class="button_active relative flex h-7 w-7 items-center justify-center rounded-md border-2 p-0"
 						aria-label="Checklist"
-						onclick={() => handleUpdateItem(data?._id, !data?.done)}
+						onclick={checkItem}
 					>
 						{#if data?.done}
 							<Check size="22px" />
@@ -27,7 +38,7 @@
 
 				<button
 					class="font-lexend flex-1 space-y-1 py-3 pr-3 text-left font-light"
-					onclick={() => handleEdit(data?._id)}
+					onclick={editItem}
 				>
 					<div class="flex">
 						<p class:line-through={data?.done}>{qty} {data?.name} <small>{data?.unit}</small></p>

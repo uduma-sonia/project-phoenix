@@ -1,17 +1,24 @@
 <script lang="ts">
 	import Avatar from '$lib/components/Common/Avatar.svelte';
+	import { Permissions } from '../../../../types/shopping';
 
 	let {
 		member,
 		removeMember,
 		isRemoving,
-		isOwner = false
+		isOwner = false,
+		_permission
 	}: {
 		member: any;
 		removeMember?: (memberId: string) => void;
 		isRemoving?: string;
 		isOwner?: boolean;
+		_permission?: string;
 	} = $props();
+
+	let canRemove = $derived(
+		_permission === Permissions.OWNER || _permission === Permissions.CAN_EDIT
+	);
 </script>
 
 <div class="flex items-center justify-between gap-3">
@@ -26,7 +33,7 @@
 	</div>
 
 	<div>
-		{#if !isOwner}
+		{#if !isOwner && canRemove}
 			<button
 				class="text-sm text-red-600 hover:underline"
 				onclick={() => removeMember?.(member?.email)}

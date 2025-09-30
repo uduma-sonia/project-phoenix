@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Check, List, Plus, SquarePen, Trash, UserRoundPlus } from '@lucide/svelte';
+	import { Check, List, Plus, SquarePen, Trash } from '@lucide/svelte';
 	import ListItem from './Utilities/ListItem.svelte';
 	import Search from './Utilities/Search.svelte';
 	import InviteModal from './InviteModal.svelte';
@@ -11,9 +11,9 @@
 	} from '$lib/state/modal.svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import { addToast } from '$lib/store/toast';
-	import { shoppingRequest, UserRequest } from '$lib/requests';
+	import { shoppingRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
+	import { useQueryClient } from '@tanstack/svelte-query';
 	import { page } from '$app/state';
 	import StandardListItem from './Utilities/StandardListItem.svelte';
 	import Seo from '../Common/SEO.svelte';
@@ -22,9 +22,16 @@
 	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
 	import { handleSelectBoard } from '$lib/state/shopping.svelte';
 	import Helpers from '$lib/utils/helpers';
+	import fetchBoardMembers from '$lib/hooks/fetchBoardMembers';
+	import { Permissions } from '../../../types/shopping';
+	import fetchSingleUser from '$lib/hooks/fetchSingleUser';
 
-	const queryClient = useQueryClient();
+	let { boardItemsQuery, boardQuery, user, standardItemsQuery } = $props();
+
 	let boardId = page.params.id;
+
+	let queryClient = useQueryClient();
+	let membersQuery = fetchBoardMembers(boardId);
 
 	let itemName = $state('');
 	let isLoading = $state(false);
@@ -33,30 +40,15 @@
 	let canEditId = $state('');
 	let isAdding = $state(false);
 
-	const boardItemsQuery = createQuery({
-		queryKey: queryKeys.getBoardItems(boardId, ''),
-		queryFn: () => shoppingRequest.getBoardItems(boardId, '')
-	});
-
-	const userQuery = createQuery({
-		queryKey: queryKeys.getCurrentUser,
-		queryFn: () => UserRequest.getCurrentUser()
-	});
-
-	const boardQuery = createQuery({
-		queryKey: queryKeys.getBoard(boardId),
-		queryFn: () => shoppingRequest.getBoard(boardId)
-	});
-
-	const standardItemsQuery = createQuery({
-		queryKey: queryKeys.getStandardItems,
-		queryFn: () => shoppingRequest.getStandardItems('')
-	});
-
 	let itemsList = $derived($boardItemsQuery?.data?.data?.shoppingItems);
 	let boardDetails = $derived($boardQuery?.data?.data?.board);
 	let standardList = $derived($standardItemsQuery?.data?.data?.shoppingItems);
-	let user = $derived($userQuery?.data?.data?.user);
+	let _permission = $derived(
+		Helpers.getPermission($membersQuery?.data?.data?.members?.members, user, boardDetails?.ownerId)
+	);
+
+	let ownerQuery = $derived(fetchSingleUser(boardDetails?.ownerId));
+	let ownerDetails = $derived($ownerQuery?.data?.data?.user);
 
 	function sortByDone(items: any[]) {
 		return items?.sort((a, b) => {
@@ -84,12 +76,16 @@
 		showStandardList = !showStandardList;
 	}
 
+	function deleteTrip() {
+		openBoardDeleteModal();
+		handleSelectBoard(boardDetails);
+	}
+
 	function getTotal() {
 		const pricesList = filteredItems?.map((item: { price: number }) => item.price);
 		const sum = Helpers.sumArray(pricesList);
 		return sum ? `${boardDetails?.currency}${sum.toLocaleString()}` : '';
 	}
-
 	let _total = $derived(getTotal());
 
 	async function handleItemAdd(boardId: string, value?: string) {
@@ -168,11 +164,6 @@
 		}
 	}
 
-	function deleteTrip() {
-		openBoardDeleteModal();
-		handleSelectBoard(boardDetails);
-	}
-
 	const moreOptions = $derived([
 		{
 			label: 'Edit',
@@ -210,15 +201,14 @@
 					class="shadow_button shadow_button_thin shadow_button_with_icon"
 					onclick={openModal}
 				>
-					<UserRoundPlus size="20px" />
-
-					Invite
+					<img src="/images/users.svg" class="w-7" alt="" />
 				</button>
 			</div>
-
-			<div>
-				<HamburgerDropdown variant="solid" options={moreOptions} />
-			</div>
+			{#if _permission === Permissions.OWNER || _permission === Permissions.CAN_EDIT}
+				<div>
+					<HamburgerDropdown variant="solid" options={moreOptions} />
+				</div>
+			{/if}
 		</div>
 	</div>
 
@@ -247,6 +237,7 @@
 								data={items}
 								{handleUpdateItem}
 								{handleEdit}
+								canEdit={_permission === Permissions.OWNER || _permission === Permissions.CAN_EDIT}
 							/>
 						{/each}
 					</div>
@@ -261,32 +252,34 @@
 						</div>
 					{/if}
 
-					<div class="relative z-10 mt-8 w-full gap-3 rounded-lg border-2 bg-white p-3">
-						<form
-							class="flex items-center gap-4"
-							onsubmit={(e) => {
-								e.preventDefault();
-								handleItemAdd(boardId);
-							}}
-						>
-							<input
-								type="text"
-								bind:value={itemName}
-								class="h-[50px] w-full border-b border-b-[#393838] outline-none"
-								placeholder="Type and enter"
-							/>
-						</form>
-					</div>
+					{#if _permission === Permissions.OWNER || _permission === Permissions.CAN_EDIT}
+						<div class="relative z-10 mt-8 w-full gap-3 rounded-lg border-2 bg-white p-3">
+							<form
+								class="flex items-center gap-4"
+								onsubmit={(e) => {
+									e.preventDefault();
+									handleItemAdd(boardId);
+								}}
+							>
+								<input
+									type="text"
+									bind:value={itemName}
+									class="h-[50px] w-full border-b border-b-[#393838] outline-none"
+									placeholder="Type and enter"
+								/>
+							</form>
+						</div>
 
-					<div class="mt-4 flex justify-center">
-						<button class="create_button_sm shadow_button" onclick={() => handleItemAdd(boardId)}>
-							{#if isAdding}
-								<div class="spinner_white border-2 border-black"></div>
-							{:else}
-								<Plus size="26px" />
-							{/if}
-						</button>
-					</div>
+						<div class="mt-4 flex justify-center">
+							<button class="create_button_sm shadow_button" onclick={() => handleItemAdd(boardId)}>
+								{#if isAdding}
+									<div class="spinner_white border-2 border-black"></div>
+								{:else}
+									<Plus size="26px" />
+								{/if}
+							</button>
+						</div>
+					{/if}
 				</div>
 			{/if}
 		</div>
@@ -311,5 +304,11 @@
 </div>
 
 {#if user?._id}
-	<InviteModal onClose={closeModal} isOpen={modalsState.data.isOpen} {user} />
+	<InviteModal
+		{ownerDetails}
+		{_permission}
+		onClose={closeModal}
+		isOpen={modalsState.data.isOpen}
+		{user}
+	/>
 {/if}

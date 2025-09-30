@@ -3,7 +3,7 @@ import Helpers from './helpers';
 
 const userKeys = {
 	getCurrentUser: [`/user`],
-	getSingleUser: (id: string) => [`/user/single/${id}`],
+	getSingleUserWithId: (id: string) => [`/user/single/${id}`],
 	getSingleUserWithEmail: (id: string) => [`/user/single/email${id}`],
 	getUsersByEmails: (id: string) => [`/user/multiple/email${id}`]
 };
