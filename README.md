@@ -1,10 +1,5 @@
 # Backlogs
 
-## Shopping
-
-- Display boards a member is part of and use their permission to restrict different functions
-- Add total to shopping board
-
 ## Recipe
 
 - Image upload
