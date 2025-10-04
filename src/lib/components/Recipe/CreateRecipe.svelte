@@ -142,7 +142,11 @@
 
 			const payload = {
 				name: recipeName,
-				images: [],
+				images: [
+					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg',
+					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757150018/photo_VSCO_afqnsk.jpg',
+					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1759586707/cake4_fyiz3v.jpg'
+				],
 				isPrivate: isPrivate,
 				sections: $state.snapshot(filterSection(sections)),
 				slug: Helpers.createSlug(recipeName),

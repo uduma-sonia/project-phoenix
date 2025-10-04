@@ -1,31 +1,27 @@
-<!-- <script lang="ts">
-	import { Link, Trash, SquarePen, LockKeyhole } from '@lucide/svelte';
+<script lang="ts">
+	import { Trash, LockKeyhole, AlarmClock, Utensils } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import IngredientItem from './Utilities/IngredientItem.svelte';
-	import InstructionItem from './Utilities/InstructionItem.svelte';
-	import { createQuery } from '@tanstack/svelte-query';
-	import { queryKeys } from '$lib/utils/queryKeys';
-	import { recipeRequest } from '$lib/requests';
-	import { page } from '$app/state';
 	import Seo from '../Common/SEO.svelte';
 	import { openDeleteModal } from '$lib/state/modal.svelte';
 	import { handleSelectRecipe } from '$lib/state/recipe.svelte';
 	import Helpers from '$lib/utils/helpers';
 	import BasicButton from '../Common/Form/BasicButton.svelte';
-	import { RECIPE_COUNT_TRACKER } from '$lib/constants/global';
+	import { PINTEREST_BASE_URL, RECIPE_COUNT_TRACKER } from '$lib/constants/global';
 	import Stats from '../Common/Stats.svelte';
 	import ViewCount from './ViewCount.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
-	import type { RecipeResponse } from '../../../types/recipe';
+	import { SectionType, type RecipeResponse } from '../../../types/recipe';
+	import type { User } from '../../../types/user';
+	import DetailActions from './Utilities/DetailActions.svelte';
 
-	let { user, isLoggedIn } = $props();
+	let {
+		user,
+		isLoggedIn,
+		recipe,
+		detailsQuery
+	}: { user: User; isLoggedIn: boolean; recipe: RecipeResponse; detailsQuery: any } = $props();
 
-	const detailsQuery = createQuery({
-		queryKey: queryKeys.getSingleRecipe(page.params.id),
-		queryFn: () => recipeRequest.getSingleRecipe(page.params.id)
-	});
-
-	const recipe: RecipeResponse = $derived($detailsQuery?.data?.data?.recipe);
 	let isOwner = $derived(user?._id ? (user?._id === recipe?.ownerId ? true : false) : false);
 	let trackerLogged = $derived(
 		typeof window !== 'undefined' ? sessionStorage.getItem(RECIPE_COUNT_TRACKER) : ''
@@ -36,11 +32,11 @@
 	}
 
 	function shareToPinterest() {
-		const baseUrl = 'https://www.pinterest.com/pin/create/button';
+		const baseUrl = PINTEREST_BASE_URL;
 		const url = encodeURIComponent(window?.location?.href);
-		const media = encodeURIComponent(recipe?.imageUrl || '');
+		const media = recipe?.images?.length ? encodeURIComponent(recipe?.images[0]) : '';
 		const description = encodeURIComponent(recipe?.name || '');
-		const pinterestUrl = `${baseUrl}?url=${url}&media=${media}&description=${description}`;
+		const pinterestUrl = `${baseUrl}?${Helpers.formatQueryParams({ url, media, description })}`;
 		window.open(pinterestUrl, '_blank', 'noopener,noreferrer');
 	}
 
@@ -56,6 +52,18 @@
 <Seo title={recipe?.name || 'Recipe'} />
 
 <LoaderError isLoading={$detailsQuery?.isLoading} error={$detailsQuery?.isError} />
+
+{#snippet detailItem(label: string, value?: string, Icon?: any)}
+	{#if value}
+		<div class="flex min-w-max items-center gap-1">
+			<p class="font-lexend-deca flex items-center gap-1 text-sm">
+				<Icon size="18px" />
+				{label}:
+			</p>
+			<p class="font-lexend-deca text-sm font-light">{value}</p>
+		</div>
+	{/if}
+{/snippet}
 
 {#if !$detailsQuery?.isLoading && recipe}
 	{#if recipe?.isPrivate && !isOwner}
@@ -86,85 +94,63 @@
 					<div
 						class="relative z-10 h-full w-full cursor-pointer gap-3 overflow-hidden rounded-lg border-2 border-black bg-white"
 					>
-						{#if recipe?.imageUrl}
+						<!-- {#if recipe?.imageUrl}
 							<img
 								src={recipe?.imageUrl}
 								alt=""
 								class="max-h-full w-full max-w-full object-cover"
 							/>
-						{/if}
+						{/if} -->
 					</div>
 				</div>
 
-				<div class="mt-4 flex items-center justify-between gap-3">
-					<div class="flex items-center gap-3">
-						<div>
-							<button
-								class="shadow_button shadow_button_sm"
-								style="height: 40px"
-								onclick={shareToPinterest}
-							>
-								<img src="/images/pinterest_logo.svg" class="w-5" alt="" />
-							</button>
-						</div>
-						<div>
-							<button
-								class="shadow_button shadow_button_sm"
-								style="height: 40px"
-								onclick={copyLink}
-							>
-								<Link size="20px" />
-							</button>
-						</div>
-					</div>
+				<DetailActions {shareToPinterest} {copyLink} {isOwner} />
 
-					<div>
-						{#if isOwner}
-							<a href={`/recipe/${page.params.id}/edit`}>
-								<button class="shadow_button shadow_button_sm" style="height: 40px">
-									<SquarePen size="20px" />
-								</button>
-							</a>
-						{/if}
-					</div>
+				<div class="mt-8 flex min-w-max items-center gap-1">
+					<p class="font-lexend-deca text-sm font-medium">Author:</p>
+
+					<a
+						href={`/recipe/user/${recipe?.ownerId}`}
+						class="font-lexend-deca text-sm font-light underline">{recipe?.owner?.username}</a
+					>
 				</div>
 
-				<div class="mt-8">
-					<div>
-						<div class="flex items-center justify-between gap-3">
-							<h3 class="text-xl">Ingredients</h3>
+				<div class="mt-4 flex flex-wrap gap-4">
+					{@render detailItem('Prep time', recipe?.prepTime, AlarmClock)}
+					{@render detailItem('Cook time', recipe?.cookTime, AlarmClock)}
+					{@render detailItem('Total time', recipe?.totalTime, AlarmClock)}
+					{@render detailItem('Servings', recipe?.servings, Utensils)}
+					{@render detailItem('Difficulty', recipe?.difficulty)}
+					{@render detailItem('Calories', recipe?.calories)}
+				</div>
 
+				<div class="mt-8 space-y-8">
+					{#if recipe?.sections?.length}
+						{#each recipe.sections as section, index (index)}
 							<div>
-								<a href={`/recipe/user/${recipe?.ownerId}`}>
-									<p class="font-lexend text text-xs underline">View my other recipes</p>
-								</a>
+								<div class="flex items-center justify-between gap-3">
+									<h3 class="text-xl">{section.name}</h3>
+								</div>
+
+								{#if section.type === SectionType.LIST}
+									{#if section?.list?.length}
+										<div class="mt-2 space-y-3">
+											{#each section?.list as item, index (index)}
+												<IngredientItem name={item?.value} />
+											{/each}
+										</div>
+									{/if}
+								{/if}
+								{#if section.type === SectionType.PARAPGRAPH}
+									{#if section?.paragraph}
+										<p class="font-lexend font-light">
+											{section?.paragraph}
+										</p>
+									{/if}
+								{/if}
 							</div>
-						</div>
-
-						<div class="mt-4 space-y-3">
-							{#each recipe?.ingredients as item, index (index)}
-								<IngredientItem name={item?.value} />
-							{/each}
-						</div>
-					</div>
-
-					<div class="mt-8">
-						<h3 class="text-xl">Instructions</h3>
-
-						<div class="mt-4 space-y-4">
-							{#each recipe?.method as item, index (index)}
-								<InstructionItem name={item?.value} step={'' + (index + 1)} />
-							{/each}
-						</div>
-					</div>
-
-					<div class="mt-8">
-						<h3 class="text-xl">Additional notes</h3>
-
-						<div class="mt-4">
-							<p class="font-lexend font-light">{'Additional notes'}</p>
-						</div>
-					</div>
+						{/each}
+					{/if}
 				</div>
 			</div>
 
@@ -211,4 +197,4 @@
 		width: 100%;
 		height: 100%;
 	}
-</style> -->
+</style>

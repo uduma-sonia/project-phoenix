@@ -30,7 +30,7 @@ export type Recipe = {
 
 	group?: RecipeGroup;
 	isPrivate?: boolean;
-	section?: RecipeSection[];
+	sections?: RecipeSection[];
 };
 
 export enum SectionType {
@@ -38,8 +38,14 @@ export enum SectionType {
 	PARAPGRAPH = 'PARAPGRAPH'
 }
 
+type Owner = {
+	username: string;
+	avatar: string;
+};
+
 export interface RecipeResponse extends Recipe {
 	_id: string;
+	owner: Owner;
 	createdAt: Date;
 	updatedAt: Date;
 	ownerId?: string;

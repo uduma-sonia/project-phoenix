@@ -75,3 +75,5 @@ export const avatarSets = [
 		id: 'set4'
 	}
 ];
+
+export const PINTEREST_BASE_URL = 'https://www.pinterest.com/pin/create/button';
