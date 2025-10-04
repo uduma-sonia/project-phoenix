@@ -1,99 +1,130 @@
 <script lang="ts">
-	import type { RecipeResponse } from '../../../types/recipe';
-
-	let { recipe }: { recipe: RecipeResponse } = $props();
-</script>
-
-<div></div>
-<!-- <script lang="ts">
 	import { Check, Minus, Plus } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import Helpers from '$lib/utils/helpers';
 	import { addToast } from '$lib/store/toast';
-	import { recipeRequest } from '$lib/requests';
-	import { goto } from '$app/navigation';
 	import { useQueryClient } from '@tanstack/svelte-query';
+	import BasicInputField from '../Common/Form/BasicInputField.svelte';
+	import Dropdown from '../Common/Form/Dropdown.svelte';
+	import { SectionType, type RecipeResponse, type RecipeSection } from '../../../types/recipe';
+	import TextArea from '../Common/Form/TextArea.svelte';
+	import TextButton from '../Common/Form/TextButton.svelte';
+	import { difficultyOptions, typeOptions } from '$lib/constants/recipe';
 	import { queryKeys } from '$lib/utils/queryKeys';
+	import { goto } from '$app/navigation';
+	import { recipeRequest } from '$lib/requests';
 	import { page } from '$app/state';
-	import type { Recipe } from '../../../types/recipe';
 
-	let { recipe }: { recipe: RecipeResponse } = $props();
+	type Group = { name: string; id: string };
+
+	let {
+		recipe,
+		groupList
+	}: { recipe: RecipeResponse; groupList: { name: string; _id: string }[] } = $props();
+
 	const queryClient = useQueryClient();
 
-	let textarea: any = $state(null);
-	let inputElement: any = $state(null);
-	let fileName = $state('');
-	let base64Image = $state(recipe?.imageUrl);
+	let ownerId = $derived(page.url.searchParams.get('owner'));
+
+	let imageOneEl: any = $state(null);
+	let imageTwoEl: any = $state(null);
+	let imageThreeEl: any = $state(null);
+
+	let base64Image = $state('');
 	let recipeName = $state(recipe?.name);
-	let notes = $state(recipe?.note);
 	let isSubmitting = $state(false);
-	let isPrivate = $state(recipe.isPrivate);
+	let isPrivate = $state(recipe?.isPrivate);
+	let prepTime = $state(recipe?.prepTime);
+	let cookTime = $state(recipe?.cookTime);
+	let totalTime = $state(recipe?.totalTime);
+	let servings = $state(recipe?.servings);
+	let selectedDifficulty = $state({
+		value: recipe?.difficulty || '',
+		id: recipe?.difficulty || ''
+	});
+	let calories = $state(recipe?.calories);
+	let selectedGroupList: Group[] = $state(recipe?.groups || []);
 
-	let ingredientsList = $state(
-		recipe.ingredients || [
+	let sections = $state<RecipeSection[]>(
+		recipe?.sections || [
 			{
-				value: ''
+				name: '',
+				type: SectionType.LIST,
+				list: [
+					{
+						value: ''
+					}
+				]
 			}
 		]
 	);
-	let methodsList = $state(
-		recipe.method || [
-			{
-				value: ''
-			}
-		]
-	);
 
-	function removeIngredient(idx: number) {
-		const _filter = ingredientsList?.filter((_, index) => index !== idx);
-		ingredientsList = _filter;
-	}
-
-	function addIngredient() {
-		const newObj = {
-			value: ''
+	function addSection() {
+		const newObj: RecipeSection = {
+			name: '',
+			type: SectionType.LIST,
+			paragraph: '',
+			list: [
+				{
+					value: ''
+				}
+			]
 		};
-
-		if (ingredientsList?.length) {
-			ingredientsList = [...ingredientsList, newObj];
-		} else {
-			ingredientsList = [newObj];
-		}
+		sections = [...sections, newObj];
 	}
 
 	function removeMethod(idx: number) {
-		const _filter = methodsList?.filter((_, index) => index !== idx);
-		methodsList = _filter;
+		const _filter = sections.filter((_, index) => index !== idx);
+		sections = _filter;
 	}
 
-	function addMethod() {
-		const newObj = {
-			value: ''
-		};
-
-		if (methodsList?.length) {
-			methodsList = [...methodsList, newObj];
-		} else {
-			methodsList = [newObj];
-		}
+	function handleBrowseClick(id: string) {
+		addToast('Not available', 'error');
+		// document.querySelector<HTMLInputElement>(id)?.click();
 	}
 
-	const resizeTextarea = () => {
-		textarea.style.height = 'auto';
-		textarea.style.height = textarea.scrollHeight + 'px';
-	};
+	function addListItem(idx: number) {
+		const _sections = $state.snapshot(sections);
+		const result: RecipeSection[] = _sections.map((section, index) => {
+			if (index === idx) {
+				const _list = section?.list ? [...section.list, { value: '' }] : [{ value: '' }];
 
-	const handleBrowseClick = () => {
-		document.querySelector<HTMLInputElement>('#media')?.click();
-	};
+				return {
+					...section,
+					list: _list
+				};
+			}
 
-	const handleFileChange = () => {
-		const file = inputElement?.files[0];
-		const _fileName = file?.name;
+			return section;
+		});
+
+		sections = result;
+	}
+
+	function removeListItem(sectionIndex: number, itemIndex: number) {
+		const _sections = $state.snapshot(sections);
+		const result: RecipeSection[] = _sections.map((item, index) => {
+			if (sectionIndex === index) {
+				const _list = item.list ? item.list.filter((j, i) => i !== itemIndex) : [];
+
+				return {
+					...item,
+					list: _list
+				};
+			}
+
+			return item;
+		});
+
+		sections = result;
+	}
+
+	function handleFileChange(el: any) {
+		const file = el?.files[0];
+		// const _fileName = file?.name;
 		const reader = new FileReader();
 
 		if (file) {
-			fileName = _fileName;
 			if (Helpers.checkFileSize(file, 2)) {
 				addToast('File size too large, upload images under 2mb', 'error');
 			} else {
@@ -104,45 +135,74 @@
 				reader.readAsDataURL(file);
 			}
 		}
-	};
-
-	function getValue(arr: any) {
-		const mappedArr = arr?.map((item: any) => {
-			return {
-				value: item?.value
-			};
-		});
-
-		const filteredArr = mappedArr.filter((item: { value: string }) => item.value);
-
-		return filteredArr;
 	}
 
-	async function handleSubmit(e: any) {
-		e.preventDefault();
+	// https://res.clouinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg
 
+	function filterSection(sections: RecipeSection[]) {
+		return sections.filter((item) => item.name);
+	}
+
+	function getSectionTypeOption(type: any) {
+		return {
+			id: type,
+			value: type === SectionType.LIST ? 'List' : 'Paragraph'
+		};
+	}
+
+	function handleSectionTypeChange(index: number, option: any) {
+		if (option) {
+			sections[index].type = option.id as SectionType;
+		}
+	}
+
+	function selectGroup(group: { name: string; _id: string }) {
+		const findGroup = selectedGroupList.find((item) => item.id === group._id);
+
+		if (findGroup) {
+			const filtered = selectedGroupList.filter((item) => item.id !== group._id);
+			selectedGroupList = filtered;
+		} else {
+			selectedGroupList = [...selectedGroupList, { id: group._id, name: group.name }];
+		}
+	}
+
+	async function handleSubmit() {
+		if (!recipeName) {
+			const recipeEl = document.getElementById('createRecipe');
+			recipeEl?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+			return;
+		}
 		try {
 			isSubmitting = true;
 
 			const payload = {
 				name: recipeName,
-				note: notes,
-				imageUrl:
-					'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg',
+				images: [
+					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg',
+					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757150018/photo_VSCO_afqnsk.jpg',
+					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1759586707/cake4_fyiz3v.jpg'
+				],
 				isPrivate: isPrivate,
-				ingredients: getValue(ingredientsList),
-				method: getValue(methodsList),
-				slug: Helpers.createSlug(recipeName.trim())
+				sections: $state.snapshot(filterSection(sections)),
+				slug: Helpers.createSlug(recipeName),
+				prepTime,
+				cookTime,
+				totalTime,
+				servings,
+				difficulty: selectedDifficulty.id,
+				calories,
+				groups: $state.snapshot(selectedGroupList)
 			};
 
 			const result = await recipeRequest.updateRecipe(recipe?._id as string, payload);
 
 			if (result) {
-				goto('/recipe');
-				queryClient.invalidateQueries({ queryKey: queryKeys.getRecipes });
+				queryClient.invalidateQueries({ queryKey: queryKeys.getSingleRecipe(page.params.id) });
+				goto(`/recipe/${Helpers.createSlug(recipeName)}?owner=${ownerId}`);
 			}
 		} catch (error: any) {
-			addToast(error || 'An error occured', 'error');
+			addToast(error?.message || 'An error occured', 'error');
 		} finally {
 			isSubmitting = false;
 		}
@@ -151,157 +211,259 @@
 
 <input
 	type="file"
-	id="media"
-	name="media"
+	id="image_one"
+	name="image_one"
 	accept="image/*"
 	class="invisible absolute bottom-0 left-0"
-	bind:this={inputElement}
-	onchange={handleFileChange}
+	bind:this={imageOneEl}
+	onchange={() => handleFileChange(imageOneEl)}
+/>
+<input
+	type="file"
+	id="image_two"
+	name="image_two"
+	accept="image/*"
+	class="invisible absolute bottom-0 left-0"
+	bind:this={imageTwoEl}
+	onchange={() => handleFileChange(imageTwoEl)}
+/>
+<input
+	type="file"
+	id="image_three"
+	name="image_three"
+	accept="image/*"
+	class="invisible absolute bottom-0 left-0"
+	bind:this={imageThreeEl}
+	onchange={() => handleFileChange(imageThreeEl)}
 />
 
-<div>
-	<div class="mx-auto w-full px-4 md:max-w-[500px]">
-		<BackComponent backLink={`/recipe/${page.params.id}`} />
+<div id="createRecipe">
+	<div class="mx-auto w-full px-4 md:max-w-[600px]">
+		<BackComponent backLink="/recipe" />
 	</div>
 
 	<div class="mt-4 flex items-center justify-center px-4 pb-52">
-		<div class="login_form_wrapper w-full md:max-w-[500px]">
-			<div class="login_form h-full rounded-3xl border-2 bg-white">
+		<div class="login_form_wrapper w-full md:max-w-[600px]">
+			<div class="login_form h-full rounded-3xl border-2 bg-white" id="create-recipe-form">
 				<div class="pb-3">
-					<p class="font-suez text-2xl">Edit Recipe</p>
+					<p class="font-suez text-2xl">Create Recipe</p>
 				</div>
 
 				<hr />
 
-				<div class="mb-10 space-y-4 pt-5">
-					<div>
-						<label for="recipeName" class="mb-2">Name</label>
-						<input
-							type="text"
-							id="recipeName"
-							name="recipeName"
-							required
-							bind:value={recipeName}
-							class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
+				<div class="mb-10 pt-5">
+					<BasicInputField id="recipeName" label="Recipe Name" bind:value={recipeName} />
+
+					<div class="mt-4 grid grid-cols-2 gap-4">
+						<BasicInputField
+							id="prepTime"
+							label="Prep Time"
+							placeholder="e.g., 10 minutes"
+							bind:value={prepTime}
 						/>
-					</div>
-
-					<div>
-						<div>
-							<p class="mb-2">Ingredients</p>
-
-							<div class="space-y-3">
-								{#each ingredientsList as ingredient, index (index)}
-									<div class="flex items-center gap-3">
-										<input
-											type="text"
-											bind:value={ingredient.value}
-											class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-										/>
-
-										<div class="flex justify-center">
-											<button
-												type="button"
-												class="create_button_sm shadow_button minus_btn"
-												onclick={() => removeIngredient(index)}
-											>
-												<Minus size="16px" />
-											</button>
-										</div>
-									</div>
-								{/each}
-							</div>
-						</div>
-
-						<div class="mt-4">
-							<button
-								type="button"
-								class="text-brand-green flex items-center"
-								onclick={() => addIngredient()}
-							>
-								Add Ingredient
-
-								<Plus size="20px" />
-							</button>
-						</div>
-					</div>
-
-					<div>
-						<div>
-							<p class="mb-2">Instructions</p>
-
-							<div class="space-y-3">
-								{#each methodsList as method, index (index)}
-									<div class="flex items-center gap-3">
-										<input
-											type="text"
-											bind:value={method.value}
-											class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-										/>
-
-										<div class="flex justify-center">
-											<button
-												type="button"
-												class="create_button_sm shadow_button minus_btn"
-												onclick={() => removeMethod(index)}
-											>
-												<Minus size="16px" />
-											</button>
-										</div>
-									</div>
-								{/each}
-							</div>
-						</div>
-
-						<div class="mt-4">
-							<button
-								type="button"
-								class="text-brand-green flex items-center"
-								onclick={() => addMethod()}
-							>
-								Add Instruction
-
-								<Plus size="20px" />
-							</button>
-						</div>
-					</div>
-
-					<div>
-						<label for="notes" class="mb-2">Notes</label>
-						<textarea
-							id="notes"
-							oninput={resizeTextarea}
-							bind:this={textarea}
-							rows={5}
-							bind:value={notes}
-							class="w-full rounded-lg border-2 border-black p-3 text-left outline-none"
+						<BasicInputField
+							id="cookTime"
+							label="Cook Time"
+							placeholder="e.g., 20 minutes"
+							bind:value={cookTime}
 						/>
+						<BasicInputField
+							id="totalTime"
+							label="Total Time"
+							placeholder="e.g., 30 minutes"
+							bind:value={totalTime}
+						/>
+						<BasicInputField
+							id="servings"
+							label="Servings"
+							placeholder="e.g., 5 people"
+							bind:value={servings}
+						/>
+
+						<Dropdown
+							label="Difficulty"
+							options={difficultyOptions}
+							bind:selectedOption={selectedDifficulty}
+							shouldSearch={false}
+						/>
+
+						<BasicInputField id="calories" label="Calories" bind:value={calories} />
 					</div>
 
-					<div>
-						<label for="notes" class="mb-2">Image</label>
+					{#if groupList?.length > 0}
+						<p class="mb-2 pt-4">Select group</p>
 
-						<button
-							class="relative h-[200px] w-full rounded-lg border-2 border-black"
-							onclick={handleBrowseClick}
-							type="button"
-						>
-							{#if base64Image}
-								<img
-									src={base64Image}
-									class="h-full max-h-full w-full max-w-full rounded-lg object-cover"
-									alt=""
-								/>
-							{/if}
+						<div class="flex items-center gap-3">
+							{#each groupList as group}
+								{@const isSelected = selectedGroupList?.find((item) => item.id === group._id)}
+								<button
+									class="font-lexend hover:bg-brand-rose inline-block rounded-md border bg-white px-4 py-2 text-[11px] font-light text-black capitalize"
+									class:selected={isSelected}
+									onclick={() => selectGroup(group)}
+								>
+									{group.name}
+								</button>
+							{/each}
+						</div>
+					{/if}
 
-							<div
-								class="absolute top-[45%] left-1/2 z-40 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1"
+					<div class="mt-10">
+						<p class="font-suez mb-4 text-lg">Images</p>
+
+						<div class="grid grid-cols-2 gap-4 md:grid-cols-3">
+							<button
+								class="relative h-[120px] w-full rounded-lg border-2 border-black"
+								type="button"
+								onclick={() => handleBrowseClick('#image_one')}
 							>
-								<div>
-									<Plus size="24px" />
+								{#if base64Image}
+									<img
+										src={base64Image}
+										class="h-full max-h-full w-full max-w-full rounded-lg object-cover"
+										alt="Recipe shot"
+									/>
+								{/if}
+
+								<div
+									class="absolute top-[45%] left-1/2 z-40 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1"
+								>
+									<div>
+										<Plus size="24px" />
+									</div>
 								</div>
+							</button>
+
+							<button
+								class="relative h-[120px] w-full rounded-lg border-2 border-black"
+								type="button"
+								onclick={() => handleBrowseClick('#image_two')}
+							>
+								{#if base64Image}
+									<img
+										src={base64Image}
+										class="h-full max-h-full w-full max-w-full rounded-lg object-cover"
+										alt="Recipe shot"
+									/>
+								{/if}
+
+								<div
+									class="absolute top-[45%] left-1/2 z-40 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1"
+								>
+									<div>
+										<Plus size="20px" />
+									</div>
+								</div>
+							</button>
+							<button
+								class="relative h-[120px] w-full rounded-lg border-2 border-black"
+								type="button"
+								onclick={() => handleBrowseClick('#image_three')}
+							>
+								{#if base64Image}
+									<img
+										src={base64Image}
+										class="h-full max-h-full w-full max-w-full rounded-lg object-cover"
+										alt="Recipe shot"
+									/>
+								{/if}
+
+								<div
+									class="absolute top-[45%] left-1/2 z-40 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1"
+								>
+									<div>
+										<Plus size="20px" />
+									</div>
+								</div>
+							</button>
+						</div>
+					</div>
+
+					<div class="mt-10">
+						<p class="font-suez mb-4 text-lg">Recipe sections</p>
+
+						<div>
+							<div class="space-y-8">
+								{#each sections as section, index (index)}
+									<div class="space-y-4 border-b border-gray-400 pb-4">
+										<div class="flex items-center justify-between gap-4">
+											<p class="font-suez">
+												Section {index + 1}
+											</p>
+
+											<div>
+												<button
+													type="button"
+													class="shadow_button_red shadow_button_thin_red"
+													onclick={() => removeMethod(index)}
+												>
+													Remove section
+												</button>
+											</div>
+										</div>
+										<BasicInputField
+											placeholder="e.g., Ingredients, Instructions, Tips"
+											label="Section name"
+											bind:value={section.name}
+										/>
+										<Dropdown
+											label="Type"
+											options={typeOptions}
+											withClearButton={false}
+											selectedOption={getSectionTypeOption(section.type)}
+											handleSelectChange={(event: any) => handleSectionTypeChange(index, event)}
+											shouldSearch={false}
+										/>
+
+										{#if section.type == SectionType.LIST}
+											<p class="mb-2">List items</p>
+
+											{#if section.list}
+												{#each section.list as list, idx (idx)}
+													<div class="flex items-center gap-2">
+														<div class="flex-1">
+															<BasicInputField
+																bind:value={list.value}
+																placeholder="Enter list item..."
+															/>
+														</div>
+
+														<div>
+															<button
+																onclick={() => removeListItem(index, idx)}
+																type="button"
+																class="create_button_sm shadow_button minus_btn"
+															>
+																<Minus size="18px" strokeWidth="4px" color="#FFFFFF" />
+															</button>
+														</div>
+													</div>
+												{/each}
+											{/if}
+
+											<div class="mt-4">
+												<TextButton
+													action={() => addListItem(index)}
+													label="Add Item"
+													RightIcon={Plus}
+												/>
+											</div>
+										{/if}
+
+										{#if section.type == SectionType.PARAPGRAPH}
+											<TextArea
+												label="Paragraph Text"
+												helperText="Use for paragraph-type sections"
+												bind:value={section.paragraph}
+											/>
+										{/if}
+									</div>
+								{/each}
 							</div>
-						</button>
+
+							<div class="mt-4 flex justify-end">
+								<TextButton action={() => addSection()} label="Add Section" RightIcon={Plus} />
+							</div>
+						</div>
 					</div>
 
 					<div>
@@ -342,5 +504,10 @@
 	.minus_btn {
 		width: 30px !important;
 		height: 30px !important;
+		background-color: #e7000b;
 	}
-</style> -->
+
+	.selected {
+		background-color: #dcbec5 !important;
+	}
+</style>

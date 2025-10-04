@@ -10,6 +10,7 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { closeProfile } from '$lib/state/modal.svelte';
 	import Appearance from './Appearance.svelte';
+	import { PAGE_REDIRECTED_FROM_KEY } from '$lib/constants/global';
 
 	let { onClose, isOpen } = $props();
 
@@ -30,13 +31,14 @@
 
 	const handleLogout = async () => {
 		Helpers.deleteCookie('id');
+		sessionStorage.removeItem(PAGE_REDIRECTED_FROM_KEY);
 		closeProfile();
 		goto('/login');
 		queryClient.clear();
 	};
 </script>
 
-<ModalWrapper {onClose} {isOpen} maxWidth="max-w-[800px]" label="Profile">
+<ModalWrapper {onClose} {isOpen} maxWidth="max-w-[500px] md:max-w-[800px]" label="Profile">
 	<div class="flex items-stretch gap-2 p-4 pb-20">
 		<div class="w-full md:w-1/2 md:border-r-2 md:pr-4">
 			<div class="space-y-3">

@@ -3,12 +3,8 @@
 ## Recipe
 
 - Image upload
-- Image overlay carousel
-- Recipe group
 - Recipe review system, star rating
-- Allow room for more sections to be added to recipe
-- Turn the input fields to resizable textareas
-- Save recipe
+- retrieve a recipe with username
 
 ## Travel planner
 

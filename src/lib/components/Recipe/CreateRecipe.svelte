@@ -14,6 +14,9 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { goto } from '$app/navigation';
 
+	type Group = { name: string; id: string };
+	let { groupList } = $props();
+
 	const queryClient = useQueryClient();
 
 	let imageOneEl: any = $state(null);
@@ -21,7 +24,6 @@
 	let imageThreeEl: any = $state(null);
 
 	let base64Image = $state('');
-
 	let recipeName = $state('');
 	let isSubmitting = $state(false);
 	let isPrivate = $state(false);
@@ -34,6 +36,7 @@
 		id: 'EASY'
 	});
 	let calories = $state('');
+	let selectedGroupList: Group[] = $state([]);
 
 	let sections = $state<RecipeSection[]>([
 		{
@@ -125,10 +128,34 @@
 		}
 	}
 
-	// https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg
+	// https://res.clouinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg
 
 	function filterSection(sections: RecipeSection[]) {
 		return sections.filter((item) => item.name);
+	}
+
+	function getSectionTypeOption(type: any) {
+		return {
+			id: type,
+			value: type === SectionType.LIST ? 'List' : 'Paragraph'
+		};
+	}
+
+	function handleSectionTypeChange(index: number, option: any) {
+		if (option) {
+			sections[index].type = option.id as SectionType;
+		}
+	}
+
+	function selectGroup(group: { name: string; _id: string }) {
+		const findGroup = selectedGroupList.find((item) => item.id === group._id);
+
+		if (findGroup) {
+			const filtered = selectedGroupList.filter((item) => item.id !== group._id);
+			selectedGroupList = filtered;
+		} else {
+			selectedGroupList = [...selectedGroupList, { id: group._id, name: group.name }];
+		}
 	}
 
 	async function handleSubmit() {
@@ -142,7 +169,11 @@
 
 			const payload = {
 				name: recipeName,
-				images: [],
+				images: [
+					'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg',
+					'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757150018/photo_VSCO_afqnsk.jpg',
+					'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1759586707/cake4_fyiz3v.jpg'
+				],
 				isPrivate: isPrivate,
 				sections: $state.snapshot(filterSection(sections)),
 				slug: Helpers.createSlug(recipeName),
@@ -151,7 +182,8 @@
 				totalTime,
 				servings,
 				difficulty: selectedDifficulty.id,
-				calories
+				calories,
+				groups: $state.snapshot(selectedGroupList)
 			};
 
 			const result = await recipeRequest.createRecipe(payload);
@@ -164,19 +196,6 @@
 			addToast(error?.message || 'An error occured', 'error');
 		} finally {
 			isSubmitting = false;
-		}
-	}
-
-	function getSectionTypeOption(type: any) {
-		return {
-			id: type,
-			value: type === SectionType.LIST ? 'List' : 'Paragraph'
-		};
-	}
-
-	function handleSectionTypeChange(index: number, option: any) {
-		if (option) {
-			sections[index].type = option.id as SectionType;
 		}
 	}
 </script>
@@ -261,6 +280,21 @@
 
 						<BasicInputField id="calories" label="Calories" bind:value={calories} />
 					</div>
+
+					{#if groupList?.length > 0}
+						<div class="flex items-center gap-3 pt-4">
+							{#each groupList as group}
+								{@const isSelected = selectedGroupList?.find((item) => item.id === group._id)}
+								<button
+									class="font-lexend hover:bg-brand-rose inline-block rounded-md border bg-white px-4 py-2 text-[11px] font-light text-black capitalize"
+									class:selected={isSelected}
+									onclick={() => selectGroup(group)}
+								>
+									{group.name}
+								</button>
+							{/each}
+						</div>
+					{/if}
 
 					<div class="mt-10">
 						<p class="font-suez mb-4 text-lg">Images</p>
@@ -460,5 +494,9 @@
 		width: 30px !important;
 		height: 30px !important;
 		background-color: #e7000b;
+	}
+
+	.selected {
+		background-color: #dcbec5 !important;
 	}
 </style>

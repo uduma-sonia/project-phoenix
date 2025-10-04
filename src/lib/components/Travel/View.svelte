@@ -5,7 +5,6 @@
 	import HabitSearch from '../Habit/Utilities/HabitSearch.svelte';
 	import TravelCard from './Utilities/TravelCard.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
-	import { openModal } from '$lib/state/modal.svelte';
 
 	let searchQuery = $state('');
 

@@ -2,7 +2,7 @@
 	import HabitSearch from '../Habit/Utilities/HabitSearch.svelte';
 	import RecipeCard from './Utilities/RecipeCard.svelte';
 
-	let { recipeList, recipeQuery } = $props();
+	let { recipeList, recipeQuery, user } = $props();
 
 	let searchQuery = $state('');
 
@@ -13,7 +13,7 @@
 
 <div>
 	<div>
-		<h3 class="font-suez p-3 text-xl">All recipes</h3>
+		<h3 class="font-suez p-3 text-lg">Recipes by {user?.username}</h3>
 
 		<div class="relative z-30 mt-4 gap-3 px-3">
 			<HabitSearch bind:searchQuery placeholder="Search recipe" />

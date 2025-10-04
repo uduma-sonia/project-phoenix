@@ -50,7 +50,9 @@
 
 	function formatNumber(num: string | number) {
 		if (num === null || num === undefined || num === '') return '';
+
 		const cleaned = String(num).replace(/,/g, '');
+
 		if (isNaN(Number(cleaned))) return String(num);
 		return new Intl.NumberFormat('en-US').format(Number(cleaned));
 	}
@@ -68,9 +70,9 @@
 
 	function transformValue(value: any) {
 		const rawValue = value;
-
 		const numericValue = rawValue.replace(/[^\d]/g, '');
 		const formattedValue = numericValue ? new Intl.NumberFormat('en-US').format(numericValue) : '';
+
 		return formattedValue;
 	}
 

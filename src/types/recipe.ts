@@ -12,25 +12,23 @@ export interface RecipeSection {
 }
 
 export type RecipeGroup = {
-	id: string;
 	name: string;
+	id: string;
 };
 
 export type Recipe = {
 	name: string;
 	slug: string;
 	images?: string[];
-
 	prepTime?: string;
 	cookTime?: string;
 	totalTime?: string;
 	servings?: string;
 	difficulty?: string;
 	calories?: string;
-
-	group?: RecipeGroup;
+	groups?: RecipeGroup[];
 	isPrivate?: boolean;
-	section?: RecipeSection[];
+	sections?: RecipeSection[];
 };
 
 export enum SectionType {
@@ -40,7 +38,17 @@ export enum SectionType {
 
 export interface RecipeResponse extends Recipe {
 	_id: string;
+	ownerId: string;
+	ownerName: string;
+	savedBy: string[];
 	createdAt: Date;
 	updatedAt: Date;
-	ownerId?: string;
+	isSaved: boolean;
+}
+
+export interface RecipeGroupResponse extends RecipeGroup {
+	_id: string;
+	ownerId: string;
+	createdAt: Date;
+	updatedAt: Date;
 }

@@ -1,177 +1,203 @@
-<!-- <script lang="ts">
-	import { Link, Trash, SquarePen, LockKeyhole } from '@lucide/svelte';
+<script lang="ts">
+	import { Trash, LockKeyhole, AlarmClock, Utensils, LockKeyholeOpen, Eye } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
-	import IngredientItem from './Utilities/IngredientItem.svelte';
-	import InstructionItem from './Utilities/InstructionItem.svelte';
-	import { createQuery } from '@tanstack/svelte-query';
-	import { queryKeys } from '$lib/utils/queryKeys';
-	import { recipeRequest } from '$lib/requests';
-	import { page } from '$app/state';
-	import Seo from '../Common/SEO.svelte';
-	import { openDeleteModal } from '$lib/state/modal.svelte';
+	import {
+		openDeleteModal,
+		openImageCarouselModal,
+		updateSelectedImage
+	} from '$lib/state/modal.svelte';
 	import { handleSelectRecipe } from '$lib/state/recipe.svelte';
 	import Helpers from '$lib/utils/helpers';
-	import BasicButton from '../Common/Form/BasicButton.svelte';
-	import { RECIPE_COUNT_TRACKER } from '$lib/constants/global';
+	import {
+		PAGE_REDIRECTED_FROM_KEY,
+		PINTEREST_BASE_URL,
+		RECIPE_COUNT_TRACKER
+	} from '$lib/constants/global';
 	import Stats from '../Common/Stats.svelte';
-	import ViewCount from './ViewCount.svelte';
-	import LoaderError from '../Common/LoaderError.svelte';
-	import type { RecipeResponse } from '../../../types/recipe';
+	import Stat from './Utilities/Stat.svelte';
+	import { type RecipeResponse } from '../../../types/recipe';
+	import type { User } from '../../../types/user';
+	import DetailActions from './Utilities/DetailActions.svelte';
+	import SectionCard from './Utilities/SectionCard.svelte';
+	import LockedRecipe from './Utilities/LockedRecipe.svelte';
+	import AuthorItem from './Utilities/AuthorItem.svelte';
+	import { addToast } from '$lib/store/toast';
 
-	let { user, isLoggedIn } = $props();
+	import { recipeRequest } from '$lib/requests';
+	import { useQueryClient } from '@tanstack/svelte-query';
+	import { queryKeys } from '$lib/utils/queryKeys';
+	import { goto } from '$app/navigation';
 
-	const detailsQuery = createQuery({
-		queryKey: queryKeys.getSingleRecipe(page.params.id),
-		queryFn: () => recipeRequest.getSingleRecipe(page.params.id)
-	});
+	const queryClient = useQueryClient();
 
-	const recipe: RecipeResponse = $derived($detailsQuery?.data?.data?.recipe);
+	let {
+		user,
+		isLoggedIn,
+		recipe,
+		detailsQuery,
+		savesList,
+		saveTotal
+	}: {
+		user: User;
+		isLoggedIn: boolean;
+		recipe: RecipeResponse;
+		detailsQuery: any;
+		savesList: string[];
+		saveTotal: number;
+	} = $props();
+
 	let isOwner = $derived(user?._id ? (user?._id === recipe?.ownerId ? true : false) : false);
 	let trackerLogged = $derived(
 		typeof window !== 'undefined' ? sessionStorage.getItem(RECIPE_COUNT_TRACKER) : ''
 	);
+	let isSaving = $state(false);
+
+	function hasSavedRecipe() {
+		if (savesList?.length && user?._id) {
+			if (savesList.includes(user?._id)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
 
 	function copyLink() {
 		Helpers.copyToClipboard(window?.location?.href, 'Link copied');
 	}
 
-	function shareToPinterest() {
-		const baseUrl = 'https://www.pinterest.com/pin/create/button';
-		const url = encodeURIComponent(window?.location?.href);
-		const media = encodeURIComponent(recipe?.imageUrl || '');
-		const description = encodeURIComponent(recipe?.name || '');
-		const pinterestUrl = `${baseUrl}?url=${url}&media=${media}&description=${description}`;
-		window.open(pinterestUrl, '_blank', 'noopener,noreferrer');
+	async function saveRecipe() {
+		if (!isLoggedIn) {
+			const _link = `${window.location.pathname}${window.location.search}`;
+			sessionStorage.setItem(PAGE_REDIRECTED_FROM_KEY, _link);
+			goto(`/signup`);
+			return false;
+		}
+		try {
+			isSaving = true;
+
+			if (hasSavedRecipe()) {
+				await recipeRequest.unsaveRecipe(recipe._id);
+				addToast('Recipe unsaved', 'success');
+			} else {
+				await recipeRequest.saveRecipe(recipe._id);
+				addToast('Recipe saved', 'success');
+			}
+			queryClient.invalidateQueries({ queryKey: queryKeys.getRecipeSaveList(recipe._id) });
+		} catch (error: any) {
+			addToast(error?.message || 'An error occured', 'error');
+		} finally {
+			isSaving = false;
+		}
 	}
 
-	let backLink = $derived(
-		isLoggedIn
-			? isOwner
-				? `/recipe`
-				: `/recipe/user/${recipe?.ownerId}`
-			: `/recipe/user/${recipe?.ownerId}`
-	);
+	function viewImages() {
+		if (recipe.images?.length) {
+			updateSelectedImage(recipe.images);
+			openImageCarouselModal();
+		} else {
+			addToast('No image to display', 'error');
+		}
+	}
+
+	function shareToPinterest() {
+		const baseUrl = PINTEREST_BASE_URL;
+		const url = encodeURIComponent(window?.location?.href);
+		const media = recipe?.images?.length ? encodeURIComponent(recipe?.images[0]) : '';
+		const description = encodeURIComponent(recipe?.name || '');
+		const pinterestUrl = `${baseUrl}?${Helpers.formatQueryParams({ url, media, description })}`;
+		window.open(pinterestUrl, '_blank', 'noopener,noreferrer');
+	}
 </script>
 
-<Seo title={recipe?.name || 'Recipe'} />
-
-<LoaderError isLoading={$detailsQuery?.isLoading} error={$detailsQuery?.isError} />
+{#snippet detailItem(label: string, value?: string, Icon?: any)}
+	{#if value}
+		<div class="flex min-w-max items-center gap-1">
+			<p class="font-lexend-deca flex items-center gap-1 text-sm">
+				<Icon size="18px" />
+				{label}:
+			</p>
+			<p class="font-lexend-deca text-sm font-light">{value}</p>
+		</div>
+	{/if}
+{/snippet}
 
 {#if !$detailsQuery?.isLoading && recipe}
 	{#if recipe?.isPrivate && !isOwner}
-		<div class="pt-20">
-			<div
-				class="mx-auto flex h-[300px] max-w-[300px] flex-col items-center justify-center rounded-2xl border-2 border-black p-4 text-center"
-			>
-				<LockKeyhole size="30px" />
-				<p class="font-lexend my-12 text-sm font-light">
-					Sorry, this recipe has been locked by the owner
-				</p>
-
-				<a href={`/recipe/user/${recipe?.ownerId}`}>
-					<BasicButton label="View other recipes" />
-				</a>
-			</div>
-		</div>
+		<LockedRecipe {recipe} />
 	{:else}
 		{#if !isOwner && !trackerLogged}
 			<Stats ref={recipe?._id} section="Recipe" />
 		{/if}
 
 		<div class="mx-auto mt-4 max-w-[500px] px-3 pb-24">
-			<BackComponent {backLink} title={recipe?.name} />
+			{#if isLoggedIn}
+				<div class="flex items-center gap-3">
+					<BackComponent backLink="/recipe" title={recipe?.name} />
+
+					<div class="mb-1.5">
+						{#if isOwner}
+							{#if recipe.isPrivate}
+								<LockKeyhole size="16px" />
+							{:else}
+								<LockKeyholeOpen size="16px" />
+							{/if}
+						{/if}
+					</div>
+				</div>
+			{/if}
 
 			<div class="mt-6">
 				<div class="image_wrapper h-[200px]">
-					<div
+					<button
 						class="relative z-10 h-full w-full cursor-pointer gap-3 overflow-hidden rounded-lg border-2 border-black bg-white"
+						onclick={viewImages}
 					>
-						{#if recipe?.imageUrl}
+						{#if recipe?.images}
 							<img
-								src={recipe?.imageUrl}
+								src={recipe?.images[0]}
 								alt=""
 								class="max-h-full w-full max-w-full object-cover"
 							/>
 						{/if}
-					</div>
+
+						<div class="absolute top-3 right-3 z-20">
+							<Eye color="white" />
+						</div>
+					</button>
 				</div>
 
-				<div class="mt-4 flex items-center justify-between gap-3">
-					<div class="flex items-center gap-3">
-						<div>
-							<button
-								class="shadow_button shadow_button_sm"
-								style="height: 40px"
-								onclick={shareToPinterest}
-							>
-								<img src="/images/pinterest_logo.svg" class="w-5" alt="" />
-							</button>
-						</div>
-						<div>
-							<button
-								class="shadow_button shadow_button_sm"
-								style="height: 40px"
-								onclick={copyLink}
-							>
-								<Link size="20px" />
-							</button>
-						</div>
-					</div>
+				<DetailActions
+					{hasSavedRecipe}
+					{isSaving}
+					{shareToPinterest}
+					{copyLink}
+					{isOwner}
+					{saveRecipe}
+				/>
 
-					<div>
-						{#if isOwner}
-							<a href={`/recipe/${page.params.id}/edit`}>
-								<button class="shadow_button shadow_button_sm" style="height: 40px">
-									<SquarePen size="20px" />
-								</button>
-							</a>
-						{/if}
-					</div>
+				<p class="mt-4 mb-4 text-xl font-medium">
+					{recipe.name}
+				</p>
+
+				<AuthorItem {recipe} />
+
+				<div class="mt-4 flex flex-wrap gap-4">
+					{@render detailItem('Prep time', recipe?.prepTime, AlarmClock)}
+					{@render detailItem('Cook time', recipe?.cookTime, AlarmClock)}
+					{@render detailItem('Total time', recipe?.totalTime, AlarmClock)}
+					{@render detailItem('Servings', recipe?.servings, Utensils)}
+					{@render detailItem('Difficulty', recipe?.difficulty)}
+					{@render detailItem('Calories', recipe?.calories)}
 				</div>
 
-				<div class="mt-8">
-					<div>
-						<div class="flex items-center justify-between gap-3">
-							<h3 class="text-xl">Ingredients</h3>
-
-							<div>
-								<a href={`/recipe/user/${recipe?.ownerId}`}>
-									<p class="font-lexend text text-xs underline">View my other recipes</p>
-								</a>
-							</div>
-						</div>
-
-						<div class="mt-4 space-y-3">
-							{#each recipe?.ingredients as item, index (index)}
-								<IngredientItem name={item?.value} />
-							{/each}
-						</div>
-					</div>
-
-					<div class="mt-8">
-						<h3 class="text-xl">Instructions</h3>
-
-						<div class="mt-4 space-y-4">
-							{#each recipe?.method as item, index (index)}
-								<InstructionItem name={item?.value} step={'' + (index + 1)} />
-							{/each}
-						</div>
-					</div>
-
-					<div class="mt-8">
-						<h3 class="text-xl">Additional notes</h3>
-
-						<div class="mt-4">
-							<p class="font-lexend font-light">{'Additional notes'}</p>
-						</div>
-					</div>
-				</div>
+				<SectionCard {recipe} />
 			</div>
 
-			{#if isOwner}
-				<div class="mt-16 flex items-center justify-between">
-					<ViewCount ref={recipe?._id} />
+			<div class="mt-16 flex items-center justify-between">
+				<Stat ref={recipe?._id} {saveTotal} />
 
+				{#if isOwner}
 					<div>
 						<button
 							class="shadow_button shadow_button_sm text-red-600"
@@ -184,8 +210,8 @@
 							<Trash size="20px" />
 						</button>
 					</div>
-				</div>
-			{/if}
+				{/if}
+			</div>
 		</div>
 	{/if}
 {/if}
@@ -211,4 +237,4 @@
 		width: 100%;
 		height: 100%;
 	}
-</style> -->
+</style>

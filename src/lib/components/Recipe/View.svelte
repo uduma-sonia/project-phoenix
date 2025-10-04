@@ -1,28 +1,37 @@
 <script lang="ts">
 	import { createQuery } from '@tanstack/svelte-query';
 	import HabitSearch from '../Habit/Utilities/HabitSearch.svelte';
-	// import GroupScroller from './Utilities/GroupScroller.svelte';
+	import GroupScroller from './Utilities/GroupScroller.svelte';
 	import RecipeCard from './Utilities/RecipeCard.svelte';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { recipeRequest } from '$lib/requests';
 	import LoaderError from '../Common/LoaderError.svelte';
+	import RecipeUtils from './Utilities/utils';
+	import useCurrentUser from '$lib/hooks/useCurrentUser';
 
 	let searchQuery = $state('');
+	let currentTab = $state('All');
+
+	let userQuery = useCurrentUser(Boolean());
+	let user = $derived($userQuery?.data?.data?.user);
 
 	let recipeQuery = createQuery({
 		queryKey: queryKeys.getRecipes,
 		queryFn: () => recipeRequest.getRecipes()
 	});
 
-	let recipeList = $derived($recipeQuery?.data?.data?.recipe);
-
+	let recipeList = $derived($recipeQuery?.data?.data?.recipes);
 	let filteredRecipeList = $derived(
-		recipeList?.filter((item: any) => item.name.toUpperCase().includes(searchQuery?.toUpperCase()))
+		RecipeUtils.getlist(recipeList, currentTab, user?._id, searchQuery)
 	);
+
+	function handleChangeTab(tab: string) {
+		currentTab = tab;
+	}
 </script>
 
 <div class="pb-24">
-	<!-- <GroupScroller /> -->
+	<GroupScroller {handleChangeTab} {currentTab} />
 
 	<div class="relative z-30 mt-5 gap-3 px-3">
 		<HabitSearch bind:searchQuery placeholder="Search recipe" />

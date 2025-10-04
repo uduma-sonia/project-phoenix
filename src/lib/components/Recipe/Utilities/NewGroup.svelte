@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { page } from '$app/state';
 	import BasicInputField from '$lib/components/Common/Form/BasicInputField.svelte';
-	import { tripRequest } from '$lib/requests';
+	import { recipeRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { useQueryClient } from '@tanstack/svelte-query';
@@ -19,17 +18,15 @@
 		try {
 			isLoading = true;
 			const payload = {
-				name: groupName,
-				tripId: page.params.id
+				name: groupName
 			};
 
 			groupName = '';
-
-			const result = await tripRequest.createTripActivityGroup(payload);
+			const result = await recipeRequest.createRecipeGroup(payload);
 
 			if (result) {
 				queryClient.invalidateQueries({
-					queryKey: queryKeys.getTripActivityGroups(page.params.id)
+					queryKey: queryKeys.getRecipeGroups
 				});
 				toggleView();
 			}
@@ -41,8 +38,8 @@
 	}
 </script>
 
-<div class="flex items-center gap-4">
-	<div>
+<div class="flex h-[56px] items-center gap-4">
+	<div class="max-w-[400px] flex-1">
 		<BasicInputField bind:value={groupName} placeholder="Group name" />
 	</div>
 

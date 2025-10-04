@@ -1,8 +1,14 @@
 <script lang="ts">
-	let { recipe } = $props();
+	import { Heart } from '@lucide/svelte';
+	import type { RecipeResponse } from '../../../../types/recipe';
+
+	let { recipe }: { recipe: RecipeResponse } = $props();
 </script>
 
-<a href={`/recipe/${recipe?.slug}`} class="button_active cursor-pointer">
+<a
+	href={`/recipe/${recipe?.slug}?owner=${recipe.ownerId}`}
+	class="button_active relative cursor-pointer"
+>
 	<div class="bg-brand-recipe relative h-6 w-16 rounded-tl-lg border-2 border-b-0">
 		<div class="bg-brand-recipe absolute top-2 -right-10 h-20 w-full -rotate-45 border-r-2"></div>
 	</div>
@@ -16,6 +22,12 @@
 			</div>
 		</div>
 	</div>
+
+	{#if recipe.isSaved}
+		<div class="absolute right-3 bottom-3 z-50">
+			<Heart size="18px" fill="#101010" />
+		</div>
+	{/if}
 </a>
 
 <style>

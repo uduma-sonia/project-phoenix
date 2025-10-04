@@ -1,76 +1,71 @@
 <script lang="ts">
-	import { Play, Plus } from '@lucide/svelte';
+	import { Heart, Plus } from '@lucide/svelte';
+	import NewGroup from './NewGroup.svelte';
+	import { createQuery } from '@tanstack/svelte-query';
+	import { queryKeys } from '$lib/utils/queryKeys';
+	import { recipeRequest } from '$lib/requests';
+	import TabButton from '$lib/components/Common/TabButton.svelte';
 
-	let middle_container: any;
+	let { currentTab = $bindable(), handleChangeTab } = $props();
 
-	const handleScrollRight = () => {
-		middle_container.scrollLeft += 300;
-	};
+	let addNewGroup = $state(false);
 
-	const groupList = [
-		{
-			name: 'Breakfast'
-		},
-		{
-			name: 'Lunch'
-		},
-		{
-			name: 'Dinner'
-		},
-		{
-			name: 'Baking'
-		},
-		{
-			name: 'Stoner'
-		},
-		{
-			name: 'Airfryer'
-		},
-		{
-			name: 'Snacks'
-		},
-		{
-			name: 'Baking'
-		},
-		{
-			name: 'Stoner'
-		},
-		{
-			name: 'Airfryer'
-		},
-		{
-			name: 'Snacks'
-		}
-	];
+	const groupQuery = createQuery({
+		queryKey: queryKeys.getRecipeGroups,
+		queryFn: () => recipeRequest.getRecipeGroups()
+	});
+
+	let groupList = $derived($groupQuery?.data?.data?.recipeGroups);
+
+	// let filteredGroupList = $derived(
+	// 	groupList?.filter((item: RecipeGroup) => {
+	// 		console.log(item);
+	// 		if (currentTab === 'All') {
+	// 			return item;
+	// 		} else {
+	// 			if (currentTab === item.name) {
+	// 				return item;
+	// 			}
+	// 		}
+	// 	}) || []
+	// );
+
+	// $effect(() => console.log($state.snapshot(filteredGroupList)));
+
+	function changeTab(arg: string) {
+		currentTab = arg;
+		handleChangeTab(arg);
+	}
+
+	function toggleView() {
+		addNewGroup = !addNewGroup;
+	}
 </script>
 
 <div class="my-4 px-3">
-	<div class="flex items-center gap-3 overflow-hidden py-1 pr-1">
-		<div>
-			<button class="shadow_button shadow_button_sm">
-				<Plus />
-			</button>
+	{#if !addNewGroup}
+		<div class="flex items-center gap-3 overflow-hidden pr-1">
+			<div
+				class="middle_container no-scrollbar flex max-w-[83.5%] flex-1 flex-nowrap items-center gap-3 overflow-x-auto sm:gap-4"
+			>
+				<TabButton name={'All'} {changeTab} {currentTab} />
+				<TabButton name={'Saved'} {changeTab} {currentTab} LeftIcon={Heart} />
+
+				{#each groupList as group, index (index)}
+					<TabButton name={group?.name} {changeTab} {currentTab} />
+				{/each}
+			</div>
+			<div>
+				<button class="shadow_button shadow_button_sm" onclick={toggleView}>
+					<Plus />
+				</button>
+			</div>
 		</div>
-		<div
-			bind:this={middle_container}
-			class="middle_container no-scrollbar flex max-w-[83.5%] flex-1 flex-nowrap items-center gap-3 overflow-x-auto sm:gap-4"
-		>
-			{#each groupList as group, index (index)}
-				<div class="min-w-[100px] sm:min-w-[120px]">
-					<button
-						class="bg-brand-rose font-lexend button_active flex h-[50px] w-full items-center justify-center gap-1 rounded-lg border-2 border-black text-sm font-normal sm:text-base"
-					>
-						{group?.name}
-					</button>
-				</div>
-			{/each}
-		</div>
-		<div>
-			<button class="shadow_button shadow_button_sm" onclick={handleScrollRight}>
-				<Play />
-			</button>
-		</div>
-	</div>
+	{/if}
+
+	{#if addNewGroup}
+		<NewGroup {toggleView} />
+	{/if}
 </div>
 
 <style>
