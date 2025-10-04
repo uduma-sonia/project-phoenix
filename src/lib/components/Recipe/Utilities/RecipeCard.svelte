@@ -2,11 +2,7 @@
 	import { Heart } from '@lucide/svelte';
 	import type { RecipeResponse } from '../../../../types/recipe';
 
-	let { recipe, userId }: { recipe: RecipeResponse; userId: string } = $props();
-
-	let isSaved = recipe.savedBy.includes(userId);
-
-	let owner = recipe.ownerId;
+	let { recipe }: { recipe: RecipeResponse } = $props();
 </script>
 
 <a
@@ -27,7 +23,7 @@
 		</div>
 	</div>
 
-	{#if isSaved}
+	{#if recipe.isSaved}
 		<div class="absolute right-3 bottom-3 z-50">
 			<Heart size="18px" fill="#101010" />
 		</div>

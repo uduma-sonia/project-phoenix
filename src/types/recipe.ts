@@ -43,6 +43,7 @@ export interface RecipeResponse extends Recipe {
 	savedBy: string[];
 	createdAt: Date;
 	updatedAt: Date;
+	isSaved: boolean;
 }
 
 export interface RecipeGroupResponse extends RecipeGroup {

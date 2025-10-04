@@ -8,7 +8,6 @@
 	import LoaderError from '../Common/LoaderError.svelte';
 	import RecipeUtils from './Utilities/utils';
 	import useCurrentUser from '$lib/hooks/useCurrentUser';
-	import type { RecipeResponse } from '../../../types/recipe';
 
 	let searchQuery = $state('');
 	let currentTab = $state('All');
@@ -22,7 +21,7 @@
 	});
 
 	let recipeList = $derived($recipeQuery?.data?.data?.recipes);
-	let filteredRecipeList = $derived(RecipeUtils.getlist(recipeList, currentTab));
+	let filteredRecipeList = $derived(RecipeUtils.getlist(recipeList, currentTab, user?._id));
 
 	function handleChangeTab(tab: string) {
 		currentTab = tab;
@@ -42,7 +41,7 @@
 		<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
 			{#if !$recipeQuery?.isLoading && filteredRecipeList?.length > 0}
 				{#each filteredRecipeList as recipe, index (index)}
-					<RecipeCard {recipe} userId={user?._id} />
+					<RecipeCard {recipe} />
 				{/each}
 			{/if}
 		</div>
