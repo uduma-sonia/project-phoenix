@@ -20,7 +20,7 @@ class RecipeUtils {
 			}
 		});
 
-		return result.filter((item) => item.name.toUpperCase().includes(searchQuery?.toUpperCase()));
+		return result?.filter((item) => item.name.toUpperCase().includes(searchQuery?.toUpperCase()));
 	}
 }
 

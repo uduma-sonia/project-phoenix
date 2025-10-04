@@ -18,5 +18,5 @@
 
 <AppLayout withName={false}>
 	<NameCard username={user?.username || ''} />
-	<UserRecipes {recipeList} {recipeQuery} />
+	<UserRecipes {recipeList} {user} {recipeQuery} />
 </AppLayout>
