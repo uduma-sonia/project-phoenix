@@ -1,19 +1,18 @@
 <script lang="ts">
-	import { Trash, LockKeyhole, AlarmClock, Utensils } from '@lucide/svelte';
+	import { Trash, LockKeyhole, AlarmClock, Utensils, LockKeyholeOpen } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
-	import IngredientItem from './Utilities/IngredientItem.svelte';
-	import Seo from '../Common/SEO.svelte';
 	import { openDeleteModal } from '$lib/state/modal.svelte';
 	import { handleSelectRecipe } from '$lib/state/recipe.svelte';
 	import Helpers from '$lib/utils/helpers';
-	import BasicButton from '../Common/Form/BasicButton.svelte';
 	import { PINTEREST_BASE_URL, RECIPE_COUNT_TRACKER } from '$lib/constants/global';
 	import Stats from '../Common/Stats.svelte';
 	import ViewCount from './ViewCount.svelte';
-	import LoaderError from '../Common/LoaderError.svelte';
-	import { SectionType, type RecipeResponse } from '../../../types/recipe';
+	import { type RecipeResponse } from '../../../types/recipe';
 	import type { User } from '../../../types/user';
 	import DetailActions from './Utilities/DetailActions.svelte';
+	import SectionCard from './Utilities/SectionCard.svelte';
+	import LockedRecipe from './Utilities/LockedRecipe.svelte';
+	import AuthorItem from './Utilities/AuthorItem.svelte';
 
 	let {
 		user,
@@ -30,6 +29,8 @@
 	function copyLink() {
 		Helpers.copyToClipboard(window?.location?.href, 'Link copied');
 	}
+
+	function saveRecipe() {}
 
 	function shareToPinterest() {
 		const baseUrl = PINTEREST_BASE_URL;
@@ -49,10 +50,6 @@
 	);
 </script>
 
-<Seo title={recipe?.name || 'Recipe'} />
-
-<LoaderError isLoading={$detailsQuery?.isLoading} error={$detailsQuery?.isError} />
-
 {#snippet detailItem(label: string, value?: string, Icon?: any)}
 	{#if value}
 		<div class="flex min-w-max items-center gap-1">
@@ -67,27 +64,24 @@
 
 {#if !$detailsQuery?.isLoading && recipe}
 	{#if recipe?.isPrivate && !isOwner}
-		<div class="pt-20">
-			<div
-				class="mx-auto flex h-[300px] max-w-[300px] flex-col items-center justify-center rounded-2xl border-2 border-black p-4 text-center"
-			>
-				<LockKeyhole size="30px" />
-				<p class="font-lexend my-12 text-sm font-light">
-					Sorry, this recipe has been locked by the owner
-				</p>
-
-				<a href={`/recipe/user/${recipe?.ownerId}`}>
-					<BasicButton label="View other recipes" />
-				</a>
-			</div>
-		</div>
+		<LockedRecipe {recipe} />
 	{:else}
 		{#if !isOwner && !trackerLogged}
 			<Stats ref={recipe?._id} section="Recipe" />
 		{/if}
 
 		<div class="mx-auto mt-4 max-w-[500px] px-3 pb-24">
-			<BackComponent {backLink} title={recipe?.name} />
+			<div class="flex items-center gap-3">
+				<BackComponent {backLink} title={recipe?.name} />
+
+				<div class="mb-1.5">
+					{#if recipe.isPrivate}
+						<LockKeyhole size="16px" />
+					{:else}
+						<LockKeyholeOpen size="16px" />
+					{/if}
+				</div>
+			</div>
 
 			<div class="mt-6">
 				<div class="image_wrapper h-[200px]">
@@ -104,16 +98,8 @@
 					</div>
 				</div>
 
-				<DetailActions {shareToPinterest} {copyLink} {isOwner} />
-
-				<div class="mt-8 flex min-w-max items-center gap-1">
-					<p class="font-lexend-deca text-sm font-medium">Author:</p>
-
-					<a
-						href={`/recipe/user/${recipe?.ownerId}`}
-						class="font-lexend-deca text-sm font-light underline">{recipe?.owner?.username}</a
-					>
-				</div>
+				<DetailActions {shareToPinterest} {copyLink} {isOwner} {saveRecipe} />
+				<AuthorItem {recipe} />
 
 				<div class="mt-4 flex flex-wrap gap-4">
 					{@render detailItem('Prep time', recipe?.prepTime, AlarmClock)}
@@ -124,34 +110,7 @@
 					{@render detailItem('Calories', recipe?.calories)}
 				</div>
 
-				<div class="mt-8 space-y-8">
-					{#if recipe?.sections?.length}
-						{#each recipe.sections as section, index (index)}
-							<div>
-								<div class="flex items-center justify-between gap-3">
-									<h3 class="text-xl">{section.name}</h3>
-								</div>
-
-								{#if section.type === SectionType.LIST}
-									{#if section?.list?.length}
-										<div class="mt-2 space-y-3">
-											{#each section?.list as item, index (index)}
-												<IngredientItem name={item?.value} />
-											{/each}
-										</div>
-									{/if}
-								{/if}
-								{#if section.type === SectionType.PARAPGRAPH}
-									{#if section?.paragraph}
-										<p class="font-lexend font-light">
-											{section?.paragraph}
-										</p>
-									{/if}
-								{/if}
-							</div>
-						{/each}
-					{/if}
-				</div>
+				<SectionCard {recipe} />
 			</div>
 
 			{#if isOwner}

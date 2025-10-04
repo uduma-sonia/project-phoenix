@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { Link, SquarePen } from '@lucide/svelte';
+	import { Link, SquarePen, Heart } from '@lucide/svelte';
 
-	let { shareToPinterest, copyLink, isOwner } = $props();
+	let { shareToPinterest, copyLink, isOwner, saveRecipe } = $props();
 </script>
 
 <div class="mt-4 flex items-center justify-between gap-3">
@@ -19,6 +19,11 @@
 		<div>
 			<button class="shadow_button shadow_button_sm" style="height: 40px" onclick={copyLink}>
 				<Link size="20px" />
+			</button>
+		</div>
+		<div>
+			<button class="shadow_button shadow_button_sm" style="height: 40px" onclick={copyLink}>
+				<Heart size="20px" />
 			</button>
 		</div>
 	</div>

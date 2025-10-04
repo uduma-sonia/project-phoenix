@@ -10,6 +10,8 @@
 	import type { RecipeResponse } from '../../../../types/recipe';
 	import { recipeRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
+	import SEO from '$lib/components/Common/SEO.svelte';
+	import LoaderError from '$lib/components/Common/LoaderError.svelte';
 
 	const token = $derived(Helpers.getCookie(AUTH_TOKEN));
 
@@ -25,6 +27,8 @@
 </script>
 
 <AppLayout withName={false}>
+	<SEO title={recipe?.name || 'Recipe'} />
+	<LoaderError isLoading={$detailsQuery?.isLoading} error={$detailsQuery?.isError} />
 	<DetailsView {recipe} {detailsQuery} {user} isLoggedIn={Boolean(token)} />
 </AppLayout>
 
