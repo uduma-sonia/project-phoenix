@@ -36,7 +36,7 @@
 	};
 </script>
 
-<ModalWrapper {onClose} {isOpen} maxWidth="max-w-[800px]" label="Profile">
+<ModalWrapper {onClose} {isOpen} maxWidth="max-w-[500px] md:max-w-[800px]" label="Profile">
 	<div class="flex items-stretch gap-2 p-4 pb-20">
 		<div class="w-full md:w-1/2 md:border-r-2 md:pr-4">
 			<div class="space-y-3">

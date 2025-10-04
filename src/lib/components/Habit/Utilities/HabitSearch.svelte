@@ -1,5 +1,11 @@
 <script lang="ts">
+	import { X } from '@lucide/svelte';
+
 	let { searchQuery = $bindable(), placeholder = 'Search', ...restProps } = $props();
+
+	function clearField() {
+		searchQuery = '';
+	}
 </script>
 
 <div class="flex max-w-[300px] flex-1 gap-3">
@@ -13,11 +19,15 @@
 				{...restProps}
 			/>
 
-			<img
-				src="/images/search.svg"
-				class="absolute top-1/2 right-3 z-50 w-6 -translate-y-1/2"
-				alt=""
-			/>
+			<div class={`absolute right-3 bottom-[14px] z-40`}>
+				<button
+					type="button"
+					class="bg-brand-light flex h-5 w-5 items-center justify-center rounded-full border border-gray-300"
+					onclick={clearField}
+				>
+					<X size="14px" />
+				</button>
+			</div>
 		</div>
 	</div>
 </div>
