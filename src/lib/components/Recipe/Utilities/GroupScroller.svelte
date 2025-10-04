@@ -1,12 +1,14 @@
 <script lang="ts">
-	import { Plus } from '@lucide/svelte';
+	import { Heart, Plus } from '@lucide/svelte';
 	import NewGroup from './NewGroup.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { recipeRequest } from '$lib/requests';
+	import TabButton from '$lib/components/Common/TabButton.svelte';
+
+	let { currentTab = $bindable(), handleChangeTab } = $props();
 
 	let addNewGroup = $state(false);
-	let currentTab = $state('ALL');
 
 	const groupQuery = createQuery({
 		queryKey: queryKeys.getRecipeGroups,
@@ -15,8 +17,24 @@
 
 	let groupList = $derived($groupQuery?.data?.data?.recipeGroups);
 
+	// let filteredGroupList = $derived(
+	// 	groupList?.filter((item: RecipeGroup) => {
+	// 		console.log(item);
+	// 		if (currentTab === 'All') {
+	// 			return item;
+	// 		} else {
+	// 			if (currentTab === item.name) {
+	// 				return item;
+	// 			}
+	// 		}
+	// 	}) || []
+	// );
+
+	// $effect(() => console.log($state.snapshot(filteredGroupList)));
+
 	function changeTab(arg: string) {
 		currentTab = arg;
+		handleChangeTab(arg);
 	}
 
 	function toggleView() {
@@ -30,24 +48,11 @@
 			<div
 				class="middle_container no-scrollbar flex max-w-[83.5%] flex-1 flex-nowrap items-center gap-3 overflow-x-auto sm:gap-4"
 			>
-				<div class="min-w-fit">
-					<button
-						class="bg-brand-rose font-lexend button_active h-[50px] rounded-lg border-2 border-black px-6 font-light"
-						onclick={() => changeTab('ALL')}
-						class:selected={currentTab === 'ALL'}
-					>
-						All
-					</button>
-				</div>
+				<TabButton name={'All'} {changeTab} {currentTab} />
+				<TabButton name={'Saved'} {changeTab} {currentTab} LeftIcon={Heart} />
 
 				{#each groupList as group, index (index)}
-					<div class="min-w-[100px] sm:min-w-[120px]">
-						<button
-							class="bg-brand-rose font-lexend button_active flex h-[50px] w-full items-center justify-center gap-1 rounded-lg border-2 border-black text-sm font-normal sm:text-base"
-						>
-							{group?.name}
-						</button>
-					</div>
+					<TabButton name={group?.name} {changeTab} {currentTab} />
 				{/each}
 			</div>
 			<div>
@@ -67,9 +72,5 @@
 	.middle_container {
 		transition: all 0.3s linear;
 		scroll-behavior: smooth;
-	}
-
-	.selected {
-		background-color: #c2e08a !important;
 	}
 </style>

@@ -39,8 +39,8 @@
 </script>
 
 <div class="flex h-[56px] items-center gap-4">
-	<div>
-		<BasicInputField bind:value={groupName} placeholder="New group" />
+	<div class="max-w-[400px] flex-1">
+		<BasicInputField bind:value={groupName} placeholder="Group name" />
 	</div>
 
 	<div class="flex items-center gap-3">

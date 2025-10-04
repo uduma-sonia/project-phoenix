@@ -13,21 +13,20 @@ export interface RecipeSection {
 
 export type RecipeGroup = {
 	name: string;
+	id: string;
 };
 
 export type Recipe = {
 	name: string;
 	slug: string;
 	images?: string[];
-
 	prepTime?: string;
 	cookTime?: string;
 	totalTime?: string;
 	servings?: string;
 	difficulty?: string;
 	calories?: string;
-
-	group?: RecipeGroup;
+	groups?: RecipeGroup[];
 	isPrivate?: boolean;
 	sections?: RecipeSection[];
 };

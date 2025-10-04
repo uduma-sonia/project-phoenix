@@ -6,8 +6,10 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { recipeRequest } from '$lib/requests';
 	import LoaderError from '../Common/LoaderError.svelte';
+	import RecipeUtils from './Utilities/utils';
 
 	let searchQuery = $state('');
+	let currentTab = $state('All');
 
 	let recipeQuery = createQuery({
 		queryKey: queryKeys.getRecipes,
@@ -16,13 +18,15 @@
 
 	let recipeList = $derived($recipeQuery?.data?.data?.recipe);
 
-	let filteredRecipeList = $derived(
-		recipeList?.filter((item: any) => item.name.toUpperCase().includes(searchQuery?.toUpperCase()))
-	);
+	function handleChangeTab(tab: string) {
+		currentTab = tab;
+	}
+
+	let filteredRecipeList = $derived(RecipeUtils.getlist(recipeList, currentTab));
 </script>
 
 <div class="pb-24">
-	<GroupScroller />
+	<GroupScroller {handleChangeTab} {currentTab} />
 
 	<div class="relative z-30 mt-5 gap-3 px-3">
 		<HabitSearch bind:searchQuery placeholder="Search recipe" />

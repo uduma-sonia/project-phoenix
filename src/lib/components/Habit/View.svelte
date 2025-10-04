@@ -180,7 +180,8 @@
 <div class="pb-24">
 	<DateScroller />
 
-	<div class="relative z-30 mt-8 gap-3 px-3">
+	<!-- <div class="relative z-30 mt-8 gap-3 px-3"> -->
+	<div class="relative z-30 mt-5 gap-3 px-3">
 		<HabitSearch placeholder="Search tracker" bind:searchQuery />
 	</div>
 

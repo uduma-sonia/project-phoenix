@@ -43,7 +43,7 @@
 
 <div class="flex items-center gap-4">
 	<div>
-		<BasicInputField bind:value={groupName} placeholder="New group" />
+		<BasicInputField bind:value={groupName} placeholder="Group name" />
 	</div>
 
 	<div class="flex items-center gap-3">
