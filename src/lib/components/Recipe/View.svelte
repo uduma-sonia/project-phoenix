@@ -21,7 +21,9 @@
 	});
 
 	let recipeList = $derived($recipeQuery?.data?.data?.recipes);
-	let filteredRecipeList = $derived(RecipeUtils.getlist(recipeList, currentTab, user?._id));
+	let filteredRecipeList = $derived(
+		RecipeUtils.getlist(recipeList, currentTab, user?._id, searchQuery)
+	);
 
 	function handleChangeTab(tab: string) {
 		currentTab = tab;

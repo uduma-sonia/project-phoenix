@@ -1,7 +1,7 @@
 import type { RecipeResponse } from '../../../../types/recipe';
 
 class RecipeUtils {
-	static getlist(arr: RecipeResponse[], currentTab: string, ownerId: string) {
+	static getlist(arr: RecipeResponse[], currentTab: string, ownerId: string, searchQuery: string) {
 		const result = arr?.filter((item) => {
 			const groupList: string[] = item?.groups?.length
 				? item?.groups.map((item: { name: string }) => item.name)
@@ -20,7 +20,7 @@ class RecipeUtils {
 			}
 		});
 
-		return result;
+		return result.filter((item) => item.name.toUpperCase().includes(searchQuery?.toUpperCase()));
 	}
 }
 

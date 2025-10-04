@@ -20,8 +20,8 @@
 
 			if (result) {
 				Helpers.setCookie(AUTH_TOKEN, result?.data?.data?.data?.access_token, 4000000);
-
 				const redirectUrl = sessionStorage.getItem(PAGE_REDIRECTED_FROM_KEY) || '';
+
 				if (redirectUrl) {
 					goto(redirectUrl);
 					sessionStorage.removeItem(PAGE_REDIRECTED_FROM_KEY);
