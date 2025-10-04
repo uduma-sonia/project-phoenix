@@ -13,13 +13,19 @@
 		queryFn: () => recipeRequest.getSingleRecipe(page.params.id)
 	});
 
+	const groupQuery = createQuery({
+		queryKey: queryKeys.getRecipeGroups,
+		queryFn: () => recipeRequest.getRecipeGroups()
+	});
+
 	let recipe: RecipeResponse = $derived($recipeQuery?.data?.data?.recipe);
+	let groupList = $derived($groupQuery?.data?.data?.recipeGroups);
 </script>
 
 <AppLayout withName={false}>
 	<Seo title="Edit recipe" />
 
 	{#if recipe?._id}
-		<EditRecipe {recipe} />
+		<EditRecipe {recipe} {groupList} />
 	{/if}
 </AppLayout>

@@ -3,6 +3,8 @@
 	import { Link, SquarePen, Heart } from '@lucide/svelte';
 
 	let { shareToPinterest, copyLink, isOwner, saveRecipe, isSaving, hasSavedRecipe } = $props();
+
+	let ownerId = $derived(page.url.searchParams.get('owner'));
 </script>
 
 <div class="mt-4 flex items-center justify-between gap-3">
@@ -37,7 +39,7 @@
 
 	<div>
 		{#if isOwner}
-			<a href={`/recipe/${page.params.id}/edit`}>
+			<a href={`/recipe/${page.params.id}/edit?owner=${ownerId}`}>
 				<button class="shadow_button shadow_button_sm" style="height: 40px">
 					<SquarePen size="18px" />
 				</button>

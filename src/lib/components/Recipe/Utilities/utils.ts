@@ -20,7 +20,6 @@ class RecipeUtils {
 			}
 		});
 
-		console.log(result);
 		return result;
 	}
 }
