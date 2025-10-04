@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import InputField from '$lib/components/Common/InputField.svelte';
+	import InputField from '$lib/components/Common/Form/InputField.svelte';
 	import { tripRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';

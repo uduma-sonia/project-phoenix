@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
 	import { Link, Trash, SquarePen, LockKeyhole } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import IngredientItem from './Utilities/IngredientItem.svelte';
@@ -11,11 +11,12 @@
 	import { openDeleteModal } from '$lib/state/modal.svelte';
 	import { handleSelectRecipe } from '$lib/state/recipe.svelte';
 	import Helpers from '$lib/utils/helpers';
-	import BasicButton from '../Common/BasicButton.svelte';
+	import BasicButton from '../Common/Form/BasicButton.svelte';
 	import { RECIPE_COUNT_TRACKER } from '$lib/constants/global';
 	import Stats from '../Common/Stats.svelte';
 	import ViewCount from './ViewCount.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
+	import type { RecipeResponse } from '../../../types/recipe';
 
 	let { user, isLoggedIn } = $props();
 
@@ -24,7 +25,7 @@
 		queryFn: () => recipeRequest.getSingleRecipe(page.params.id)
 	});
 
-	const recipe = $derived($detailsQuery?.data?.data?.recipe);
+	const recipe: RecipeResponse = $derived($detailsQuery?.data?.data?.recipe);
 	let isOwner = $derived(user?._id ? (user?._id === recipe?.ownerId ? true : false) : false);
 	let trackerLogged = $derived(
 		typeof window !== 'undefined' ? sessionStorage.getItem(RECIPE_COUNT_TRACKER) : ''
@@ -210,4 +211,4 @@
 		width: 100%;
 		height: 100%;
 	}
-</style>
+</style> -->

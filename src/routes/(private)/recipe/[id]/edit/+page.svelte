@@ -6,13 +6,14 @@
 	import { recipeRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { createQuery } from '@tanstack/svelte-query';
+	import type { RecipeResponse } from '../../../../../types/recipe';
 
 	const recipeQuery = createQuery({
 		queryKey: queryKeys.getRecipes,
 		queryFn: () => recipeRequest.getSingleRecipe(page.params.id)
 	});
 
-	let recipe = $derived($recipeQuery?.data?.data?.recipe);
+	let recipe: RecipeResponse = $derived($recipeQuery?.data?.data?.recipe);
 </script>
 
 <AppLayout withName={false}>

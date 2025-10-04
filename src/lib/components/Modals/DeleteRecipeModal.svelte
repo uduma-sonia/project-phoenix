@@ -4,7 +4,7 @@
 	import { selectedRecipe } from '$lib/state/recipe.svelte';
 	import { addToast } from '$lib/store/toast';
 	import { useQueryClient } from '@tanstack/svelte-query';
-	import BasicButton from '../Common/BasicButton.svelte';
+	import BasicButton from '../Common/Form/BasicButton.svelte';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { goto } from '$app/navigation';

@@ -121,12 +121,12 @@
 </script>
 
 <div>
-	<div class="mx-auto w-full px-4 md:max-w-[500px]">
+	<div class="mx-auto w-full px-4 md:max-w-[600px]">
 		<BackComponent backLink="/tracker" />
 	</div>
 
 	<div class="mt-4 flex items-center justify-center px-4 pb-52">
-		<div class="login_form_wrapper w-full md:max-w-[500px]">
+		<div class="login_form_wrapper w-full md:max-w-[600px]">
 			<form class="login_form h-full rounded-3xl border-2 bg-white" onsubmit={handleSubmit}>
 				<div class="pb-3">
 					<p class="font-suez text-2xl">Create Habit</p>

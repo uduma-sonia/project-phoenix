@@ -1,8 +1,8 @@
 <script lang="ts">
 	import BackComponent from '../Common/BackComponent.svelte';
-	import BasicInputField from '../Common/BasicInputField.svelte';
+	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import { Country, City } from 'country-state-city';
-	import Dropdown from '../Common/Dropdown.svelte';
+	import Dropdown from '../Common/Form/Dropdown.svelte';
 	import { addToast } from '$lib/store/toast';
 	import DateRangePicker from '../Common/DatePicker/DateRangePicker.svelte';
 	import { endOfWeek, startOfWeek } from 'date-fns';
@@ -42,7 +42,7 @@
 	);
 
 	let currenciesOptions = $derived(
-		Helpers.transformObjectToList(currencies[0])?.map((item) => ({
+		Helpers.transformObjectToList(currencies[0])?.map((item: any) => ({
 			value: item.id,
 			id: item.details.code
 		}))
@@ -80,12 +80,12 @@
 </script>
 
 <div>
-	<div class="mx-auto w-full px-4 md:max-w-[500px]">
+	<div class="mx-auto w-full px-4 md:max-w-[600px]">
 		<BackComponent backLink="/travel" />
 	</div>
 
 	<div class="mt-4 flex items-center justify-center px-4 pb-52">
-		<div class="login_form_wrapper w-full md:max-w-[500px]">
+		<div class="login_form_wrapper w-full md:max-w-[600px]">
 			<form class="login_form h-full rounded-3xl border-2 bg-white" onsubmit={handleSubmit}>
 				<div class="pb-3">
 					<p class="font-suez text-2xl">Create Trip</p>
