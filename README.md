@@ -3,9 +3,9 @@
 ## Recipe
 
 - Image upload
-- Recipe group
 - Recipe review system, star rating
 - Save recipe
+- retrieve a recipe with username
 
 ## Travel planner
 

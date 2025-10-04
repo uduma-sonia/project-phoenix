@@ -23,14 +23,29 @@
 		queryKey: queryKeys.getSingleRecipe(page.params.id),
 		queryFn: () => recipeRequest.getSingleRecipe(page.params.id)
 	});
-
 	const recipe: RecipeResponse = $derived($detailsQuery?.data?.data?.recipe);
+
+	const savesQuery = $derived(
+		createQuery({
+			queryKey: queryKeys.getRecipeSaveList(recipe?._id),
+			queryFn: () => recipeRequest.getRecipeSaveList(recipe?._id),
+			enabled: !!recipe?._id && !!Boolean(token)
+		})
+	);
+
+	const saves: { users: string[] } = $derived($savesQuery?.data?.data);
 </script>
 
 <AppLayout withName={false}>
 	<SEO title={recipe?.name || 'Recipe'} />
 	<LoaderError isLoading={$detailsQuery?.isLoading} error={$detailsQuery?.isError} />
-	<DetailsView {recipe} {detailsQuery} {user} isLoggedIn={Boolean(token)} />
+	<DetailsView
+		savesList={saves?.users}
+		{recipe}
+		{detailsQuery}
+		{user}
+		isLoggedIn={Boolean(token)}
+	/>
 </AppLayout>
 
 <DeleteRecipeModal label="Recipe" />

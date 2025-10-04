@@ -36,17 +36,15 @@ export enum SectionType {
 	PARAPGRAPH = 'PARAPGRAPH'
 }
 
-type Owner = {
-	username: string;
-	avatar: string;
-};
-
 export interface RecipeResponse extends Recipe {
 	_id: string;
-	owner: Owner;
+	ownerId: string;
+	ownerName: string;
+	savedBy: string[];
 	createdAt: Date;
 	updatedAt: Date;
 }
+
 export interface RecipeGroupResponse extends RecipeGroup {
 	_id: string;
 	ownerId: string;

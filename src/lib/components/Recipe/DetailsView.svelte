@@ -19,26 +19,67 @@
 	import AuthorItem from './Utilities/AuthorItem.svelte';
 	import { addToast } from '$lib/store/toast';
 
+	import { recipeRequest } from '$lib/requests';
+	import { useQueryClient } from '@tanstack/svelte-query';
+	import { queryKeys } from '$lib/utils/queryKeys';
+
+	const queryClient = useQueryClient();
+
 	let {
 		user,
 		isLoggedIn,
 		recipe,
-		detailsQuery
-	}: { user: User; isLoggedIn: boolean; recipe: RecipeResponse; detailsQuery: any } = $props();
+		detailsQuery,
+		savesList
+	}: {
+		user: User;
+		isLoggedIn: boolean;
+		recipe: RecipeResponse;
+		detailsQuery: any;
+		savesList: string[];
+	} = $props();
 
 	let isOwner = $derived(user?._id ? (user?._id === recipe?.ownerId ? true : false) : false);
 	let trackerLogged = $derived(
 		typeof window !== 'undefined' ? sessionStorage.getItem(RECIPE_COUNT_TRACKER) : ''
 	);
+	let isSaving = $state(false);
+
+	function hasSavedRecipe() {
+		if (savesList?.length && user?._id) {
+			if (savesList.includes(user?._id)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
 
 	function copyLink() {
 		Helpers.copyToClipboard(window?.location?.href, 'Link copied');
 	}
 
-	function saveRecipe() {}
+	async function saveRecipe() {
+		try {
+			isSaving = true;
+
+			if (hasSavedRecipe()) {
+				await recipeRequest.unsaveRecipe(recipe._id);
+				addToast('Recipe unsaved', 'success');
+			} else {
+				await recipeRequest.saveRecipe(recipe._id);
+				addToast('Recipe saved', 'success');
+			}
+			queryClient.invalidateQueries({ queryKey: queryKeys.getRecipeSaveList(recipe._id) });
+		} catch (error: any) {
+			addToast(error?.message || 'An error occured', 'error');
+		} finally {
+			isSaving = false;
+		}
+	}
 
 	function viewImages() {
-		if (recipe.images) {
+		if (recipe.images?.length) {
 			updateSelectedImage(recipe.images);
 			openImageCarouselModal();
 		} else {
@@ -54,14 +95,6 @@
 		const pinterestUrl = `${baseUrl}?${Helpers.formatQueryParams({ url, media, description })}`;
 		window.open(pinterestUrl, '_blank', 'noopener,noreferrer');
 	}
-
-	let backLink = $derived(
-		isLoggedIn
-			? isOwner
-				? `/recipe`
-				: `/recipe/user/${recipe?.ownerId}`
-			: `/recipe/user/${recipe?.ownerId}`
-	);
 </script>
 
 {#snippet detailItem(label: string, value?: string, Icon?: any)}
@@ -85,17 +118,21 @@
 		{/if}
 
 		<div class="mx-auto mt-4 max-w-[500px] px-3 pb-24">
-			<div class="flex items-center gap-3">
-				<BackComponent {backLink} title={recipe?.name} />
+			{#if isLoggedIn}
+				<div class="flex items-center gap-3">
+					<BackComponent backLink="/recipe" title={recipe?.name} />
 
-				<div class="mb-1.5">
-					{#if recipe.isPrivate}
-						<LockKeyhole size="16px" />
-					{:else}
-						<LockKeyholeOpen size="16px" />
-					{/if}
+					<div class="mb-1.5">
+						{#if isOwner}
+							{#if recipe.isPrivate}
+								<LockKeyhole size="16px" />
+							{:else}
+								<LockKeyholeOpen size="16px" />
+							{/if}
+						{/if}
+					</div>
 				</div>
-			</div>
+			{/if}
 
 			<div class="mt-6">
 				<div class="image_wrapper h-[200px]">
@@ -117,7 +154,19 @@
 					</button>
 				</div>
 
-				<DetailActions {shareToPinterest} {copyLink} {isOwner} {saveRecipe} />
+				<DetailActions
+					{hasSavedRecipe}
+					{isSaving}
+					{shareToPinterest}
+					{copyLink}
+					{isOwner}
+					{saveRecipe}
+				/>
+
+				<p class="mt-4 mb-4 text-xl font-medium">
+					{recipe.name}
+				</p>
+
 				<AuthorItem {recipe} />
 
 				<div class="mt-4 flex flex-wrap gap-4">

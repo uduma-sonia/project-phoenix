@@ -1,7 +1,7 @@
-import type { Recipe } from '../../../../types/recipe';
+import type { RecipeResponse } from '../../../../types/recipe';
 
 class RecipeUtils {
-	static getlist(arr: Recipe[], currentTab: string) {
+	static getlist(arr: RecipeResponse[], currentTab: string) {
 		return arr?.filter((item) => {
 			const groupList: string[] = item?.groups?.length
 				? item?.groups.map((item: { name: string }) => item.name)

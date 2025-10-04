@@ -15,7 +15,7 @@ class RecipeService {
 	}
 
 	async getRecipes(reqConfig?: ReqConfig) {
-		return await this.api.get(`${this.prefix}`, { ...reqConfig });
+		return await this.api.get(`${this.prefix}/all`, { ...reqConfig });
 	}
 
 	async getOtherUserRecipes(userId: string, reqConfig?: ReqConfig) {
@@ -32,6 +32,16 @@ class RecipeService {
 
 	async deleteRecipe(id: string, reqConfig?: ReqConfig) {
 		return await this.api.delete(`${this.prefix}/${id}`, { ...reqConfig });
+	}
+
+	async saveRecipe(recipeId: string, reqConfig?: ReqConfig) {
+		return await this.api.post(`${this.prefix}/save/${recipeId}`, { ...reqConfig });
+	}
+	async unsaveRecipe(recipeId: string, reqConfig?: ReqConfig) {
+		return await this.api.post(`${this.prefix}/unsave/${recipeId}`, { ...reqConfig });
+	}
+	async getRecipeSaveList(recipeId: string, reqConfig?: ReqConfig) {
+		return await this.api.get(`${this.prefix}/${recipeId}/saved-by`, { ...reqConfig });
 	}
 
 	// Recipe group
