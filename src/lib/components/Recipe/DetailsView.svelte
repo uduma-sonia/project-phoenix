@@ -14,7 +14,7 @@
 		RECIPE_COUNT_TRACKER
 	} from '$lib/constants/global';
 	import Stats from '../Common/Stats.svelte';
-	import ViewCount from './Utilities/ViewCount.svelte';
+	import Stat from './Utilities/Stat.svelte';
 	import { type RecipeResponse } from '../../../types/recipe';
 	import type { User } from '../../../types/user';
 	import DetailActions from './Utilities/DetailActions.svelte';
@@ -35,13 +35,15 @@
 		isLoggedIn,
 		recipe,
 		detailsQuery,
-		savesList
+		savesList,
+		saveTotal
 	}: {
 		user: User;
 		isLoggedIn: boolean;
 		recipe: RecipeResponse;
 		detailsQuery: any;
 		savesList: string[];
+		saveTotal: number;
 	} = $props();
 
 	let isOwner = $derived(user?._id ? (user?._id === recipe?.ownerId ? true : false) : false);
@@ -192,10 +194,10 @@
 				<SectionCard {recipe} />
 			</div>
 
-			{#if isOwner}
-				<div class="mt-16 flex items-center justify-between">
-					<ViewCount ref={recipe?._id} />
+			<div class="mt-16 flex items-center justify-between">
+				<Stat ref={recipe?._id} {saveTotal} />
 
+				{#if isOwner}
 					<div>
 						<button
 							class="shadow_button shadow_button_sm text-red-600"
@@ -208,8 +210,8 @@
 							<Trash size="20px" />
 						</button>
 					</div>
-				</div>
-			{/if}
+				{/if}
+			</div>
 		</div>
 	{/if}
 {/if}

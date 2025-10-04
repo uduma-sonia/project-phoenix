@@ -29,11 +29,11 @@
 		createQuery({
 			queryKey: queryKeys.getRecipeSaveList(recipe?._id),
 			queryFn: () => recipeRequest.getRecipeSaveList(recipe?._id),
-			enabled: !!recipe?._id && !!Boolean(token)
+			enabled: !!recipe?._id
 		})
 	);
 
-	const saves: { users: string[] } = $derived($savesQuery?.data?.data);
+	const saves: { users: string[]; total: number } = $derived($savesQuery?.data?.data);
 </script>
 
 <AppLayout withName={false}>
@@ -41,6 +41,7 @@
 	<LoaderError isLoading={$detailsQuery?.isLoading} error={$detailsQuery?.isError} />
 	<DetailsView
 		savesList={saves?.users}
+		saveTotal={saves?.total}
 		{recipe}
 		{detailsQuery}
 		{user}
