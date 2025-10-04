@@ -1,9 +1,10 @@
 import type { ReqConfig, Service } from '../../types/axios';
-import type { Recipe } from '../../types/recipe';
+import type { Recipe, RecipeGroup } from '../../types/recipe';
 
 class RecipeService {
 	private api;
 	private prefix = '/recipe';
+	private groupPrefix = '/recipe-group';
 
 	constructor({ api }: Service) {
 		this.api = api;
@@ -31,6 +32,23 @@ class RecipeService {
 
 	async deleteRecipe(id: string, reqConfig?: ReqConfig) {
 		return await this.api.delete(`${this.prefix}/${id}`, { ...reqConfig });
+	}
+
+	// Recipe group
+	async createRecipeGroup(data: RecipeGroup, reqConfig?: ReqConfig) {
+		return await this.api.post(`${this.groupPrefix}`, data, { ...reqConfig });
+	}
+
+	async getRecipeGroups(reqConfig?: ReqConfig) {
+		return await this.api.get(`${this.groupPrefix}`, { ...reqConfig });
+	}
+
+	async updateRecipGroup(groupId: string, data: RecipeGroup, reqConfig?: ReqConfig) {
+		return await this.api.put(`${this.groupPrefix}/${groupId}`, data, { ...reqConfig });
+	}
+
+	async deleteRecipeGroup(groupId: string, reqConfig?: ReqConfig) {
+		return await this.api.delete(`${this.groupPrefix}/${groupId}`, { ...reqConfig });
 	}
 }
 

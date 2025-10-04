@@ -24,7 +24,7 @@
 </script>
 
 <div class="my-4 px-3">
-	<div class="flex items-center gap-3 overflow-hidden py-1 pr-1">
+	<div class="flex items-center gap-3 overflow-hidden pr-1">
 		<div>
 			<button class="shadow_button shadow_button_sm" onclick={handleScrollLeft}>
 				<span class="block rotate-180">

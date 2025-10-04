@@ -10,7 +10,7 @@
 	import Helpers from '$lib/utils/helpers';
 	import { PINTEREST_BASE_URL, RECIPE_COUNT_TRACKER } from '$lib/constants/global';
 	import Stats from '../Common/Stats.svelte';
-	import ViewCount from './ViewCount.svelte';
+	import ViewCount from './Utilities/ViewCount.svelte';
 	import { type RecipeResponse } from '../../../types/recipe';
 	import type { User } from '../../../types/user';
 	import DetailActions from './Utilities/DetailActions.svelte';

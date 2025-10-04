@@ -12,7 +12,6 @@ export interface RecipeSection {
 }
 
 export type RecipeGroup = {
-	id: string;
 	name: string;
 };
 
@@ -48,5 +47,10 @@ export interface RecipeResponse extends Recipe {
 	owner: Owner;
 	createdAt: Date;
 	updatedAt: Date;
-	ownerId?: string;
+}
+export interface RecipeGroupResponse extends RecipeGroup {
+	_id: string;
+	ownerId: string;
+	createdAt: Date;
+	updatedAt: Date;
 }

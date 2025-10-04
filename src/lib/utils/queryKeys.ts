@@ -40,7 +40,8 @@ const shoppingKeys = {
 const recipeKeys = {
 	getRecipes: [`/recipe`],
 	getSingleRecipe: (id: string) => [`/recipe/${id}`],
-	getOtherUserRecipes: (id: string) => [`/recipe/user${id}`]
+	getOtherUserRecipes: (id: string) => [`/recipe/user${id}`],
+	getRecipeGroups: [`/recipe-group`]
 };
 
 const statsKeys = {
