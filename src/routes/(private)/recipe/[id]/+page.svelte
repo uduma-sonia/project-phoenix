@@ -12,6 +12,7 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import SEO from '$lib/components/Common/SEO.svelte';
 	import LoaderError from '$lib/components/Common/LoaderError.svelte';
+	import ImageCarousel from '$lib/components/Modals/ImageCarousel.svelte';
 
 	const token = $derived(Helpers.getCookie(AUTH_TOKEN));
 
@@ -33,3 +34,4 @@
 </AppLayout>
 
 <DeleteRecipeModal label="Recipe" />
+<ImageCarousel />

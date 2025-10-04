@@ -5,8 +5,14 @@ export const modalsState = $state({
 		isOpenHabitDetails: false,
 		isOpenDeleteModal: false,
 		isOpenTripDeleteModal: false,
-		isOpenBoardDeleteModal: false
+		isOpenBoardDeleteModal: false,
+		isOpenImageCarousel: false
 	}
+});
+
+export const imageCarouselData = $state<{ images: string[]; currentSelectedIndex?: number }>({
+	images: [],
+	currentSelectedIndex: 0
 });
 
 export function openModal() {
@@ -49,4 +55,19 @@ export function openBoardDeleteModal() {
 }
 export function closeBoardDeleteModal() {
 	modalsState.data.isOpenBoardDeleteModal = false;
+}
+
+export function openImageCarouselModal() {
+	modalsState.data.isOpenImageCarousel = true;
+}
+export function closeImageCarouselModal() {
+	modalsState.data.isOpenImageCarousel = false;
+}
+
+export function updateSelectedImage(images: string[], currentSelectedIndex?: number) {
+	imageCarouselData.images = images;
+
+	if (currentSelectedIndex) {
+		imageCarouselData.currentSelectedIndex = currentSelectedIndex;
+	}
 }

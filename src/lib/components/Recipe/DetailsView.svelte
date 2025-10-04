@@ -1,7 +1,11 @@
 <script lang="ts">
-	import { Trash, LockKeyhole, AlarmClock, Utensils, LockKeyholeOpen } from '@lucide/svelte';
+	import { Trash, LockKeyhole, AlarmClock, Utensils, LockKeyholeOpen, Eye } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
-	import { openDeleteModal } from '$lib/state/modal.svelte';
+	import {
+		openDeleteModal,
+		openImageCarouselModal,
+		updateSelectedImage
+	} from '$lib/state/modal.svelte';
 	import { handleSelectRecipe } from '$lib/state/recipe.svelte';
 	import Helpers from '$lib/utils/helpers';
 	import { PINTEREST_BASE_URL, RECIPE_COUNT_TRACKER } from '$lib/constants/global';
@@ -13,6 +17,7 @@
 	import SectionCard from './Utilities/SectionCard.svelte';
 	import LockedRecipe from './Utilities/LockedRecipe.svelte';
 	import AuthorItem from './Utilities/AuthorItem.svelte';
+	import { addToast } from '$lib/store/toast';
 
 	let {
 		user,
@@ -31,6 +36,15 @@
 	}
 
 	function saveRecipe() {}
+
+	function viewImages() {
+		if (recipe.images) {
+			updateSelectedImage(recipe.images);
+			openImageCarouselModal();
+		} else {
+			addToast('No image to display', 'error');
+		}
+	}
 
 	function shareToPinterest() {
 		const baseUrl = PINTEREST_BASE_URL;
@@ -85,17 +99,22 @@
 
 			<div class="mt-6">
 				<div class="image_wrapper h-[200px]">
-					<div
+					<button
 						class="relative z-10 h-full w-full cursor-pointer gap-3 overflow-hidden rounded-lg border-2 border-black bg-white"
+						onclick={viewImages}
 					>
-						<!-- {#if recipe?.imageUrl}
+						{#if recipe?.images}
 							<img
-								src={recipe?.imageUrl}
+								src={recipe?.images[0]}
 								alt=""
 								class="max-h-full w-full max-w-full object-cover"
 							/>
-						{/if} -->
-					</div>
+						{/if}
+
+						<div class="absolute top-3 right-3 z-20">
+							<Eye color="white" />
+						</div>
+					</button>
 				</div>
 
 				<DetailActions {shareToPinterest} {copyLink} {isOwner} {saveRecipe} />

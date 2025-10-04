@@ -89,6 +89,23 @@
 	transition: all 0.4s linear;
 }
 
+.fade_in {
+	animation-name: fadeIn;
+	animation-duration: 0.5s;
+	animation-timing-function: linear;
+	animation-fill-mode: forwards;
+}
+
+@keyframes fadeIn {
+	0% {
+		opacity: 0.3;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
 @keyframes hourglass {
 	0% {
 		transform: rotate(0deg);

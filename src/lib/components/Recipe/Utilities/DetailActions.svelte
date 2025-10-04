@@ -22,7 +22,7 @@
 			</button>
 		</div>
 		<div>
-			<button class="shadow_button shadow_button_sm" style="height: 40px" onclick={copyLink}>
+			<button class="shadow_button shadow_button_sm" style="height: 40px" onclick={saveRecipe}>
 				<Heart size="20px" />
 			</button>
 		</div>
