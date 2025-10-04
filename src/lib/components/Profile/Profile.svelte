@@ -10,6 +10,7 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { closeProfile } from '$lib/state/modal.svelte';
 	import Appearance from './Appearance.svelte';
+	import { PAGE_REDIRECTED_FROM_KEY } from '$lib/constants/global';
 
 	let { onClose, isOpen } = $props();
 
@@ -30,6 +31,7 @@
 
 	const handleLogout = async () => {
 		Helpers.deleteCookie('id');
+		sessionStorage.removeItem(PAGE_REDIRECTED_FROM_KEY);
 		closeProfile();
 		goto('/login');
 		queryClient.clear();

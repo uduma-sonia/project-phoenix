@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { AUTH_TOKEN } from '$lib/constants/global';
+	import { AUTH_TOKEN, PAGE_REDIRECTED_FROM_KEY } from '$lib/constants/global';
 	import { AuthRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';
@@ -20,7 +20,14 @@
 
 			if (result) {
 				Helpers.setCookie(AUTH_TOKEN, result?.data?.data?.data?.access_token, 4000000);
-				goto('/tracker');
+
+				const redirectUrl = sessionStorage.getItem(PAGE_REDIRECTED_FROM_KEY) || '';
+				if (redirectUrl) {
+					goto(redirectUrl);
+					sessionStorage.removeItem(PAGE_REDIRECTED_FROM_KEY);
+				} else {
+					goto('/tracker');
+				}
 			}
 		} catch (error: any) {
 			addToast(error?.message || 'An error occured', 'error');

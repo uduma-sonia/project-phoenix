@@ -8,7 +8,11 @@
 	} from '$lib/state/modal.svelte';
 	import { handleSelectRecipe } from '$lib/state/recipe.svelte';
 	import Helpers from '$lib/utils/helpers';
-	import { PINTEREST_BASE_URL, RECIPE_COUNT_TRACKER } from '$lib/constants/global';
+	import {
+		PAGE_REDIRECTED_FROM_KEY,
+		PINTEREST_BASE_URL,
+		RECIPE_COUNT_TRACKER
+	} from '$lib/constants/global';
 	import Stats from '../Common/Stats.svelte';
 	import ViewCount from './Utilities/ViewCount.svelte';
 	import { type RecipeResponse } from '../../../types/recipe';
@@ -22,6 +26,7 @@
 	import { recipeRequest } from '$lib/requests';
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
+	import { goto } from '$app/navigation';
 
 	const queryClient = useQueryClient();
 
@@ -60,6 +65,12 @@
 	}
 
 	async function saveRecipe() {
+		if (!isLoggedIn) {
+			const _link = `${window.location.pathname}${window.location.search}`;
+			sessionStorage.setItem(PAGE_REDIRECTED_FROM_KEY, _link);
+			goto(`/signup`);
+			return false;
+		}
 		try {
 			isSaving = true;
 
