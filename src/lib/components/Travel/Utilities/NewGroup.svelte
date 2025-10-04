@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import BasicInputField from '$lib/components/Common/BasicInputField.svelte';
+	import BasicInputField from '$lib/components/Common/Form/BasicInputField.svelte';
 	import { tripRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import { queryKeys } from '$lib/utils/queryKeys';

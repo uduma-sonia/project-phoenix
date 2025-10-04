@@ -22,12 +22,6 @@
 	padding: 20px;
 }
 
-.login_form {
-	@media (width <= 40rem /* 640px */) {
-		padding: 14px !important;
-	}
-}
-
 .retro_ui_block_wrapper {
 	position: relative;
 }
@@ -163,12 +157,6 @@
 	background-color: white;
 	padding: 16px;
 }
-.shadow_button_sm {
-	@media (width <= 40rem) {
-		padding-left: 15px;
-		padding-right: 15px;
-	}
-}
 
 .create_button {
 	border-radius: 999px !important;
@@ -202,4 +190,18 @@
 	background-color: white;
 	z-index: 999;
 	font-family: 'Lexend Variable', sans-serif;
+}
+
+/* Keep at the bottom */
+.shadow_button_sm {
+	@media (width <= 40rem) {
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+}
+
+.login_form {
+	@media (width <= 40rem /* 640px */) {
+		padding: 14px !important;
+	}
 }

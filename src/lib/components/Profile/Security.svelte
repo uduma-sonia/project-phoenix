@@ -1,5 +1,5 @@
 <script>
-	import BasicButton from '../Common/BasicButton.svelte';
+	import BasicButton from '../Common/Form/BasicButton.svelte';
 </script>
 
 <div>

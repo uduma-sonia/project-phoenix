@@ -20,3 +20,5 @@
 
 - PWA Alert modal
 - Custom tooltip
+- Add clear button to dropdown and other input fields
+- Make the clear button work properly for the dropdown component

@@ -1,8 +1,17 @@
 <script lang="ts">
 	// @ts-nocheck
-	import { ChevronDown, ChevronUp } from '@lucide/svelte';
+	import { ChevronDown, ChevronUp, X } from '@lucide/svelte';
 	import Helpers from '$lib/utils/helpers';
 	import BasicInputField from './BasicInputField.svelte';
+
+	type Props = {
+		options: Options[];
+		label?: string;
+		selectedOption?: Options;
+		withClearButton?: boolean;
+		handleSelectChange?: any;
+		shouldSearch?: boolean;
+	};
 
 	type Options = {
 		value: string;
@@ -12,8 +21,11 @@
 	let {
 		options,
 		label,
-		selectedOption = $bindable()
-	}: { options: Options[]; label?: string; selectedOption?: Options } = $props();
+		withClearButton = false,
+		selectedOption = $bindable(),
+		handleSelectChange,
+		shouldSearch = false
+	}: Props = $props();
 
 	let isDropDownOpen = $state(false);
 	let focusedIndex = $state(0);
@@ -33,14 +45,21 @@
 		isDropDownOpen = false;
 	}
 
-	let filteredOptions = $derived(
-		options?.filter((option: Options) =>
-			option?.value.toUpperCase().includes(searchQuery.toUpperCase())
-		)
-	);
+	function gete() {
+		if (shouldSearch) {
+			options?.filter((option: Options) =>
+				option?.value.toUpperCase().includes(searchQuery.toUpperCase())
+			);
+		} else {
+			return options;
+		}
+	}
+
+	let filteredOptions = $derived(gete());
 
 	function selectOption(view: Options) {
 		selectedOption = view;
+		handleSelectChange?.(view);
 		handleClickOutside();
 	}
 
@@ -81,9 +100,11 @@
 		aria-haspopup="listbox"
 		aria-expanded={isDropDownOpen}
 		onkeydown={handleKeyDown}
+		{withClearButton}
+		clearButtonWrapperClass="right-11"
 	/>
 
-	<div class="absolute right-3 bottom-3">
+	<div class="absolute right-3 bottom-2.5">
 		{#if isDropDownOpen}
 			<ChevronUp size="26px" />
 		{:else}

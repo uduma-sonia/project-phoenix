@@ -1,4 +1,11 @@
 <script lang="ts">
+	import type { RecipeResponse } from '../../../types/recipe';
+
+	let { recipe }: { recipe: RecipeResponse } = $props();
+</script>
+
+<div></div>
+<!-- <script lang="ts">
 	import { Check, Minus, Plus } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import Helpers from '$lib/utils/helpers';
@@ -10,7 +17,7 @@
 	import { page } from '$app/state';
 	import type { Recipe } from '../../../types/recipe';
 
-	let { recipe }: { recipe: Recipe } = $props();
+	let { recipe }: { recipe: RecipeResponse } = $props();
 	const queryClient = useQueryClient();
 
 	let textarea: any = $state(null);
@@ -261,7 +268,6 @@
 
 					<div>
 						<label for="notes" class="mb-2">Notes</label>
-						<!-- svelte-ignore element_invalid_self_closing_tag -->
 						<textarea
 							id="notes"
 							oninput={resizeTextarea}
@@ -337,4 +343,4 @@
 		width: 30px !important;
 		height: 30px !important;
 	}
-</style>
+</style> -->

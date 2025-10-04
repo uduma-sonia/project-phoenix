@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { InputType } from '../../../types/input';
+	import type { InputType } from '../../../../types/input';
 
 	interface Props {
 		label?: string;

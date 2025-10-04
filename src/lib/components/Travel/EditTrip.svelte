@@ -1,8 +1,8 @@
 <script lang="ts">
 	import BackComponent from '../Common/BackComponent.svelte';
-	import BasicInputField from '../Common/BasicInputField.svelte';
+	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import { Country, City } from 'country-state-city';
-	import Dropdown from '../Common/Dropdown.svelte';
+	import Dropdown from '../Common/Form/Dropdown.svelte';
 	import { addToast } from '$lib/store/toast';
 	import DateRangePicker from '../Common/DatePicker/DateRangePicker.svelte';
 	import Helpers from '$lib/utils/helpers';
@@ -43,7 +43,7 @@
 		}))
 	);
 	let currenciesOptions = $derived(
-		Helpers.transformObjectToList(currencies[0])?.map((item) => ({
+		Helpers.transformObjectToList(currencies[0])?.map((item: any) => ({
 			value: item.id,
 			id: item.details.code
 		}))
