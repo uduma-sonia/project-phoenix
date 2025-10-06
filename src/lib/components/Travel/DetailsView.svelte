@@ -1,12 +1,18 @@
 <script lang="ts">
-	import { Check, SquarePen, Trash, UserRoundPlus, Settings } from '@lucide/svelte';
+	import { Check, SquarePen, Trash, UserRoundPlus, Settings, List } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import DetailsTopSection from './Utilities/DetailsTopSection.svelte';
 	import GroupTab from './Utilities/GroupTab.svelte';
 	import Budget from './Utilities/Budget.svelte';
 	import Calendar from './Utilities/Calendar.svelte';
 	import type { Trip } from '../../../types/trip';
-	import { closeModal, modalsState, openModal, openTripDeleteModal } from '$lib/state/modal.svelte';
+	import {
+		closeModal,
+		modalsState,
+		openModal,
+		openPackingModal,
+		openTripDeleteModal
+	} from '$lib/state/modal.svelte';
 	import { handleSelectTrip } from '$lib/state/trip.svelte';
 	import InviteModal from './InviteModal.svelte';
 	import { UserRequest } from '$lib/requests';
@@ -32,6 +38,11 @@
 			label: 'Edit',
 			icon: SquarePen,
 			link: `/travel/${trip._id}/edit`
+		},
+		{
+			label: 'Packing list',
+			icon: List,
+			action: openPackingModal
 		},
 		{
 			label: 'Manage groups',

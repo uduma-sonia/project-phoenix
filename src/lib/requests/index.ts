@@ -12,6 +12,7 @@ import { AUTH_TOKEN } from '$lib/constants/global';
 import ShoppingService from './shopping';
 import StatsService from './stats';
 import TripService from './Trip';
+import PackingService from './packing';
 
 export const API_ENDPOINT = import.meta.env.VITE_API_URL;
 
@@ -81,3 +82,4 @@ export const shoppingRequest = new ShoppingService({ api });
 export const recipeRequest = new RecipeService({ api });
 export const statsRequest = new StatsService({ api });
 export const tripRequest = new TripService({ api });
+export const packingRequest = new PackingService({ api });

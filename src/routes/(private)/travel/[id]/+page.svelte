@@ -8,9 +8,10 @@
 	import SEO from '$lib/components/Common/SEO.svelte';
 	import LoaderError from '$lib/components/Common/LoaderError.svelte';
 	import DeleteTripModal from '$lib/components/Modals/DeleteTripModal.svelte';
+	import PackingModal from '$lib/components/Modals/PackingModal.svelte';
 
 	let detailsQuery = createQuery({
-		queryKey: queryKeys.getSingleRecipe(page.params.id),
+		queryKey: queryKeys.getSingleTrip(page.params.id),
 		queryFn: () => tripRequest.getSingleTrip(page.params.id)
 	});
 
@@ -31,3 +32,4 @@
 </AppLayout>
 
 <DeleteTripModal />
+<PackingModal />

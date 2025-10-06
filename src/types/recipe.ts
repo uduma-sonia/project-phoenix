@@ -13,7 +13,7 @@ export interface RecipeSection {
 
 export type RecipeGroup = {
 	name: string;
-	id: string;
+	id?: string;
 };
 
 export type Recipe = {

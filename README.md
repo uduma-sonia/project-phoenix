@@ -4,12 +4,14 @@
 
 - Image upload
 - Recipe review system, star rating
+- Add standard baking measurements
 
 ## Travel planner
 
 - Packing list feature
 - Display trips a member is part of and use their permission to restrict different functions
 - Manage group
+- Enable categories
 
 ## General
 

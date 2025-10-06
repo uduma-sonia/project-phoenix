@@ -57,6 +57,11 @@ const tripKeys = {
 	getTripMembers: (tripId: string) => [`/travel-member/${tripId}`]
 };
 
+const packingKeys = {
+	getPackingCategories: [`/packing-category`],
+	getPackingItems: [`/packing-item`]
+};
+
 export const queryKeys = {
 	...userKeys,
 	...trackerKeys,
@@ -64,5 +69,6 @@ export const queryKeys = {
 	...shoppingKeys,
 	...recipeKeys,
 	...statsKeys,
-	...tripKeys
+	...tripKeys,
+	...packingKeys
 };

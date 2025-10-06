@@ -25,7 +25,6 @@
 		try {
 			isLoading = true;
 
-			// TODO: ADD OWNER ID TO BOARD ITEM PAYLOAD
 			const payload = {
 				name: value,
 				quantity: 0,
@@ -42,7 +41,7 @@
 				queryClient.invalidateQueries({ queryKey: queryKeys.getStandardItems });
 			}
 		} catch (error: any) {
-			addToast(error?.error || 'An error occured', 'error');
+			addToast(error?.message || 'An error occured', 'error');
 		} finally {
 			isLoading = false;
 		}
@@ -79,7 +78,7 @@
 				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId, '') });
 			}
 		} catch (error: any) {
-			addToast(error?.error || 'An error occured', 'error');
+			addToast(error?.message || 'An error occured', 'error');
 		} finally {
 			isLoading = false;
 		}
@@ -88,7 +87,6 @@
 	const standardItemsQuery = createQuery({
 		queryKey: queryKeys.getStandardItems,
 		queryFn: () => shoppingRequest.getStandardItems(user._id)
-		// refetchInterval: 5000
 	});
 
 	let standardList = $derived($standardItemsQuery?.data?.data?.shoppingItems);
