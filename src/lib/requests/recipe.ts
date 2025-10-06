@@ -22,8 +22,8 @@ class RecipeService {
 		return await this.api.get(`${this.prefix}/user/${userId}`, { ...reqConfig });
 	}
 
-	async getSingleRecipe(id: string, reqConfig?: ReqConfig) {
-		return await this.api.get(`${this.prefix}/${id}`, { ...reqConfig });
+	async getSingleRecipe(id: string, owner: string, reqConfig?: ReqConfig) {
+		return await this.api.get(`${this.prefix}/${id}?owner=${owner}`, { ...reqConfig });
 	}
 
 	async updateRecipe(id: string, data: Recipe, reqConfig?: ReqConfig) {

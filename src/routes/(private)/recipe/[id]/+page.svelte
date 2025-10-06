@@ -15,14 +15,17 @@
 	import ImageCarousel from '$lib/components/Modals/ImageCarousel.svelte';
 
 	const token = $derived(Helpers.getCookie(AUTH_TOKEN));
+	const ownerId = $derived(page.url.searchParams.get('owner'));
 
 	let userQuery = $derived(useCurrentUser(Boolean(token)));
 	let user = $derived($userQuery?.data?.data?.user);
 
-	const detailsQuery = createQuery({
-		queryKey: queryKeys.getSingleRecipe(page.params.id),
-		queryFn: () => recipeRequest.getSingleRecipe(page.params.id)
-	});
+	const detailsQuery = $derived(
+		createQuery({
+			queryKey: queryKeys.getSingleRecipe(page.params.id, ownerId as string),
+			queryFn: () => recipeRequest.getSingleRecipe(page.params.id, ownerId as string)
+		})
+	);
 	const recipe: RecipeResponse = $derived($detailsQuery?.data?.data?.recipe);
 
 	const savesQuery = $derived(

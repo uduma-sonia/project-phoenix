@@ -39,7 +39,7 @@ const shoppingKeys = {
 
 const recipeKeys = {
 	getRecipes: [`/recipe/all`],
-	getSingleRecipe: (id: string) => [`/recipe/${id}`],
+	getSingleRecipe: (id: string, owner: string) => [`/recipe/${id}?owner=${owner}`],
 	getOtherUserRecipes: (id: string) => [`/recipe/user/${id}`],
 	getRecipeGroups: [`/recipe-group`],
 	getRecipeSaveList: (id: string) => [`/recipe/${id}/saved-by`]
