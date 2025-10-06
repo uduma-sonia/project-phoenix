@@ -198,7 +198,9 @@
 			const result = await recipeRequest.updateRecipe(recipe?._id as string, payload);
 
 			if (result) {
-				queryClient.invalidateQueries({ queryKey: queryKeys.getSingleRecipe(page.params.id) });
+				queryClient.invalidateQueries({
+					queryKey: queryKeys.getSingleRecipe(page.params.id, ownerId as string)
+				});
 				goto(`/recipe/${Helpers.createSlug(recipeName)}?owner=${ownerId}`);
 			}
 		} catch (error: any) {

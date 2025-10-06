@@ -14,6 +14,8 @@
 	import { closeHabitDetails, modalsState, openHabitDetails } from '$lib/state/modal.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
 	import { format } from 'date-fns';
+	import { Hourglass } from '@lucide/svelte';
+	import EmptyState from '../Common/EmptyState.svelte';
 
 	let { user } = $props();
 
@@ -180,7 +182,6 @@
 <div class="pb-24">
 	<DateScroller />
 
-	<!-- <div class="relative z-30 mt-8 gap-3 px-3"> -->
 	<div class="relative z-30 mt-5 gap-3 px-3">
 		<HabitSearch placeholder="Search tracker" bind:searchQuery />
 	</div>
@@ -197,6 +198,13 @@
 				{/if}
 			{/each}
 		</div>
+	{:else}
+		<EmptyState
+			buttonText="Create Tracker"
+			link="/tracker/create"
+			heading="Ready to track?"
+			text="Add your first habit and start your streak today"
+		/>
 	{/if}
 </div>
 

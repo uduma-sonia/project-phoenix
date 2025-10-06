@@ -112,7 +112,6 @@
 
 	function handleFileChange(el: any) {
 		const file = el?.files[0];
-		// const _fileName = file?.name;
 		const reader = new FileReader();
 
 		if (file) {
@@ -127,8 +126,6 @@
 			}
 		}
 	}
-
-	// https://res.clouinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg
 
 	function filterSection(sections: RecipeSection[]) {
 		return sections.filter((item) => item.name);
@@ -169,11 +166,7 @@
 
 			const payload = {
 				name: recipeName,
-				images: [
-					'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg',
-					'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757150018/photo_VSCO_afqnsk.jpg',
-					'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1759586707/cake4_fyiz3v.jpg'
-				],
+				images: [],
 				isPrivate: isPrivate,
 				sections: $state.snapshot(filterSection(sections)),
 				slug: Helpers.createSlug(recipeName),
@@ -189,6 +182,7 @@
 			const result = await recipeRequest.createRecipe(payload);
 
 			if (result) {
+				addToast('Recipe created', 'success', { imgLink: '/images/confetti.svg' });
 				queryClient.invalidateQueries({ queryKey: queryKeys.getRecipes });
 				goto('/recipe');
 			}

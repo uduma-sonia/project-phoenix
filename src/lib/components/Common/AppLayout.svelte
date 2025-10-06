@@ -3,7 +3,7 @@
 	import NameCard from './NameCard.svelte';
 	import NavBar from './NavBar.svelte';
 
-	let { children, withName = true, floatingLink = '' } = $props();
+	let { children, withName = true, floatingLink = '', tooltipText = '' } = $props();
 
 	let innerHeight = $state(typeof window !== 'undefined' ? window.innerHeight : 0);
 
@@ -27,7 +27,7 @@
 		</div>
 
 		{#if floatingLink}
-			<FloatingButton link={floatingLink} />
+			<FloatingButton {tooltipText} link={floatingLink} />
 		{/if}
 	</div>
 </div>

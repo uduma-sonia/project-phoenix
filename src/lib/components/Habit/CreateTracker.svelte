@@ -73,7 +73,7 @@
 				status: HabitStatus.START
 			});
 		} catch (error: any) {
-			addToast(error || 'An error occured', 'error');
+			addToast(error?.message || 'An error occured', 'error');
 		}
 	}
 
@@ -109,7 +109,7 @@
 				if (type === 'QUIT') {
 					updateHistory(result?.data?._id);
 				}
-				addToast('Habit created', 'success', '/images/confetti.svg');
+				addToast('Habit created', 'success', { imgLink: '/images/confetti.svg' });
 				goto('/tracker');
 			}
 		} catch (error: any) {

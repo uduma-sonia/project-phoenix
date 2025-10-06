@@ -68,35 +68,4 @@
 		{...restProps}
 	>
 	</textarea>
-
-	<!-- {#if type === 'number'}
-		<input
-			type="text"
-			value={transformValue(value)}
-			class="h-[40px] w-full border-b border-b-[#393838] px-3 outline-none"
-			{id}
-			{name}
-			readonly={readOnly}
-			{placeholder}
-			inputmode="numeric"
-			{required}
-			{disabled}
-			oninput={handleInput}
-			{...restProps}
-		/>
-	{:else}
-		<input
-			{type}
-			bind:value
-			class="h-[40px] w-full border-b border-b-[#393838] px-3 outline-none"
-			{id}
-			{name}
-			readonly={readOnly}
-			{placeholder}
-			{required}
-			{disabled}
-			inputmode={inputMode}
-			{...restProps}
-		/>
-	{/if} -->
 </div>

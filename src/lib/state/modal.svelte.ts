@@ -6,7 +6,8 @@ export const modalsState = $state({
 		isOpenDeleteModal: false,
 		isOpenTripDeleteModal: false,
 		isOpenBoardDeleteModal: false,
-		isOpenImageCarousel: false
+		isOpenImageCarousel: false,
+		isOpenPacking: false
 	}
 });
 
@@ -70,4 +71,10 @@ export function updateSelectedImage(images: string[], currentSelectedIndex?: num
 	if (currentSelectedIndex) {
 		imageCarouselData.currentSelectedIndex = currentSelectedIndex;
 	}
+}
+export function openPackingModal() {
+	modalsState.data.isOpenPacking = true;
+}
+export function closePackingModal() {
+	modalsState.data.isOpenPacking = false;
 }

@@ -8,6 +8,7 @@
 	import LoaderError from '../Common/LoaderError.svelte';
 	import RecipeUtils from './Utilities/utils';
 	import useCurrentUser from '$lib/hooks/useCurrentUser';
+	import EmptyState from '../Common/EmptyState.svelte';
 
 	let searchQuery = $state('');
 	let currentTab = $state('All');
@@ -47,5 +48,12 @@
 				{/each}
 			{/if}
 		</div>
+	{:else}
+		<EmptyState
+			buttonText="Add Recipe"
+			heading="No recipes saved"
+			text="Save your favorite recipes in one place. Cooking inspiration starts here"
+			link="/recipe/create"
+		/>
 	{/if}
 </div>

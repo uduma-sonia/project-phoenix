@@ -6,6 +6,10 @@ export const typeOptions = [
 		id: SectionType.LIST
 	},
 	{
+		value: 'Checklist',
+		id: SectionType.CHECKLIST
+	},
+	{
 		value: 'Paragraph',
 		id: SectionType.PARAPGRAPH
 	}

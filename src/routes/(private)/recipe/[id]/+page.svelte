@@ -13,16 +13,22 @@
 	import SEO from '$lib/components/Common/SEO.svelte';
 	import LoaderError from '$lib/components/Common/LoaderError.svelte';
 	import ImageCarousel from '$lib/components/Modals/ImageCarousel.svelte';
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { addToast } from '$lib/store/toast';
 
 	const token = $derived(Helpers.getCookie(AUTH_TOKEN));
+	const ownerId = $derived(page.url.searchParams.get('owner'));
 
 	let userQuery = $derived(useCurrentUser(Boolean(token)));
 	let user = $derived($userQuery?.data?.data?.user);
 
-	const detailsQuery = createQuery({
-		queryKey: queryKeys.getSingleRecipe(page.params.id),
-		queryFn: () => recipeRequest.getSingleRecipe(page.params.id)
-	});
+	const detailsQuery = $derived(
+		createQuery({
+			queryKey: queryKeys.getSingleRecipe(page.params.id, ownerId as string),
+			queryFn: () => recipeRequest.getSingleRecipe(page.params.id, ownerId as string)
+		})
+	);
 	const recipe: RecipeResponse = $derived($detailsQuery?.data?.data?.recipe);
 
 	const savesQuery = $derived(
@@ -34,6 +40,13 @@
 	);
 
 	const saves: { users: string[]; total: number } = $derived($savesQuery?.data?.data);
+
+	onMount(() => {
+		if (!ownerId) {
+			addToast('Invalid link', 'error');
+			goto('/recipe');
+		}
+	});
 </script>
 
 <AppLayout withName={false}>

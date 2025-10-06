@@ -1,9 +1,9 @@
-import type { Recipe } from '../../types/recipe';
+import type { RecipeResponse } from '../../types/recipe';
 
-export const selectedRecipe = $state<{ data: null | Recipe }>({
+export const selectedRecipe = $state<{ data: null | RecipeResponse }>({
 	data: null
 });
 
-export function handleSelectRecipe(arg: Recipe) {
+export function handleSelectRecipe(arg: RecipeResponse) {
 	selectedRecipe.data = arg;
 }

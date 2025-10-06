@@ -1,21 +1,21 @@
 <script lang="ts">
-	import { Heart, Plus } from '@lucide/svelte';
-	import NewGroup from './NewGroup.svelte';
+	// import { Plus } from '@lucide/svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import { recipeRequest } from '$lib/requests';
+	import { packingRequest } from '$lib/requests';
 	import TabButton from '$lib/components/Common/TabButton.svelte';
+	// import NewCategory from './NewCategory.svelte';
 
 	let { currentTab = $bindable(), handleChangeTab } = $props();
 
 	let addNewGroup = $state(false);
 
 	const groupQuery = createQuery({
-		queryKey: queryKeys.getRecipeGroups,
-		queryFn: () => recipeRequest.getRecipeGroups()
+		queryKey: queryKeys.getPackingCategories,
+		queryFn: () => packingRequest.getPackingCategories()
 	});
 
-	let groupList = $derived($groupQuery?.data?.data?.recipeGroups);
+	let groupList = $derived($groupQuery?.data?.data?.packingCategory);
 
 	function changeTab(arg: string) {
 		currentTab = arg;
@@ -27,27 +27,26 @@
 	}
 </script>
 
-<div class="my-4 px-3">
+<div class="">
 	{#if !addNewGroup}
 		<div class="flex items-center justify-between gap-4">
 			<div class="no-scrollbar flex items-center gap-4 overflow-x-auto">
 				<TabButton name={'All'} {changeTab} {currentTab} />
-				<TabButton name={'Saved'} {changeTab} {currentTab} LeftIcon={Heart} />
 
-				{#each groupList as group, index (index)}
+				<!-- {#each groupList as group, index (index)}
 					<TabButton name={group?.name} {changeTab} {currentTab} />
-				{/each}
+				{/each} -->
 			</div>
 
-			<div>
+			<!-- <div>
 				<button class="shadow_button shadow_button_sm" onclick={toggleView}>
 					<Plus />
 				</button>
-			</div>
+			</div> -->
 		</div>
 	{/if}
 
-	{#if addNewGroup}
-		<NewGroup {toggleView} />
-	{/if}
+	<!-- {#if addNewGroup}
+		<NewCategory {toggleView} />
+	{/if} -->
 </div>

@@ -39,7 +39,7 @@ const shoppingKeys = {
 
 const recipeKeys = {
 	getRecipes: [`/recipe/all`],
-	getSingleRecipe: (id: string) => [`/recipe/${id}`],
+	getSingleRecipe: (id: string, owner: string) => [`/recipe/${id}?owner=${owner}`],
 	getOtherUserRecipes: (id: string) => [`/recipe/user/${id}`],
 	getRecipeGroups: [`/recipe-group`],
 	getRecipeSaveList: (id: string) => [`/recipe/${id}/saved-by`]
@@ -57,6 +57,11 @@ const tripKeys = {
 	getTripMembers: (tripId: string) => [`/travel-member/${tripId}`]
 };
 
+const packingKeys = {
+	getPackingCategories: [`/packing-category`],
+	getPackingItems: [`/packing-item`]
+};
+
 export const queryKeys = {
 	...userKeys,
 	...trackerKeys,
@@ -64,5 +69,6 @@ export const queryKeys = {
 	...shoppingKeys,
 	...recipeKeys,
 	...statsKeys,
-	...tripKeys
+	...tripKeys,
+	...packingKeys
 };
