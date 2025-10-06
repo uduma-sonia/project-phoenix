@@ -18,7 +18,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	}
 
-	if (event.url.pathname === '/login') {
+	if (event.url.pathname === '/login' || event.url.pathname === '/') {
 		if (token) {
 			throw redirect(302, '/tracker');
 		}
