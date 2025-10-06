@@ -5,6 +5,7 @@
 - Image upload
 - Recipe review system, star rating
 - retrieve a recipe with username
+- refactor stats tracker
 
 ## Travel planner
 
