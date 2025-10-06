@@ -27,7 +27,7 @@
 			const result = await shoppingRequest.createBoard(payload);
 
 			if (result) {
-				addToast('Board created', 'success', '/images/confetti.svg');
+				addToast('Board created', 'success', { imgLink: '/images/confetti.svg' });
 				goto('/shopping');
 			}
 		} catch (error: any) {

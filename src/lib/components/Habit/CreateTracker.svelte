@@ -109,7 +109,7 @@
 				if (type === 'QUIT') {
 					updateHistory(result?.data?._id);
 				}
-				addToast('Habit created', 'success', '/images/confetti.svg');
+				addToast('Habit created', 'success', { imgLink: '/images/confetti.svg' });
 				goto('/tracker');
 			}
 		} catch (error: any) {

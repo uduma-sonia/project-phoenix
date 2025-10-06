@@ -33,7 +33,8 @@ export type Recipe = {
 
 export enum SectionType {
 	LIST = 'LIST',
-	PARAPGRAPH = 'PARAPGRAPH'
+	PARAPGRAPH = 'PARAPGRAPH',
+	CHECKLIST = 'CHECKLIST'
 }
 
 export interface RecipeResponse extends Recipe {

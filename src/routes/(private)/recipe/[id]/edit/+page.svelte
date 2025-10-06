@@ -8,10 +8,14 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import type { RecipeResponse } from '../../../../../types/recipe';
 
-	const recipeQuery = createQuery({
-		queryKey: queryKeys.getRecipes,
-		queryFn: () => recipeRequest.getSingleRecipe(page.params.id)
-	});
+	const ownerId = $derived(page.url.searchParams.get('owner'));
+
+	const recipeQuery = $derived(
+		createQuery({
+			queryKey: queryKeys.getSingleRecipe(page.params.id, ownerId as string),
+			queryFn: () => recipeRequest.getSingleRecipe(page.params.id, ownerId as string)
+		})
+	);
 
 	const groupQuery = createQuery({
 		queryKey: queryKeys.getRecipeGroups,
@@ -23,7 +27,7 @@
 </script>
 
 <AppLayout withName={false}>
-	<Seo title="Edit recipe" />
+	<Seo title={recipe?.name || 'Edit recipe'} />
 
 	{#if recipe?._id}
 		<EditRecipe {recipe} {groupList} />

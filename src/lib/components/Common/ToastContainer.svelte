@@ -12,13 +12,12 @@
 					removeToast(toast.id);
 				}}
 			>
+				{toast.message}
 				{#if toast?.imgLink}
 					<div>
-						<img src={toast.imgLink} alt="confetti" class="h-6" />
+						<img src={toast.imgLink} alt="confetti" class="h-5" />
 					</div>
 				{/if}
-
-				{toast.message}
 			</button>
 		{/each}
 	</div>
@@ -27,9 +26,8 @@
 <style>
 	.toast-container {
 		position: fixed;
-		bottom: 1rem;
-		left: 1rem;
-		/* transform: translateX(-50%); */
+		top: 1rem;
+		right: 1rem;
 		z-index: 9999;
 		width: 100%;
 		width: max-content;
@@ -38,7 +36,7 @@
 	.toast {
 		background: #ffffff;
 		color: black;
-		padding: 0.75rem 1.2rem;
+		padding: 0.6rem 0.7rem;
 		border-radius: 14px;
 		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 		text-align: center;
@@ -62,11 +60,11 @@
 
 	@keyframes slideDown {
 		0% {
-			transform: translateX(-40px);
+			transform: translateY(-40px);
 		}
 
 		100% {
-			transform: translateX(0%);
+			transform: translateY(0%);
 		}
 	}
 </style>
