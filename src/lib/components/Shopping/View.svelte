@@ -45,21 +45,23 @@
 
 	<LoaderError isLoading={$boardsQuery?.isLoading} error={$boardsQuery?.isError} />
 
-	{#if boardsList?.length > 0}
-		<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
-			{#each sortByDone(boardsList) as board, index (index)}
-				<ShoppingCard {board} />
-			{/each}
-		</div>
-	{:else}
-		<EmptyState
-			buttonText="Create Board"
-			heading="Never forget milk again!"
-			text="Add items as you think of them"
-			link="/shopping/create"
-		/>
+	{#if !$boardsQuery?.isLoading}
+		{#if boardsList?.length > 0}
+			<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
+				{#each sortByDone(boardsList) as board, index (index)}
+					<ShoppingCard {board} />
+				{/each}
+			</div>
+		{:else}
+			<EmptyState
+				buttonText="Create Board"
+				heading="Never forget milk again!"
+				text="Add items as you think of them"
+				link="/shopping/create"
+			/>
 
-		<!-- text="Create a shopping list so you never forget the essentials" -->
+			<!-- text="Create a shopping list so you never forget the essentials" -->
+		{/if}
 	{/if}
 </div>
 
