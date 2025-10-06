@@ -5,7 +5,7 @@
 	import View from '$lib/components/Travel/View.svelte';
 </script>
 
-<AppLayout floatingLink="/travel/create">
+<AppLayout floatingLink="/travel/create" tooltipText="Plan trip">
 	<Seo title="Travel" />
 	<View />
 </AppLayout>

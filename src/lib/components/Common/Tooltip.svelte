@@ -4,7 +4,9 @@
 
 <div class="tooltip">
 	{@render children()}
-	<span class="tooltiptext">{text}</span>
+	{#if text}
+		<span class="tooltiptext">{text}</span>
+	{/if}
 </div>
 
 <style>

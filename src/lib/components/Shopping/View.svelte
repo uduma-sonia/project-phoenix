@@ -8,6 +8,7 @@
 	import HabitSearch from '../Habit/Utilities/HabitSearch.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
 	import { ShoppingStatus } from '../../../types/shopping';
+	import EmptyState from '../Common/EmptyState.svelte';
 
 	let searchQuery = $state('');
 
@@ -50,6 +51,15 @@
 				<ShoppingCard {board} />
 			{/each}
 		</div>
+	{:else}
+		<EmptyState
+			buttonText="Create Board"
+			heading="Never forget milk again!"
+			text="Add items as you think of them"
+			link="/shopping/create"
+		/>
+
+		<!-- text="Create a shopping list so you never forget the essentials" -->
 	{/if}
 </div>
 

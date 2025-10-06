@@ -4,6 +4,7 @@
 	import { addToast } from '$lib/store/toast';
 	import { ShoppingStatus } from '../../../types/shopping';
 	import BackComponent from '../Common/BackComponent.svelte';
+	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 
 	let { user } = $props();
 
@@ -53,27 +54,22 @@
 				<hr />
 
 				<div class="mb-10 space-y-4 pt-5">
-					<div>
-						<label for="boardName" class="mb-2">Name</label>
-						<input
-							type="text"
-							id="boardName"
-							name="boardName"
-							bind:value={boardName}
-							required
-							class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-						/>
-					</div>
-					<div>
-						<label for="currency" class="mb-2">Currency</label>
-						<input
-							type="text"
-							id="currency"
-							name="currency"
-							bind:value={currency}
-							class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-						/>
-					</div>
+					<BasicInputField
+						type="text"
+						id="boardName"
+						name="boardName"
+						bind:value={boardName}
+						required
+						label="Name"
+						placeholder="eg., General shopping, Skincare list, etc"
+					/>
+					<BasicInputField
+						type="text"
+						id="currency"
+						name="currency"
+						bind:value={currency}
+						label="Currency"
+					/>
 				</div>
 
 				<div>

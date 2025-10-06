@@ -6,6 +6,7 @@
 	import TravelCard from './Utilities/TravelCard.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
 	import { openPackingModal } from '$lib/state/modal.svelte';
+	import EmptyState from '../Common/EmptyState.svelte';
 
 	let searchQuery = $state('');
 
@@ -40,5 +41,12 @@
 				{/each}
 			{/if}
 		</div>
+	{:else}
+		<EmptyState
+			buttonText="Plan Trip"
+			heading="No trips planned"
+			text="Plan your next trip. Create a trip and pack like a pro"
+			link="/travel/create"
+		/>
 	{/if}
 </div>

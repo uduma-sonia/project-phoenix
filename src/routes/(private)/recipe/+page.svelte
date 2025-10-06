@@ -4,7 +4,7 @@
 	import View from '$lib/components/Recipe/View.svelte';
 </script>
 
-<AppLayout floatingLink="/recipe/create">
+<AppLayout floatingLink="/recipe/create" tooltipText="Add Recipe">
 	<Seo title="Phoenix - recipe" />
 	<View />
 </AppLayout>

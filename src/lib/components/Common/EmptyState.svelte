@@ -4,7 +4,7 @@
 	let { heading, text, link, buttonText } = $props();
 </script>
 
-<div class="flex h-[300px] items-center justify-center">
+<div class="mx-auto flex h-[300px] max-w-[300px] items-center justify-center">
 	<div>
 		<div class="mx-auto mt-4 mb-2 w-fit">
 			<Hourglass />
@@ -20,7 +20,7 @@
 			{text}
 		</p>
 
-		<div class="mx-auto mt-6 w-[200px]">
+		<div class="mx-auto mt-6 w-[170px]">
 			<a href={link}>
 				<button class="shadow_button shadow_button_sm" style="height: 40px" type="button">
 					{buttonText}
