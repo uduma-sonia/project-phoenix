@@ -29,7 +29,6 @@
 		top: 1rem;
 		right: 1rem;
 		z-index: 9999;
-		width: 100%;
 		width: max-content;
 	}
 
