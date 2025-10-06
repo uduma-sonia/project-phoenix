@@ -73,7 +73,7 @@
 				status: HabitStatus.START
 			});
 		} catch (error: any) {
-			addToast(error || 'An error occured', 'error');
+			addToast(error?.message || 'An error occured', 'error');
 		}
 	}
 

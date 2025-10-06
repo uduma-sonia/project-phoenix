@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { Plus } from '@lucide/svelte';
+	// import { Plus } from '@lucide/svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { packingRequest } from '$lib/requests';
 	import TabButton from '$lib/components/Common/TabButton.svelte';
-	import NewCategory from './NewCategory.svelte';
+	// import NewCategory from './NewCategory.svelte';
 
 	let { currentTab = $bindable(), handleChangeTab } = $props();
 

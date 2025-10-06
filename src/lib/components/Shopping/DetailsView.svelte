@@ -108,7 +108,7 @@
 				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId, '') });
 			}
 		} catch (error: any) {
-			addToast(error?.error || 'An error occured', 'error');
+			addToast(error?.message || 'An error occured', 'error');
 		} finally {
 			isAdding = false;
 		}
@@ -129,7 +129,7 @@
 				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId, '') });
 			}
 		} catch (error: any) {
-			addToast(error?.error || 'An error occured', 'error');
+			addToast(error?.message || 'An error occured', 'error');
 		} finally {
 			isLoading = false;
 		}
@@ -145,7 +145,7 @@
 				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId, '') });
 			}
 		} catch (error: any) {
-			addToast(error?.error || 'An error occured', 'error');
+			addToast(error?.message || 'An error occured', 'error');
 		} finally {
 			isLoading = false;
 		}
@@ -160,7 +160,7 @@
 				goto('/shopping');
 			}
 		} catch (error: any) {
-			addToast(error?.error || 'An error occured', 'error');
+			addToast(error?.message || 'An error occured', 'error');
 		}
 	}
 
