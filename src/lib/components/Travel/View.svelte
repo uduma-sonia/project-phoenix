@@ -33,20 +33,22 @@
 
 	<LoaderError isLoading={$tripQuery?.isLoading} error={$tripQuery?.isError} />
 
-	{#if filteredTripsList?.length > 0}
-		<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
-			{#if !$tripQuery?.isLoading && filteredTripsList?.length > 0}
-				{#each filteredTripsList as trip, index (index)}
-					<TravelCard {trip} />
-				{/each}
-			{/if}
-		</div>
-	{:else}
-		<EmptyState
-			buttonText="Plan Trip"
-			heading="No trips planned"
-			text="Plan your next trip. Create a trip and pack like a pro"
-			link="/travel/create"
-		/>
+	{#if !$tripQuery?.isLoading}
+		{#if filteredTripsList?.length > 0}
+			<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
+				{#if !$tripQuery?.isLoading && filteredTripsList?.length > 0}
+					{#each filteredTripsList as trip, index (index)}
+						<TravelCard {trip} />
+					{/each}
+				{/if}
+			</div>
+		{:else}
+			<EmptyState
+				buttonText="Plan Trip"
+				heading="No trips planned"
+				text="Plan your next trip. Create a trip and pack like a pro"
+				link="/travel/create"
+			/>
+		{/if}
 	{/if}
 </div>

@@ -15,5 +15,4 @@
 ## General
 
 - PWA Alert modal
-- Custom tooltip
 - Make the clear button work properly for the dropdown component

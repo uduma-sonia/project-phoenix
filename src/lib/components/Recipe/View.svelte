@@ -40,20 +40,22 @@
 
 	<LoaderError isLoading={$recipeQuery?.isLoading} error={$recipeQuery?.isError} />
 
-	{#if filteredRecipeList?.length > 0}
-		<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
-			{#if !$recipeQuery?.isLoading && filteredRecipeList?.length > 0}
-				{#each filteredRecipeList as recipe, index (index)}
-					<RecipeCard {recipe} />
-				{/each}
-			{/if}
-		</div>
-	{:else}
-		<EmptyState
-			buttonText="Add Recipe"
-			heading="No recipes saved"
-			text="Save your favorite recipes in one place. Cooking inspiration starts here"
-			link="/recipe/create"
-		/>
+	{#if !$recipeQuery?.isLoading}
+		{#if filteredRecipeList?.length > 0}
+			<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
+				{#if !$recipeQuery?.isLoading && filteredRecipeList?.length > 0}
+					{#each filteredRecipeList as recipe, index (index)}
+						<RecipeCard {recipe} />
+					{/each}
+				{/if}
+			</div>
+		{:else}
+			<EmptyState
+				buttonText="Add Recipe"
+				heading="No recipes saved"
+				text="Save your favorite recipes in one place. Cooking inspiration starts here"
+				link="/recipe/create"
+			/>
+		{/if}
 	{/if}
 </div>

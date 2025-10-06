@@ -188,23 +188,25 @@
 
 	<LoaderError isLoading={$trackerQuery?.isLoading} error={$trackerQuery?.isError} />
 
-	{#if trackersList?.length > 0}
-		<div class="relative z-10 mt-10 grid grid-cols-1 gap-5 px-3 sm:grid-cols-2 md:grid-cols-3">
-			{#each trackersList as habit, index (index)}
-				{@const isActive = TrackerUtils.isHabitActive(habit, dateViewing)}
+	{#if !$trackerQuery?.isLoading}
+		{#if trackersList?.length > 0}
+			<div class="relative z-10 mt-10 grid grid-cols-1 gap-5 px-3 sm:grid-cols-2 md:grid-cols-3">
+				{#each trackersList as habit, index (index)}
+					{@const isActive = TrackerUtils.isHabitActive(habit, dateViewing)}
 
-				{#if isActive}
-					<HabitItem {openDetailsModal} {habit} {deleteHabit} {updateLog} {updateBuildLog} />
-				{/if}
-			{/each}
-		</div>
-	{:else}
-		<EmptyState
-			buttonText="Create Tracker"
-			link="/tracker/create"
-			heading="Ready to track?"
-			text="Add your first habit and start your streak today"
-		/>
+					{#if isActive}
+						<HabitItem {openDetailsModal} {habit} {deleteHabit} {updateLog} {updateBuildLog} />
+					{/if}
+				{/each}
+			</div>
+		{:else}
+			<EmptyState
+				buttonText="Create Tracker"
+				link="/tracker/create"
+				heading="Ready to track?"
+				text="Add your first habit and start your streak today"
+			/>
+		{/if}
 	{/if}
 </div>
 
