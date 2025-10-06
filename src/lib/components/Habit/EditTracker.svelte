@@ -100,7 +100,7 @@
 			const result = await TrackerRequest.updateHabit(page.params.id, payload);
 
 			if (result) {
-				addToast('Habit updated', 'success', '/images/confetti.svg');
+				addToast('Habit updated', 'success', { imgLink: '/images/confetti.svg' });
 				queryClient.invalidateQueries({ queryKey: queryKeys.getSingleHabit(page.params.id) });
 				goto('/tracker');
 			}

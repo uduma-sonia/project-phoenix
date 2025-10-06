@@ -14,7 +14,7 @@
 	let user = $derived($userQuery?.data?.data?.user);
 </script>
 
-<AppLayout floatingLink="/tracker/create">
+<AppLayout floatingLink="/tracker/create" tooltipText="Create Tracker">
 	<Seo title="Phoenix - Tracker" />
 	<View {user} />
 </AppLayout>

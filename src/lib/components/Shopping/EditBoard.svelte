@@ -27,7 +27,7 @@
 			const result = await shoppingRequest.updateBoard(page.params.id, payload);
 
 			if (result) {
-				addToast('Board Updated', 'success', '/images/confetti.svg');
+				addToast('Board Updated', 'success', { imgLink: '/images/confetti.svg' });
 				goto(`/shopping/${page.params.id}`);
 			}
 		} catch (error: any) {

@@ -3,6 +3,6 @@
 </script>
 
 <svelte:head>
-	<title>{title}</title>
+	<title>{title + ' | Phoenix'}</title>
 	<meta name="description" content={description} />
 </svelte:head>

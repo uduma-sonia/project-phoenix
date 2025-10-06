@@ -38,21 +38,21 @@
 	}
 </script>
 
-<div class="flex h-[56px] items-center gap-4">
+<form class="flex h-[56px] items-center gap-4" onsubmit={handleSubmit}>
 	<div class="max-w-[400px] flex-1">
-		<BasicInputField bind:value={groupName} placeholder="Group name" />
+		<BasicInputField autofocus={true} bind:value={groupName} placeholder="Group name" />
 	</div>
 
 	<div class="flex items-center gap-3">
-		<button onclick={handleSubmit} class="shadow_button shadow_button_thin">
+		<button type="submit" class="shadow_button shadow_button_thin">
 			{#if isLoading}
 				<div class="spinner_white_sm border-2 border-black"></div>
 			{:else}
 				Save
 			{/if}
 		</button>
-		<button onclick={toggleView} class="shadow_button shadow_button_red shadow_button_thin_red">
+		<button type="button" class="shadow_button shadow_button_red shadow_button_thin_red">
 			Cancel
 		</button>
 	</div>
-</div>
+</form>

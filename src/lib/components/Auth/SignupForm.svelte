@@ -28,7 +28,7 @@
 				goto('/login');
 			}
 		} catch (error: any) {
-			addToast(error?.error || 'An error occured', 'error');
+			addToast(error?.message || 'An error occured', 'error');
 		} finally {
 			isSubmitting = false;
 		}

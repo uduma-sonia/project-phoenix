@@ -13,7 +13,7 @@ export interface RecipeSection {
 
 export type RecipeGroup = {
 	name: string;
-	id: string;
+	id?: string;
 };
 
 export type Recipe = {
@@ -33,7 +33,8 @@ export type Recipe = {
 
 export enum SectionType {
 	LIST = 'LIST',
-	PARAPGRAPH = 'PARAPGRAPH'
+	PARAPGRAPH = 'PARAPGRAPH',
+	CHECKLIST = 'CHECKLIST'
 }
 
 export interface RecipeResponse extends Recipe {
