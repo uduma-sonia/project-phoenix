@@ -19,7 +19,7 @@
 		visibility: hidden;
 		position: absolute;
 		z-index: 1;
-		left: 110%;
+		right: 110%;
 		top: 50%;
 		background: #ffffff;
 		color: black;
