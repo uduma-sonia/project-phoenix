@@ -2,7 +2,7 @@
 	import { AlignJustify, X } from '@lucide/svelte';
 	let {} = $props();
 
-	let showMobileNav = $state(true);
+	let showMobileNav = $state(false);
 
 	let navLinks = [
 		{
