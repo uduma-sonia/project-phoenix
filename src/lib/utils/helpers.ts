@@ -20,7 +20,8 @@ import {
 	endOfWeek,
 	endOfYear,
 	startOfWeek,
-	startOfYear
+	startOfYear,
+	getHours
 } from 'date-fns';
 import { Permissions, type BoardMember } from '../../types/shopping';
 import type { User } from '../../types/user';
@@ -374,6 +375,13 @@ class Helpers {
 				}
 			}
 		}
+	}
+
+	static getTimeOfDay(date: Date = new Date()): 'morning' | 'afternoon' | 'evening' {
+		const hour = getHours(date);
+		if (hour >= 5 && hour < 12) return 'morning';
+		if (hour >= 12 && hour < 18) return 'afternoon';
+		return 'evening';
 	}
 }
 

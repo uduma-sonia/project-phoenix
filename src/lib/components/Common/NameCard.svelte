@@ -16,13 +16,15 @@
 </script>
 
 <div class="flex h-full items-center justify-between px-3 py-4">
-	<button class="flex items-center gap-2" onclick={openProfile}>
+	<button class="flex w-full items-center gap-2" onclick={openProfile}>
 		<Avatar src={user?.avatar} />
 		<div>
 			<Play />
 		</div>
 
-		<p class="font-suez text-xl sm:text-2xl">Hi {user?.username}</p>
+		<div class="relative w-full text-left">
+			<p class="font-suez text-xl sm:text-2xl">Hi {user?.username}</p>
+		</div>
 	</button>
 </div>
 

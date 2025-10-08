@@ -5,6 +5,7 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { recipeRequest } from '$lib/requests';
 	import TabButton from '$lib/components/Common/TabButton.svelte';
+	import Tooltip from '$lib/components/Common/Tooltip.svelte';
 
 	let { currentTab = $bindable(), handleChangeTab } = $props();
 
@@ -40,9 +41,11 @@
 			</div>
 
 			<div>
-				<button class="shadow_button shadow_button_sm" onclick={toggleView}>
-					<Plus />
-				</button>
+				<Tooltip text={'Create category'}>
+					<button class="shadow_button shadow_button_sm" onclick={toggleView}>
+						<Plus />
+					</button>
+				</Tooltip>
 			</div>
 		</div>
 	{/if}

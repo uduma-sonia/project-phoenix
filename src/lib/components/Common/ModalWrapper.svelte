@@ -11,6 +11,7 @@
 		maxWidth?: string;
 		height?: string;
 		label?: string;
+		helperText?: string;
 		LabelComponent?: Component<$$ComponentProps, {}, ''>;
 	};
 
@@ -21,7 +22,8 @@
 		maxWidth = 'max-w-[500px]',
 		height = 'h-auto',
 		label,
-		LabelComponent
+		LabelComponent,
+		helperText
 	}: ModalProps = $props();
 
 	let innerHeight = $derived(typeof window !== 'undefined' ? window.innerHeight : 0);
@@ -58,12 +60,18 @@
 					class="sticky top-0 right-4 z-50 flex w-full items-center justify-between rounded-2xl bg-white px-4 py-4"
 				>
 					<div>
+						{#if LabelComponent}
+							<LabelComponent />
+						{/if}
 						{#if label}
 							<p class="font-lexend text-lg sm:text-xl">
 								{label}
 							</p>
-						{:else if LabelComponent}
-							<LabelComponent />
+						{/if}
+						{#if helperText}
+							<p class="font-lexend text-xs font-light">
+								{helperText}
+							</p>
 						{/if}
 					</div>
 

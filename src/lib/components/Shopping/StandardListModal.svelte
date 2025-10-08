@@ -92,18 +92,16 @@
 	let standardList = $derived($standardItemsQuery?.data?.data?.shoppingItems);
 </script>
 
-<ModalWrapper {onClose} {isOpen} label="Standard list">
-	<div>
-		<div class="p-4">
-			{#each standardList as item, index (index)}
-				{#key item?._id}
-					<StandardListItem {handleUpdateItem} {handleItemDelete} {item} showSettings={true} />
-				{/key}
-			{/each}
+<ModalWrapper {onClose} {isOpen} label="Standard list" helperText="Add items you buy regularly">
+	<div class="p-4">
+		{#each standardList as item, index (index)}
+			{#key item?._id}
+				<StandardListItem {handleUpdateItem} {handleItemDelete} {item} showSettings={true} />
+			{/key}
+		{/each}
 
-			<div class="mt-6">
-				<AddStandardItem isSubmitting={isLoading} {handleItemAdd} />
-			</div>
+		<div class="mt-6">
+			<AddStandardItem isSubmitting={isLoading} {handleItemAdd} />
 		</div>
 	</div>
 </ModalWrapper>

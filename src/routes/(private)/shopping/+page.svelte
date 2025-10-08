@@ -5,6 +5,6 @@
 </script>
 
 <AppLayout floatingLink="/shopping/create" tooltipText="Create Board">
-	<Seo title="Phoenix - Shopping" />
+	<Seo title="Shopping" />
 	<View />
 </AppLayout>
