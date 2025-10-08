@@ -43,7 +43,8 @@
 }
 
 .shadow_button,
-.shadow_button_red {
+.shadow_button_red,
+.shadow_button_outline {
 	font-family: 'Crete Round', serif;
 	font-optical-sizing: auto;
 	font-weight: 400;
@@ -68,6 +69,11 @@
 	transition: 100ms ease-in;
 }
 
+.shadow_button_outline {
+	background-color: transparent;
+	border: 2px solid;
+}
+
 .shadow_button_thin {
 	height: 40px !important;
 	box-shadow: 2px 2px black !important;
@@ -89,18 +95,33 @@
 }
 
 .shadow_button:hover,
-.shadow_button_red:hover {
+.shadow_button_red:hover,
+.shadow_button_outline:hover {
 	cursor: pointer;
 }
 
+.shadow_button:hover,
+.shadow_button:active,
+.shadow_button:focus-visible {
+	background-color: #91ba68;
+}
+
+.shadow_button_outline:hover,
+.shadow_button_outline:active,
+.shadow_button_outline:focus-visible {
+	background-color: #ebdfc3;
+}
+
 .shadow_button:focus-visible,
-.shadow_button_red:focus-visible {
+.shadow_button_red:focus-visible,
+.shadow_button_outline:focus-visible {
 	outline-offset: 12px;
 	outline: 2px dotted #2f2e2e;
 }
 
 .shadow_button:active,
-.shadow_button_red:active {
+.shadow_button_red:active,
+.shadow_button_outline:active {
 	box-shadow: 2px 2px #2f2e2e;
 	transform: scale(0.96);
 }

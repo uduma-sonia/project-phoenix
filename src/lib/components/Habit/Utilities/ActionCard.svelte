@@ -6,7 +6,7 @@
 	<div></div>
 
 	<div class="flex">
-		<button class="shadow_button shadow_button_sm" style="height: 40px">
+		<button class="shadow_button shadow_button_sm shadow_button_thin">
 			<Share2 size="20px" />
 		</button>
 	</div>

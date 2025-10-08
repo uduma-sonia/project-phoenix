@@ -45,6 +45,7 @@
 		"@fontsource-variable/lexend": "^5.2.9",
 		"@fontsource-variable/lexend-deca": "^5.2.9",
 		"@fontsource/crete-round": "^5.2.6",
+		"@fontsource/dela-gothic-one": "^5.2.7",
 		"@fontsource/suez-one": "^5.2.6",
 		"@lucide/svelte": "^0.511.0",
 		"@sveltejs/adapter-netlify": "^5.2.3",
