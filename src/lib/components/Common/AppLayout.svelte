@@ -3,7 +3,14 @@
 	import NameCard from './NameCard.svelte';
 	import NavBar from './NavBar.svelte';
 
-	let { children, withName = true, floatingLink = '', tooltipText = '' } = $props();
+	type Props = {
+		children: any;
+		withName?: boolean;
+		floatingLink?: string;
+		tooltipText?: string;
+	};
+
+	let { children, withName = true, floatingLink = '', tooltipText = '' }: Props = $props();
 
 	let innerHeight = $state(typeof window !== 'undefined' ? window.innerHeight : 0);
 

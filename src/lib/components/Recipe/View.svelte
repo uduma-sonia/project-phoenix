@@ -10,6 +10,7 @@
 	import useCurrentUser from '$lib/hooks/useCurrentUser';
 	import EmptyState from '../Common/EmptyState.svelte';
 	import { onMount } from 'svelte';
+	import Helpers from '$lib/utils/helpers';
 
 	let searchQuery = $state('');
 	let currentTab = $state('All');
@@ -42,6 +43,10 @@
 </script>
 
 <div class="pb-24">
+	<p class="font-lexend mb-4 px-3 text-xs font-light text-wrap">
+		What are you eating this {Helpers.getTimeOfDay()}?
+	</p>
+
 	<GroupScroller {handleChangeTab} {currentTab} />
 
 	<div class="relative z-30 mt-5 gap-3 px-3">

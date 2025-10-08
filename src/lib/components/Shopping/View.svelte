@@ -37,7 +37,11 @@
 	});
 </script>
 
-<div class="pt-5 pb-24">
+<div class="pb-24">
+	<p class="font-lexend mb-4 px-3 text-xs font-light text-wrap">
+		Create a shopping list so you never forget the essentials
+	</p>
+
 	<div class="flex items-center justify-between gap-4 px-3">
 		<HabitSearch placeholder="Search board" bind:searchQuery />
 		<div>
@@ -67,25 +71,6 @@
 			{/if}
 		{/if}
 	{/if}
-
-	<!-- {#if !$boardsQuery?.isLoading}
-		{#if boardsList?.length > 0}
-			<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
-				{#each sortByDone(boardsList) as board, index (index)}
-					<ShoppingCard {board} />
-				{/each}
-			</div>
-		{:else}
-			<EmptyState
-				buttonText="Create Board"
-				heading="Never forget milk again!"
-				text="Add items as you think of them"
-				link="/shopping/create"
-			/>
-
-			text="Create a shopping list so you never forget the essentials"
-		{/if}
-	{/if} -->
 </div>
 
 <StandardListModal onClose={closeModal} isOpen={modalsState.data.isOpen} />

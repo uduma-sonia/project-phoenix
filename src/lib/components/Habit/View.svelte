@@ -188,6 +188,8 @@
 </script>
 
 <div class="pb-24">
+	<p class="font-lexend mb-4 px-3 text-xs font-light text-wrap">Track your habits</p>
+
 	<DateScroller />
 
 	<div class="relative z-30 mt-5 gap-3 px-3">

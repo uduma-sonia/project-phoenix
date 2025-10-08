@@ -32,7 +32,11 @@
 	});
 </script>
 
-<div class="pt-5 pb-24">
+<div class="pb-24">
+	<p class="font-lexend mb-4 px-3 text-xs font-light text-wrap">
+		Plan your next trip, day-by-day schedule, group planning, budget
+	</p>
+
 	<div class="flex items-center justify-between gap-4 px-3">
 		<HabitSearch bind:searchQuery placeholder="Search trips" />
 

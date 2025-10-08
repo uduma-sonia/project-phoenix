@@ -51,7 +51,11 @@
 				Save
 			{/if}
 		</button>
-		<button type="button" class="shadow_button shadow_button_red shadow_button_thin_red">
+		<button
+			onclick={toggleView}
+			type="button"
+			class="shadow_button shadow_button_red shadow_button_thin_red"
+		>
 			Cancel
 		</button>
 	</div>
