@@ -1,10 +1,17 @@
 <script lang="ts">
 	let {
-		isLoading = true,
+		isLoading = false,
 		error,
-		errorText = 'An error occured, please reload page.',
-		height = '400px'
-	}: { isLoading: boolean; error?: any; errorText?: string; height?: string } = $props();
+		errorText = 'Something went wrong, please try again',
+		height = '400px',
+		heading = 'Oh no!'
+	}: {
+		isLoading?: boolean;
+		error?: any;
+		errorText?: string;
+		height?: string;
+		heading?: string;
+	} = $props();
 </script>
 
 {#if isLoading}
@@ -31,7 +38,13 @@
 
 {#if !isLoading && error}
 	<div class="flex items-center justify-center" style="height: {height};">
-		<p class="text-sm text-red-500">
+		<p class="font-lexend text-13 text-center font-light">
+			<span class="font-semibold text-red-600">
+				{heading}
+			</span>
+
+			<br />
+
 			{errorText}
 		</p>
 	</div>

@@ -14,8 +14,8 @@
 	import { closeHabitDetails, modalsState, openHabitDetails } from '$lib/state/modal.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
 	import { format } from 'date-fns';
-	import { Hourglass } from '@lucide/svelte';
 	import EmptyState from '../Common/EmptyState.svelte';
+	import { onMount } from 'svelte';
 
 	let { user } = $props();
 
@@ -24,7 +24,7 @@
 	let isDeleting = $state(false);
 	let userId = $derived(user?._id);
 
-	const trackerQuery = createQuery({
+	let trackerQuery = createQuery({
 		queryKey: queryKeys.getAllHabits,
 		queryFn: () => TrackerRequest.getAllHabits()
 	});
@@ -39,6 +39,9 @@
 			dateViewing: trackerState.data.selectedDay
 		})
 	);
+	let isLoading = $derived($trackerQuery?.isLoading);
+	let isError = $derived($trackerQuery?.isError);
+	let hasTrackers = $derived((trackersList ?? []).length > 0);
 
 	async function deleteHabit(id: string) {
 		try {
@@ -177,6 +180,11 @@
 		updateTrackerDetails(arg);
 		openHabitDetails();
 	}
+
+	let hasMount = $state(false);
+	onMount(() => {
+		hasMount = true;
+	});
 </script>
 
 <div class="pb-24">
@@ -186,10 +194,10 @@
 		<HabitSearch placeholder="Search tracker" bind:searchQuery />
 	</div>
 
-	<LoaderError isLoading={$trackerQuery?.isLoading} error={$trackerQuery?.isError} />
+	<LoaderError {isLoading} error={isError} />
 
-	{#if !$trackerQuery?.isLoading}
-		{#if trackersList?.length > 0}
+	{#if !isLoading}
+		{#if hasTrackers}
 			<div class="relative z-10 mt-10 grid grid-cols-1 gap-5 px-3 sm:grid-cols-2 md:grid-cols-3">
 				{#each trackersList as habit, index (index)}
 					{@const isActive = TrackerUtils.isHabitActive(habit, dateViewing)}
@@ -199,13 +207,17 @@
 					{/if}
 				{/each}
 			</div>
-		{:else}
-			<EmptyState
-				buttonText="Create Tracker"
-				link="/tracker/create"
-				heading="Ready to track?"
-				text="Add your first habit and start your streak today"
-			/>
+		{:else if !isError}
+			{#if hasMount}
+				<EmptyState
+					buttonText="Create Tracker"
+					link="/tracker/create"
+					heading="Ready to track?"
+					text="Add your first habit and start your streak today"
+				/>
+			{:else}
+				<LoaderError isLoading={true} />
+			{/if}
 		{/if}
 	{/if}
 </div>

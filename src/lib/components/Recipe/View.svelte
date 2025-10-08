@@ -9,6 +9,7 @@
 	import RecipeUtils from './Utilities/utils';
 	import useCurrentUser from '$lib/hooks/useCurrentUser';
 	import EmptyState from '../Common/EmptyState.svelte';
+	import { onMount } from 'svelte';
 
 	let searchQuery = $state('');
 	let currentTab = $state('All');
@@ -26,9 +27,18 @@
 		RecipeUtils.getlist(recipeList, currentTab, user?._id, searchQuery)
 	);
 
+	let isLoading = $derived($recipeQuery?.isLoading);
+	let isError = $derived($recipeQuery?.isError);
+	let hasRecipes = $derived((filteredRecipeList ?? []).length > 0);
+
 	function handleChangeTab(tab: string) {
 		currentTab = tab;
 	}
+	let hasMount = $state(false);
+
+	onMount(() => {
+		hasMount = true;
+	});
 </script>
 
 <div class="pb-24">
@@ -38,10 +48,10 @@
 		<HabitSearch bind:searchQuery placeholder="Search recipe" />
 	</div>
 
-	<LoaderError isLoading={$recipeQuery?.isLoading} error={$recipeQuery?.isError} />
+	<LoaderError {isLoading} error={isError} />
 
-	{#if !$recipeQuery?.isLoading}
-		{#if filteredRecipeList?.length > 0}
+	{#if !isLoading}
+		{#if hasRecipes}
 			<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
 				{#if !$recipeQuery?.isLoading && filteredRecipeList?.length > 0}
 					{#each filteredRecipeList as recipe, index (index)}
@@ -49,13 +59,17 @@
 					{/each}
 				{/if}
 			</div>
-		{:else}
-			<EmptyState
-				buttonText="Add Recipe"
-				heading="No recipes saved"
-				text="Save your favorite recipes in one place. Cooking inspiration starts here"
-				link="/recipe/create"
-			/>
+		{:else if !isError}
+			{#if hasMount}
+				<EmptyState
+					buttonText="Add Recipe"
+					heading="No recipes saved"
+					text="Save your favorite recipes in one place. Cooking inspiration starts here"
+					link="/recipe/create"
+				/>
+			{:else}
+				<LoaderError isLoading={true} />
+			{/if}
 		{/if}
 	{/if}
 </div>

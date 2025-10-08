@@ -7,8 +7,9 @@
 	import { shoppingRequest } from '$lib/requests';
 	import HabitSearch from '../Habit/Utilities/HabitSearch.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
-	import { ShoppingStatus } from '../../../types/shopping';
 	import EmptyState from '../Common/EmptyState.svelte';
+	import { onMount } from 'svelte';
+	import ShoppingUtils from './Utilities/utils';
 
 	let searchQuery = $state('');
 
@@ -23,16 +24,17 @@
 		)
 	);
 
-	function sortByDone(items: any[]) {
-		return items?.sort((a, b) => {
-			if (a.status === ShoppingStatus.DONE && b.status === ShoppingStatus.DONE) return 0;
-			return a.status === ShoppingStatus.DONE ? 1 : -1;
-		});
+	let isLoading = $derived($boardsQuery?.isLoading);
+	let isError = $derived($boardsQuery?.isError);
+	let hasBoards = $derived((boardsList ?? []).length > 0);
 
-		// return items?.sort((a, b) => {
-		// 	return new Date(b.updatedAt) - new Date(a.updatedAt);
-		// });
-	}
+	// Fallback for really slow networks - 3G, etcs, to improve the UX.
+	// TODO: REFACTOR
+	let hasMount = $state(false);
+
+	onMount(() => {
+		hasMount = true;
+	});
 </script>
 
 <div class="pt-5 pb-24">
@@ -43,9 +45,30 @@
 		</div>
 	</div>
 
-	<LoaderError isLoading={$boardsQuery?.isLoading} error={$boardsQuery?.isError} />
+	<LoaderError {isLoading} error={isError} />
 
-	{#if !$boardsQuery?.isLoading}
+	{#if !isLoading}
+		{#if hasBoards}
+			<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
+				{#each ShoppingUtils.sortByDone(boardsList) as board, index (index)}
+					<ShoppingCard {board} />
+				{/each}
+			</div>
+		{:else if !isError}
+			{#if hasMount}
+				<EmptyState
+					buttonText="Create Board"
+					heading="Never forget milk again!"
+					text="Add items as you think of them"
+					link="/shopping/create"
+				/>
+			{:else}
+				<LoaderError isLoading={true} />
+			{/if}
+		{/if}
+	{/if}
+
+	<!-- {#if !$boardsQuery?.isLoading}
 		{#if boardsList?.length > 0}
 			<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
 				{#each sortByDone(boardsList) as board, index (index)}
@@ -60,9 +83,9 @@
 				link="/shopping/create"
 			/>
 
-			<!-- text="Create a shopping list so you never forget the essentials" -->
+			text="Create a shopping list so you never forget the essentials"
 		{/if}
-	{/if}
+	{/if} -->
 </div>
 
 <StandardListModal onClose={closeModal} isOpen={modalsState.data.isOpen} />

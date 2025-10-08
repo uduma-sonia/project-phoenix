@@ -7,6 +7,7 @@
 	import LoaderError from '../Common/LoaderError.svelte';
 	import { openPackingModal } from '$lib/state/modal.svelte';
 	import EmptyState from '../Common/EmptyState.svelte';
+	import { onMount } from 'svelte';
 
 	let searchQuery = $state('');
 
@@ -20,6 +21,15 @@
 	let filteredTripsList = $derived(
 		tripsList?.filter((item: any) => item.name.toUpperCase().includes(searchQuery?.toUpperCase()))
 	);
+	let isLoading = $derived($tripQuery?.isLoading);
+	let isError = $derived($tripQuery?.isError);
+	let hasTrips = $derived((filteredTripsList ?? []).length > 0);
+
+	let hasMount = $state(false);
+
+	onMount(() => {
+		hasMount = true;
+	});
 </script>
 
 <div class="pt-5 pb-24">
@@ -31,10 +41,10 @@
 		</div>
 	</div>
 
-	<LoaderError isLoading={$tripQuery?.isLoading} error={$tripQuery?.isError} />
+	<LoaderError {isLoading} error={isError} />
 
-	{#if !$tripQuery?.isLoading}
-		{#if filteredTripsList?.length > 0}
+	{#if !isLoading}
+		{#if hasTrips}
 			<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
 				{#if !$tripQuery?.isLoading && filteredTripsList?.length > 0}
 					{#each filteredTripsList as trip, index (index)}
@@ -42,13 +52,17 @@
 					{/each}
 				{/if}
 			</div>
-		{:else}
-			<EmptyState
-				buttonText="Plan Trip"
-				heading="No trips planned"
-				text="Plan your next trip. Create a trip and pack like a pro"
-				link="/travel/create"
-			/>
+		{:else if !isError}
+			{#if hasMount}
+				<EmptyState
+					buttonText="Plan Trip"
+					heading="No trips planned"
+					text="Plan your next trip. Create a trip and pack like a pro"
+					link="/travel/create"
+				/>
+			{:else}
+				<LoaderError isLoading={true} />
+			{/if}
 		{/if}
 	{/if}
 </div>
