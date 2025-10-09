@@ -200,8 +200,7 @@
 				{#if isOwner}
 					<div>
 						<button
-							class="shadow_button shadow_button_sm text-red-600"
-							style="height: 40px"
+							class="shadow_button shadow_button_sm shadow_button_thin text-red-600"
 							onclick={() => {
 								handleSelectRecipe(recipe);
 								openDeleteModal();

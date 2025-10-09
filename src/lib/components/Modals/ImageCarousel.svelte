@@ -38,7 +38,7 @@
 
 		<div class="mt-6 flex items-center justify-center gap-5">
 			<div>
-				<button class="shadow_button shadow_button_sm" style="height: 40px" onclick={gotoPrev}>
+				<button class="shadow_button shadow_button_sm shadow_button_thin" onclick={gotoPrev}>
 					<span class="block rotate-180">
 						<Play />
 					</span>
@@ -54,7 +54,7 @@
 			</div>
 
 			<div>
-				<button onclick={gotoNext} class="shadow_button shadow_button_sm" style="height: 40px">
+				<button onclick={gotoNext} class="shadow_button shadow_button_sm shadow_button_thin">
 					<Play />
 				</button>
 			</div>

@@ -5,6 +5,7 @@
 - Image upload
 - Recipe review system, star rating
 - Add standard baking measurements
+- Connect pinterest
 
 ## Travel planner
 
@@ -17,3 +18,4 @@
 
 - PWA Alert modal
 - Make the clear button work properly for the dropdown component
+- add tooltips to habit icons

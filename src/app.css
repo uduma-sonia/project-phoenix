@@ -5,6 +5,7 @@
 @import '@fontsource/crete-round';
 @import '@fontsource-variable/lexend-deca';
 @import '@fontsource-variable/lexend';
+@import '@fontsource/dela-gothic-one';
 
 @import 'tailwindcss';
 
@@ -13,6 +14,7 @@
 	--font-lexend: 'Lexend Variable', sans-serif;
 	--font-suez: 'Suez One', serif;
 	--font-crete: 'Crete Round', serif;
+	--font-dela-gothic-one: 'Dela Gothic One', system-ui;
 
 	--color-brand-green: #1eb564;
 	--color-brand-light: #f5ecd5;
@@ -28,8 +30,10 @@
 
 	--radius-5: 5px;
 	--radius-10: 10px;
+	--radius-20: 20px;
 
 	--text-13: 13px;
+	--text-15: 15px;
 }
 
 * {
