@@ -11,7 +11,7 @@
 <div class="mt-4 flex items-center justify-between gap-3">
 	<div class="flex items-center gap-3">
 		<div>
-			<Tooltip text="Save to Pinterest">
+			<Tooltip text="Save to Pinterest" position="bottom">
 				<button
 					class="shadow_button shadow_button_sm shadow_button_thin"
 					onclick={shareToPinterest}
@@ -21,7 +21,7 @@
 			</Tooltip>
 		</div>
 		<div>
-			<Tooltip text="Copy link">
+			<Tooltip text="Copy link" position="bottom">
 				<button class="shadow_button shadow_button_sm shadow_button_thin" onclick={copyLink}>
 					<Link size="18px" />
 				</button>

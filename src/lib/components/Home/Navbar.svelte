@@ -62,7 +62,9 @@
 	</div>
 
 	{#if showMobileNav}
-		<div class="bg-brand-light fixed top-0 left-0 w-full px-4 pt-6 md:hidden">
+		<div
+			class="bg-brand-light fixed top-0 left-0 z-50 w-full rounded-b-3xl px-4 pt-6 pb-10 shadow-2xl shadow-black md:hidden"
+		>
 			<div class="mb-6 flex items-center justify-between gap-4">
 				<div>
 					<a href="/">

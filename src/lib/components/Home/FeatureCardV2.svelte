@@ -28,7 +28,7 @@
 		<div class="p-5 sm:p-8">
 			<h3 class="text-2xl font-semibold md:text-3xl lg:text-4xl">{title}</h3>
 
-			<div class="mt-6 space-y-8 md:mt-8">
+			<div class="mt-6 space-y-6 md:mt-8 md:space-y-8">
 				{#if featuresList?.length}
 					{#each featuresList as feature, index (index)}
 						<div class="flex items-center gap-2">
@@ -52,7 +52,7 @@
 		<div
 			class="feature_img_wrapper mx-auto h-[400px] w-full md:h-[600px] md:max-w-4xl lg:h-[550px]"
 		>
-			<div class="feature_img_inner bg-brand-light h-full rounded-3xl border-2 p-4">
+			<div class="feature_img_inner bg-brand-light h-full overflow-hidden rounded-3xl border-2 p-4">
 				<Image src={imageUrl} alt={title} />
 			</div>
 		</div>

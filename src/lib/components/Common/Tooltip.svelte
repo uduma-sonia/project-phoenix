@@ -1,4 +1,6 @@
 <script lang="ts">
+	// TODO: add support for more positions
+	// type Position = 'top' | 'bottom' | 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 	type Position = 'top' | 'bottom' | 'left' | 'right';
 
 	let {
@@ -24,7 +26,7 @@
 	.tooltiptext {
 		visibility: hidden;
 		position: absolute;
-		z-index: 1;
+		z-index: 6;
 		background: #ffffff;
 		color: black;
 		padding: 4px 6px;
