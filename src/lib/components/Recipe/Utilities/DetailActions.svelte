@@ -10,23 +10,19 @@
 <div class="mt-4 flex items-center justify-between gap-3">
 	<div class="flex items-center gap-3">
 		<div>
-			<button
-				class="shadow_button shadow_button_sm"
-				style="height: 40px"
-				onclick={shareToPinterest}
-			>
+			<button class="shadow_button shadow_button_sm shadow_button_thin" onclick={shareToPinterest}>
 				<img src="/images/pinterest_logo.svg" class="w-4" alt="" />
 			</button>
 		</div>
 		<div>
-			<button class="shadow_button shadow_button_sm" style="height: 40px" onclick={copyLink}>
+			<button class="shadow_button shadow_button_sm shadow_button_thin" onclick={copyLink}>
 				<Link size="18px" />
 			</button>
 		</div>
 
 		{#if !isOwner}
 			<div>
-				<button class="shadow_button shadow_button_sm" style="height: 40px" onclick={saveRecipe}>
+				<button class="shadow_button shadow_button_sm shadow_button_thin" onclick={saveRecipe}>
 					{#if isSaving}
 						<div class="spinner_white border-2 border-black"></div>
 					{:else}
@@ -40,7 +36,7 @@
 	<div>
 		{#if isOwner}
 			<a href={`/recipe/${page.params.id}/edit?owner=${ownerId}`}>
-				<button class="shadow_button shadow_button_sm" style="height: 40px">
+				<button class="shadow_button shadow_button_sm shadow_button_thin">
 					<SquarePen size="18px" />
 				</button>
 			</a>

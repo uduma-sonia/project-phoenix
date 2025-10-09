@@ -22,7 +22,7 @@
 
 		<div class="mx-auto mt-6 w-[170px]">
 			<a href={link}>
-				<button class="shadow_button shadow_button_sm" style="height: 40px" type="button">
+				<button class="shadow_button shadow_button_sm shadow_button_thin" type="button">
 					{buttonText}
 				</button>
 			</a>
