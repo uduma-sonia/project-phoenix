@@ -49,14 +49,14 @@
 
 		<div class="flex items-center gap-4">
 			<div>
-				<button class="shadow_button_outline shadow_button_thi shadow_button_sm" type="button">
-					Log in
-				</button>
+				<a href="/login">
+					<button class="shadow_button_outline shadow_button_sm" type="button"> Log in </button>
+				</a>
 			</div>
 			<div>
-				<button class="shadow_button shadow_button_thi shadow_button_sm" type="button">
-					Start for free
-				</button>
+				<a href="/signup">
+					<button class="shadow_button shadow_button_sm" type="button"> Start for free </button>
+				</a>
 			</div>
 		</div>
 	</div>
@@ -88,14 +88,14 @@
 
 			<div class="mt-16 space-y-6">
 				<div>
-					<button class="shadow_button_outline shadow_button_thi shadow_button_sm" type="button">
-						Log in
-					</button>
+					<a href="/login">
+						<button class="shadow_button_outline shadow_button_sm" type="button"> Log in </button>
+					</a>
 				</div>
 				<div>
-					<button class="shadow_button shadow_button_thi shadow_button_sm" type="button">
-						Start for free
-					</button>
+					<a href="/signup">
+						<button class="shadow_button shadow_button_sm" type="button"> Start for free </button>
+					</a>
 				</div>
 			</div>
 		</div>

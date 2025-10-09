@@ -20,10 +20,11 @@
 			const result = await UserRequest.updateUser(user?._id, { username, email });
 
 			if (result) {
+				addToast('Profile updated', 'success');
 				queryClient.invalidateQueries({ queryKey: queryKeys.getCurrentUser });
 			}
 		} catch (error: any) {
-			addToast(error || 'An error occured', 'error');
+			addToast(error?.message || 'An error occured', 'error');
 		} finally {
 			isLoading = false;
 		}

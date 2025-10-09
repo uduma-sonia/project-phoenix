@@ -11,6 +11,7 @@
 				'Habit tracker analytics',
 				'Unlimited shopping list',
 				'Save up to 30 recipes',
+				'Share recipe with others',
 				'Solo trip planner',
 				'Email support'
 			],
@@ -23,7 +24,6 @@
 			offerings: [
 				'Shared shopping list',
 				'Unlimited recipes',
-				'Share recipe with others',
 				'Custom themes',
 				'Group trip planner',
 				'Connect Pinterest'

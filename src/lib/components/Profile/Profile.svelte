@@ -4,16 +4,10 @@
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import Helpers from '$lib/utils/helpers';
 	import { goto } from '$app/navigation';
-	import UserProfile from './UserProfile.svelte';
-	import Security from './Security.svelte';
 	import { UserRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { closeProfile } from '$lib/state/modal.svelte';
-	import Appearance from './Appearance.svelte';
-	import { PAGE_REDIRECTED_FROM_KEY, profileLinks } from '$lib/constants/global';
-	import Feedback from './Feedback.svelte';
-	import Subscription from './Subscription.svelte';
-	import Help from './Help.svelte';
+	import { AUTH_TOKEN, PAGE_REDIRECTED_FROM_KEY, profileLinks } from '$lib/constants/global';
 	import Views from './Views.svelte';
 
 	let { onClose, isOpen } = $props();
@@ -35,7 +29,7 @@
 	}
 
 	const handleLogout = async () => {
-		Helpers.deleteCookie('id');
+		Helpers.deleteCookie(AUTH_TOKEN);
 		sessionStorage.removeItem(PAGE_REDIRECTED_FROM_KEY);
 		closeProfile();
 		goto('/login');

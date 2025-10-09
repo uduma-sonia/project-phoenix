@@ -8,6 +8,6 @@
 
 <div class="rounded-lg border-2 sm:h-20 sm:w-20" style="height: {height}; width: {width};">
 	{#if src}
-		<img alt="avatar" {src} />
+		<img alt="avatar" {src} class="h-full w-full object-cover" />
 	{/if}
 </div>
