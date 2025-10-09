@@ -17,9 +17,7 @@
 			</div>
 
 			<div class="flex flex-1 justify-end">
-				<div class="h-full w-[250px] overflow-hidden rounded-xl border sm:w-[300px]">
-					<!-- <img src="/images/tracker_iphone14_screenshot.jpeg" class="object-bottom" alt="" /> -->
-				</div>
+				<div class="h-full w-[250px] overflow-hidden rounded-xl border sm:w-[300px]"></div>
 			</div>
 		</div>
 	</div>

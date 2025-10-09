@@ -11,16 +11,15 @@
 	async function handleSubmit(e: any) {
 		e.preventDefault();
 		try {
-			addToast('Reset link sent to email', 'success');
+			isSubmitting = true;
 
-			// isSubmitting = true;
+			const result = await AuthRequest.requestPasswordReset({ email });
 
-			// const result = await AuthRequest.requestPasswordReset({ email });
-
-			// if (result) {
-			// 	Helpers.setCookie(AUTH_TOKEN, result?.data?.data?.access_token, 400000);
-			// 	addToast('Reset link sent to email', 'success');
-			// }
+			email = '';
+			if (result) {
+				Helpers.setCookie(AUTH_TOKEN, result?.data?.data?.access_token, 400000);
+				addToast('Reset link sent to email', 'success');
+			}
 		} catch (error: any) {
 			addToast(error?.message || 'An error occured', 'error');
 		} finally {

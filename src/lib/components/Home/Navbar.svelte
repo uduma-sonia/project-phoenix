@@ -49,20 +49,22 @@
 
 		<div class="flex items-center gap-4">
 			<div>
-				<button class="shadow_button_outline shadow_button_thi shadow_button_sm" type="button">
-					Log in
-				</button>
+				<a href="/login">
+					<button class="shadow_button_outline shadow_button_sm" type="button"> Log in </button>
+				</a>
 			</div>
 			<div>
-				<button class="shadow_button shadow_button_thi shadow_button_sm" type="button">
-					Start for free
-				</button>
+				<a href="/signup">
+					<button class="shadow_button shadow_button_sm" type="button"> Start for free </button>
+				</a>
 			</div>
 		</div>
 	</div>
 
 	{#if showMobileNav}
-		<div class="bg-brand-light fixed top-0 left-0 w-full px-4 pt-6 md:hidden">
+		<div
+			class="bg-brand-light fixed top-0 left-0 z-50 w-full rounded-b-3xl px-4 pt-6 pb-10 shadow-2xl shadow-black md:hidden"
+		>
 			<div class="mb-6 flex items-center justify-between gap-4">
 				<div>
 					<a href="/">
@@ -88,14 +90,14 @@
 
 			<div class="mt-16 space-y-6">
 				<div>
-					<button class="shadow_button_outline shadow_button_thi shadow_button_sm" type="button">
-						Log in
-					</button>
+					<a href="/login">
+						<button class="shadow_button_outline shadow_button_sm" type="button"> Log in </button>
+					</a>
 				</div>
 				<div>
-					<button class="shadow_button shadow_button_thi shadow_button_sm" type="button">
-						Start for free
-					</button>
+					<a href="/signup">
+						<button class="shadow_button shadow_button_sm" type="button"> Start for free </button>
+					</a>
 				</div>
 			</div>
 		</div>

@@ -130,7 +130,7 @@
 			<Stats ref={recipe?._id} section="Recipe" />
 		{/if}
 
-		<div class="mx-auto mt-4 max-w-[500px] px-3 pb-24">
+		<div class="mx-auto mt-4 max-w-[600px] px-3 pb-24">
 			{#if isLoggedIn}
 				<div class="flex items-center gap-3">
 					<BackComponent backLink="/recipe" title={recipe?.name} />
@@ -148,7 +148,7 @@
 			{/if}
 
 			<div class="mt-6">
-				<div class="image_wrapper h-[200px]">
+				<div class="image_wrapper h-[230px]">
 					<button
 						class="relative z-10 h-full w-full cursor-pointer gap-3 overflow-hidden rounded-lg border-2 border-black bg-white"
 						onclick={viewImages}
@@ -176,9 +176,19 @@
 					{saveRecipe}
 				/>
 
-				<p class="mt-4 mb-4 text-xl font-medium">
+				<p class="mt-4 text-xl font-medium">
 					{recipe.name}
 				</p>
+
+				<div class="flex gap-3">
+					{#if recipe?.groups?.length}
+						{#each recipe?.groups as group, index (index)}
+							<p class="font-lexend text-13 font-extralight">
+								#{group.name}
+							</p>
+						{/each}
+					{/if}
+				</div>
 
 				<AuthorItem {recipe} />
 

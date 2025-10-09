@@ -397,7 +397,7 @@
 											shouldSearch={false}
 										/>
 
-										{#if section.type == SectionType.LIST}
+										{#if section.type == SectionType.LIST || section.type == SectionType.CHECKLIST}
 											<p class="mb-2">List items</p>
 
 											{#if section.list}

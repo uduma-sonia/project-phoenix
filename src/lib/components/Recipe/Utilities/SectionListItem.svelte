@@ -1,17 +1,36 @@
 <script lang="ts">
 	import { Check } from '@lucide/svelte';
 
-	let { name = '' } = $props();
+	let {
+		name = '',
+		isChecklist,
+		handleSelectItem,
+		isSelected
+	}: {
+		name: string;
+		isChecklist?: boolean;
+		handleSelectItem?: (name: string) => void;
+		isSelected?: boolean;
+	} = $props();
 </script>
 
-<div class="flex items-center gap-2">
+<div class="flex items-start gap-4">
 	<div>
-		<button
-			class="button_active relative flex h-5 w-5 items-center justify-center rounded-md border p-0"
-			aria-label="Checklist"
-		>
-			<Check size="22px" />
-		</button>
+		{#if isChecklist}
+			<button
+				class="button_active relative flex h-5 w-5 items-center justify-center rounded-md border p-0"
+				aria-label="Checklist"
+				onclick={() => handleSelectItem?.(name)}
+			>
+				{#if isSelected}
+					<Check size="22px" />
+				{/if}
+			</button>
+		{:else}
+			<div
+				class="button_active bg-brand-recipe relative flex h-5 w-5 items-center justify-center rounded-md border p-0"
+			></div>
+		{/if}
 	</div>
 
 	<div class="flex-1">
