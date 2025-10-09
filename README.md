@@ -5,6 +5,7 @@
 - Image upload
 - Recipe review system, star rating
 - Add standard baking measurements
+- Connect pinterest
 
 ## Travel planner
 

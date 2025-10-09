@@ -33,9 +33,6 @@
 		height: 100%;
 		background-color: white;
 	}
-	.ddd {
-		color: #8cbf80;
-	}
 
 	.card_wrapper::before {
 		content: '';
