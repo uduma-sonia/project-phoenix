@@ -1,11 +1,19 @@
 <script lang="ts">
-	let { text, children } = $props();
+	// TODO: add support for more positions
+	// type Position = 'top' | 'bottom' | 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+	type Position = 'top' | 'bottom' | 'left' | 'right';
+
+	let {
+		text,
+		children,
+		position = 'left'
+	}: { text: string; children: any; position?: Position } = $props();
 </script>
 
 <div class="tooltip">
 	{@render children()}
 	{#if text}
-		<span class="tooltiptext">{text}</span>
+		<span class="tooltiptext {position}">{text}</span>
 	{/if}
 </div>
 
@@ -18,9 +26,7 @@
 	.tooltiptext {
 		visibility: hidden;
 		position: absolute;
-		z-index: 1;
-		right: 110%;
-		top: 50%;
+		z-index: 6;
 		background: #ffffff;
 		color: black;
 		padding: 4px 6px;
@@ -32,11 +38,39 @@
 		font-family: 'Montserrat Variable', sans-serif;
 		border: 1px solid black;
 		min-width: max-content;
-		transform: translateY(-50%);
 		transition: all 0.2s linear;
+	}
+
+	.tooltiptext.left {
+		right: 110%;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	.tooltiptext.right {
+		left: 110%;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	.tooltiptext.top {
+		bottom: 110%;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	.tooltiptext.bottom {
+		top: 110%;
+		left: 50%;
+		transform: translateX(-50%);
 	}
 
 	.tooltip:hover .tooltiptext {
 		visibility: visible;
+		transition-delay: 300ms;
+	}
+
+	.tooltiptext {
+		transition-delay: 0ms;
 	}
 </style>

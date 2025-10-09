@@ -285,19 +285,22 @@
 		</div>
 
 		{#if showStandardList && standardList?.length > 0}
-			<div class="h-fit rounded-lg border-2 bg-white p-2">
-				{#each standardList as item, index (index)}
-					{@const hasBeenAdded = findName(item.name, itemsList)}
+			<div>
+				<p class="mb-2 opacity-80">Standard list</p>
+				<div class="h-fit rounded-lg border-2 bg-white p-2">
+					{#each standardList as item, index (index)}
+						{@const hasBeenAdded = findName(item.name, itemsList)}
 
-					{#if hasBeenAdded}
-						<StandardListItem
-							{boardId}
-							handleAddToList={handleItemAdd}
-							showSettings={false}
-							{item}
-						/>
-					{/if}
-				{/each}
+						{#if hasBeenAdded}
+							<StandardListItem
+								{boardId}
+								handleAddToList={handleItemAdd}
+								showSettings={false}
+								{item}
+							/>
+						{/if}
+					{/each}
+				</div>
 			</div>
 		{/if}
 	</div>

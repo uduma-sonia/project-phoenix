@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import Tooltip from '$lib/components/Common/Tooltip.svelte';
 	import { Link, SquarePen, Heart } from '@lucide/svelte';
 
 	let { shareToPinterest, copyLink, isOwner, saveRecipe, isSaving, hasSavedRecipe } = $props();
@@ -10,25 +11,34 @@
 <div class="mt-4 flex items-center justify-between gap-3">
 	<div class="flex items-center gap-3">
 		<div>
-			<button class="shadow_button shadow_button_sm shadow_button_thin" onclick={shareToPinterest}>
-				<img src="/images/pinterest_logo.svg" class="w-4" alt="" />
-			</button>
+			<Tooltip text="Save to Pinterest" position="bottom">
+				<button
+					class="shadow_button shadow_button_sm shadow_button_thin"
+					onclick={shareToPinterest}
+				>
+					<img src="/images/pinterest_logo.svg" class="w-4" alt="" />
+				</button>
+			</Tooltip>
 		</div>
 		<div>
-			<button class="shadow_button shadow_button_sm shadow_button_thin" onclick={copyLink}>
-				<Link size="18px" />
-			</button>
+			<Tooltip text="Copy link" position="bottom">
+				<button class="shadow_button shadow_button_sm shadow_button_thin" onclick={copyLink}>
+					<Link size="18px" />
+				</button>
+			</Tooltip>
 		</div>
 
 		{#if !isOwner}
 			<div>
-				<button class="shadow_button shadow_button_sm shadow_button_thin" onclick={saveRecipe}>
-					{#if isSaving}
-						<div class="spinner_white border-2 border-black"></div>
-					{:else}
-						<Heart size="18px" fill={hasSavedRecipe() ? 'fill' : 'transparent'} />
-					{/if}
-				</button>
+				<Tooltip text="Save recipe">
+					<button class="shadow_button shadow_button_sm shadow_button_thin" onclick={saveRecipe}>
+						{#if isSaving}
+							<div class="spinner_white border-2 border-black"></div>
+						{:else}
+							<Heart size="18px" fill={hasSavedRecipe() ? 'fill' : 'transparent'} />
+						{/if}
+					</button>
+				</Tooltip>
 			</div>
 		{/if}
 	</div>

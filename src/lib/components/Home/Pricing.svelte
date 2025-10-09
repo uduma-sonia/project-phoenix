@@ -11,6 +11,7 @@
 				'Habit tracker analytics',
 				'Unlimited shopping list',
 				'Save up to 30 recipes',
+				'Share recipe with others',
 				'Solo trip planner',
 				'Email support'
 			],
@@ -23,7 +24,6 @@
 			offerings: [
 				'Shared shopping list',
 				'Unlimited recipes',
-				'Share recipe with others',
 				'Custom themes',
 				'Group trip planner',
 				'Connect Pinterest'
@@ -50,9 +50,11 @@
 	</div>
 
 	<div class="mx-auto mt-16 mb-10 w-[160px]">
-		<button class="shadow_button shadow_button_thi shadow_button_sm" type="button">
-			Start for free
-		</button>
+		<a href="/signup">
+			<button class="shadow_button shadow_button_thi shadow_button_sm" type="button">
+				Start for free
+			</button>
+		</a>
 	</div>
 </div>
 

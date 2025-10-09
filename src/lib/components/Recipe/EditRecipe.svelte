@@ -6,7 +6,12 @@
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import Dropdown from '../Common/Form/Dropdown.svelte';
-	import { SectionType, type RecipeResponse, type RecipeSection } from '../../../types/recipe';
+	import {
+		SectionType,
+		type RecipeGroup,
+		type RecipeResponse,
+		type RecipeSection
+	} from '../../../types/recipe';
 	import TextArea from '../Common/Form/TextArea.svelte';
 	import TextButton from '../Common/Form/TextButton.svelte';
 	import { difficultyOptions, typeOptions } from '$lib/constants/recipe';
@@ -43,7 +48,7 @@
 		id: recipe?.difficulty || ''
 	});
 	let calories = $state(recipe?.calories);
-	let selectedGroupList: Group[] = $state(recipe?.groups || []);
+	let selectedGroupList: RecipeGroup[] = $state(recipe?.groups || []);
 
 	let sections = $state<RecipeSection[]>(
 		recipe?.sections || [
@@ -179,9 +184,9 @@
 			const payload = {
 				name: recipeName,
 				images: [
-					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg',
-					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757150018/photo_VSCO_afqnsk.jpg',
-					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1759586707/cake4_fyiz3v.jpg'
+					'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg',
+					'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757150018/photo_VSCO_afqnsk.jpg',
+					'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1759586707/cake4_fyiz3v.jpg'
 				],
 				isPrivate: isPrivate,
 				sections: $state.snapshot(filterSection(sections)),
@@ -416,7 +421,7 @@
 											shouldSearch={false}
 										/>
 
-										{#if section.type == SectionType.LIST}
+										{#if section.type == SectionType.LIST || section.type == SectionType.CHECKLIST}
 											<p class="mb-2">List items</p>
 
 											{#if section.list}
