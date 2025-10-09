@@ -1,7 +1,7 @@
 <div class="mx-auto max-w-7xl px-4">
 	<div class="mt-20 text-center">
 		<h2 class="font-lexend herotext text-7xl font-bold tracking-tight">Organize your Life</h2>
-		<p class="font-lexend mx-auto mt-4 max-w-[500px] font-light">
+		<p class="font-lexend mx-auto mt-6 max-w-[550px] font-light">
 			Laniva combines habit tracking, shared shopping boards, recipes and travel planning into a
 			single, simple workspace so you spend less time juggling tools.
 		</p>
@@ -22,7 +22,7 @@
 	<div class="mt-12">
 		<div class="hero_img_wrapper mx-auto h-[400px] w-full md:h-[600px] md:max-w-4xl">
 			<div class="hero_img_inner h-full rounded-3xl border-2 bg-white p-4">
-				<div>INNER</div>
+				<div></div>
 			</div>
 		</div>
 	</div>

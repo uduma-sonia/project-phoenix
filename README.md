@@ -17,3 +17,4 @@
 
 - PWA Alert modal
 - Make the clear button work properly for the dropdown component
+- add tooltips to habit icons
