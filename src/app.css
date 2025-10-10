@@ -33,6 +33,7 @@
 
 	--text-13: 13px;
 	--text-15: 15px;
+	--text-10: 10px;
 }
 
 * {
@@ -43,6 +44,7 @@ html,
 body {
 	font-family: 'Crete Round', serif;
 	background: #f5ecd5;
+	scroll-behavior: smooth;
 }
 
 label,

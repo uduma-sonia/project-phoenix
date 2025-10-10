@@ -337,7 +337,7 @@ export default class TrackerUtils {
 		return expectedDays > 0 ? Number(result) : 0;
 	}
 
-	static padMonthDays(days: string[]) {
+	static padMonthDays(days: Date[]) {
 		if (!days.length) return [];
 
 		const firstDay = new Date(days[0]);

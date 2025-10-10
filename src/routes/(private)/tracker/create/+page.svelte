@@ -15,6 +15,6 @@
 </script>
 
 <AppLayout withName={false}>
-	<Seo title="Phoenix - Create Tracker" />
+	<Seo title="Create Tracker" />
 	<CreateTracker {user} />
 </AppLayout>

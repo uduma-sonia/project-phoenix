@@ -36,6 +36,15 @@
 </script>
 
 <div class="flex h-full items-center justify-center px-4">
+	<div class="fixed top-0 mx-auto w-full max-w-[1000px] px-4 pt-4">
+		<a href="/" class="flex items-center gap-2">
+			<div>
+				<img src="/images/laniva_logo_trans.png" class="aspect-square w-10" alt="laniva logo" />
+			</div>
+
+			<h1 class="font-dela-gothic-one text-xl sm:text-2xl">Laniva</h1>
+		</a>
+	</div>
 	<form
 		class="login_form_wrapper w-full md:max-w-[400px]"
 		onsubmit={handleSubmit}
@@ -94,7 +103,7 @@
 				</button>
 			</div>
 
-			<div class="mt-6">
+			<div class="mt-6 pb-4">
 				<p class="font-lexend text-sm font-light">
 					Already have an account? <a href="/login" class="font-medium underline">Login</a>
 				</p>

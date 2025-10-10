@@ -5,6 +5,6 @@
 </script>
 
 <AppLayout floatingLink="/recipe/create" tooltipText="Add Recipe">
-	<Seo title="Phoenix - recipe" />
+	<Seo title="Recipe" />
 	<View />
 </AppLayout>
