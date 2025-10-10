@@ -9,6 +9,7 @@
 		type?: InputType;
 		helperText?: string;
 		placeholder?: string;
+		className?: string;
 		required?: boolean;
 		disabled?: boolean;
 		readonly?: boolean;
@@ -38,6 +39,7 @@
 		inputMode = 'text',
 		readOnly = false,
 		helperText,
+		className,
 		...restProps
 	}: Props = $props();
 
@@ -60,11 +62,18 @@
 	{/if}
 
 	<textarea
-		id="notes"
 		oninput={resizeTextarea}
+		{placeholder}
 		bind:this={textarea}
 		bind:value
-		class="font-lexend w-full rounded-lg border-2 border-black p-3 text-left font-light outline-none"
+		class={`font-lexend w-full rounded-lg border-2 border-black p-3 text-left font-light outline-none ${className}`}
+		{id}
+		{name}
+		readonly={readOnly}
+		{required}
+		{disabled}
+		inputmode={inputMode}
+		{...restProps}
 		{...restProps}
 	>
 	</textarea>

@@ -41,7 +41,7 @@
 	let sections = $state<RecipeSection[]>([
 		{
 			name: '',
-			type: SectionType.LIST,
+			type: SectionType.CHECKLIST,
 			list: [
 				{
 					value: ''
@@ -53,7 +53,7 @@
 	function addSection() {
 		const newObj: RecipeSection = {
 			name: '',
-			type: SectionType.LIST,
+			type: SectionType.CHECKLIST,
 			paragraph: '',
 			list: [
 				{
@@ -134,7 +134,12 @@
 	function getSectionTypeOption(type: any) {
 		return {
 			id: type,
-			value: type === SectionType.LIST ? 'List' : 'Paragraph'
+			value:
+				type === SectionType.LIST
+					? 'List'
+					: type === SectionType.CHECKLIST
+						? 'Checklist'
+						: 'Paragraph'
 		};
 	}
 
@@ -397,16 +402,64 @@
 											shouldSearch={false}
 										/>
 
-										{#if section.type == SectionType.LIST || section.type == SectionType.CHECKLIST}
-											<p class="mb-2">List items</p>
+										{#if section.type == SectionType.CHECKLIST}
+											<p class="mb-2">Checklist items</p>
+
+											{#if section.list}
+												{#each section.list as list, idx (idx)}
+													<div class="flex items-center gap-2">
+														<div class="flex flex-1 gap-2">
+															<div class="w-[170px]">
+																<Dropdown
+																	label="Measurements"
+																	options={typeOptions}
+																	withClearButton={false}
+																	selectedOption={getSectionTypeOption(section.type)}
+																	handleSelectChange={(event: any) =>
+																		handleSectionTypeChange(index, event)}
+																	shouldSearch={false}
+																/>
+															</div>
+
+															<div class="flex-1">
+																<BasicInputField bind:value={list.value} placeholder="Eg., flour" />
+															</div>
+														</div>
+
+														<div>
+															<button
+																onclick={() => removeListItem(index, idx)}
+																type="button"
+																class="create_button_sm shadow_button minus_btn"
+															>
+																<Minus size="18px" strokeWidth="4px" color="#FFFFFF" />
+															</button>
+														</div>
+													</div>
+												{/each}
+											{/if}
+
+											<div class="mt-4 pt-10">
+												<TextButton
+													action={() => addListItem(index)}
+													label="Add Item"
+													RightIcon={Plus}
+												/>
+											</div>
+										{/if}
+
+										{#if section.type == SectionType.LIST}
+											<p class="mb-2">List items (steps)</p>
 
 											{#if section.list}
 												{#each section.list as list, idx (idx)}
 													<div class="flex items-center gap-2">
 														<div class="flex-1">
-															<BasicInputField
+															<TextArea
 																bind:value={list.value}
-																placeholder="Enter list item..."
+																className="min-h-[50px]"
+																placeholder="List item"
+																rows={1}
 															/>
 														</div>
 
@@ -432,7 +485,7 @@
 											</div>
 										{/if}
 
-										{#if section.type == SectionType.PARAPGRAPH}
+										{#if section.type == SectionType.PARAGRAPH}
 											<TextArea
 												label="Paragraph Text"
 												helperText="Use for paragraph-type sections"

@@ -24,7 +24,7 @@
 		withClearButton = false,
 		selectedOption = $bindable(),
 		handleSelectChange,
-		shouldSearch = false
+		shouldSearch = true
 	}: Props = $props();
 
 	let isDropDownOpen = $state(false);

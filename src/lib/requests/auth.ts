@@ -1,3 +1,4 @@
+import Helpers from '$lib/utils/helpers';
 import type { ReqConfig, Service } from '../../types/axios';
 import type { User } from '../../types/user';
 
@@ -22,8 +23,20 @@ class AuthService {
 		return await this.api.post(`${this.prefix}/signin`, data, { ...reqConfig });
 	}
 
-	async requestPasswordReset(data: { email: string }, reqConfig?: ReqConfig) {
+	async requestPasswordReset(data: { email: string; requestUrl: string }, reqConfig?: ReqConfig) {
 		return await this.api.post(`${this.prefix}/request-password-reset`, data, { ...reqConfig });
+	}
+
+	async resetPassword(
+		data: { password: string },
+		params: { id: string; token: string },
+		reqConfig?: ReqConfig
+	) {
+		return await this.api.post(
+			`${this.prefix}/reset-password?${Helpers.formatQueryParams(params)}`,
+			data,
+			{ ...reqConfig }
+		);
 	}
 }
 

@@ -53,7 +53,7 @@
 							</div>
 						{/if}
 					{/if}
-					{#if section.type === SectionType.PARAPGRAPH}
+					{#if section.type === SectionType.PARAGRAPH}
 						{#if section?.paragraph}
 							<p class="font-lexend font-light">
 								{section?.paragraph}

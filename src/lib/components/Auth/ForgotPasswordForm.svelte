@@ -3,6 +3,7 @@
 	import { AuthRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';
+	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 
 	let formElement = $state();
 	let email = $state('');
@@ -13,11 +14,13 @@
 		try {
 			isSubmitting = true;
 
-			const result = await AuthRequest.requestPasswordReset({ email });
+			const result = await AuthRequest.requestPasswordReset({
+				email,
+				requestUrl: window.location.origin
+			});
 
 			email = '';
 			if (result) {
-				Helpers.setCookie(AUTH_TOKEN, result?.data?.data?.access_token, 400000);
 				addToast('Reset link sent to email', 'success');
 			}
 		} catch (error: any) {
@@ -32,7 +35,7 @@
 	<div class="fixed top-0 mx-auto w-full max-w-[1000px] px-4 pt-4">
 		<a href="/" class="flex items-center gap-2">
 			<div>
-				<img src="/images/laniva_logo_trans.png" class="aspect-square w-10" alt="laniva logo" />
+				<img src="/images/laniva_logo_rounded.png" class="aspect-square w-10" alt="laniva logo" />
 			</div>
 
 			<h1 class="font-dela-gothic-one text-xl sm:text-2xl">Laniva</h1>
@@ -51,17 +54,14 @@
 			<hr />
 
 			<div class="mb-10 space-y-5 pt-5">
-				<div>
-					<label for="email" class="mb-2">Email Address</label>
-					<input
-						bind:value={email}
-						type="email"
-						id="email"
-						name="email"
-						autocomplete="email"
-						class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-					/>
-				</div>
+				<BasicInputField
+					label="Email Address"
+					bind:value={email}
+					type="email"
+					id="email"
+					name="email"
+					autocomplete="email"
+				/>
 			</div>
 
 			<div>
