@@ -33,7 +33,7 @@
 </script>
 
 <div class="pb-24">
-	<p class="font-lexend mb-4 px-3 text-xs font-light text-wrap">
+	<p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">
 		Plan your next trip, day-by-day schedule, group planning, budget
 	</p>
 
