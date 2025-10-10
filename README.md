@@ -24,3 +24,4 @@
 - add tooltips to habit icons
 - fix dropdown search
 - Replace screenshots in homepage to include ones with logo
+- Email template
