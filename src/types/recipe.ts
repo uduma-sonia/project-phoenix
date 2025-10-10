@@ -2,7 +2,7 @@ export interface Ingredient {
 	value?: string;
 }
 
-export type ListItem = { value: string };
+export type ListItem = { value: string; measurement: keyof typeof RecipeStandardMeasurements };
 
 export interface RecipeSection {
 	name: string;
@@ -33,7 +33,7 @@ export type Recipe = {
 
 export enum SectionType {
 	LIST = 'LIST',
-	PARAPGRAPH = 'PARAPGRAPH',
+	PARAGRAPH = 'PARAGRAPH',
 	CHECKLIST = 'CHECKLIST'
 }
 
@@ -52,4 +52,24 @@ export interface RecipeGroupResponse extends RecipeGroup {
 	ownerId: string;
 	createdAt: Date;
 	updatedAt: Date;
+}
+
+export enum RecipeStandardMeasurements {
+	NONE = 'NONE',
+	CUP = '1 cup',
+	HALF_CUP = '1/2 cup',
+	ONE_THIRD_CUP = '1/3 cup',
+	QUARTER_CUP = '1/4 cup',
+	TWO_THIRDS_CUP = '2/3 cup',
+	THREE_QUARTER_CUP = '3/4 cup',
+
+	TABLESPOON = '1 tablespoon',
+	HALF_TABLESPOON = '1/2 tablespoon',
+	ONE_THIRD_TABLESPOON = '1/3 tablespoon',
+	QUARTER_TABLESPOON = '1/4 tablespoon',
+
+	TEASPOON = '1 teaspoon',
+	HALF_TEASPOON = '1/2 teaspoon',
+	QUARTER_TEASPOON = '1/4 teaspoon',
+	EIGHTH_TEASPOON = '1/8 teaspoon'
 }

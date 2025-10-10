@@ -32,7 +32,7 @@
 	<div>
 		<a href="/" class="flex items-center gap-2">
 			<div>
-				<img src="/images/laniva_logo_trans.png" class="aspect-square w-10" alt="laniva logo" />
+				<img src="/images/laniva_logo_rounded.png" class="aspect-square w-10" alt="laniva logo" />
 			</div>
 
 			<h1 class="font-dela-gothic-one text-xl sm:text-2xl">Laniva</h1>
@@ -74,7 +74,7 @@
 					<a href="/" class="flex items-center gap-2">
 						<div>
 							<img
-								src="/images/laniva_logo_trans.png"
+								src="/images/laniva_logo_rounded.png"
 								class="aspect-square w-10"
 								alt="laniva logo"
 							/>

@@ -2,16 +2,16 @@ import { SectionType } from '../../types/recipe';
 
 export const typeOptions = [
 	{
-		value: 'List',
-		id: SectionType.LIST
-	},
-	{
 		value: 'Checklist',
 		id: SectionType.CHECKLIST
 	},
 	{
+		value: 'List',
+		id: SectionType.LIST
+	},
+	{
 		value: 'Paragraph',
-		id: SectionType.PARAPGRAPH
+		id: SectionType.PARAGRAPH
 	}
 ];
 

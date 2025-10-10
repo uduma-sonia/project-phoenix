@@ -27,6 +27,7 @@
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { goto } from '$app/navigation';
+	import Tooltip from '../Common/Tooltip.svelte';
 
 	const queryClient = useQueryClient();
 
@@ -138,9 +139,13 @@
 					<div class="mb-1.5">
 						{#if isOwner}
 							{#if recipe.isPrivate}
-								<LockKeyhole size="16px" />
+								<Tooltip text="Private recipe" position="bottom">
+									<LockKeyhole size="16px" />
+								</Tooltip>
 							{:else}
-								<LockKeyholeOpen size="16px" />
+								<Tooltip text="Private recipe" position="bottom">
+									<LockKeyholeOpen size="16px" />
+								</Tooltip>
 							{/if}
 						{/if}
 					</div>

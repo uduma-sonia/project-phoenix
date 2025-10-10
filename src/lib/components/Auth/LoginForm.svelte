@@ -4,6 +4,8 @@
 	import { AuthRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';
+	import BasicInputField from '../Common/Form/BasicInputField.svelte';
+	import AuthLayout from './AuthLayout.svelte';
 
 	let formElement = $state();
 	let email = $state('');
@@ -37,77 +39,59 @@
 	}
 </script>
 
-<div class="flex h-full items-center justify-center px-4">
-	<div class="fixed top-0 mx-auto w-full max-w-[1000px] px-4 pt-4">
-		<a href="/" class="flex items-center gap-2">
-			<div>
-				<img src="/images/laniva_logo_trans.png" class="aspect-square w-10" alt="laniva logo" />
+<AuthLayout>
+	<form
+		onsubmit={handleSubmit}
+		bind:this={formElement}
+		class="login_form h-full rounded-3xl border-2 bg-white p-4"
+	>
+		<div class="pb-3">
+			<p class="font-suez text-3xl">Login</p>
+		</div>
+
+		<hr />
+
+		<div class="mb-10 pt-5">
+			<div class="space-y-5">
+				<BasicInputField
+					label="Email Address"
+					bind:value={email}
+					type="email"
+					id="email"
+					name="email"
+					required
+					autocomplete="email"
+				/>
+				<BasicInputField
+					label="Password"
+					type="password"
+					bind:value={password}
+					id="password"
+					name="password"
+					required
+					autocomplete="new-password"
+				/>
 			</div>
 
-			<h1 class="font-dela-gothic-one text-xl sm:text-2xl">Laniva</h1>
-		</a>
-	</div>
-	<div class="login_form_wrapper w-full md:max-w-[400px]">
-		<form
-			onsubmit={handleSubmit}
-			bind:this={formElement}
-			class="login_form h-full rounded-3xl border-2 bg-white p-4"
-		>
-			<div class="pb-3">
-				<p class="font-suez text-3xl">Login</p>
-			</div>
+			<p class="font-lexend mt-2 flex justify-end text-sm font-light">
+				<a href="/forgot-password" class="font-medium underline">Forgot password?</a>
+			</p>
+		</div>
 
-			<hr />
+		<div>
+			<button class="shadow_button" type="submit">
+				{#if isSubmitting}
+					<div class="spinner_white border-2 border-black"></div>
+				{:else}
+					Continue
+				{/if}
+			</button>
+		</div>
 
-			<div class="mb-10 space-y-5 pt-5">
-				<div>
-					<label for="email" class="mb-2">Email Address</label>
-					<input
-						bind:value={email}
-						type="email"
-						id="email"
-						name="email"
-						required
-						autocomplete="email"
-						class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-					/>
-				</div>
-
-				<div>
-					<div>
-						<label for="password" class="mb-2">Password</label>
-						<input
-							type="password"
-							bind:value={password}
-							id="password"
-							name="password"
-							required
-							autocomplete="new-password"
-							class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-						/>
-					</div>
-
-					<p class="font-lexend mt-2 flex justify-end text-sm font-light">
-						<a href="/forgot-password" class="font-medium underline">Forgot password?</a>
-					</p>
-				</div>
-			</div>
-
-			<div>
-				<button class="shadow_button" type="submit">
-					{#if isSubmitting}
-						<div class="spinner_white border-2 border-black"></div>
-					{:else}
-						Continue
-					{/if}
-				</button>
-			</div>
-
-			<div class="mt-6 pb-4">
-				<p class="font-lexend text-sm font-light">
-					Don't have an account? <a href="/signup" class="font-medium underline">Sign up</a>
-				</p>
-			</div>
-		</form>
-	</div>
-</div>
+		<div class="mt-6 pb-4">
+			<p class="font-lexend text-sm font-light">
+				Don't have an account? <a href="/signup" class="font-medium underline">Sign up</a>
+			</p>
+		</div>
+	</form>
+</AuthLayout>

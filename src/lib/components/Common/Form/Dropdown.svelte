@@ -24,7 +24,7 @@
 		withClearButton = false,
 		selectedOption = $bindable(),
 		handleSelectChange,
-		shouldSearch = false
+		shouldSearch = true
 	}: Props = $props();
 
 	let isDropDownOpen = $state(false);
@@ -45,7 +45,7 @@
 		isDropDownOpen = false;
 	}
 
-	function gete() {
+	function getFilteredOptions() {
 		if (shouldSearch) {
 			options?.filter((option: Options) =>
 				option?.value.toUpperCase().includes(searchQuery.toUpperCase())
@@ -55,7 +55,7 @@
 		}
 	}
 
-	let filteredOptions = $derived(gete());
+	let filteredOptions = $derived(getFilteredOptions());
 
 	function selectOption(view: Options) {
 		selectedOption = view;
@@ -69,6 +69,11 @@
 		}
 	});
 
+	function scrollTo(id: string) {
+		const el = document.getElementById(id);
+		el?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+	}
+
 	function handleKeyDown(event: KeyboardEvent) {
 		if (!isDropDownOpen) return;
 
@@ -76,10 +81,12 @@
 			case 'ArrowDown':
 				event.preventDefault();
 				focusedIndex = (focusedIndex + 1) % options.length;
+				scrollTo(options[focusedIndex]?.id);
 				break;
 			case 'ArrowUp':
 				event.preventDefault();
 				focusedIndex = (focusedIndex - 1 + options.length) % options.length;
+				scrollTo(options[focusedIndex]?.id);
 				break;
 			case 'Enter':
 				event.preventDefault();
@@ -117,7 +124,7 @@
 			onclick_outside={handleClickOutside}
 			role="listbox"
 			tabindex="-1"
-			class="absolute top-20 z-50 max-h-60 w-full overflow-y-auto rounded-xl rounded-t-none border-2 border-t-0 border-black bg-white shadow-2xl"
+			class="absolute top-full z-50 max-h-60 w-full overflow-y-auto rounded-xl rounded-t-none border-2 border-t-0 border-black bg-white shadow-2xl"
 		>
 			{#each filteredOptions as option, index (index)}
 				<div
@@ -129,6 +136,7 @@
 						class="font-lexend h-[45px] w-full rounded-lg border-none bg-white px-3 text-left text-sm font-light outline-none hover:bg-[#f5ecd5b3]"
 						onclick={() => selectOption(option)}
 						class:selected={index === focusedIndex}
+						id={option.id}
 					>
 						{option?.value}
 					</button>

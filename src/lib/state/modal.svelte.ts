@@ -7,7 +7,8 @@ export const modalsState = $state({
 		isOpenTripDeleteModal: false,
 		isOpenBoardDeleteModal: false,
 		isOpenImageCarousel: false,
-		isOpenPacking: false
+		isOpenPacking: false,
+		isOpenAddToList: false
 	}
 });
 
@@ -77,4 +78,11 @@ export function openPackingModal() {
 }
 export function closePackingModal() {
 	modalsState.data.isOpenPacking = false;
+}
+
+export function openAddToListModal() {
+	modalsState.data.isOpenAddToList = true;
+}
+export function closeAddToListModal() {
+	modalsState.data.isOpenAddToList = false;
 }

@@ -7,6 +7,7 @@
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import Dropdown from '../Common/Form/Dropdown.svelte';
 	import {
+		RecipeStandardMeasurements,
 		SectionType,
 		type RecipeGroup,
 		type RecipeResponse,
@@ -19,8 +20,7 @@
 	import { goto } from '$app/navigation';
 	import { recipeRequest } from '$lib/requests';
 	import { page } from '$app/state';
-
-	type Group = { name: string; id: string };
+	import RecipeUtils from './Utilities/utils';
 
 	let {
 		recipe,
@@ -49,15 +49,17 @@
 	});
 	let calories = $state(recipe?.calories);
 	let selectedGroupList: RecipeGroup[] = $state(recipe?.groups || []);
+	let measurementOptions = RecipeUtils.generateMeasurementsOptions();
 
 	let sections = $state<RecipeSection[]>(
 		recipe?.sections || [
 			{
 				name: '',
-				type: SectionType.LIST,
+				type: SectionType.CHECKLIST,
 				list: [
 					{
-						value: ''
+						value: '',
+						measurement: RecipeStandardMeasurements.NONE
 					}
 				]
 			}
@@ -67,11 +69,12 @@
 	function addSection() {
 		const newObj: RecipeSection = {
 			name: '',
-			type: SectionType.LIST,
+			type: SectionType.CHECKLIST,
 			paragraph: '',
 			list: [
 				{
-					value: ''
+					value: '',
+					measurement: RecipeStandardMeasurements.NONE
 				}
 			]
 		};
@@ -90,9 +93,11 @@
 
 	function addListItem(idx: number) {
 		const _sections = $state.snapshot(sections);
-		const result: RecipeSection[] = _sections.map((section, index) => {
+		const result: any[] = _sections.map((section, index) => {
 			if (index === idx) {
-				const _list = section?.list ? [...section.list, { value: '' }] : [{ value: '' }];
+				const _list = section?.list
+					? [...section.list, { value: '', measurement: RecipeStandardMeasurements.NONE }]
+					: [{ value: '', measurement: RecipeStandardMeasurements.NONE }];
 
 				return {
 					...section,
@@ -151,13 +156,37 @@
 	function getSectionTypeOption(type: any) {
 		return {
 			id: type,
-			value: type === SectionType.LIST ? 'List' : 'Paragraph'
+			value:
+				type === SectionType.LIST
+					? 'List'
+					: type === SectionType.CHECKLIST
+						? 'Checklist'
+						: 'Paragraph'
 		};
 	}
 
 	function handleSectionTypeChange(index: number, option: any) {
 		if (option) {
 			sections[index].type = option.id as SectionType;
+		}
+	}
+
+	function getMeasurement(type: string) {
+		const key = type.toUpperCase() as keyof typeof RecipeStandardMeasurements;
+
+		if (key in RecipeStandardMeasurements) {
+			return {
+				id: type,
+				value: RecipeStandardMeasurements[key]
+			};
+		}
+
+		return null;
+	}
+
+	function handleListMeasurementChange(index: number, listIndex: number, option: any) {
+		if (sections[index].list) {
+			sections[index].list[listIndex].measurement = option.id;
 		}
 	}
 
@@ -184,9 +213,9 @@
 			const payload = {
 				name: recipeName,
 				images: [
-					'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg',
-					'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757150018/photo_VSCO_afqnsk.jpg',
-					'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1759586707/cake4_fyiz3v.jpg'
+					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg',
+					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757150018/photo_VSCO_afqnsk.jpg',
+					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1759586707/cake4_fyiz3v.jpg'
 				],
 				isPrivate: isPrivate,
 				sections: $state.snapshot(filterSection(sections)),
@@ -411,6 +440,7 @@
 											placeholder="e.g., Ingredients, Instructions, Tips"
 											label="Section name"
 											bind:value={section.name}
+											id={`${section.name}-${index}`}
 										/>
 										<Dropdown
 											label="Type"
@@ -420,9 +450,57 @@
 											handleSelectChange={(event: any) => handleSectionTypeChange(index, event)}
 											shouldSearch={false}
 										/>
+										{#if section.type == SectionType.CHECKLIST}
+											<p class="mb-2">Checklist items</p>
 
-										{#if section.type == SectionType.LIST || section.type == SectionType.CHECKLIST}
-											<p class="mb-2">List items</p>
+											{#if section.list}
+												{#each section.list as list, idx (idx)}
+													<div class="flex items-end gap-4 md:items-center">
+														<div class="flex flex-1 flex-col gap-2 md:flex-row">
+															<div class="w-[150px]">
+																<Dropdown
+																	options={measurementOptions}
+																	withClearButton={false}
+																	selectedOption={getMeasurement(list.measurement || '')}
+																	shouldSearch={false}
+																	handleSelectChange={(event: any) =>
+																		handleListMeasurementChange(index, idx, event)}
+																/>
+															</div>
+
+															<div class="flex-1">
+																<BasicInputField
+																	bind:value={list.value}
+																	placeholder="Eg., flour, baking powder"
+																	id={`checklist-${list.value}-${idx}`}
+																/>
+															</div>
+														</div>
+
+														<div>
+															<button
+																onclick={() => removeListItem(index, idx)}
+																type="button"
+																class="create_button_sm shadow_button minus_btn"
+															>
+																<Minus size="18px" strokeWidth="4px" color="#FFFFFF" />
+															</button>
+														</div>
+													</div>
+												{/each}
+											{/if}
+
+											<div class="mt-8">
+												<TextButton
+													action={() => addListItem(index)}
+													label="Add Item"
+													RightIcon={Plus}
+												/>
+											</div>
+										{/if}
+
+										<!-- {#if section.type == SectionType.CHECKLIST}
+											<p class="mb-2">Checklist items</p>
 
 											{#if section.list}
 												{#each section.list as list, idx (idx)}
@@ -430,7 +508,44 @@
 														<div class="flex-1">
 															<BasicInputField
 																bind:value={list.value}
-																placeholder="Enter list item..."
+																placeholder="Checklist item"
+															/>
+														</div>
+
+														<div>
+															<button
+																onclick={() => removeListItem(index, idx)}
+																type="button"
+																class="create_button_sm shadow_button minus_btn"
+															>
+																<Minus size="18px" strokeWidth="4px" color="#FFFFFF" />
+															</button>
+														</div>
+													</div>
+												{/each}
+											{/if}
+
+											<div class="mt-4">
+												<TextButton
+													action={() => addListItem(index)}
+													label="Add Item"
+													RightIcon={Plus}
+												/>
+											</div>
+										{/if} -->
+
+										{#if section.type == SectionType.LIST}
+											<p class="mb-2">List items (steps)</p>
+
+											{#if section.list}
+												{#each section.list as list, idx (idx)}
+													<div class="flex items-center gap-2">
+														<div class="flex-1">
+															<TextArea
+																placeholder="List item"
+																bind:value={list.value}
+																className="min-h-[50px]"
+																rows={1}
 															/>
 														</div>
 
@@ -456,7 +571,7 @@
 											</div>
 										{/if}
 
-										{#if section.type == SectionType.PARAPGRAPH}
+										{#if section.type == SectionType.PARAGRAPH}
 											<TextArea
 												label="Paragraph Text"
 												helperText="Use for paragraph-type sections"

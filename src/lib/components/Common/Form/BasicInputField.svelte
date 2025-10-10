@@ -1,34 +1,7 @@
 <script lang="ts">
 	import { X } from '@lucide/svelte';
-	import type { InputType } from '../../../../types/input';
-
-	type Props = {
-		label?: string;
-		value?: string;
-		id?: string;
-		name?: string;
-		type?: InputType;
-		placeholder?: string;
-		helperText?: string;
-		inputClass?: string;
-		clearButtonWrapperClass?: string;
-		required?: boolean;
-		disabled?: boolean;
-		readonly?: boolean;
-		withClearButton?: boolean;
-		inputMode?:
-			| 'text'
-			| 'email'
-			| 'tel'
-			| 'url'
-			| 'search'
-			| 'none'
-			| 'numeric'
-			| 'decimal'
-			| null
-			| undefined;
-		[key: string]: any;
-	};
+	import type { InputFieldProps } from '../../../../types/input';
+	import { Eye, EyeOff } from '@lucide/svelte';
 
 	let {
 		label,
@@ -46,8 +19,19 @@
 		clearButtonWrapperClass,
 		helperText,
 		...restProps
-	}: Props = $props();
+	}: InputFieldProps = $props();
 
+	// TODO: Add error state
+
+	let passwordType = $state('password');
+
+	function togglePasswordType() {
+		if (passwordType === 'password') {
+			passwordType = 'text';
+		} else {
+			passwordType = 'password';
+		}
+	}
 	function formatNumber(num: string | number) {
 		if (num === null || num === undefined || num === '') return '';
 
@@ -109,7 +93,7 @@
 		/>
 	{:else}
 		<input
-			{type}
+			type={type === 'password' ? (passwordType === 'password' ? 'password' : 'text') : type}
 			bind:value
 			class={`h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none ${inputClass}`}
 			{id}
@@ -121,6 +105,16 @@
 			inputmode={inputMode}
 			{...restProps}
 		/>
+	{/if}
+
+	{#if type === 'password'}
+		<button type="button" class="absolute right-3 bottom-[13px]" onclick={togglePasswordType}>
+			{#if passwordType === 'password'}
+				<Eye />
+			{:else}
+				<EyeOff />
+			{/if}
+		</button>
 	{/if}
 
 	{#if withClearButton}

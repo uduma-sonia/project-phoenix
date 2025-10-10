@@ -16,6 +16,7 @@
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { addToast } from '$lib/store/toast';
+	import AddToList from '$lib/components/Modals/AddToList.svelte';
 
 	const token = $derived(Helpers.getCookie(AUTH_TOKEN));
 	const ownerId = $derived(page.url.searchParams.get('owner'));
@@ -64,3 +65,4 @@
 
 <DeleteRecipeModal label="Recipe" />
 <ImageCarousel />
+<AddToList {user} />
