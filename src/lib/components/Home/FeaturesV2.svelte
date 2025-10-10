@@ -4,13 +4,13 @@
 </script>
 
 <div class="mx-auto max-w-7xl px-4 pt-36 md:pt-44 lg:pt-60">
-	<div class="mb-14 text-center md:mb-40">
+	<div class="mb-14 text-center md:mb-40" id="features">
 		<h2 class="font-lexend feature_heading mb-5 text-center font-bold tracking-tight">
 			Manage your activities <br /> <span class="text-[#1eb564]">in one place</span>
 		</h2>
 
 		<p class="font-lexend mx-auto mt-4 max-w-[600px] font-light">
-			Your life neatly in one place. <b>Phoenix</b> keeps you on track without feeling like work software.
+			Your life neatly in one place. <b>Laniva</b> keeps you on track without feeling like work software.
 		</p>
 	</div>
 

@@ -9,7 +9,7 @@
 		</h2>
 
 		<p class="font-lexend mx-auto mt-4 max-w-[600px] font-light">
-			Your life neatly in one place. Phoenix keeps you on track without feeling like work software.
+			Your life neatly in one place. Laniva keeps you on track without feeling like work software.
 		</p>
 	</div>
 
