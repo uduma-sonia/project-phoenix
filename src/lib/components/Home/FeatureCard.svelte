@@ -1,49 +1,99 @@
 <script lang="ts">
-	let { bgColor = '#FFFFFF', title = '', description } = $props();
+	import Image from '../Common/Image.svelte';
+
+	type Props = {
+		isReverse?: boolean;
+		bgColor?: string;
+		title?: string;
+		featuresList?: string[];
+		ListIcon?: any;
+		imageUrl: string;
+	};
+
+	let {
+		bgColor = '#FFFFFF',
+		title = '',
+		featuresList,
+		isReverse,
+		imageUrl,
+		ListIcon
+	}: Props = $props();
 </script>
 
-<div class="rounded-20 mx-auto h-[450px] w-full max-w-[450px] sm:h-[500px] lg:max-w-full">
-	<div class="card_wrapper">
-		<div
-			class="rounded-20 font-lexend relative z-10 flex h-full w-full flex-col gap-6 overflow-hidden border-2 border-black text-center lg:text-left"
-			style="background-color: #f5ecd5;"
-		>
-			<div class="p-5 sm:p-8">
-				<h3 class="text-2xl font-semibold sm:text-2xl md:text-4xl">{title}</h3>
+<div
+	class="font-lexend mx-auto max-w-[500px] items-center gap-8 lg:flex lg:max-w-full"
+	class:rr={isReverse}
+>
+	<div class="mb-6 w-full lg:mb-0 lg:w-1/2">
+		<div class="p-5 sm:p-8">
+			<h3 class="text-2xl font-semibold md:text-3xl lg:text-4xl">{title}</h3>
 
-				<p class="text-13 mt-4 max-w-[350px] font-light sm:text-sm">
-					{description}
-				</p>
+			<div class="mt-6 space-y-6 md:mt-8 md:space-y-8">
+				{#if featuresList?.length}
+					{#each featuresList as feature, index (index)}
+						<div class="flex items-center gap-2">
+							<div class="flex aspect-square w-5 items-center justify-center">
+								<ListIcon />
+							</div>
+
+							<div>
+								<p class="font-lexend text-sm font-light lg:text-base">
+									{feature}
+								</p>
+							</div>
+						</div>
+					{/each}
+				{/if}
+
+				<div>
+					<div class="w-[160px]">
+						<a href="/signup">
+							<button class="shadow_button shadow_button_thin shadow_button_sm" type="button">
+								Try it for free
+							</button>
+						</a>
+					</div>
+				</div>
 			</div>
+		</div>
+	</div>
 
-			<div class="flex flex-1 justify-end">
-				<div class="h-full w-[250px] overflow-hidden rounded-xl border sm:w-[300px]"></div>
+	<div class="w-full lg:w-1/2">
+		<div
+			class="feature_img_wrapper mx-auto h-[350px] w-full md:h-[600px] md:max-w-4xl lg:h-[550px]"
+		>
+			<div class="feature_img_inner bg-brand-light h-full overflow-hidden rounded-3xl border-2 p-4">
+				<Image src={imageUrl} alt={title} />
 			</div>
 		</div>
 	</div>
 </div>
 
 <style>
-	.card_wrapper {
-		position: relative;
-		border-radius: 20px;
-		transition: all 0.4s linear;
-		height: 100%;
-		background-color: white;
+	.rr {
+		flex-direction: row-reverse;
 	}
 
-	.card_wrapper::before {
+	.feature_img_wrapper {
+		position: relative;
+	}
+
+	.feature_img_wrapper::before {
 		content: '';
 		position: absolute;
-		top: 3px;
-		left: 3px;
-		right: 0;
-		bottom: 0;
-		background-color: black;
+		top: 6px;
+		left: 6px;
 		border: 2px solid black;
-		z-index: 1;
-		border-radius: 20px;
 		width: 100%;
 		height: 100%;
+		z-index: 1;
+		border-radius: 24px;
+	}
+
+	.feature_img_inner {
+		position: relative;
+		z-index: 2;
+		border-radius: 24px;
+		padding: 20px;
 	}
 </style>

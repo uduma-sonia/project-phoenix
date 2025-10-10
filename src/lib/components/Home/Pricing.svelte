@@ -33,7 +33,7 @@
 </script>
 
 <div class="mx-auto max-w-7xl px-4 pt-36 md:pt-40">
-	<div class="mb-20 text-center">
+	<div class="mb-20 text-center" id="pricing">
 		<h2 class="font-lexend feature_heading mb-5 text-center text-7xl font-bold tracking-tight">
 			Simple, affordable pricing
 		</h2>

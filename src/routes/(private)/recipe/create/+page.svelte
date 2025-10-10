@@ -15,7 +15,7 @@
 </script>
 
 <AppLayout withName={false}>
-	<Seo title="Phoenix - Create recipe" />
+	<Seo title="Create recipe" />
 
 	<CreateRecipe {groupList} />
 </AppLayout>

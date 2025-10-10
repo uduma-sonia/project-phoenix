@@ -1,3 +1,7 @@
+<script>
+	import Image from '../Common/Image.svelte';
+</script>
+
 <div class="mx-auto max-w-7xl px-4">
 	<div class="mt-20 text-center">
 		<h2 class="font-lexend herotext text-7xl font-bold tracking-tight">Organize your Life</h2>
@@ -22,10 +26,16 @@
 	</div>
 
 	<div class="mt-12">
-		<div class="hero_img_wrapper mx-auto h-[400px] w-full md:h-[600px] md:max-w-4xl">
-			<div class="hero_img_inner h-full rounded-3xl border-2 bg-white p-4">
-				<div></div>
+		<div class="hero_img_wrapper mx-auto h-[300px] w-full md:h-[500px] md:max-w-4xl lg:h-[600px]">
+			<div class="hero_img_inner h-full overflow-hidden rounded-3xl border-2 bg-white p-4">
+				<Image src="/images/stats_monthly.jpg" />
 			</div>
+
+			<!-- <div class="absolute -right-20 -bottom-20 z-50">
+				<div class="aspect-square w-[200px] overflow-hidden rounded-2xl bg-white shadow-xl">
+					<Image src="/images/standard_list.jpg" className="w-full h-full object-cover" />
+				</div>
+			</div> -->
 		</div>
 	</div>
 </div>

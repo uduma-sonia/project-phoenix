@@ -11,7 +11,7 @@
 		},
 		{
 			label: 'Features',
-			link: '/'
+			link: '/#features'
 		},
 		{
 			label: 'Download',
@@ -19,7 +19,7 @@
 		},
 		{
 			label: 'Pricing',
-			link: '/'
+			link: '/#pricing'
 		}
 	];
 
@@ -30,8 +30,12 @@
 
 <nav class="mx-auto flex h-[70px] max-w-7xl items-center justify-between px-4 md:h-[90px]">
 	<div>
-		<a href="/">
-			<h1 class="font-dela-gothic-one text-xl sm:text-3xl">Laniva</h1>
+		<a href="/" class="flex items-center gap-2">
+			<div>
+				<img src="/images/laniva_logo_trans.png" class="aspect-square w-10" alt="laniva logo" />
+			</div>
+
+			<h1 class="font-dela-gothic-one text-xl sm:text-2xl">Laniva</h1>
 		</a>
 	</div>
 
@@ -67,8 +71,16 @@
 		>
 			<div class="mb-6 flex items-center justify-between gap-4">
 				<div>
-					<a href="/">
-						<h1 class="font-dela-gothic-one text-xl sm:text-3xl">Laniva</h1>
+					<a href="/" class="flex items-center gap-2">
+						<div>
+							<img
+								src="/images/laniva_logo_trans.png"
+								class="aspect-square w-10"
+								alt="laniva logo"
+							/>
+						</div>
+
+						<h1 class="font-dela-gothic-one text-xl sm:text-2xl">Laniva</h1>
 					</a>
 				</div>
 				<div>

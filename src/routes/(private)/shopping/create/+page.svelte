@@ -15,7 +15,7 @@
 </script>
 
 <AppLayout withName={false}>
-	<Seo title="Phoenix - Create shopping board" />
+	<Seo title="Create shopping board" />
 	{#if user?._id}
 		<CreateBoard {user} />
 	{/if}

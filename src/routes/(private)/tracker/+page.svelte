@@ -15,7 +15,7 @@
 </script>
 
 <AppLayout floatingLink="/tracker/create" tooltipText="Create Tracker">
-	<Seo title="Phoenix - Tracker" />
+	<Seo title="Tracker" />
 	<View {user} />
 </AppLayout>
 
