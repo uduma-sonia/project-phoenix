@@ -45,6 +45,10 @@ class ShoppingService {
 		return await this.api.post(`${this.itemPrefix}`, data, { ...reqConfig });
 	}
 
+	async createMultipleItems(data: { items: BoardItem[] }, reqConfig?: ReqConfig) {
+		return await this.api.post(`${this.itemPrefix}/multiple`, data, { ...reqConfig });
+	}
+
 	async updateItem(itemId: string, data: BoardItem, reqConfig?: ReqConfig) {
 		return await this.api.put(`${this.itemPrefix}/${itemId}`, data, { ...reqConfig });
 	}

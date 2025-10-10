@@ -12,7 +12,15 @@
 					removeToast(toast.id);
 				}}
 			>
-				{toast.message}
+				<span>
+					{toast.message}
+
+					{#if toast.link}
+						<span>
+							<a href={toast.link} class="underline underline-offset-2">{toast.linkName}</a>
+						</span>
+					{/if}
+				</span>
 				{#if toast?.imgLink}
 					<div>
 						<img src={toast.imgLink} alt="confetti" class="h-5" />
@@ -30,6 +38,7 @@
 		right: 1rem;
 		z-index: 9999;
 		width: max-content;
+		max-width: 300px;
 	}
 
 	.toast {
