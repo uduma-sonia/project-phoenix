@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { AUTH_TOKEN } from '$lib/constants/global';
 	import { AuthRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
-	import Helpers from '$lib/utils/helpers';
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
+	import AuthLayout from './AuthLayout.svelte';
 
 	let formElement = $state();
 	let email = $state('');
@@ -31,54 +30,43 @@
 	}
 </script>
 
-<div class="flex h-full items-center justify-center px-4">
-	<div class="fixed top-0 mx-auto w-full max-w-[1000px] px-4 pt-4">
-		<a href="/" class="flex items-center gap-2">
-			<div>
-				<img src="/images/laniva_logo_rounded.png" class="aspect-square w-10" alt="laniva logo" />
-			</div>
+<AuthLayout>
+	<form
+		onsubmit={handleSubmit}
+		bind:this={formElement}
+		class="login_form h-full rounded-3xl border-2 bg-white p-4"
+	>
+		<div class="pb-3">
+			<p class="font-suez text-3xl">Forgot Password</p>
+		</div>
 
-			<h1 class="font-dela-gothic-one text-xl sm:text-2xl">Laniva</h1>
-		</a>
-	</div>
-	<div class="login_form_wrapper w-full md:max-w-[400px]">
-		<form
-			onsubmit={handleSubmit}
-			bind:this={formElement}
-			class="login_form h-full rounded-3xl border-2 bg-white p-4"
-		>
-			<div class="pb-3">
-				<p class="font-suez text-3xl">Forgot Password</p>
-			</div>
+		<hr />
 
-			<hr />
+		<div class="mb-10 space-y-5 pt-5">
+			<BasicInputField
+				label="Email Address"
+				bind:value={email}
+				type="email"
+				id="email"
+				name="email"
+				autocomplete="email"
+			/>
+		</div>
 
-			<div class="mb-10 space-y-5 pt-5">
-				<BasicInputField
-					label="Email Address"
-					bind:value={email}
-					type="email"
-					id="email"
-					name="email"
-					autocomplete="email"
-				/>
-			</div>
+		<div>
+			<button class="shadow_button" type="submit">
+				{#if isSubmitting}
+					<div class="spinner_white border-2 border-black"></div>
+				{:else}
+					Continue
+				{/if}
+			</button>
+		</div>
 
-			<div>
-				<button class="shadow_button" type="submit">
-					{#if isSubmitting}
-						<div class="spinner_white border-2 border-black"></div>
-					{:else}
-						Continue
-					{/if}
-				</button>
-			</div>
-
-			<div class="mt-6 pb-4">
-				<p class="font-lexend text-sm font-light">
-					Don't have an account? <a href="/signup" class="font-medium underline">Sign up</a>
-				</p>
-			</div>
-		</form>
-	</div>
-</div>
+		<div class="mt-6 pb-4">
+			<p class="font-lexend text-sm font-light">
+				Don't have an account? <a href="/signup" class="font-medium underline">Sign up</a>
+			</p>
+		</div>
+	</form>
+</AuthLayout>
