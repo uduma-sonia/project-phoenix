@@ -17,9 +17,9 @@ export type InputType =
 	| 'range';
 
 export interface InputFieldProps {
-	label: string;
-	value: string;
-	id: string;
+	label?: string;
+	value?: string;
+	id?: string;
 	name?: string;
 	type?: InputType;
 	placeholder?: string;

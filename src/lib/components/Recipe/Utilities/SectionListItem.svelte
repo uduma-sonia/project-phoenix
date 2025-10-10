@@ -1,16 +1,19 @@
 <script lang="ts">
 	import { Check } from '@lucide/svelte';
+	import { RecipeStandardMeasurements } from '../../../../types/recipe';
 
 	let {
 		name = '',
 		isChecklist,
 		handleSelectItem,
-		isSelected
+		isSelected,
+		measurement
 	}: {
 		name: string;
 		isChecklist?: boolean;
 		handleSelectItem?: (name: string) => void;
 		isSelected?: boolean;
+		measurement?: keyof typeof RecipeStandardMeasurements;
 	} = $props();
 </script>
 
@@ -34,6 +37,11 @@
 	</div>
 
 	<div class="flex-1">
-		<p class="font-lexend font-light">{name}</p>
+		<p class="font-lexend font-light">
+			{#if measurement && measurement !== RecipeStandardMeasurements.NONE}
+				<span> {RecipeStandardMeasurements[measurement]} </span>
+			{/if}
+			{name}
+		</p>
 	</div>
 </div>

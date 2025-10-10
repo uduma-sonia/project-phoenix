@@ -1,4 +1,4 @@
-import type { RecipeResponse } from '../../../../types/recipe';
+import { RecipeStandardMeasurements, type RecipeResponse } from '../../../../types/recipe';
 
 class RecipeUtils {
 	static getlist(arr: RecipeResponse[], currentTab: string, ownerId: string, searchQuery: string) {
@@ -21,6 +21,13 @@ class RecipeUtils {
 		});
 
 		return result?.filter((item) => item.name.toUpperCase().includes(searchQuery?.toUpperCase()));
+	}
+
+	static generateMeasurementsOptions() {
+		return Object.entries(RecipeStandardMeasurements).map(([id, value]) => ({
+			id,
+			value
+		}));
 	}
 }
 

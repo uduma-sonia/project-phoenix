@@ -7,6 +7,7 @@
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import Dropdown from '../Common/Form/Dropdown.svelte';
 	import {
+		RecipeStandardMeasurements,
 		SectionType,
 		type RecipeGroup,
 		type RecipeResponse,
@@ -19,8 +20,7 @@
 	import { goto } from '$app/navigation';
 	import { recipeRequest } from '$lib/requests';
 	import { page } from '$app/state';
-
-	type Group = { name: string; id: string };
+	import RecipeUtils from './Utilities/utils';
 
 	let {
 		recipe,
@@ -49,6 +49,7 @@
 	});
 	let calories = $state(recipe?.calories);
 	let selectedGroupList: RecipeGroup[] = $state(recipe?.groups || []);
+	let measurementOptions = RecipeUtils.generateMeasurementsOptions();
 
 	let sections = $state<RecipeSection[]>(
 		recipe?.sections || [
@@ -57,7 +58,8 @@
 				type: SectionType.CHECKLIST,
 				list: [
 					{
-						value: ''
+						value: '',
+						measurement: RecipeStandardMeasurements.NONE
 					}
 				]
 			}
@@ -71,7 +73,8 @@
 			paragraph: '',
 			list: [
 				{
-					value: ''
+					value: '',
+					measurement: RecipeStandardMeasurements.NONE
 				}
 			]
 		};
@@ -90,9 +93,11 @@
 
 	function addListItem(idx: number) {
 		const _sections = $state.snapshot(sections);
-		const result: RecipeSection[] = _sections.map((section, index) => {
+		const result: any[] = _sections.map((section, index) => {
 			if (index === idx) {
-				const _list = section?.list ? [...section.list, { value: '' }] : [{ value: '' }];
+				const _list = section?.list
+					? [...section.list, { value: '', measurement: RecipeStandardMeasurements.NONE }]
+					: [{ value: '', measurement: RecipeStandardMeasurements.NONE }];
 
 				return {
 					...section,
@@ -163,6 +168,25 @@
 	function handleSectionTypeChange(index: number, option: any) {
 		if (option) {
 			sections[index].type = option.id as SectionType;
+		}
+	}
+
+	function getMeasurement(type: string) {
+		const key = type.toUpperCase() as keyof typeof RecipeStandardMeasurements;
+
+		if (key in RecipeStandardMeasurements) {
+			return {
+				id: type,
+				value: RecipeStandardMeasurements[key]
+			};
+		}
+
+		return null;
+	}
+
+	function handleListMeasurementChange(index: number, listIndex: number, option: any) {
+		if (sections[index].list) {
+			sections[index].list[listIndex].measurement = option.id;
 		}
 	}
 
@@ -425,8 +449,55 @@
 											handleSelectChange={(event: any) => handleSectionTypeChange(index, event)}
 											shouldSearch={false}
 										/>
-
 										{#if section.type == SectionType.CHECKLIST}
+											<p class="mb-2">Checklist items</p>
+
+											{#if section.list}
+												{#each section.list as list, idx (idx)}
+													<div class="flex items-end gap-4 md:items-center">
+														<div class="flex flex-1 flex-col gap-2 md:flex-row">
+															<div class="w-[150px]">
+																<Dropdown
+																	options={measurementOptions}
+																	withClearButton={false}
+																	selectedOption={getMeasurement(list.measurement || '')}
+																	shouldSearch={false}
+																	handleSelectChange={(event: any) =>
+																		handleListMeasurementChange(index, idx, event)}
+																/>
+															</div>
+
+															<div class="flex-1">
+																<BasicInputField
+																	bind:value={list.value}
+																	placeholder="Eg., flour, baking powder"
+																/>
+															</div>
+														</div>
+
+														<div>
+															<button
+																onclick={() => removeListItem(index, idx)}
+																type="button"
+																class="create_button_sm shadow_button minus_btn"
+															>
+																<Minus size="18px" strokeWidth="4px" color="#FFFFFF" />
+															</button>
+														</div>
+													</div>
+												{/each}
+											{/if}
+
+											<div class="mt-8">
+												<TextButton
+													action={() => addListItem(index)}
+													label="Add Item"
+													RightIcon={Plus}
+												/>
+											</div>
+										{/if}
+
+										<!-- {#if section.type == SectionType.CHECKLIST}
 											<p class="mb-2">Checklist items</p>
 
 											{#if section.list}
@@ -459,7 +530,7 @@
 													RightIcon={Plus}
 												/>
 											</div>
-										{/if}
+										{/if} -->
 
 										{#if section.type == SectionType.LIST}
 											<p class="mb-2">List items (steps)</p>

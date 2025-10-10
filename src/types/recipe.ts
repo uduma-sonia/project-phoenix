@@ -2,7 +2,7 @@ export interface Ingredient {
 	value?: string;
 }
 
-export type ListItem = { value: string };
+export type ListItem = { value: string; measurement: keyof typeof RecipeStandardMeasurements };
 
 export interface RecipeSection {
 	name: string;
@@ -54,7 +54,8 @@ export interface RecipeGroupResponse extends RecipeGroup {
 	updatedAt: Date;
 }
 
-export enum StandardMeasurements {
+export enum RecipeStandardMeasurements {
+	NONE = 'NONE',
 	CUP = '1 cup',
 	THREE_QUARTER_CUP = '3/4 cup',
 	TWO_THIRDS_CUP = '2/3 cup',

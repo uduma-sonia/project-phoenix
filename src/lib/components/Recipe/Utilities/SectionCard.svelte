@@ -39,7 +39,13 @@
 							<div class="mt-2 space-y-3">
 								{#each section?.list as item, index (index)}
 									{@const isSelected = selectedListItem.includes(item.value)}
-									<SectionListItem {isSelected} {handleSelectItem} name={item?.value} isChecklist />
+									<SectionListItem
+										measurement={item.measurement}
+										{isSelected}
+										{handleSelectItem}
+										name={item?.value}
+										isChecklist
+									/>
 								{/each}
 							</div>
 						{/if}
