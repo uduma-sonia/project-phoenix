@@ -23,3 +23,4 @@
 - Make the clear button work properly for the dropdown component
 - add tooltips to habit icons
 - fix dropdown search
+- Replace screenshots in homepage to include ones with logo

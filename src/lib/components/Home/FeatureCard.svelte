@@ -44,6 +44,16 @@
 						</div>
 					{/each}
 				{/if}
+
+				<div>
+					<div class="w-[160px]">
+						<a href="/signup">
+							<button class="shadow_button shadow_button_thin shadow_button_sm" type="button">
+								Try it for free
+							</button>
+						</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
