@@ -139,11 +139,11 @@
 					<div class="mb-1.5">
 						{#if isOwner}
 							{#if recipe.isPrivate}
-								<Tooltip text="Private recipe" position="top">
+								<Tooltip text="Private recipe" position="bottom">
 									<LockKeyhole size="16px" />
 								</Tooltip>
 							{:else}
-								<Tooltip text="Private recipe" position="top">
+								<Tooltip text="Private recipe" position="bottom">
 									<LockKeyholeOpen size="16px" />
 								</Tooltip>
 							{/if}

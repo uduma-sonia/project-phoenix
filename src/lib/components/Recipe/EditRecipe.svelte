@@ -440,6 +440,7 @@
 											placeholder="e.g., Ingredients, Instructions, Tips"
 											label="Section name"
 											bind:value={section.name}
+											id={`${section.name}-${index}`}
 										/>
 										<Dropdown
 											label="Type"
@@ -471,6 +472,7 @@
 																<BasicInputField
 																	bind:value={list.value}
 																	placeholder="Eg., flour, baking powder"
+																	id={`checklist-${list.value}-${idx}`}
 																/>
 															</div>
 														</div>

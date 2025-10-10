@@ -4,10 +4,10 @@
 
 - Image upload
 - Recipe review system, star rating
-- Add standard baking measurements
 - Connect pinterest
 - General page to search other people's public recipe
 - auto-generate ingredient shopping lists
+- Allow users to add custom measurements
 
 ## Travel planner
 
