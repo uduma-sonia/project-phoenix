@@ -1,7 +1,7 @@
 {
-	"name": "Phoenix",
-	"short_name": "Phoenix",
-	"description": "Track, shop, live",
+	"name": "Laniva",
+	"short_name": "Laniva",
+	"description": "Track, shop, cook, travel",
 	"background_color": "#f5ecd5",
 	"theme_color": "#f5ecd5",
 	"display": "standalone",
