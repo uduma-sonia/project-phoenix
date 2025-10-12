@@ -1,38 +1,22 @@
 <script lang="ts">
-	import { ShoppingCart } from '@lucide/svelte';
-	import { SectionType, type RecipeResponse } from '../../../../types/recipe';
-	import SectionListItem from './SectionListItem.svelte';
-	import Tooltip from '$lib/components/Common/Tooltip.svelte';
-	import { handleSelectItem, selectedRecipeList } from '$lib/state/recipe.svelte';
-	import { openAddToListModal } from '$lib/state/modal.svelte';
+	import { type RecipeResponse } from '../../../../types/recipe';
+	import SectionItem from './SectionItem.svelte';
 
 	let { recipe }: { recipe: RecipeResponse } = $props();
 </script>
 
 {#if recipe?.sections?.length}
 	<div class="mt-6">
-		{#if selectedRecipeList?.data && selectedRecipeList?.data?.length > 0}
-			<div class="mb-6">
-				<Tooltip position="right" text="Add to shopping list">
-					<button
-						class="shadow_button shadow_button_sm shadow_button_thin"
-						onclick={openAddToListModal}
-					>
-						<ShoppingCart />
-					</button>
-				</Tooltip>
-			</div>
-		{/if}
-		<div class="space-y-10">
+		<div class="space-y-6">
 			{#each recipe.sections as section, index (index)}
-				<div>
+				<!-- <div>
 					<div class="flex items-center justify-between gap-3">
-						<h3 class="text-xl">{section.name}</h3>
+						<h3 class="text-lg md:text-xl">{section.name}</h3>
 					</div>
 
 					{#if section.type === SectionType.CHECKLIST}
 						{#if section?.list?.length}
-							<div class="mt-2 space-y-3">
+							<div class="mt-4 space-y-3">
 								{#each section?.list as item, index (index)}
 									{@const isSelected = selectedRecipeList?.data?.includes(item.value)}
 									<SectionListItem
@@ -58,12 +42,14 @@
 					{/if}
 					{#if section.type === SectionType.PARAGRAPH}
 						{#if section?.paragraph}
-							<p class="font-lexend font-light">
+							<p class="font-lexend text-sm font-light md:text-base">
 								{section?.paragraph}
 							</p>
 						{/if}
 					{/if}
-				</div>
+				</div> -->
+
+				<SectionItem {section} />
 			{/each}
 		</div>
 	</div>

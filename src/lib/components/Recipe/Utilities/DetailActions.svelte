@@ -2,8 +2,10 @@
 	import { page } from '$app/state';
 	import Tooltip from '$lib/components/Common/Tooltip.svelte';
 	import { Link, SquarePen, Heart } from '@lucide/svelte';
+	import RecipeUtils from './utils';
+	import Helpers from '$lib/utils/helpers';
 
-	let { shareToPinterest, copyLink, isOwner, saveRecipe, isSaving, hasSavedRecipe } = $props();
+	let { recipe, isOwner, saveRecipe, isSaving, hasSavedRecipe } = $props();
 
 	let ownerId = $derived(page.url.searchParams.get('owner'));
 </script>
@@ -14,7 +16,7 @@
 			<Tooltip text="Save to Pinterest" position="bottom">
 				<button
 					class="shadow_button shadow_button_sm shadow_button_thin"
-					onclick={shareToPinterest}
+					onclick={() => RecipeUtils.shareToPinterest(recipe.images, recipe.name)}
 				>
 					<img src="/images/pinterest_logo.svg" class="w-4" alt="" />
 				</button>
@@ -22,7 +24,10 @@
 		</div>
 		<div>
 			<Tooltip text="Copy link" position="bottom">
-				<button class="shadow_button shadow_button_sm shadow_button_thin" onclick={copyLink}>
+				<button
+					class="shadow_button shadow_button_sm shadow_button_thin"
+					onclick={() => Helpers.copyToClipboard(window?.location?.href, 'Link copied')}
+				>
 					<Link size="18px" />
 				</button>
 			</Tooltip>
@@ -30,7 +35,7 @@
 
 		{#if !isOwner}
 			<div>
-				<Tooltip text="Save recipe">
+				<Tooltip text="Save recipe" position="bottom">
 					<button class="shadow_button shadow_button_sm shadow_button_thin" onclick={saveRecipe}>
 						{#if isSaving}
 							<div class="spinner_white border-2 border-black"></div>
@@ -45,11 +50,13 @@
 
 	<div>
 		{#if isOwner}
-			<a href={`/recipe/${page.params.id}/edit?owner=${ownerId}`}>
-				<button class="shadow_button shadow_button_sm shadow_button_thin">
-					<SquarePen size="18px" />
-				</button>
-			</a>
+			<Tooltip text="Edit recipe" position="bottom">
+				<a href={`/recipe/${page.params.id}/edit?owner=${ownerId}`}>
+					<button class="shadow_button shadow_button_sm shadow_button_thin">
+						<SquarePen size="18px" />
+					</button>
+				</a>
+			</Tooltip>
 		{/if}
 	</div>
 </div>

@@ -19,6 +19,7 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { createQuery } from '@tanstack/svelte-query';
 	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
+	import Timeline from './Utilities/Timeline.svelte';
 
 	let { trip }: { trip: Trip } = $props();
 
@@ -66,7 +67,7 @@
 	<div class="my-6 justify-between gap-3 px-3 md:flex">
 		<BackComponent backLink="/travel" title={trip.name} />
 
-		<div class="mt-6 flex flex-1 items-center justify-end gap-4 md:mt-0">
+		<div class="ibtems-center mt-6 flex flex-1 justify-end gap-4 md:mt-0">
 			<div>
 				<button
 					class="shadow_button shadow_button_thin shadow_button_with_icon"
@@ -102,6 +103,7 @@
 				<Budget {trip} />
 			</div>
 			<Calendar {trip} />
+			<Timeline />
 		</div>
 	</div>
 </div>

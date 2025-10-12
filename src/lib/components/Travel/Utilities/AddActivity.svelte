@@ -82,7 +82,6 @@
 			<InputField bind:value={menuLink} id="menuLink" label="Menu link" />
 			<InputField bind:value={otherLink} id="otherLink" label="Other link" />
 			<InputField bind:value={mobile} id="mobile" type="tel" label="Mobile" />
-			<!-- <InputField bind:value={note} id="note" type="text" label="Note" /> -->
 
 			{#if groupList?.length > 0}
 				<div class="no-scrollbar flex flex-nowrap items-center gap-3 overflow-x-auto pt-4">

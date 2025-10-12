@@ -1,31 +1,32 @@
 <script lang="ts">
 	import { Check } from '@lucide/svelte';
-	import { RecipeStandardMeasurements } from '../../../../types/recipe';
+	import { type Ingredient } from '../../../../types/recipe';
+	import RecipeUtils from './utils';
 
 	let {
-		name = '',
 		isChecklist,
 		handleSelectItem,
 		isSelected,
-		measurement,
-		index
+		index,
+		ingredient,
+		viewedMultiplier = $bindable()
 	}: {
-		name: string;
+		ingredient: Ingredient;
 		index: number;
 		isChecklist?: boolean;
 		handleSelectItem?: (name: string) => void;
 		isSelected?: boolean;
-		measurement?: keyof typeof RecipeStandardMeasurements;
+		viewedMultiplier: any;
 	} = $props();
 </script>
 
-<div class="flex items-start gap-2">
-	<div class="pt-1">
+<div class="flex items-center gap-2">
+	<div>
 		{#if isChecklist}
 			<button
 				class="button_active relative flex h-5 w-5 items-center justify-center rounded-md border p-0"
 				aria-label="Checklist"
-				onclick={() => handleSelectItem?.(name)}
+				onclick={() => handleSelectItem?.(ingredient.name)}
 			>
 				{#if isSelected}
 					<Check size="22px" />
@@ -42,10 +43,9 @@
 
 	<div class="flex-1">
 		<p class="font-lexend text-sm font-light md:text-base">
-			{#if measurement && measurement !== RecipeStandardMeasurements.NONE}
-				<span> {RecipeStandardMeasurements[measurement]} </span>
-			{/if}
-			{name}
+			{RecipeUtils.multiplyRecipeQuantity(ingredient.amount, viewedMultiplier)}
+			{ingredient?.unit}
+			{ingredient.name}
 		</p>
 	</div>
 </div>

@@ -1,18 +1,14 @@
 <script lang="ts">
-	import { Trash, LockKeyhole, AlarmClock, Utensils, LockKeyholeOpen, Eye } from '@lucide/svelte';
+	import { Trash, LockKeyhole, LockKeyholeOpen, Eye, ShoppingCart } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import {
+		openAddToListModal,
 		openDeleteModal,
 		openImageCarouselModal,
 		updateSelectedImage
 	} from '$lib/state/modal.svelte';
-	import { handleSelectRecipe } from '$lib/state/recipe.svelte';
-	import Helpers from '$lib/utils/helpers';
-	import {
-		PAGE_REDIRECTED_FROM_KEY,
-		PINTEREST_BASE_URL,
-		RECIPE_COUNT_TRACKER
-	} from '$lib/constants/global';
+	import { handleSelectRecipe, selectedRecipeList } from '$lib/state/recipe.svelte';
+	import { PAGE_REDIRECTED_FROM_KEY, RECIPE_COUNT_TRACKER } from '$lib/constants/global';
 	import Stats from '../Common/Stats.svelte';
 	import Stat from './Utilities/Stat.svelte';
 	import { type RecipeResponse } from '../../../types/recipe';
@@ -22,12 +18,17 @@
 	import LockedRecipe from './Utilities/LockedRecipe.svelte';
 	import AuthorItem from './Utilities/AuthorItem.svelte';
 	import { addToast } from '$lib/store/toast';
-
 	import { recipeRequest } from '$lib/requests';
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { goto } from '$app/navigation';
 	import Tooltip from '../Common/Tooltip.svelte';
+	import RecipeName from './Utilities/RecipeName.svelte';
+	import Nutrition from './Utilities/Nutrition.svelte';
+	import Overview from './Utilities/Overview.svelte';
+	import Ingredients from './Utilities/Ingredients.svelte';
+	import Directions from './Utilities/Directions.svelte';
+	import PrepNote from './Utilities/PrepNote.svelte';
 
 	const queryClient = useQueryClient();
 
@@ -52,6 +53,7 @@
 		typeof window !== 'undefined' ? sessionStorage.getItem(RECIPE_COUNT_TRACKER) : ''
 	);
 	let isSaving = $state(false);
+	let viewedMultiplier = $state(1);
 
 	function hasSavedRecipe() {
 		if (savesList?.length && user?._id) {
@@ -61,10 +63,6 @@
 				return false;
 			}
 		}
-	}
-
-	function copyLink() {
-		Helpers.copyToClipboard(window?.location?.href, 'Link copied');
 	}
 
 	async function saveRecipe() {
@@ -101,27 +99,10 @@
 		}
 	}
 
-	function shareToPinterest() {
-		const baseUrl = PINTEREST_BASE_URL;
-		const url = encodeURIComponent(window?.location?.href);
-		const media = recipe?.images?.length ? encodeURIComponent(recipe?.images[0]) : '';
-		const description = encodeURIComponent(recipe?.name || '');
-		const pinterestUrl = `${baseUrl}?${Helpers.formatQueryParams({ url, media, description })}`;
-		window.open(pinterestUrl, '_blank', 'noopener,noreferrer');
+	function changeMultiplier(params: number) {
+		viewedMultiplier = params;
 	}
 </script>
-
-{#snippet detailItem(label: string, value?: string, Icon?: any)}
-	{#if value}
-		<div class="flex min-w-max items-center gap-1">
-			<p class="font-lexend-deca flex items-center gap-1 text-sm">
-				<Icon size="18px" />
-				{label}:
-			</p>
-			<p class="font-lexend-deca text-sm font-light">{value}</p>
-		</div>
-	{/if}
-{/snippet}
 
 {#if !$detailsQuery?.isLoading && recipe}
 	{#if recipe?.isPrivate && !isOwner}
@@ -136,7 +117,7 @@
 				<div class="flex items-center gap-3">
 					<BackComponent backLink="/recipe" title={recipe?.name} />
 
-					<div class="mb-1.5">
+					<div>
 						{#if isOwner}
 							{#if recipe.isPrivate}
 								<Tooltip text="Private recipe" position="bottom">
@@ -152,8 +133,10 @@
 				</div>
 			{/if}
 
-			<div class="mt-6">
-				<div class="image_wrapper h-[230px]">
+			<div class="mt-4">
+				<AuthorItem {recipe} />
+
+				<div class="image_wrapper mt-4 h-[230px]">
 					<button
 						class="relative z-10 h-full w-full cursor-pointer gap-3 overflow-hidden rounded-lg border-2 border-black bg-white"
 						onclick={viewImages}
@@ -172,40 +155,27 @@
 					</button>
 				</div>
 
-				<DetailActions
-					{hasSavedRecipe}
-					{isSaving}
-					{shareToPinterest}
-					{copyLink}
-					{isOwner}
-					{saveRecipe}
-				/>
+				<DetailActions {hasSavedRecipe} {isSaving} {isOwner} {saveRecipe} {recipe} />
+				<RecipeName {recipe} />
+				<Overview {recipe} />
+				<PrepNote {recipe} />
+				<Nutrition nutrition={recipe.nutrition} />
 
-				<p class="mt-4 text-xl font-medium">
-					{recipe.name}
-				</p>
-
-				<div class="flex gap-3">
-					{#if recipe?.groups?.length}
-						{#each recipe?.groups as group, index (index)}
-							<p class="font-lexend text-13 font-extralight">
-								#{group.name}
-							</p>
+				{#if recipe.withConverter}
+					<div class="mt-6 flex justify-end gap-1">
+						{#each [...new Array(4)] as _, index}
+							<button
+								class="font-lexend hover:bg-brand-rose inline-block rounded-md border bg-transparent px-3 py-1 text-[11px] font-light text-black"
+								class:viewedMultiplier={viewedMultiplier === index + 1}
+								onclick={() => changeMultiplier(index + 1)}
+							>
+								{index + 1}x
+							</button>
 						{/each}
-					{/if}
-				</div>
-
-				<AuthorItem {recipe} />
-
-				<div class="mt-4 flex flex-wrap gap-4">
-					{@render detailItem('Prep time', recipe?.prepTime, AlarmClock)}
-					{@render detailItem('Cook time', recipe?.cookTime, AlarmClock)}
-					{@render detailItem('Total time', recipe?.totalTime, AlarmClock)}
-					{@render detailItem('Servings', recipe?.servings, Utensils)}
-					{@render detailItem('Difficulty', recipe?.difficulty)}
-					{@render detailItem('Calories', recipe?.calories)}
-				</div>
-
+					</div>
+				{/if}
+				<Ingredients {recipe} {viewedMultiplier} />
+				<Directions {recipe} />
 				<SectionCard {recipe} />
 			</div>
 
@@ -230,7 +200,20 @@
 	{/if}
 {/if}
 
+{#if selectedRecipeList?.data && selectedRecipeList?.data?.length > 0}
+	<div class="bottom slide_in_up fixed bottom-5 left-1/2 -translate-x-1/2">
+		<Tooltip position="top" text="Add to shopping list">
+			<button class="create_button_sm shadow_button" onclick={openAddToListModal}>
+				<ShoppingCart />
+			</button>
+		</Tooltip>
+	</div>
+{/if}
+
 <style>
+	.viewedMultiplier {
+		background-color: #dcbec5;
+	}
 	.image_wrapper {
 		position: relative;
 		border-radius: 8px;

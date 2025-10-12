@@ -23,6 +23,7 @@ export type TripActivity = {
 	groupId?: string;
 	instagramLink?: string;
 	websiteLink?: string;
+	address?: string;
 	otherLink?: string;
 	menuLink?: string;
 	mobile?: string;

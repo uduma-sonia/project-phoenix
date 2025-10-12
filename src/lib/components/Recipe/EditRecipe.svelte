@@ -7,8 +7,10 @@
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import Dropdown from '../Common/Form/Dropdown.svelte';
 	import {
-		RecipeStandardMeasurements,
 		SectionType,
+		type Directions,
+		type Ingredient,
+		type Recipe,
 		type RecipeGroup,
 		type RecipeResponse,
 		type RecipeSection
@@ -20,7 +22,6 @@
 	import { goto } from '$app/navigation';
 	import { recipeRequest } from '$lib/requests';
 	import { page } from '$app/state';
-	import RecipeUtils from './Utilities/utils';
 
 	let {
 		recipe,
@@ -39,17 +40,51 @@
 	let recipeName = $state(recipe?.name);
 	let isSubmitting = $state(false);
 	let isPrivate = $state(recipe?.isPrivate);
-	let prepTime = $state(recipe?.prepTime);
-	let cookTime = $state(recipe?.cookTime);
-	let totalTime = $state(recipe?.totalTime);
-	let servings = $state(recipe?.servings);
+	let withConverter = $state(recipe?.isPrivate);
+	let description = $state(recipe?.description || '');
+	let prepNote = $state(recipe?.prepNote || '');
+	let prepTimeHour = $state(recipe?.prepTime?.hour?.toString() || '');
+	let prepTimeMinutes = $state(recipe?.prepTime?.minutes?.toString() || '');
+	let cookTimeHour = $state(recipe?.cookTime?.hour?.toString() || '');
+	let cookTimeMinutes = $state(recipe?.cookTime?.minutes?.toString() || '');
+	let servings = $state(recipe?.servings?.toString() || '');
+	let yieldValue = $state(recipe?.yield || '');
 	let selectedDifficulty = $state({
-		value: recipe?.difficulty || '',
-		id: recipe?.difficulty || ''
+		value: recipe?.difficulty || 'Easy',
+		id: recipe?.difficulty || 'EASY'
 	});
-	let calories = $state(recipe?.calories);
+
+	// Nutrition fields
+	let calories = $state(recipe?.nutrition?.calories || '');
+	let totalFat = $state(recipe?.nutrition?.totalFat || '');
+	let saturatedFat = $state(recipe?.nutrition?.saturatedFat || '');
+	let cholesterol = $state(recipe?.nutrition?.cholesterol || '');
+	let sodium = $state(recipe?.nutrition?.sodium || '');
+	let carbonhydrate = $state(recipe?.nutrition?.carbonhydrate || '');
+	let sugar = $state(recipe?.nutrition?.sugar || '');
+	let protein = $state(recipe?.nutrition?.protein || '');
+	let dietaryFibers = $state(recipe?.nutrition?.dietaryFibers || '');
+
 	let selectedGroupList: RecipeGroup[] = $state(recipe?.groups || []);
-	let measurementOptions = RecipeUtils.generateMeasurementsOptions();
+
+	// Ingredients
+	let ingredients = $state<Ingredient[]>(
+		recipe?.ingredients || [
+			{
+				name: '',
+				amount: '',
+				unit: ''
+			}
+		]
+	);
+
+	let directions = $state<Directions[]>(
+		recipe?.directions || [
+			{
+				name: ''
+			}
+		]
+	);
 
 	let sections = $state<RecipeSection[]>(
 		recipe?.sections || [
@@ -58,13 +93,28 @@
 				type: SectionType.CHECKLIST,
 				list: [
 					{
-						value: '',
-						measurement: RecipeStandardMeasurements.NONE
+						value: ''
 					}
 				]
 			}
 		]
 	);
+
+	function addIngredient() {
+		ingredients = [...ingredients, { name: '', amount: '', unit: '' }];
+	}
+
+	function removeIngredient(idx: number) {
+		ingredients = ingredients.filter((_, index) => index !== idx);
+	}
+
+	function addDirection() {
+		directions = [...directions, { name: '' }];
+	}
+
+	function removeDirection(idx: number) {
+		directions = directions.filter((_, index) => index !== idx);
+	}
 
 	function addSection() {
 		const newObj: RecipeSection = {
@@ -73,8 +123,7 @@
 			paragraph: '',
 			list: [
 				{
-					value: '',
-					measurement: RecipeStandardMeasurements.NONE
+					value: ''
 				}
 			]
 		};
@@ -95,9 +144,7 @@
 		const _sections = $state.snapshot(sections);
 		const result: any[] = _sections.map((section, index) => {
 			if (index === idx) {
-				const _list = section?.list
-					? [...section.list, { value: '', measurement: RecipeStandardMeasurements.NONE }]
-					: [{ value: '', measurement: RecipeStandardMeasurements.NONE }];
+				const _list = section?.list ? [...section.list] : [{ value: '' }];
 
 				return {
 					...section,
@@ -131,7 +178,6 @@
 
 	function handleFileChange(el: any) {
 		const file = el?.files[0];
-		// const _fileName = file?.name;
 		const reader = new FileReader();
 
 		if (file) {
@@ -147,10 +193,16 @@
 		}
 	}
 
-	// https://res.clouinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg
-
 	function filterSection(sections: RecipeSection[]) {
 		return sections.filter((item) => item.name);
+	}
+
+	function filterIngredients(ingredients: Ingredient[]) {
+		return ingredients.filter((item) => item.name);
+	}
+
+	function filterDirections(directions: Directions[]) {
+		return directions.filter((item) => item.name);
 	}
 
 	function getSectionTypeOption(type: any) {
@@ -171,25 +223,6 @@
 		}
 	}
 
-	function getMeasurement(type: string) {
-		const key = type.toUpperCase() as keyof typeof RecipeStandardMeasurements;
-
-		if (key in RecipeStandardMeasurements) {
-			return {
-				id: type,
-				value: RecipeStandardMeasurements[key]
-			};
-		}
-
-		return null;
-	}
-
-	function handleListMeasurementChange(index: number, listIndex: number, option: any) {
-		if (sections[index].list) {
-			sections[index].list[listIndex].measurement = option.id;
-		}
-	}
-
 	function selectGroup(group: { name: string; _id: string }) {
 		const findGroup = selectedGroupList.find((item) => item.id === group._id);
 
@@ -203,30 +236,46 @@
 
 	async function handleSubmit() {
 		if (!recipeName) {
-			const recipeEl = document.getElementById('createRecipe');
+			const recipeEl = document.getElementById('editRecipe');
 			recipeEl?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
 			return;
 		}
 		try {
 			isSubmitting = true;
-
-			const payload = {
+			const payload: Recipe = {
 				name: recipeName,
-				images: [
-					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757271882/sweettreatsrecipes_-_Best_dessert_recipes_veeqp4.jpg',
-					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1757150018/photo_VSCO_afqnsk.jpg',
-					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1759586707/cake4_fyiz3v.jpg'
-				],
-				isPrivate: isPrivate,
-				sections: $state.snapshot(filterSection(sections)),
 				slug: Helpers.createSlug(recipeName),
-				prepTime,
-				cookTime,
-				totalTime,
-				servings,
+				description,
+				prepNote,
+				prepTime: {
+					hour: prepTimeHour ? Number(prepTimeHour) : 0,
+					minutes: prepTimeMinutes ? Number(prepTimeMinutes) : 0
+				},
+				cookTime: {
+					hour: cookTimeHour ? Number(cookTimeHour) : 0,
+					minutes: cookTimeMinutes ? Number(cookTimeMinutes) : 0
+				},
+				servings: servings ? Number(servings) : 0,
+				yield: yieldValue,
 				difficulty: selectedDifficulty.id,
-				calories,
-				groups: $state.snapshot(selectedGroupList)
+				groups: $state.snapshot(selectedGroupList),
+				images: [],
+				isPrivate: isPrivate,
+				ingredients: $state.snapshot(filterIngredients(ingredients)),
+				directions: $state.snapshot(filterDirections(directions)),
+				nutrition: {
+					calories,
+					totalFat,
+					saturatedFat,
+					cholesterol,
+					sodium,
+					carbonhydrate,
+					sugar,
+					protein,
+					dietaryFibers
+				},
+				withConverter: withConverter,
+				sections: $state.snapshot(filterSection(sections))
 			};
 
 			const result = await recipeRequest.updateRecipe(recipe?._id as string, payload);
@@ -235,6 +284,7 @@
 				queryClient.invalidateQueries({
 					queryKey: queryKeys.getSingleRecipe(page.params.id, ownerId as string)
 				});
+				addToast('Recipe updated', 'success');
 				goto(`/recipe/${Helpers.createSlug(recipeName)}?owner=${ownerId}`);
 			}
 		} catch (error: any) {
@@ -273,16 +323,16 @@
 	onchange={() => handleFileChange(imageThreeEl)}
 />
 
-<div id="createRecipe">
+<div id="editRecipe">
 	<div class="mx-auto w-full px-4 md:max-w-[600px]">
 		<BackComponent backLink="/recipe" />
 	</div>
 
 	<div class="mt-4 flex items-center justify-center px-4 pb-52">
 		<div class="login_form_wrapper w-full md:max-w-[600px]">
-			<div class="login_form h-full rounded-3xl border-2 bg-white" id="create-recipe-form">
+			<div class="login_form h-full rounded-3xl border-2 bg-white" id="edit-recipe-form">
 				<div class="pb-3">
-					<p class="font-suez text-2xl">Create Recipe</p>
+					<p class="font-suez text-2xl">Edit Recipe</p>
 				</div>
 
 				<hr />
@@ -290,30 +340,65 @@
 				<div class="mb-10 pt-5">
 					<BasicInputField id="recipeName" label="Recipe Name" bind:value={recipeName} />
 
+					<div class="mt-4">
+						<TextArea
+							label="Description"
+							placeholder="Brief description of your recipe"
+							bind:value={description}
+						/>
+					</div>
+
+					<div class="mt-4">
+						<TextArea
+							label="Prep Note"
+							placeholder="Any notes or tips before starting"
+							bind:value={prepNote}
+						/>
+					</div>
+
 					<div class="mt-4 grid grid-cols-2 gap-4">
 						<BasicInputField
-							id="prepTime"
-							label="Prep Time"
-							placeholder="e.g., 10 minutes"
-							bind:value={prepTime}
+							id="prepTimeHour"
+							label="Prep Time (Hours)"
+							type="number"
+							placeholder="0"
+							bind:value={prepTimeHour}
 						/>
 						<BasicInputField
-							id="cookTime"
-							label="Cook Time"
-							placeholder="e.g., 20 minutes"
-							bind:value={cookTime}
+							id="prepTimeMinutes"
+							label="Prep Time (Minutes)"
+							type="number"
+							placeholder="20"
+							bind:value={prepTimeMinutes}
 						/>
 						<BasicInputField
-							id="totalTime"
-							label="Total Time"
-							placeholder="e.g., 30 minutes"
-							bind:value={totalTime}
+							id="cookTimeHour"
+							label="Cook Time (Hours)"
+							type="number"
+							placeholder="0"
+							bind:value={cookTimeHour}
 						/>
+						<BasicInputField
+							id="cookTimeMinutes"
+							label="Cook Time (Minutes)"
+							type="number"
+							placeholder="30"
+							bind:value={cookTimeMinutes}
+						/>
+
 						<BasicInputField
 							id="servings"
 							label="Servings"
-							placeholder="e.g., 5 people"
+							type="number"
+							placeholder="4"
 							bind:value={servings}
+						/>
+
+						<BasicInputField
+							id="yield"
+							label="Yield"
+							placeholder="e.g., 1 cake, 12 cookies"
+							bind:value={yieldValue}
 						/>
 
 						<Dropdown
@@ -322,8 +407,6 @@
 							bind:selectedOption={selectedDifficulty}
 							shouldSearch={false}
 						/>
-
-						<BasicInputField id="calories" label="Calories" bind:value={calories} />
 					</div>
 
 					{#if groupList?.length > 0}
@@ -415,7 +498,111 @@
 					</div>
 
 					<div class="mt-10">
-						<p class="font-suez mb-4 text-lg">Recipe sections</p>
+						<p class="font-suez mb-4 text-lg">Ingredients</p>
+
+						<div class="space-y-6">
+							{#each ingredients as ingredient, index (index)}
+								<div class="flex items-start gap-2">
+									<div class="pt-1">
+										<button class="grid grid-cols-2 gap-1">
+											{#each [...new Array(4)] as _, index}
+												<span class="block h-1.5 w-1.5 rounded-lg bg-gray-800"> </span>
+											{/each}
+										</button>
+									</div>
+									<div class="flex-1 space-y-2">
+										<div class="grid flex-1 grid-cols-2 gap-2">
+											<BasicInputField
+												placeholder="Amount. eg., 1 , 1/2"
+												bind:value={ingredient.amount}
+												id={`ingredient-amount-${index}`}
+											/>
+											<BasicInputField
+												placeholder="Unit, eg., cup, teaspoon"
+												bind:value={ingredient.unit}
+												id={`ingredient-unit-${index}`}
+											/>
+										</div>
+										<BasicInputField
+											placeholder="Ingredient name"
+											bind:value={ingredient.name}
+											id={`ingredient-name-${index}`}
+										/>
+									</div>
+
+									<div>
+										<button
+											onclick={() => removeIngredient(index)}
+											type="button"
+											class="create_button_sm shadow_button minus_btn"
+										>
+											<Minus size="18px" strokeWidth="4px" color="#FFFFFF" />
+										</button>
+									</div>
+								</div>
+							{/each}
+						</div>
+
+						<div class="mt-4">
+							<TextButton action={addIngredient} label="Add Ingredient" RightIcon={Plus} />
+						</div>
+					</div>
+
+					<div class="mt-10">
+						<p class="font-suez mb-4 text-lg">Directions</p>
+
+						<div class="space-y-4">
+							{#each directions as direction, index (index)}
+								<div class="flex items-start gap-2">
+									<div class="flex-1">
+										<TextArea
+											bind:value={direction.name}
+											className="min-h-[80px]"
+											placeholder={`Step ${index + 1}`}
+											rows={2}
+										/>
+									</div>
+
+									<div>
+										<button
+											onclick={() => removeDirection(index)}
+											type="button"
+											class="create_button_sm shadow_button minus_btn"
+										>
+											<Minus size="18px" strokeWidth="4px" color="#FFFFFF" />
+										</button>
+									</div>
+								</div>
+							{/each}
+						</div>
+
+						<div class="mt-4">
+							<TextButton action={addDirection} label="Add Direction" RightIcon={Plus} />
+						</div>
+					</div>
+
+					<div class="mt-10">
+						<p class="font-suez mb-4 text-lg">Nutrition Information</p>
+
+						<div class="grid grid-cols-2 gap-4">
+							<BasicInputField id="calories" label="Calories" bind:value={calories} />
+							<BasicInputField id="totalFat" label="Total Fat" bind:value={totalFat} />
+							<BasicInputField id="saturatedFat" label="Saturated Fat" bind:value={saturatedFat} />
+							<BasicInputField id="cholesterol" label="Cholesterol" bind:value={cholesterol} />
+							<BasicInputField id="sodium" label="Sodium" bind:value={sodium} />
+							<BasicInputField id="carbonhydrate" label="Carbohydrate" bind:value={carbonhydrate} />
+							<BasicInputField id="sugar" label="Sugar" bind:value={sugar} />
+							<BasicInputField id="protein" label="Protein" bind:value={protein} />
+							<BasicInputField
+								id="dietaryFibers"
+								label="Dietary Fibers"
+								bind:value={dietaryFibers}
+							/>
+						</div>
+					</div>
+
+					<div class="mt-10">
+						<p class="font-suez mb-4 text-lg">Additional Sections</p>
 
 						<div>
 							<div class="space-y-8">
@@ -437,7 +624,7 @@
 											</div>
 										</div>
 										<BasicInputField
-											placeholder="e.g., Ingredients, Instructions, Tips"
+											placeholder="e.g., Tips, Storage Instructions"
 											label="Section name"
 											bind:value={section.name}
 											id={`${section.name}-${index}`}
@@ -456,25 +643,12 @@
 											{#if section.list}
 												{#each section.list as list, idx (idx)}
 													<div class="flex items-end gap-4 md:items-center">
-														<div class="flex flex-1 flex-col gap-2 md:flex-row">
-															<div class="w-[150px]">
-																<Dropdown
-																	options={measurementOptions}
-																	withClearButton={false}
-																	selectedOption={getMeasurement(list.measurement || '')}
-																	shouldSearch={false}
-																	handleSelectChange={(event: any) =>
-																		handleListMeasurementChange(index, idx, event)}
-																/>
-															</div>
-
-															<div class="flex-1">
-																<BasicInputField
-																	bind:value={list.value}
-																	placeholder="Eg., flour, baking powder"
-																	id={`checklist-${list.value}-${idx}`}
-																/>
-															</div>
+														<div class="flex-1">
+															<BasicInputField
+																bind:value={list.value}
+																placeholder="Checklist item"
+																id={`checklist-${list.value}-${idx}`}
+															/>
 														</div>
 
 														<div>
@@ -499,43 +673,8 @@
 											</div>
 										{/if}
 
-										<!-- {#if section.type == SectionType.CHECKLIST}
-											<p class="mb-2">Checklist items</p>
-
-											{#if section.list}
-												{#each section.list as list, idx (idx)}
-													<div class="flex items-center gap-2">
-														<div class="flex-1">
-															<BasicInputField
-																bind:value={list.value}
-																placeholder="Checklist item"
-															/>
-														</div>
-
-														<div>
-															<button
-																onclick={() => removeListItem(index, idx)}
-																type="button"
-																class="create_button_sm shadow_button minus_btn"
-															>
-																<Minus size="18px" strokeWidth="4px" color="#FFFFFF" />
-															</button>
-														</div>
-													</div>
-												{/each}
-											{/if}
-
-											<div class="mt-4">
-												<TextButton
-													action={() => addListItem(index)}
-													label="Add Item"
-													RightIcon={Plus}
-												/>
-											</div>
-										{/if} -->
-
 										{#if section.type == SectionType.LIST}
-											<p class="mb-2">List items (steps)</p>
+											<p class="mb-2">List items</p>
 
 											{#if section.list}
 												{#each section.list as list, idx (idx)}
@@ -572,11 +711,7 @@
 										{/if}
 
 										{#if section.type == SectionType.PARAGRAPH}
-											<TextArea
-												label="Paragraph Text"
-												helperText="Use for paragraph-type sections"
-												bind:value={section.paragraph}
-											/>
+											<TextArea label="Paragraph Text" bind:value={section.paragraph} />
 										{/if}
 									</div>
 								{/each}
@@ -588,13 +723,11 @@
 						</div>
 					</div>
 
-					<div>
-						<label for="notes" class="mb-2">Private</label>
-
+					<div class="mt-6">
 						<div class="flex items-center gap-2">
 							<button
 								class="button_active relative flex h-7 w-7 items-center justify-center rounded-md border-2 p-0"
-								aria-label="Checklist"
+								aria-label="Private"
 								type="button"
 								onclick={() => (isPrivate = !isPrivate)}
 							>
@@ -602,8 +735,24 @@
 									<Check size="22px" />
 								{/if}
 							</button>
-
 							<p class="font-lexend text-sm font-light">Hide from others</p>
+						</div>
+					</div>
+
+					<div class="mt-4">
+						<div class="flex items-center gap-2">
+							<button
+								class="button_active relative flex h-7 w-7 items-center justify-center rounded-md border-2 p-0"
+								aria-label="withConverter"
+								type="button"
+								onclick={() => (withConverter = !withConverter)}
+							>
+								{#if withConverter}
+									<Check size="22px" />
+								{/if}
+							</button>
+
+							<p class="font-lexend text-sm font-light">Allow ingredients to be multiplied</p>
 						</div>
 					</div>
 				</div>
@@ -613,7 +762,7 @@
 						{#if isSubmitting}
 							<div class="spinner_white border-2 border-black"></div>
 						{:else}
-							Save
+							Update
 						{/if}
 					</button>
 				</div>

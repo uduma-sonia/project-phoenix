@@ -1,50 +1,29 @@
-export interface Ingredient {
-	value?: string;
-}
-
-export type ListItem = { value: string; measurement: keyof typeof RecipeStandardMeasurements };
-
-export interface RecipeSection {
-	name: string;
-	type?: SectionType;
-	paragraph?: string;
-	list?: ListItem[];
-}
+export type ListItem = { value: string };
 
 export type RecipeGroup = {
 	name: string;
 	id?: string;
 };
 
-export type Recipe = {
-	name: string;
-	slug: string;
-	images?: string[];
-	prepTime?: string;
-	cookTime?: string;
-	totalTime?: string;
-	servings?: string;
-	difficulty?: string;
-	calories?: string;
-	groups?: RecipeGroup[];
-	isPrivate?: boolean;
-	sections?: RecipeSection[];
-};
+// export type Recipe = {
+// 	name: string;
+// 	slug: string;
+// 	images?: string[];
+// 	prepTime?: string;
+// 	cookTime?: string;
+// 	totalTime?: string;
+// 	servings?: string;
+// 	difficulty?: string;
+// 	calories?: string;
+// 	groups?: RecipeGroup[];
+// 	isPrivate?: boolean;
+// 	sections?: RecipeSection[];
+// };
 
 export enum SectionType {
 	LIST = 'LIST',
 	PARAGRAPH = 'PARAGRAPH',
 	CHECKLIST = 'CHECKLIST'
-}
-
-export interface RecipeResponse extends Recipe {
-	_id: string;
-	ownerId: string;
-	ownerName: string;
-	savedBy: string[];
-	createdAt: Date;
-	updatedAt: Date;
-	isSaved: boolean;
 }
 
 export interface RecipeGroupResponse extends RecipeGroup {
@@ -72,4 +51,70 @@ export enum RecipeStandardMeasurements {
 	HALF_TEASPOON = '1/2 teaspoon',
 	QUARTER_TEASPOON = '1/4 teaspoon',
 	EIGHTH_TEASPOON = '1/8 teaspoon'
+}
+
+export type Ingredient = {
+	name: string;
+	amount?: string;
+	unit?: string;
+};
+
+export type Directions = {
+	name: string;
+};
+
+export type Nutrition = {
+	calories?: string;
+	totalFat?: string;
+	saturatedFat?: string;
+	cholesterol?: string;
+	sodium?: string;
+	carbonhydrate?: string;
+	sugar?: string;
+	protein?: string;
+	dietaryFibers?: string;
+};
+
+export interface RecipeSection {
+	name: string;
+	type?: SectionType;
+	paragraph?: string;
+	list?: ListItem[];
+}
+
+export type Recipe = {
+	savedBy?: string[];
+	name: string;
+	slug: string;
+	description?: string;
+	prepNote?: string;
+	prepTime?: {
+		hour: number;
+		minutes: number;
+	};
+	cookTime?: {
+		hour: number;
+		minutes: number;
+	};
+	servings?: number;
+	yield?: string;
+	difficulty?: string;
+	groups?: RecipeGroup[];
+	images?: string[];
+	isPrivate?: boolean;
+	withConverter?: boolean;
+	ingredients?: Ingredient[];
+	directions?: Directions[];
+	nutrition?: Nutrition;
+	sections?: RecipeSection[];
+};
+
+export interface RecipeResponse extends Recipe {
+	_id: string;
+	ownerId: string;
+	ownerName: string;
+	savedBy: string[];
+	createdAt: Date;
+	updatedAt: Date;
+	isSaved: boolean;
 }
