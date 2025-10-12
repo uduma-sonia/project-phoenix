@@ -83,11 +83,11 @@
 			{/if}
 		</div>
 
-		<div class="mt-3 flex items-center gap-1 text-xs font-light">
+		<!-- <div class="mt-3 flex items-center gap-1 text-xs font-light">
 			<p>12th may</p>
 			-
 			<p>2nd day</p>
-		</div>
+		</div> -->
 		<div class="absolute top-6 right-2 z-50 -translate-y-1/2">
 			<HamburgerDropdown options={moreOptions} />
 		</div>

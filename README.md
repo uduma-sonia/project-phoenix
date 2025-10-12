@@ -6,8 +6,6 @@
 - Recipe review system, star rating
 - Connect pinterest
 - General page to search other people's public recipe
-- auto-generate ingredient shopping lists
-- Allow users to add custom measurements
 
 ## Travel planner
 
@@ -22,7 +20,6 @@
 - PWA Alert modal
 - Make the clear button work properly for the dropdown component
 - add tooltips to habit icons
-- fix dropdown search
-- Replace screenshots in homepage to include ones with logo
 - Email template
-- FIX PRODUCTION
+- Allow users to add custom text to dropdown
+- Fix date picker - Let the selected day be in view by default

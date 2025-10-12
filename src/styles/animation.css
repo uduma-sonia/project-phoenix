@@ -43,6 +43,11 @@
 	animation-duration: 0.8s;
 	animation-fill-mode: forwards;
 }
+.slide_in_down {
+	animation-name: slideInDown;
+	animation-duration: 0.8s;
+	animation-fill-mode: forwards;
+}
 
 .spinner_white {
 	width: 22px;
@@ -143,6 +148,16 @@
 @keyframes slideInUp {
 	0% {
 		transform: translateY(30px);
+	}
+
+	100% {
+		transform: translateY(0%);
+	}
+}
+
+@keyframes slideInDown {
+	0% {
+		transform: translateY(-10px);
 	}
 
 	100% {
