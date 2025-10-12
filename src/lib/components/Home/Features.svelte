@@ -45,7 +45,7 @@
 		<FeatureCardV2
 			bgColor="#cfc4e791"
 			title="Recipe manager"
-			imageUrl="/images/recipe_img.jpg"
+			imageUrl="/images/recipe_img2.jpg"
 			ListIcon={ChefHat}
 			featuresList={[
 				'Straightfoward recipe manager',

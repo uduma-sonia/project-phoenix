@@ -159,7 +159,9 @@
 				<RecipeName {recipe} />
 				<Overview {recipe} />
 				<PrepNote {recipe} />
-				<Nutrition nutrition={recipe.nutrition} />
+				{#if recipe.nutrition}
+					<Nutrition nutrition={recipe.nutrition} />
+				{/if}
 
 				{#if recipe.withConverter}
 					<div class="mt-6 flex justify-end gap-1">
