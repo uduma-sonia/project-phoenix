@@ -1,4 +1,4 @@
-export type ListItem = { value: string; measurement: keyof typeof RecipeStandardMeasurements };
+export type ListItem = { value: string };
 
 export type RecipeGroup = {
 	name: string;
@@ -83,8 +83,7 @@ export interface RecipeSection {
 }
 
 export type Recipe = {
-	ownerId: string;
-	savedBy: string[];
+	savedBy?: string[];
 	name: string;
 	slug: string;
 	description?: string;
@@ -103,10 +102,11 @@ export type Recipe = {
 	groups?: RecipeGroup[];
 	images?: string[];
 	isPrivate?: boolean;
+	withConverter?: boolean;
 	ingredients?: Ingredient[];
 	directions?: Directions[];
-	nutrition: Nutrition;
-	sections: RecipeSection[];
+	nutrition?: Nutrition;
+	sections?: RecipeSection[];
 };
 
 export interface RecipeResponse extends Recipe {

@@ -160,17 +160,20 @@
 				<Overview {recipe} />
 				<PrepNote {recipe} />
 				<Nutrition nutrition={recipe.nutrition} />
-				<div class="mt-6 flex justify-end gap-1">
-					{#each [...new Array(4)] as _, index}
-						<button
-							class="font-lexend hover:bg-brand-rose inline-block rounded-md border bg-transparent px-3 py-1 text-[11px] font-light text-black"
-							class:viewedMultiplier={viewedMultiplier === index + 1}
-							onclick={() => changeMultiplier(index + 1)}
-						>
-							{index + 1}x
-						</button>
-					{/each}
-				</div>
+
+				{#if recipe.withConverter}
+					<div class="mt-6 flex justify-end gap-1">
+						{#each [...new Array(4)] as _, index}
+							<button
+								class="font-lexend hover:bg-brand-rose inline-block rounded-md border bg-transparent px-3 py-1 text-[11px] font-light text-black"
+								class:viewedMultiplier={viewedMultiplier === index + 1}
+								onclick={() => changeMultiplier(index + 1)}
+							>
+								{index + 1}x
+							</button>
+						{/each}
+					</div>
+				{/if}
 				<Ingredients {recipe} {viewedMultiplier} />
 				<Directions {recipe} />
 				<SectionCard {recipe} />
