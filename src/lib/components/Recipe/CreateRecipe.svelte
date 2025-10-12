@@ -493,6 +493,11 @@
 										</button>
 									</div>
 									<div class="flex-1 space-y-2">
+										<BasicInputField
+											placeholder="Ingredient name"
+											bind:value={ingredient.name}
+											id={`ingredient-name-${index}`}
+										/>
 										<div class="grid flex-1 grid-cols-2 gap-2">
 											<BasicInputField
 												placeholder="Amount. eg., 1 , 1/2"
@@ -505,11 +510,6 @@
 												id={`ingredient-unit-${index}`}
 											/>
 										</div>
-										<BasicInputField
-											placeholder="Ingredient name"
-											bind:value={ingredient.name}
-											id={`ingredient-name-${index}`}
-										/>
 									</div>
 
 									<div>

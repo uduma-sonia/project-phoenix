@@ -259,7 +259,11 @@
 				yield: yieldValue,
 				difficulty: selectedDifficulty.id,
 				groups: $state.snapshot(selectedGroupList),
-				images: [],
+				images: [
+					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1760264469/vanilla-cake3_as8ye2.jpg',
+					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1760264468/vanilla-cake4_zsd15p.jpg',
+					// 'https://res.cloudinary.com/dbqgv8zl7/image/upload/v1760264468/vanilla-cake2_gqypow.jpg'
+				],
 				isPrivate: isPrivate,
 				ingredients: $state.snapshot(filterIngredients(ingredients)),
 				directions: $state.snapshot(filterDirections(directions)),
@@ -511,6 +515,11 @@
 										</button>
 									</div>
 									<div class="flex-1 space-y-2">
+										<BasicInputField
+											placeholder="Ingredient name"
+											bind:value={ingredient.name}
+											id={`ingredient-name-${index}`}
+										/>
 										<div class="grid flex-1 grid-cols-2 gap-2">
 											<BasicInputField
 												placeholder="Amount. eg., 1 , 1/2"
@@ -523,11 +532,6 @@
 												id={`ingredient-unit-${index}`}
 											/>
 										</div>
-										<BasicInputField
-											placeholder="Ingredient name"
-											bind:value={ingredient.name}
-											id={`ingredient-name-${index}`}
-										/>
 									</div>
 
 									<div>
