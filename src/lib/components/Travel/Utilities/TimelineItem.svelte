@@ -1,5 +1,9 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
+	import { tripRequest } from '$lib/requests';
+	import { addToast } from '$lib/store/toast';
+	import { queryKeys } from '$lib/utils/queryKeys';
 	import {
 		Instagram,
 		Link,
@@ -9,8 +13,33 @@
 		Trash2,
 		UtensilsCrossed
 	} from '@lucide/svelte';
+	import { useQueryClient } from '@tanstack/svelte-query';
 
 	let { data } = $props();
+
+	const queryClient = useQueryClient();
+
+	let isDeleting = $state(false);
+
+	async function deleteActivity() {
+		if (data?._id) {
+			try {
+				isDeleting = true;
+
+				const result = await tripRequest.deleteTripActivity(data?._id);
+
+				if (result) {
+					queryClient.invalidateQueries({
+						queryKey: queryKeys.getTripActivities(page.params.id)
+					});
+				}
+			} catch (error: any) {
+				addToast(error?.message || 'An error occured', 'error');
+			} finally {
+				isDeleting = true;
+			}
+		}
+	}
 
 	const moreOptions = [
 		{
@@ -20,8 +49,8 @@
 		{
 			label: 'Delete',
 			icon: Trash2,
-			iconColor: 'red'
-			// action: deleteActivity
+			iconColor: 'red',
+			action: deleteActivity
 		}
 	];
 </script>
@@ -58,7 +87,7 @@
 			</div>
 		</div>
 
-		<div class="absolute top-6 right-2 z-50 -translate-y-1/2">
+		<div class="absolute top-6 right-2 z-[99px] -translate-y-1/2">
 			<HamburgerDropdown options={moreOptions} />
 		</div>
 	</div>

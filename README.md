@@ -11,9 +11,7 @@
 
 - Display trips a member is part of and use their permission to restrict different functions
 - Manage group
-- Enable categories
 - Poll feature
-- Timeline view
 
 ## General
 
