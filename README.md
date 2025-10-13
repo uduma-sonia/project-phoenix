@@ -21,5 +21,4 @@
 - Make the clear button work properly for the dropdown component
 - add tooltips to habit icons
 - Email template
-- Allow users to add custom text to dropdown
 - Fix date picker - Let the selected day be in view by default

@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { Plus } from '@lucide/svelte';
 	import NewGroup from './NewGroup.svelte';
-	import ActivityCard from './ActivityCard.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { tripRequest } from '$lib/requests';
 	import { page } from '$app/state';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import AddActivity from './AddActivity.svelte';
 	import type { TripActivity } from '../../../../types/trip';
+	import Timeline from './Timeline.svelte';
+	import Tooltip from '$lib/components/Common/Tooltip.svelte';
+	import TripUtils from './utils';
 
 	let addNewGroup = $state(false);
 	let currentTab = $state('ALL');
@@ -79,9 +80,13 @@
 			</div>
 
 			<div class="sticky top-0 right-0 ml-10">
-				<button class="shadow_button" onclick={toggleView}>
-					<Plus />
-				</button>
+				<div>
+					<Tooltip text="Create new group">
+						<button class="shadow_button shadow_button_sm" onclick={toggleView}>
+							<Plus />
+						</button>
+					</Tooltip>
+				</div>
 			</div>
 		{/if}
 
@@ -90,7 +95,14 @@
 		{/if}
 	</div>
 
-	{#if filteredActivityList?.length > 0}
+	<div class="space-y-8">
+		<!-- <div class="timeline_wrapper no-scrollbar space-y-8 overflow-y-auto"> -->
+		{#each TripUtils.groupByDay(filteredActivityList) as activity, index (index)}
+			<Timeline {activity} />
+		{/each}
+	</div>
+
+	<!-- {#if filteredActivityList?.length > 0}
 		<div class="space-y-3">
 			{#each filteredActivityList as activity, index (index)}
 				<ActivityCard {activity} />
@@ -100,11 +112,11 @@
 		<div class="flex h-32 items-center justify-center">
 			<p>No activity created</p>
 		</div>
-	{/if}
+	{/if} -->
 
-	<div class="mt-6">
+	<!-- <div class="mt-6">
 		<AddActivity {groupList} />
-	</div>
+	</div> -->
 </div>
 
 <style>

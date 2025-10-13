@@ -38,7 +38,6 @@
 		{
 			label: 'Edit',
 			icon: SquarePen
-			// action: openInsightsModal
 		},
 		{
 			label: 'Delete',

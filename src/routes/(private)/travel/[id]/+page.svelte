@@ -9,6 +9,7 @@
 	import LoaderError from '$lib/components/Common/LoaderError.svelte';
 	import DeleteTripModal from '$lib/components/Modals/DeleteTripModal.svelte';
 	import PackingModal from '$lib/components/Modals/PackingModal.svelte';
+	import AddActivity from '$lib/components/Travel/Utilities/AddActivity.svelte';
 
 	let detailsQuery = createQuery({
 		queryKey: queryKeys.getSingleTrip(page.params.id),
@@ -16,6 +17,13 @@
 	});
 
 	let trip = $derived($detailsQuery?.data?.data?.travel);
+
+	const groupQuery = createQuery({
+		queryKey: queryKeys.getTripActivityGroups(page.params.id),
+		queryFn: () => tripRequest.getTripActivityGroups(page.params.id)
+	});
+
+	let groupList = $derived($groupQuery?.data?.data?.travelGroup);
 </script>
 
 <AppLayout withName={false}>
@@ -33,3 +41,4 @@
 
 <DeleteTripModal />
 <PackingModal />
+<AddActivity {groupList} {trip} />

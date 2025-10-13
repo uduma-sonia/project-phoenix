@@ -1,22 +1,66 @@
 <script lang="ts">
-	import { MapPinHouse, Phone } from '@lucide/svelte';
+	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
+	import {
+		Instagram,
+		Link,
+		MapPinHouse,
+		Phone,
+		SquarePen,
+		Trash2,
+		UtensilsCrossed
+	} from '@lucide/svelte';
 
-	let {} = $props();
+	let { data } = $props();
+
+	const moreOptions = [
+		{
+			label: 'Edit',
+			icon: SquarePen
+		},
+		{
+			label: 'Delete',
+			icon: Trash2,
+			iconColor: 'red'
+			// action: deleteActivity
+		}
+	];
 </script>
+
+{#snippet linkSnippet(link?: string, label?: string, Icon?: any)}
+	{#if link}
+		<div>
+			<a
+				href={link}
+				target="_blank"
+				rel="noreferrer"
+				class="font-lexend text-13 inline-flex min-w-max items-center gap-1 font-light underline"
+			>
+				<Icon size="12px" />
+				{label}
+			</a>
+		</div>
+	{/if}
+{/snippet}
 
 <div class="timeline_item_wrapper">
 	<div class="relative z-10 w-full gap-3 rounded-lg border-2 border-black bg-white p-2">
-		<p class="font-lexend mb-4 text-sm font-normal">Almira restaurant</p>
+		<p class="font-lexend mb-2 text-lg font-normal">{data?.name}</p>
 
-		<p class="font-lexend mb-1 flex items-center gap-1 text-sm font-light">
-			<MapPinHouse size="12px" />
-			mo 30 muhamad close wayse
-		</p>
+		<div class="space-y-3">
+			{@render linkSnippet(data.address, data.address, MapPinHouse)}
 
-		<a class="font-lexend inline-flex items-center gap-1 text-sm font-light underline">
-			<Phone size="14px" />
-			08105616400
-		</a>
+			<div class="flex flex-wrap gap-4">
+				{@render linkSnippet(`tel:${data.mobile}`, data.mobile, Phone)}
+				{@render linkSnippet(data.instagramLink, 'Instagram', Instagram)}
+				{@render linkSnippet(data.menuLink, 'Menu', UtensilsCrossed)}
+				{@render linkSnippet(data.websiteLink, 'Website', Link)}
+				{@render linkSnippet(data.otherLink, 'Other link', Link)}
+			</div>
+		</div>
+
+		<div class="absolute top-6 right-2 z-50 -translate-y-1/2">
+			<HamburgerDropdown options={moreOptions} />
+		</div>
 	</div>
 </div>
 
