@@ -1,14 +1,18 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import BasicButton from '$lib/components/Common/Form/BasicButton.svelte';
 	import InputField from '$lib/components/Common/Form/InputField.svelte';
+	import ModalWrapper from '$lib/components/Common/ModalWrapper.svelte';
+	import TrackerUtils from '$lib/components/Habit/Utilities/utils';
 	import { tripRequest } from '$lib/requests';
+	import { closeCreateActivityModal, modalsState } from '$lib/state/modal.svelte';
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import { Plus } from '@lucide/svelte';
 	import { useQueryClient } from '@tanstack/svelte-query';
+	import { eachDayOfInterval, format } from 'date-fns';
 
-	let { groupList } = $props();
+	let { groupList, trip } = $props();
 	const queryClient = useQueryClient();
 
 	let isLoading = $state(false);
@@ -18,9 +22,17 @@
 	let otherLink = $state('');
 	let menuLink = $state('');
 	let mobile = $state('');
-	// let note = $state('');
+	let note = $state('');
+	let selectedDay = $state(new Date());
 
 	let selectedGroup: { name: string; _id: string } = $state({ name: '', _id: '' });
+
+	let _eachDayOfInterval = $derived(
+		eachDayOfInterval({
+			start: new Date(trip?.start),
+			end: new Date(trip?.end)
+		})
+	);
 
 	function selectGroup(group: { name: string; _id: string }) {
 		if (selectedGroup?._id === group?._id) {
@@ -28,6 +40,12 @@
 		} else {
 			selectedGroup = group;
 		}
+	}
+
+	function selectDay(day: Date) {
+		selectedDay = day;
+		// selectedDay = TrackerUtils.getISODate(day)
+		console.log(day);
 	}
 
 	async function handleSubmit() {
@@ -43,9 +61,9 @@
 				mobile: mobile,
 				visited: false,
 				menuLink: menuLink,
-				otherLink: otherLink
-				// note: note
-				// day: ''
+				otherLink: otherLink,
+				day: TrackerUtils.getISODate(selectedDay),
+				note: note
 			};
 
 			Helpers.removeEmptyFields(payload);
@@ -64,6 +82,7 @@
 				menuLink = '';
 				mobile = '';
 				addToast('Activity added', 'success');
+				closeCreateActivityModal();
 			}
 		} catch (error: any) {
 			addToast(error?.message || 'An error occured', 'error');
@@ -73,15 +92,20 @@
 	}
 </script>
 
-<div class="retro_wrapper">
-	<div class="retro_wrapper_inner font-lexend">
+<ModalWrapper
+	label="Add activity"
+	isOpen={modalsState.data.isOpenCreateActivity}
+	onClose={closeCreateActivityModal}
+>
+	<div class="p-4">
 		<div>
-			<InputField bind:value={actvityName} id="actvityName" label="Activity Name" />
-			<InputField bind:value={instagramLink} id="instagramLink" label="Instagram link" />
-			<InputField bind:value={websiteLink} id="websiteLink" label="Website link" />
-			<InputField bind:value={menuLink} id="menuLink" label="Menu link" />
-			<InputField bind:value={otherLink} id="otherLink" label="Other link" />
-			<InputField bind:value={mobile} id="mobile" type="tel" label="Mobile" />
+			<InputField bind:value={actvityName} id="actvityName" placeholder="Activity Name" />
+			<InputField bind:value={instagramLink} id="instagramLink" placeholder="Instagram link" />
+			<InputField bind:value={websiteLink} id="websiteLink" placeholder="Website link" />
+			<InputField bind:value={menuLink} id="menuLink" placeholder="Menu link" />
+			<InputField bind:value={otherLink} id="otherLink" placeholder="Other link" />
+			<InputField bind:value={mobile} id="mobile" type="tel" placeholder="Mobile" />
+			<InputField bind:value={note} id="note" placeholder="Short note" />
 
 			{#if groupList?.length > 0}
 				<div class="no-scrollbar flex flex-nowrap items-center gap-3 overflow-x-auto pt-4">
@@ -98,18 +122,34 @@
 				</div>
 			{/if}
 		</div>
-	</div>
-</div>
 
-<div class="mt-4 flex justify-center">
-	<button class="create_button_sm shadow_button" onclick={handleSubmit}>
-		{#if isLoading}
-			<div class="spinner_white border-2 border-black"></div>
-		{:else}
-			<Plus size="26px" />
-		{/if}
-	</button>
-</div>
+		<div class="mt-6">
+			<p class="font-lexend text-sm">Select day for activity</p>
+
+			{#if _eachDayOfInterval?.length > 0}
+				<div class="mt-4 flex flex-wrap gap-2">
+					{#each _eachDayOfInterval as day, index (index)}
+						{@const isSelected =
+							TrackerUtils.getISODate(selectedDay) === TrackerUtils.getISODate(day)}
+
+						<button
+							class:selected={isSelected}
+							class="font-lexend hover:bg-brand-rose inline-block rounded-md border bg-white px-4 py-1 text-[11px] font-light text-black capitalize"
+							onclick={() => selectDay(day)}
+						>
+							{format(day, 'MMM dd')}
+						</button>
+					{/each}
+				</div>
+			{/if}
+		</div>
+
+		<div class="mt-8 flex items-center justify-end gap-5">
+			<BasicButton label="Cancel" variant="error" action={closeCreateActivityModal} />
+			<BasicButton label="Add" {isLoading} variant="primary" action={handleSubmit} />
+		</div>
+	</div>
+</ModalWrapper>
 
 <style>
 	.selected {

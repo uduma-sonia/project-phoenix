@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Check, SquarePen, Trash, UserRoundPlus, Settings, List } from '@lucide/svelte';
+	import { Check, SquarePen, Trash, UserRoundPlus, Settings, List, Plus } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import DetailsTopSection from './Utilities/DetailsTopSection.svelte';
 	import GroupTab from './Utilities/GroupTab.svelte';
@@ -9,6 +9,7 @@
 	import {
 		closeModal,
 		modalsState,
+		openCreateActivityModal,
 		openModal,
 		openPackingModal,
 		openTripDeleteModal
@@ -19,7 +20,6 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { createQuery } from '@tanstack/svelte-query';
 	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
-	import Timeline from './Utilities/Timeline.svelte';
 
 	let { trip }: { trip: Trip } = $props();
 
@@ -63,11 +63,21 @@
 	];
 </script>
 
-<div class="pb-20">
+<div class="pb-32">
 	<div class="my-6 justify-between gap-3 px-3 md:flex">
 		<BackComponent backLink="/travel" title={trip.name} />
 
 		<div class="ibtems-center mt-6 flex flex-1 justify-end gap-4 md:mt-0">
+			<div>
+				<button
+					class="shadow_button shadow_button_thin shadow_button_with_icon"
+					onclick={openCreateActivityModal}
+				>
+					<Plus size="20px" />
+
+					Activity
+				</button>
+			</div>
 			<div>
 				<button
 					class="shadow_button shadow_button_thin shadow_button_with_icon"
@@ -103,7 +113,7 @@
 				<Budget {trip} />
 			</div>
 			<Calendar {trip} />
-			<Timeline />
+			<!-- <Timeline /> -->
 		</div>
 	</div>
 </div>

@@ -8,7 +8,8 @@ export const modalsState = $state({
 		isOpenBoardDeleteModal: false,
 		isOpenImageCarousel: false,
 		isOpenPacking: false,
-		isOpenAddToList: false
+		isOpenAddToList: false,
+		isOpenCreateActivity: false
 	}
 });
 
@@ -85,4 +86,11 @@ export function openAddToListModal() {
 }
 export function closeAddToListModal() {
 	modalsState.data.isOpenAddToList = false;
+}
+
+export function openCreateActivityModal() {
+	modalsState.data.isOpenCreateActivity = true;
+}
+export function closeCreateActivityModal() {
+	modalsState.data.isOpenCreateActivity = false;
 }

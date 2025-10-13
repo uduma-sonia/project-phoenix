@@ -203,7 +203,7 @@
 {/if}
 
 {#if selectedRecipeList?.data && selectedRecipeList?.data?.length > 0}
-	<div class="bottom slide_in_up fixed bottom-5 left-1/2 -translate-x-1/2">
+	<div class="slide_in_up fixed bottom-20 left-1/2 -translate-x-1/2 md:bottom-5">
 		<Tooltip position="top" text="Add to shopping list">
 			<button class="create_button_sm shadow_button" onclick={openAddToListModal}>
 				<ShoppingCart />

@@ -11,9 +11,7 @@
 
 - Display trips a member is part of and use their permission to restrict different functions
 - Manage group
-- Enable categories
 - Poll feature
-- Timeline view
 
 ## General
 
@@ -21,5 +19,4 @@
 - Make the clear button work properly for the dropdown component
 - add tooltips to habit icons
 - Email template
-- Allow users to add custom text to dropdown
 - Fix date picker - Let the selected day be in view by default

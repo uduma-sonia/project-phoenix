@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { CircleCheck } from '@lucide/svelte';
 	import { ShoppingStatus } from '../../../../types/shopping';
+	import Tooltip from '$lib/components/Common/Tooltip.svelte';
 
 	let { board } = $props();
 </script>
@@ -22,7 +23,9 @@
 
 	{#if board?.status === ShoppingStatus.DONE}
 		<div class="absolute right-3 bottom-3 z-50">
-			<CircleCheck size="18px" color="#101010" />
+			<Tooltip text="Shopping done">
+				<CircleCheck size="18px" color="#101010" />
+			</Tooltip>
 		</div>
 	{/if}
 </a>

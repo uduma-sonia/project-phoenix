@@ -41,3 +41,8 @@ export type TripMember = {
 	memberId: string;
 	permissions: string;
 };
+
+export type GroupedDay = {
+	day: string;
+	items: TripActivity[];
+};
