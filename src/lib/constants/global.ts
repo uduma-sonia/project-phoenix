@@ -102,3 +102,5 @@ export const profileLinks = [
 		id: 'feedback'
 	}
 ];
+
+export const publicRoutes = ['/', 'login', ' signup', 'forgot-password', 'reset-password'];

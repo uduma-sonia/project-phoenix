@@ -9,7 +9,8 @@ export const modalsState = $state({
 		isOpenImageCarousel: false,
 		isOpenPacking: false,
 		isOpenAddToList: false,
-		isOpenCreateActivity: false
+		isOpenCreateActivity: false,
+		isOpenInstall: false
 	}
 });
 
@@ -93,4 +94,12 @@ export function openCreateActivityModal() {
 }
 export function closeCreateActivityModal() {
 	modalsState.data.isOpenCreateActivity = false;
+}
+
+export function openInstallModal() {
+	modalsState.data.isOpenInstall = true;
+}
+export function closeInstallModal() {
+	modalsState.data.isOpenInstall = false;
+	sessionStorage.setItem('install_banner_seen', '1');
 }

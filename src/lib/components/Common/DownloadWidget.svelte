@@ -1,14 +1,18 @@
 <script lang="ts">
+	import { openInstallModal } from '$lib/state/modal.svelte';
 	import { X } from '@lucide/svelte';
 
-	let { handleInstallation } = $props();
+	let { closeDownloadWidget } = $props();
 </script>
 
 <div class="slide_in_down_dw fixed top-0 right-0 z-[999] w-[300px] p-4">
 	<div class="retro_wrapper slide_in_down">
 		<div class="retro_wrapper_inner retro_wrapper_inner_dw">
 			<div class="absolute -top-2 -left-2">
-				<button class="flex h-5 w-5 items-center justify-center rounded-full border-2 bg-white">
+				<button
+					class="flex h-5 w-5 items-center justify-center rounded-full border-2 bg-white"
+					onclick={closeDownloadWidget}
+				>
 					<X />
 				</button>
 			</div>
@@ -33,7 +37,13 @@
 				</div>
 
 				<div>
-					<button class="pt-1" onclick={handleInstallation}>
+					<button
+						class="pt-1"
+						onclick={() => {
+							closeDownloadWidget();
+							openInstallModal();
+						}}
+					>
 						<img src="/images/icons/download.svg" class="w-7" alt="Download icon" />
 					</button>
 				</div>
