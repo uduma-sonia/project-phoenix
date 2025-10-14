@@ -5,21 +5,6 @@ export type RecipeGroup = {
 	id?: string;
 };
 
-// export type Recipe = {
-// 	name: string;
-// 	slug: string;
-// 	images?: string[];
-// 	prepTime?: string;
-// 	cookTime?: string;
-// 	totalTime?: string;
-// 	servings?: string;
-// 	difficulty?: string;
-// 	calories?: string;
-// 	groups?: RecipeGroup[];
-// 	isPrivate?: boolean;
-// 	sections?: RecipeSection[];
-// };
-
 export enum SectionType {
 	LIST = 'LIST',
 	PARAGRAPH = 'PARAGRAPH',

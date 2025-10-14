@@ -79,7 +79,8 @@
 				await recipeRequest.unsaveRecipe(recipe._id);
 				addToast('Recipe unsaved', 'success');
 			} else {
-				await recipeRequest.saveRecipe(recipe._id);
+				console.log(recipe?._id);
+				await recipeRequest.saveRecipe(recipe?._id);
 				addToast('Recipe saved', 'success');
 			}
 			queryClient.invalidateQueries({ queryKey: queryKeys.getRecipeSaveList(recipe._id) });

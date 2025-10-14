@@ -15,17 +15,19 @@
 	let user = $derived($userQuery?.data?.data?.user);
 </script>
 
-<div class="flex h-full items-center justify-between px-3 py-4">
-	<button class="flex w-full items-center gap-2" onclick={openProfile}>
-		<Avatar src={user?.avatar} />
-		<div>
-			<Play />
-		</div>
+<div class="inline- flex h-full items-center justify-between px-3 py-4">
+	<div class="w-full">
+		<button class="flex items-center gap-2" onclick={openProfile}>
+			<Avatar src={user?.avatar} />
+			<span>
+				<Play />
+			</span>
 
-		<div class="relative w-full text-left">
-			<p class="font-suez text-xl sm:text-2xl">Hi {user?.username}</p>
-		</div>
-	</button>
+			<span class="relative text-left">
+				<span class="font-suez text-xl sm:text-2xl">Hi {user?.username}</span>
+			</span>
+		</button>
+	</div>
 </div>
 
 <Profile onClose={closeProfile} isOpen={modalsState.data.isOpenProfile} />
