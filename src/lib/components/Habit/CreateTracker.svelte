@@ -10,6 +10,7 @@
 	import BackComponent from '../Common/BackComponent.svelte';
 	import { HabitStatus } from '../../../types/tracker';
 	import { goto } from '$app/navigation';
+	import Tooltip from '../Common/Tooltip.svelte';
 
 	let { user } = $props();
 
@@ -343,14 +344,16 @@
 						<div class="flex flex-wrap gap-3">
 							{#each iconsList as icon, index (index)}
 								<div>
-									<button
-										onclick={() => selectIcon(icon)}
-										class="button_active flex h-11 w-11 items-center justify-center rounded-full border-black"
-										type="button"
-										class:border-2={selectedIcon === icon}
-									>
-										<img src={icon} class="h-6 min-w-9" alt="walk icon" />
-									</button>
+									<Tooltip text={icon.tooltipText} position="bottom">
+										<button
+											onclick={() => selectIcon(icon.img)}
+											class="button_active flex h-11 w-11 items-center justify-center rounded-full border-black"
+											type="button"
+											class:border-2={selectedIcon === icon.img}
+										>
+											<img src={icon.img} class="h-6 min-w-9" alt="walk icon" />
+										</button>
+									</Tooltip>
 								</div>
 							{/each}
 						</div>

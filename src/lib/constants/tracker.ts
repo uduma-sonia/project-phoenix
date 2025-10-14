@@ -9,21 +9,72 @@ export const daysOfWeek = [
 ];
 
 export const iconsList = [
-	'/images/icons/walk.svg',
-	'/images/icons/clock.svg',
-	'/images/icons/gym.svg',
-	'/images/icons/water_icon.svg',
-	'/images/icons/yoga.svg',
-	'/images/icons/meal.svg',
-	'/images/icons/pills.svg',
-	'/images/icons/wine_glass.svg',
-	'/images/icons/no_smoking.svg',
-	'/images/icons/bed.svg',
-	'/images/icons/book.svg',
-	'/images/icons/pencil.svg',
-	'/images/icons/laptop.svg',
-	'/images/icons/globe.svg',
-	'/images/icons/money.svg',
-	'/images/icons/meditate.svg',
-	'/images/icons/headphones.svg'
+	{
+		img: '/images/icons/walk.svg',
+		tooltipText: 'Walk'
+	},
+	{
+		img: '/images/icons/clock.svg',
+		tooltipText: 'Clock'
+	},
+	{
+		img: '/images/icons/gym.svg',
+		tooltipText: 'Gym'
+	},
+	{
+		img: '/images/icons/water_icon.svg',
+		tooltipText: 'Water'
+	},
+	{
+		img: '/images/icons/yoga.svg',
+		tooltipText: 'Yoga'
+	},
+	{
+		img: '/images/icons/meal.svg',
+		tooltipText: 'Meal'
+	},
+	{
+		img: '/images/icons/pills.svg',
+		tooltipText: 'Pills'
+	},
+	{
+		img: '/images/icons/wine_glass.svg',
+		tooltipText: 'Wine Glass'
+	},
+	{
+		img: '/images/icons/no_smoking.svg',
+		tooltipText: 'No Smoking'
+	},
+	{
+		img: '/images/icons/bed.svg',
+		tooltipText: 'Bed'
+	},
+	{
+		img: '/images/icons/book.svg',
+		tooltipText: 'Book'
+	},
+	{
+		img: '/images/icons/pencil.svg',
+		tooltipText: 'Pencil'
+	},
+	{
+		img: '/images/icons/laptop.svg',
+		tooltipText: 'Laptop'
+	},
+	{
+		img: '/images/icons/globe.svg',
+		tooltipText: 'Globe'
+	},
+	{
+		img: '/images/icons/money.svg',
+		tooltipText: 'Money'
+	},
+	{
+		img: '/images/icons/meditate.svg',
+		tooltipText: 'Meditate'
+	},
+	{
+		img: '/images/icons/headphones.svg',
+		tooltipText: 'Headphones'
+	}
 ];
