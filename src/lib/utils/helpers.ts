@@ -300,7 +300,9 @@ class Helpers {
 		return sizeInMB > size;
 	}
 
-	static createSlug(str: string) {
+	static createSlug(str?: string) {
+		if (!str) return '';
+
 		return str
 			.toLowerCase()
 			.replace(/[^\w\s]/g, '')
