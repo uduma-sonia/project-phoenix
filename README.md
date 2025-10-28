@@ -16,6 +16,5 @@
 ## General
 
 - Make the clear button work properly for the dropdown component
-- add tooltips to habit icons
 - Email template
 - Fix date picker - Let the selected day be in view by default
