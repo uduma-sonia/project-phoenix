@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { recipeRequest } from '$lib/requests';
+	import { RecipeRequest } from '$lib/requests';
 	import { closeDeleteModal, modalsState } from '$lib/state/modal.svelte';
 	import { selectedRecipe } from '$lib/state/recipe.svelte';
 	import { addToast } from '$lib/store/toast';
@@ -17,7 +17,7 @@
 	async function handleDelete(id: string) {
 		try {
 			isLoading = true;
-			await recipeRequest.deleteRecipe(id);
+			await RecipeRequest.deleteRecipe(id);
 			addToast('Recipe deleted', 'success');
 			queryClient.invalidateQueries({ queryKey: queryKeys.getRecipes });
 			closeDeleteModal();

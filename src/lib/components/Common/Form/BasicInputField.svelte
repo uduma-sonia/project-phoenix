@@ -80,7 +80,7 @@
 		<input
 			type="text"
 			value={transformValue(value)}
-			class={`h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none ${inputClass}`}
+			class={`h-[50px] w-full rounded-lg border border-black px-3 outline-none ${inputClass}`}
 			{id}
 			{name}
 			readonly={readOnly}
@@ -95,7 +95,7 @@
 		<input
 			type={type === 'password' ? (passwordType === 'password' ? 'password' : 'text') : type}
 			bind:value
-			class={`h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none ${inputClass}`}
+			class={`h-[50px] w-full rounded-lg border border-black px-3 outline-none ${inputClass}`}
 			{id}
 			{name}
 			readonly={readOnly}

@@ -2,7 +2,7 @@
 	// import { Plus } from '@lucide/svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import { packingRequest } from '$lib/requests';
+	import { PackingRequest } from '$lib/requests';
 	import TabButton from '$lib/components/Common/TabButton.svelte';
 	// import NewCategory from './NewCategory.svelte';
 
@@ -12,7 +12,7 @@
 
 	const groupQuery = createQuery({
 		queryKey: queryKeys.getPackingCategories,
-		queryFn: () => packingRequest.getPackingCategories()
+		queryFn: () => PackingRequest.getPackingCategories()
 	});
 
 	let groupList = $derived($groupQuery?.data?.data?.packingCategory);

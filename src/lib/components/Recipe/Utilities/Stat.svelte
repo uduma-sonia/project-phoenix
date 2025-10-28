@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Tooltip from '$lib/components/Common/Tooltip.svelte';
-	import { statsRequest } from '$lib/requests';
+	import { StatsRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { Eye, Heart } from '@lucide/svelte';
 	import { createQuery } from '@tanstack/svelte-query';
@@ -9,7 +9,7 @@
 
 	const statsQuery = createQuery({
 		queryKey: queryKeys.getStat(ref),
-		queryFn: () => statsRequest.getStat(ref),
+		queryFn: () => StatsRequest.getStat(ref),
 		enabled: !!ref
 	});
 

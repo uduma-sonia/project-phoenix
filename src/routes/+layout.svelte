@@ -29,8 +29,8 @@
 	});
 
 	if (typeof window !== 'undefined') {
-		// Don't show on the home page or public
-		if (!publicRoutes.includes(page.url.pathname)) {
+		// Don't show on the home page or auth
+		if (!publicRoutes.includes(page.url.pathname) || page.route.id?.includes('/(auth)')) {
 			if (!window.matchMedia('(display-mode: standalone)').matches) {
 				hasBeenInstalled = false;
 

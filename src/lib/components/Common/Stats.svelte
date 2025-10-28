@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { RECIPE_COUNT_TRACKER } from '$lib/constants/global';
-	import { statsRequest } from '$lib/requests';
+	import { StatsRequest } from '$lib/requests';
 	import { onMount } from 'svelte';
 
 	let { ref, section, type = 'view_count' } = $props();
@@ -13,7 +13,7 @@
 				section: section,
 				type: type
 			};
-			const result = await statsRequest.logStat(payload);
+			const result = await StatsRequest.logStat(payload);
 
 			if (result) {
 				sessionStorage.setItem(RECIPE_COUNT_TRACKER, 'marked');

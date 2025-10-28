@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tripRequest } from '$lib/requests';
+	import { TripRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { createQuery } from '@tanstack/svelte-query';
 	import HabitSearch from '../Habit/Utilities/HabitSearch.svelte';
@@ -13,7 +13,7 @@
 
 	let tripQuery = createQuery({
 		queryKey: queryKeys.getTrip,
-		queryFn: () => tripRequest.getTrips()
+		queryFn: () => TripRequest.getTrips()
 	});
 
 	let tripsList = $derived($tripQuery?.data?.data?.travel);

@@ -2,7 +2,7 @@
 	import { Plus } from '@lucide/svelte';
 	import NewGroup from './NewGroup.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
-	import { tripRequest } from '$lib/requests';
+	import { TripRequest } from '$lib/requests';
 	import { page } from '$app/state';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import type { TripActivity } from '../../../../types/trip';
@@ -19,14 +19,14 @@
 
 	const groupQuery = createQuery({
 		queryKey: queryKeys.getTripActivityGroups(page.params.id),
-		queryFn: () => tripRequest.getTripActivityGroups(page.params.id)
+		queryFn: () => TripRequest.getTripActivityGroups(page.params.id)
 	});
 
 	let groupList = $derived($groupQuery?.data?.data?.travelGroup);
 
 	let activityQuery = createQuery({
 		queryKey: queryKeys.getTripActivities(page.params.id),
-		queryFn: () => tripRequest.getTripActivities(page.params.id)
+		queryFn: () => TripRequest.getTripActivities(page.params.id)
 	});
 
 	let activityList = $derived($activityQuery?.data?.data?.travelActivity);

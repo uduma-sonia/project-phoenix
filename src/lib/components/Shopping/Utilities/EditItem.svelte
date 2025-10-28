@@ -2,7 +2,7 @@
 	// @ts-nocheck
 	import { page } from '$app/state';
 	import InputField from '$lib/components/Common/Form/InputField.svelte';
-	import { shoppingRequest } from '$lib/requests';
+	import { ShoppingRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';
 	import { queryKeys } from '$lib/utils/queryKeys';
@@ -36,7 +36,7 @@
 		try {
 			isDeleting = true;
 
-			const result = await shoppingRequest.deleteItem(id);
+			const result = await ShoppingRequest.deleteItem(id);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId, '') });

@@ -10,15 +10,16 @@
 	import TextArea from '../Common/Form/TextArea.svelte';
 	import TextButton from '../Common/Form/TextButton.svelte';
 	import { difficultyOptions, typeOptions } from '$lib/constants/recipe';
-	import { recipeRequest } from '$lib/requests';
+	import { RecipeRequest, UtilsRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { goto } from '$app/navigation';
+	import { BUNNY_STORAGE_BASE } from '$lib/constants/global';
 
 	type Group = { name: string; id: string };
 	type Ingredient = { name: string; amount: string; unit: string };
 	type Direction = { name: string };
 
-	let { groupList } = $props();
+	let { groupList, user } = $props();
 
 	const queryClient = useQueryClient();
 
@@ -26,7 +27,10 @@
 	let imageTwoEl: any = $state(null);
 	let imageThreeEl: any = $state(null);
 
-	let base64Image = $state('');
+	let imageOneUrl = $state('');
+	let imageTwoUrl = $state('');
+	let imageThreeUrl = $state('');
+
 	let recipeName = $state('');
 	let isSubmitting = $state(false);
 	let isPrivate = $state(false);
@@ -121,8 +125,7 @@
 	}
 
 	function handleBrowseClick(id: string) {
-		addToast('Not available', 'error');
-		// document.querySelector<HTMLInputElement>(id)?.click();
+		document.querySelector<HTMLInputElement>(id)?.click();
 	}
 
 	function addListItem(idx: number) {
@@ -161,22 +164,60 @@
 		sections = result;
 	}
 
-	function handleFileChange(el: any) {
-		const file = el?.files[0];
+	const handleFileChange = (name: string) => {
+		const fileOne = imageOneEl?.files[0];
+		const fileTwo = imageTwoEl?.files[0];
+		const fileThree = imageThreeEl?.files[0];
+		const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
 		const reader = new FileReader();
 
-		if (file) {
-			if (Helpers.checkFileSize(file, 2)) {
-				addToast('File size too large, upload images under 2mb', 'error');
-			} else {
-				reader.onload = (e: any) => {
-					const base64String = e.target.result.split(',')[1];
-					base64Image = 'data:application/jpeg;base64,' + base64String;
-				};
-				reader.readAsDataURL(file);
-			}
+		switch (name) {
+			case 'recipe-image-one':
+				if (fileOne) {
+					if (fileOne.size > maxSizeInBytes) {
+						addToast('File size exceeds the limit (1MB)', 'error');
+						return;
+					}
+
+					reader.onload = (e: any) => {
+						const base64String = e.target.result.split(',')[1];
+						imageOneUrl = 'data:application/jpeg;base64,' + base64String;
+					};
+					reader.readAsDataURL(fileOne);
+				}
+				break;
+			case 'recipe-image-two':
+				if (fileTwo) {
+					if (fileTwo.size > maxSizeInBytes) {
+						addToast('File size exceeds the limit (2MB)', 'error');
+						return;
+					}
+
+					reader.onload = (e: any) => {
+						const base64String = e.target.result.split(',')[1];
+						imageTwoUrl = 'data:application/jpeg;base64,' + base64String;
+					};
+					reader.readAsDataURL(fileTwo);
+				}
+				break;
+
+			default:
+				if (fileThree) {
+					if (fileThree.size > maxSizeInBytes) {
+						addToast('File size exceeds the limit (2MB)', 'error');
+						return;
+					}
+
+					reader.onload = (e: any) => {
+						const base64String = e.target.result.split(',')[1];
+						imageThreeUrl = 'data:application/jpeg;base64,' + base64String;
+					};
+					reader.readAsDataURL(fileThree);
+				}
+
+				break;
 		}
-	}
+	};
 
 	function filterSection(sections: RecipeSection[]) {
 		return sections.filter((item) => item.name);
@@ -220,11 +261,6 @@
 	}
 
 	async function handleSubmit() {
-		if (!recipeName) {
-			const recipeEl = document.getElementById('createRecipe');
-			recipeEl?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
-			return;
-		}
 		try {
 			isSubmitting = true;
 
@@ -245,7 +281,7 @@
 				yield: yieldValue,
 				difficulty: selectedDifficulty.id,
 				groups: $state.snapshot(selectedGroupList),
-				images: [],
+				images: [imageOneUrl, imageTwoUrl, imageThreeUrl].filter((item) => item),
 				isPrivate: isPrivate,
 				ingredients: $state.snapshot(filterIngredients(ingredients)),
 				directions: $state.snapshot(filterDirections(directions)),
@@ -264,7 +300,7 @@
 				sections: $state.snapshot(filterSection(sections))
 			};
 
-			const result = await recipeRequest.createRecipe(payload);
+			const result = await RecipeRequest.createRecipe(payload);
 
 			if (result) {
 				addToast('Recipe created', 'success', { imgLink: '/images/confetti.svg' });
@@ -277,6 +313,49 @@
 			isSubmitting = false;
 		}
 	}
+
+	async function handleImageUpload() {
+		const files = [imageOneEl?.files[0], imageTwoEl?.files[0], imageThreeEl?.files[0]];
+
+		try {
+			const results = await Promise.all(
+				files.map((file) =>
+					file
+						? UtilsRequest.uploadImage({
+								title: 'business',
+								name: `${Helpers.createSlug(user.username)}_${file.name}`,
+								image: file
+							})
+						: Promise.resolve(null)
+				)
+			);
+
+			const [fileOne, fileTwo, fileThree] = files;
+
+			if (results[0])
+				imageOneUrl = `${BUNNY_STORAGE_BASE}/business/${Helpers.createSlug(user.username)}_${fileOne.name}`;
+			if (results[1])
+				imageTwoUrl = `${BUNNY_STORAGE_BASE}/business/${Helpers.createSlug(user.username)}_${fileTwo.name}`;
+			if (results[2])
+				imageThreeUrl = `${BUNNY_STORAGE_BASE}/business/${Helpers.createSlug(user.username)}_${fileThree.name}`;
+
+			await handleSubmit();
+		} catch (error) {
+			console.error(error);
+			addToast('Image upload failed', 'error');
+		}
+	}
+
+	function onSubmit() {
+		if (!recipeName) {
+			const recipeEl = document.getElementById('createRecipe');
+			recipeEl?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+			addToast('Name required', 'error');
+			return;
+		}
+
+		handleImageUpload();
+	}
 </script>
 
 <input
@@ -286,7 +365,7 @@
 	accept="image/*"
 	class="invisible absolute bottom-0 left-0"
 	bind:this={imageOneEl}
-	onchange={() => handleFileChange(imageOneEl)}
+	onchange={() => handleFileChange('recipe-image-one')}
 />
 <input
 	type="file"
@@ -295,7 +374,7 @@
 	accept="image/*"
 	class="invisible absolute bottom-0 left-0"
 	bind:this={imageTwoEl}
-	onchange={() => handleFileChange(imageTwoEl)}
+	onchange={() => handleFileChange('recipe-image-two')}
 />
 <input
 	type="file"
@@ -304,7 +383,7 @@
 	accept="image/*"
 	class="invisible absolute bottom-0 left-0"
 	bind:this={imageThreeEl}
-	onchange={() => handleFileChange(imageThreeEl)}
+	onchange={() => handleFileChange('recipe-image-three')}
 />
 
 <div id="createRecipe">
@@ -413,13 +492,13 @@
 
 						<div class="grid grid-cols-2 gap-4 md:grid-cols-3">
 							<button
-								class="relative h-[120px] w-full rounded-lg border-2 border-black"
+								class="relative h-[120px] w-full rounded-lg border"
 								type="button"
 								onclick={() => handleBrowseClick('#image_one')}
 							>
-								{#if base64Image}
+								{#if imageOneUrl}
 									<img
-										src={base64Image}
+										src={imageOneUrl}
 										class="h-full max-h-full w-full max-w-full rounded-lg object-cover"
 										alt="Recipe shot"
 									/>
@@ -435,13 +514,13 @@
 							</button>
 
 							<button
-								class="relative h-[120px] w-full rounded-lg border-2 border-black"
+								class="relative h-[120px] w-full rounded-lg border"
 								type="button"
 								onclick={() => handleBrowseClick('#image_two')}
 							>
-								{#if base64Image}
+								{#if imageTwoUrl}
 									<img
-										src={base64Image}
+										src={imageTwoUrl}
 										class="h-full max-h-full w-full max-w-full rounded-lg object-cover"
 										alt="Recipe shot"
 									/>
@@ -456,13 +535,13 @@
 								</div>
 							</button>
 							<button
-								class="relative h-[120px] w-full rounded-lg border-2 border-black"
+								class="relative h-[120px] w-full rounded-lg border"
 								type="button"
 								onclick={() => handleBrowseClick('#image_three')}
 							>
-								{#if base64Image}
+								{#if imageThreeUrl}
 									<img
-										src={base64Image}
+										src={imageThreeUrl}
 										class="h-full max-h-full w-full max-w-full rounded-lg object-cover"
 										alt="Recipe shot"
 									/>
@@ -750,7 +829,7 @@
 				</div>
 
 				<div>
-					<button class="shadow_button" type="button" onclick={handleSubmit}>
+					<button class="shadow_button" type="button" onclick={onSubmit}>
 						{#if isSubmitting}
 							<div class="spinner_white border-2 border-black"></div>
 						{:else}

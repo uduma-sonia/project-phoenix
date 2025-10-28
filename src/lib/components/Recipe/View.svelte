@@ -4,7 +4,7 @@
 	import GroupScroller from './Utilities/GroupScroller.svelte';
 	import RecipeCard from './Utilities/RecipeCard.svelte';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import { recipeRequest } from '$lib/requests';
+	import { RecipeRequest } from '$lib/requests';
 	import LoaderError from '../Common/LoaderError.svelte';
 	import RecipeUtils from './Utilities/utils';
 	import useCurrentUser from '$lib/hooks/useCurrentUser';
@@ -20,7 +20,7 @@
 
 	let recipeQuery = createQuery({
 		queryKey: queryKeys.getRecipes,
-		queryFn: () => recipeRequest.getRecipes()
+		queryFn: () => RecipeRequest.getRecipes()
 	});
 
 	let recipeList = $derived($recipeQuery?.data?.data?.recipes);

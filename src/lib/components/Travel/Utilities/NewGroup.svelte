@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import BasicInputField from '$lib/components/Common/Form/BasicInputField.svelte';
-	import { tripRequest } from '$lib/requests';
+	import { TripRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { useQueryClient } from '@tanstack/svelte-query';
@@ -25,7 +25,7 @@
 
 			groupName = '';
 
-			const result = await tripRequest.createTripActivityGroup(payload);
+			const result = await TripRequest.createTripActivityGroup(payload);
 
 			if (result) {
 				queryClient.invalidateQueries({

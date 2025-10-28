@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
-	import { shoppingRequest } from '$lib/requests';
+	import { ShoppingRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import { ShoppingStatus } from '../../../types/shopping';
 	import BackComponent from '../Common/BackComponent.svelte';
@@ -24,7 +24,7 @@
 				currency: currency
 			};
 
-			const result = await shoppingRequest.updateBoard(page.params.id, payload);
+			const result = await ShoppingRequest.updateBoard(page.params.id, payload);
 
 			if (result) {
 				addToast('Board Updated', 'success', { imgLink: '/images/confetti.svg' });

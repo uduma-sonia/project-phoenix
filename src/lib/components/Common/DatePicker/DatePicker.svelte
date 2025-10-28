@@ -103,6 +103,59 @@
 	</div>
 </div>
 
+<!-- <script lang="ts">
+  import {
+    addDays,
+    addMonths,
+    eachDayOfInterval,
+    endOfMonth,
+    endOfWeek,
+    format,
+    isSameDay,
+    isSameMonth,
+    startOfMonth,
+    startOfWeek,
+    subMonths,
+  } from "date-fns";
+
+  let { selectedDate = $bindable(new Date()) }: { selectedDate: Date } = $props();
+
+  // ✅ Start the calendar on the month of the selectedDate
+  let currentMonth = $state(startOfMonth(selectedDate));
+
+  let _startOfWeek = startOfWeek(new Date());
+  let daysArray = Array.from({ length: 7 }, (_, i) => i + 1);
+
+  let _eachDayOfInterval = $derived(
+    eachDayOfInterval({
+      start: startOfWeek(startOfMonth(currentMonth)),
+      end: endOfWeek(endOfMonth(currentMonth)),
+    })
+  );
+
+  const prevMonth = () => {
+    currentMonth = subMonths(currentMonth, 1);
+  };
+
+  const nextMonth = () => {
+    currentMonth = addMonths(currentMonth, 1);
+  };
+
+  const selectDate = (day: Date) => {
+    selectedDate = day;
+    // ✅ Automatically show the selected date’s month when chosen
+    currentMonth = startOfMonth(selectedDate);
+  };
+
+  const renderDateBgColor = (day: Date) => {
+    return isSameDay(day, selectedDate);
+  };
+
+  const renderDateColor = (day: Date) => {
+    return isSameMonth(day, currentMonth);
+  };
+</script> -->
+
 <style>
 	.control_button {
 		width: fit-content !important;

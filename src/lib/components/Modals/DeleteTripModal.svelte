@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { tripRequest } from '$lib/requests';
+	import { TripRequest } from '$lib/requests';
 	import { closeTripDeleteModal, modalsState } from '$lib/state/modal.svelte';
 	import { addToast } from '$lib/store/toast';
 	import { useQueryClient } from '@tanstack/svelte-query';
@@ -16,7 +16,7 @@
 	async function handleDelete(id: string) {
 		try {
 			isLoading = true;
-			await tripRequest.deleteTrip(id);
+			await TripRequest.deleteTrip(id);
 			addToast('Trip deleted', 'success');
 			queryClient.invalidateQueries({ queryKey: queryKeys.getTrip });
 			closeTripDeleteModal();

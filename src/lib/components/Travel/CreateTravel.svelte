@@ -8,7 +8,7 @@
 	import { endOfWeek, startOfWeek } from 'date-fns';
 	import Helpers from '$lib/utils/helpers';
 	import { currencies } from '$lib/constants/currency';
-	import { tripRequest } from '$lib/requests';
+	import { TripRequest } from '$lib/requests';
 	import { goto } from '$app/navigation';
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
@@ -65,7 +65,7 @@
 				budget: budget
 			};
 
-			const result = await tripRequest.createTrip(payload);
+			const result = await TripRequest.createTrip(payload);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getTrip });

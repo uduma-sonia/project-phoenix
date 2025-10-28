@@ -18,7 +18,7 @@
 	import LockedRecipe from './Utilities/LockedRecipe.svelte';
 	import AuthorItem from './Utilities/AuthorItem.svelte';
 	import { addToast } from '$lib/store/toast';
-	import { recipeRequest } from '$lib/requests';
+	import { RecipeRequest } from '$lib/requests';
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { goto } from '$app/navigation';
@@ -76,11 +76,11 @@
 			isSaving = true;
 
 			if (hasSavedRecipe()) {
-				await recipeRequest.unsaveRecipe(recipe._id);
+				await RecipeRequest.unsaveRecipe(recipe._id);
 				addToast('Recipe unsaved', 'success');
 			} else {
 				console.log(recipe?._id);
-				await recipeRequest.saveRecipe(recipe?._id);
+				await RecipeRequest.saveRecipe(recipe?._id);
 				addToast('Recipe saved', 'success');
 			}
 			queryClient.invalidateQueries({ queryKey: queryKeys.getRecipeSaveList(recipe._id) });

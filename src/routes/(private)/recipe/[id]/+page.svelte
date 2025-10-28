@@ -8,7 +8,7 @@
 	import Helpers from '$lib/utils/helpers';
 	import { createQuery } from '@tanstack/svelte-query';
 	import type { RecipeResponse } from '../../../../types/recipe';
-	import { recipeRequest } from '$lib/requests';
+	import { RecipeRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import SEO from '$lib/components/Common/SEO.svelte';
 	import LoaderError from '$lib/components/Common/LoaderError.svelte';
@@ -27,7 +27,7 @@
 	const detailsQuery = $derived(
 		createQuery({
 			queryKey: queryKeys.getSingleRecipe(page.params.id, ownerId as string),
-			queryFn: () => recipeRequest.getSingleRecipe(page.params.id, ownerId as string)
+			queryFn: () => RecipeRequest.getSingleRecipe(page.params.id, ownerId as string)
 		})
 	);
 	const recipe: RecipeResponse = $derived($detailsQuery?.data?.data?.recipe);
@@ -35,7 +35,7 @@
 	const savesQuery = $derived(
 		createQuery({
 			queryKey: queryKeys.getRecipeSaveList(recipe?._id),
-			queryFn: () => recipeRequest.getRecipeSaveList(recipe?._id),
+			queryFn: () => RecipeRequest.getRecipeSaveList(recipe?._id),
 			enabled: !!recipe?._id
 		})
 	);

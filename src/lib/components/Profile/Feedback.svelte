@@ -1,7 +1,7 @@
 <script lang="ts">
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import TextArea from '../Common/Form/TextArea.svelte';
-	import { feedbackRequest } from '$lib/requests';
+	import { FeedbackRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import { Check } from '@lucide/svelte';
 
@@ -14,7 +14,7 @@
 		try {
 			isLoading = true;
 
-			const result = await feedbackRequest.sendFeedback({ isAnonymous, message, subject });
+			const result = await FeedbackRequest.sendFeedback({ isAnonymous, message, subject });
 
 			message = '';
 			subject = '';

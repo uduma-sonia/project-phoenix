@@ -1,6 +1,6 @@
 <script lang="ts">
 	import BasicInputField from '$lib/components/Common/Form/BasicInputField.svelte';
-	import { recipeRequest } from '$lib/requests';
+	import { RecipeRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { useQueryClient } from '@tanstack/svelte-query';
@@ -22,7 +22,7 @@
 			};
 
 			groupName = '';
-			const result = await recipeRequest.createRecipeGroup(payload);
+			const result = await RecipeRequest.createRecipeGroup(payload);
 
 			if (result) {
 				queryClient.invalidateQueries({

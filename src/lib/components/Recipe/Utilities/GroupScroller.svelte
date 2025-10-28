@@ -3,7 +3,7 @@
 	import NewGroup from './NewGroup.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import { recipeRequest } from '$lib/requests';
+	import { RecipeRequest } from '$lib/requests';
 	import TabButton from '$lib/components/Common/TabButton.svelte';
 	import Tooltip from '$lib/components/Common/Tooltip.svelte';
 
@@ -13,7 +13,7 @@
 
 	const groupQuery = createQuery({
 		queryKey: queryKeys.getRecipeGroups,
-		queryFn: () => recipeRequest.getRecipeGroups()
+		queryFn: () => RecipeRequest.getRecipeGroups()
 	});
 
 	let groupList = $derived($groupQuery?.data?.data?.recipeGroups);

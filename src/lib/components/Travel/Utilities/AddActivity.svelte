@@ -4,7 +4,7 @@
 	import InputField from '$lib/components/Common/Form/InputField.svelte';
 	import ModalWrapper from '$lib/components/Common/ModalWrapper.svelte';
 	import TrackerUtils from '$lib/components/Habit/Utilities/utils';
-	import { tripRequest } from '$lib/requests';
+	import { TripRequest } from '$lib/requests';
 	import { closeCreateActivityModal, modalsState } from '$lib/state/modal.svelte';
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';
@@ -68,7 +68,7 @@
 
 			Helpers.removeEmptyFields(payload);
 
-			const result = await tripRequest.createTripActivity(payload);
+			const result = await TripRequest.createTripActivity(payload);
 
 			if (result) {
 				queryClient.invalidateQueries({

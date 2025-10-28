@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { shoppingRequest } from '$lib/requests';
+	import { ShoppingRequest } from '$lib/requests';
 	import { closeAddToListModal, modalsState } from '$lib/state/modal.svelte';
 	import { addToast } from '$lib/store/toast';
 	import { createQuery } from '@tanstack/svelte-query';
@@ -13,7 +13,7 @@
 
 	const boardsQuery = createQuery({
 		queryKey: queryKeys.getInvitedBoards,
-		queryFn: () => shoppingRequest.getInvitedBoards()
+		queryFn: () => ShoppingRequest.getInvitedBoards()
 	});
 
 	let boardsList = $derived($boardsQuery?.data?.data?.boards);
@@ -37,7 +37,7 @@
 					})
 				);
 
-				await shoppingRequest.createMultipleItems({ items: payload });
+				await ShoppingRequest.createMultipleItems({ items: payload });
 
 				addToast(`Items saved to`, 'success', { link: `/shopping/${id}`, linkName: listName });
 				closeAddToListModal();

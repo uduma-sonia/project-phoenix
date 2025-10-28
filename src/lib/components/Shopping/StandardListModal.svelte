@@ -3,7 +3,7 @@
 	import AddStandardItem from './Utilities/AddStandardItem.svelte';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import { page } from '$app/state';
-	import { shoppingRequest, UserRequest } from '$lib/requests';
+	import { ShoppingRequest, UserRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import { addToast } from '$lib/store/toast';
@@ -35,7 +35,7 @@
 				ownerId: user._id
 			};
 
-			const result = await shoppingRequest.createItem(payload);
+			const result = await ShoppingRequest.createItem(payload);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getStandardItems });
@@ -51,7 +51,7 @@
 		try {
 			isLoading = true;
 
-			const result = await shoppingRequest.deleteItem(id);
+			const result = await ShoppingRequest.deleteItem(id);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getStandardItems });
@@ -72,7 +72,7 @@
 				ownerId: user._id
 			};
 
-			const result = await shoppingRequest.updateItem(itemId, payload);
+			const result = await ShoppingRequest.updateItem(itemId, payload);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId, '') });
@@ -86,7 +86,7 @@
 
 	const standardItemsQuery = createQuery({
 		queryKey: queryKeys.getStandardItems,
-		queryFn: () => shoppingRequest.getStandardItems(user._id)
+		queryFn: () => ShoppingRequest.getStandardItems(user._id)
 	});
 
 	let standardList = $derived($standardItemsQuery?.data?.data?.shoppingItems);

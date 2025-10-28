@@ -3,7 +3,7 @@
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import InvitedUserItem from './Utilities/InvitedUserItem.svelte';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import { shoppingRequest } from '$lib/requests';
+	import { ShoppingRequest } from '$lib/requests';
 	import { page } from '$app/state';
 	import { addToast } from '$lib/store/toast';
 	import fetchBoardMembers from '$lib/hooks/fetchBoardMembers';
@@ -34,7 +34,7 @@
 				permissions: 'READ,WRITE'
 			};
 
-			const result = await shoppingRequest.addMember(payload);
+			const result = await ShoppingRequest.addMember(payload);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardMembers(boardId) });
@@ -51,7 +51,7 @@
 		try {
 			isRemoving = memberId;
 
-			const result = await shoppingRequest.removeMemberFromBoard(boardId, memberId);
+			const result = await ShoppingRequest.removeMemberFromBoard(boardId, memberId);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardMembers(boardId) });

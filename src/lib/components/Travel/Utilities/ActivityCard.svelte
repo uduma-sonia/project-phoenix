@@ -3,7 +3,7 @@
 	import { Phone, SquarePen, Trash2 } from '@lucide/svelte';
 	import type { TripActivity } from '../../../../types/trip';
 	import { addToast } from '$lib/store/toast';
-	import { tripRequest } from '$lib/requests';
+	import { TripRequest } from '$lib/requests';
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { page } from '$app/state';
@@ -19,7 +19,7 @@
 			try {
 				isDeleting = true;
 
-				const result = await tripRequest.deleteTripActivity(activity?._id);
+				const result = await TripRequest.deleteTripActivity(activity?._id);
 
 				if (result) {
 					queryClient.invalidateQueries({
