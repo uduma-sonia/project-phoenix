@@ -66,7 +66,7 @@
 		{placeholder}
 		bind:this={textarea}
 		bind:value
-		class={`font-lexend w-full rounded-lg border-2 border-black p-3 text-left font-light outline-none ${className}`}
+		class={`font-lexend border-{#111} w-full rounded-lg border p-3 text-left font-light outline-none ${className}`}
 		{id}
 		{name}
 		readonly={readOnly}
