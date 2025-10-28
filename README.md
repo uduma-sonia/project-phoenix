@@ -2,7 +2,6 @@
 
 ## Recipe
 
-- Image upload
 - Recipe review system, star rating
 - Connect pinterest
 - General page to search other people's public recipe

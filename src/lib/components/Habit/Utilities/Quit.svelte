@@ -29,7 +29,7 @@
 
 				<div class="space-y-3">
 					{#each historyList as item, index (index)}
-						<HistoryItem text={item.text} />
+						<HistoryItem text={item.text} date={item.date} />
 					{/each}
 				</div>
 			</div>

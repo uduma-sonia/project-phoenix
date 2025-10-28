@@ -1,5 +1,9 @@
 <script lang="ts">
-	let { text } = $props();
+	import { format } from 'date-fns';
+
+	let { text, date } = $props();
+
+	let _date = date && format(new Date(date).toDateString(), 'P');
 </script>
 
 <div class="flex items-center gap-2">
@@ -8,6 +12,12 @@
 	</div>
 
 	<div class="flex-1">
-		<p class="font-lexend-deca text-sm font-light">{text}</p>
+		<p class="font-lexend-deca text-sm font-light">
+			{text}
+
+			{#if date}
+				<small class="opacity-80"> - {_date}</small>
+			{/if}
+		</p>
 	</div>
 </div>

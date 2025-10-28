@@ -61,7 +61,8 @@
 			await TrackerRequest.updateHistory({
 				trackerId: id,
 				text: text,
-				status: HabitStatus.START
+				status: HabitStatus.START,
+				date: TrackerUtils.getISODate(new Date())
 			});
 		} catch (error: any) {
 			addToast(error || 'An error occured', 'error');
@@ -92,6 +93,19 @@
 						date: TrackerUtils.getISODate(trackerState.data.selectedDay)
 					})
 				});
+
+				if (status === HabitStatus.STOP) {
+					const _date = TrackerUtils.renderStreakCountdown(
+						TrackerUtils.calculateStreakTime(updated_at)
+					);
+					const _time = TrackerUtils.renderStreakCountdownSuffix(
+						TrackerUtils.calculateStreakTime(updated_at)
+					);
+
+					const text = `You stopped this streak. Record: ${_date} ${_time}`;
+
+					updateHistory(trackerId, text);
+				}
 			}
 
 			if (type === 'update') {
@@ -111,6 +125,7 @@
 					);
 
 					const text = `You stopped this streak. Record: ${_date} ${_time}`;
+
 					updateHistory(trackerId, text);
 				}
 
