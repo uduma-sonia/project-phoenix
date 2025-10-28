@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { packingRequest } from '$lib/requests';
+	import { PackingRequest } from '$lib/requests';
 	import { closePackingModal, modalsState } from '$lib/state/modal.svelte';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
@@ -30,7 +30,7 @@
 
 	const groupQuery = createQuery({
 		queryKey: queryKeys.getPackingItems,
-		queryFn: () => packingRequest.getPackingItems()
+		queryFn: () => PackingRequest.getPackingItems()
 	});
 
 	let groupList = $derived($groupQuery?.data?.data?.packingItems);
@@ -44,7 +44,7 @@
 				categories: []
 			};
 
-			const result = await packingRequest.createItem(payload);
+			const result = await PackingRequest.createItem(payload);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getPackingItems });
@@ -60,7 +60,7 @@
 		try {
 			isDeletingId = id;
 
-			const result = await packingRequest.deleteItem(id);
+			const result = await PackingRequest.deleteItem(id);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getPackingItems });
@@ -73,7 +73,7 @@
 	}
 	async function handleUpdateItem(id: string, itemName: string) {
 		try {
-			const result = await packingRequest.updateItem(id, { name: itemName });
+			const result = await PackingRequest.updateItem(id, { name: itemName });
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getPackingItems });

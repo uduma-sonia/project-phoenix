@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
-	import { tripRequest } from '$lib/requests';
+	import { TripRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import {
@@ -26,7 +26,7 @@
 			try {
 				isDeleting = true;
 
-				const result = await tripRequest.deleteTripActivity(data?._id);
+				const result = await TripRequest.deleteTripActivity(data?._id);
 
 				if (result) {
 					queryClient.invalidateQueries({

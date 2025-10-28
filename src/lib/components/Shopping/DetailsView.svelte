@@ -11,7 +11,7 @@
 	} from '$lib/state/modal.svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import { addToast } from '$lib/store/toast';
-	import { shoppingRequest } from '$lib/requests';
+	import { ShoppingRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { page } from '$app/state';
@@ -102,7 +102,7 @@
 			};
 
 			itemName = '';
-			const result = await shoppingRequest.createItem(payload);
+			const result = await ShoppingRequest.createItem(payload);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId, '') });
@@ -123,7 +123,7 @@
 				ownerId: user._id
 			};
 
-			const result = await shoppingRequest.updateItem(itemId, payload);
+			const result = await ShoppingRequest.updateItem(itemId, payload);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId, '') });
@@ -139,7 +139,7 @@
 		try {
 			isLoading = true;
 
-			const result = await shoppingRequest.updateItem(itemId, payload);
+			const result = await ShoppingRequest.updateItem(itemId, payload);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardItems(boardId, '') });
@@ -153,7 +153,7 @@
 
 	async function handleShoppingDone() {
 		try {
-			const result = await shoppingRequest.shoppingDone(page.params.id);
+			const result = await ShoppingRequest.shoppingDone(page.params.id);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getAllBoards });

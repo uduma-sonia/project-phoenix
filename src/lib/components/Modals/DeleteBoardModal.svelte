@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { shoppingRequest } from '$lib/requests';
+	import { ShoppingRequest } from '$lib/requests';
 	import { closeBoardDeleteModal, modalsState } from '$lib/state/modal.svelte';
 	import { addToast } from '$lib/store/toast';
 	import { useQueryClient } from '@tanstack/svelte-query';
@@ -16,7 +16,7 @@
 	async function handleDelete(id: string) {
 		try {
 			isLoading = true;
-			await shoppingRequest.deleteBoard(id);
+			await ShoppingRequest.deleteBoard(id);
 			addToast('Board deleted', 'success');
 			queryClient.invalidateQueries({ queryKey: queryKeys.getInvitedBoards });
 			closeBoardDeleteModal();

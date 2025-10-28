@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import DateRangePicker from '$lib/components/Common/DatePicker/DateRangePicker.svelte';
-	import { tripRequest } from '$lib/requests';
+	import { TripRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { useQueryClient } from '@tanstack/svelte-query';
@@ -22,7 +22,7 @@
 					start: dateRange.start,
 					end: dateRange.end
 				};
-				const result = await tripRequest.updateTrip(page.params.id, payload);
+				const result = await TripRequest.updateTrip(page.params.id, payload);
 
 				if (result) {
 					queryClient.invalidateQueries({ queryKey: queryKeys.getSingleTrip(page.params.id) });

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { shoppingRequest } from '$lib/requests';
+	import { ShoppingRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import { ShoppingStatus } from '../../../types/shopping';
 	import BackComponent from '../Common/BackComponent.svelte';
@@ -25,7 +25,7 @@
 				currency: currency
 			};
 
-			const result = await shoppingRequest.createBoard(payload);
+			const result = await ShoppingRequest.createBoard(payload);
 
 			if (result) {
 				addToast('Board created', 'success', { imgLink: '/images/confetti.svg' });

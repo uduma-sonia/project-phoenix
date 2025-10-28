@@ -7,7 +7,7 @@
 	import DateRangePicker from '../Common/DatePicker/DateRangePicker.svelte';
 	import Helpers from '$lib/utils/helpers';
 	import { currencies } from '$lib/constants/currency';
-	import { tripRequest } from '$lib/requests';
+	import { TripRequest } from '$lib/requests';
 	import { goto } from '$app/navigation';
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
@@ -73,7 +73,7 @@
 				budget: budget
 			};
 
-			const result = await tripRequest.updateTrip(page.params.id, payload);
+			const result = await TripRequest.updateTrip(page.params.id, payload);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getTrip });

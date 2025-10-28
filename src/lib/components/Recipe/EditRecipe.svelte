@@ -20,7 +20,7 @@
 	import { difficultyOptions, typeOptions } from '$lib/constants/recipe';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { goto } from '$app/navigation';
-	import { recipeRequest } from '$lib/requests';
+	import { RecipeRequest } from '$lib/requests';
 	import { page } from '$app/state';
 
 	let {
@@ -282,7 +282,7 @@
 				sections: $state.snapshot(filterSection(sections))
 			};
 
-			const result = await recipeRequest.updateRecipe(recipe?._id as string, payload);
+			const result = await RecipeRequest.updateRecipe(recipe?._id as string, payload);
 
 			if (result) {
 				queryClient.invalidateQueries({

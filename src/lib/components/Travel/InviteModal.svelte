@@ -2,7 +2,7 @@
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import { tripRequest, UserRequest } from '$lib/requests';
+	import { TripRequest, UserRequest } from '$lib/requests';
 	import { page } from '$app/state';
 	import { addToast } from '$lib/store/toast';
 	import InvitedUserItem from '../Shopping/Utilities/InvitedUserItem.svelte';
@@ -16,7 +16,7 @@
 
 	let membersQuery = createQuery({
 		queryKey: queryKeys.getTripMembers(tripId),
-		queryFn: () => tripRequest.getTripMembers(tripId)
+		queryFn: () => TripRequest.getTripMembers(tripId)
 	});
 
 	let membersList = $derived(
@@ -44,7 +44,7 @@
 				permissions: 'READ,WRITE'
 			};
 
-			const result = await tripRequest.addTripMember(payload);
+			const result = await TripRequest.addTripMember(payload);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getTripMembers(tripId) });
@@ -61,7 +61,7 @@
 		try {
 			isRemoving = memberId;
 
-			const result = await tripRequest.removeTripMember(tripId, memberId);
+			const result = await TripRequest.removeTripMember(tripId, memberId);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getTripMembers(tripId) });

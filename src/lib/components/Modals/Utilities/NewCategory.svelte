@@ -1,6 +1,6 @@
 <script lang="ts">
 	import BasicInputField from '$lib/components/Common/Form/BasicInputField.svelte';
-	import { packingRequest } from '$lib/requests';
+	import { PackingRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { useQueryClient } from '@tanstack/svelte-query';
@@ -22,7 +22,7 @@
 			};
 
 			categoryName = '';
-			const result = await packingRequest.createCategory(payload);
+			const result = await PackingRequest.createCategory(payload);
 			if (result) {
 				queryClient.invalidateQueries({
 					queryKey: queryKeys.getPackingCategories

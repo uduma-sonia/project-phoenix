@@ -2,7 +2,7 @@
 	import AppLayout from '$lib/components/Common/AppLayout.svelte';
 	import DetailsView from '$lib/components/Travel/DetailsView.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
-	import { tripRequest } from '$lib/requests';
+	import { TripRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { page } from '$app/state';
 	import SEO from '$lib/components/Common/SEO.svelte';
@@ -13,14 +13,14 @@
 
 	let detailsQuery = createQuery({
 		queryKey: queryKeys.getSingleTrip(page.params.id),
-		queryFn: () => tripRequest.getSingleTrip(page.params.id)
+		queryFn: () => TripRequest.getSingleTrip(page.params.id)
 	});
 
 	let trip = $derived($detailsQuery?.data?.data?.travel);
 
 	const groupQuery = createQuery({
 		queryKey: queryKeys.getTripActivityGroups(page.params.id),
-		queryFn: () => tripRequest.getTripActivityGroups(page.params.id)
+		queryFn: () => TripRequest.getTripActivityGroups(page.params.id)
 	});
 
 	let groupList = $derived($groupQuery?.data?.data?.travelGroup);

@@ -4,7 +4,7 @@
 	import { closeModal, modalsState, openModal } from '$lib/state/modal.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import { shoppingRequest } from '$lib/requests';
+	import { ShoppingRequest } from '$lib/requests';
 	import HabitSearch from '../Habit/Utilities/HabitSearch.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
 	import EmptyState from '../Common/EmptyState.svelte';
@@ -15,7 +15,7 @@
 
 	const boardsQuery = createQuery({
 		queryKey: queryKeys.getInvitedBoards,
-		queryFn: () => shoppingRequest.getInvitedBoards()
+		queryFn: () => ShoppingRequest.getInvitedBoards()
 	});
 
 	let boardsList = $derived(

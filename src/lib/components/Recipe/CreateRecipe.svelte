@@ -10,7 +10,7 @@
 	import TextArea from '../Common/Form/TextArea.svelte';
 	import TextButton from '../Common/Form/TextButton.svelte';
 	import { difficultyOptions, typeOptions } from '$lib/constants/recipe';
-	import { recipeRequest } from '$lib/requests';
+	import { RecipeRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { goto } from '$app/navigation';
 
@@ -264,7 +264,7 @@
 				sections: $state.snapshot(filterSection(sections))
 			};
 
-			const result = await recipeRequest.createRecipe(payload);
+			const result = await RecipeRequest.createRecipe(payload);
 
 			if (result) {
 				addToast('Recipe created', 'success', { imgLink: '/images/confetti.svg' });

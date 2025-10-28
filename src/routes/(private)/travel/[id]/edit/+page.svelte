@@ -1,7 +1,7 @@
 <script lang="ts">
 	import AppLayout from '$lib/components/Common/AppLayout.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
-	import { tripRequest } from '$lib/requests';
+	import { TripRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { page } from '$app/state';
 	import SEO from '$lib/components/Common/SEO.svelte';
@@ -10,7 +10,7 @@
 
 	let detailsQuery = createQuery({
 		queryKey: queryKeys.getSingleRecipe(page.params.id),
-		queryFn: () => tripRequest.getSingleTrip(page.params.id)
+		queryFn: () => TripRequest.getSingleTrip(page.params.id)
 	});
 
 	let trip = $derived($detailsQuery?.data?.data?.travel);
