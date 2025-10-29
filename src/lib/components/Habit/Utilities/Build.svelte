@@ -2,7 +2,6 @@
 	import { trackerState } from '$lib/state/tracker.svelte';
 	import MonthlyStats from '../MonthlyStats.svelte';
 	import YearlyStats from '../YearlyStats.svelte';
-	import ActionCard from './ActionCard.svelte';
 
 	let currentView = $state('monthly');
 
@@ -40,9 +39,9 @@
 		</div>
 	</div>
 
-	<div class="w-full sm:w-1/2">
+	<!-- <div class="w-full sm:w-1/2">
 		<ActionCard />
-	</div>
+	</div> -->
 </div>
 
 <div class="p-4">
