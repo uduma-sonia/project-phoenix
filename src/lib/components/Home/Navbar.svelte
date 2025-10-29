@@ -14,10 +14,10 @@
 			label: 'Features',
 			link: '/#features'
 		},
-		{
-			label: 'Download',
-			link: '/#download'
-		},
+		// {
+		// 	label: 'Download',
+		// 	link: '/#download'
+		// },
 		{
 			label: 'Pricing',
 			link: '/#pricing'
