@@ -35,8 +35,8 @@ class RecipeUtils {
 	static shareToPinterest(images: string[], name: string) {
 		const baseUrl = PINTEREST_BASE_URL;
 		const url = 'https://laniva.app' + window.location.pathname;
-		const media = images?.length ? encodeURIComponent(images[0]) : '';
-		const description = encodeURIComponent(name || '');
+		const media = images?.length ? images[0] : '';
+		const description = name || '';
 		const pinterestUrl = `${baseUrl}?${Helpers.formatQueryParams({ url, media, description })}`;
 		window.open(pinterestUrl, '_blank', 'noopener,noreferrer');
 	}

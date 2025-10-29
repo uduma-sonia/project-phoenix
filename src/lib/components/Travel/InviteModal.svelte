@@ -6,8 +6,9 @@
 	import { page } from '$app/state';
 	import { addToast } from '$lib/store/toast';
 	import InvitedUserItem from '../Shopping/Utilities/InvitedUserItem.svelte';
+	import Helpers from '$lib/utils/helpers';
 
-	let { onClose, isOpen, user } = $props();
+	let { onClose, isOpen, user, trip } = $props();
 	const queryClient = useQueryClient();
 
 	let tripId = page.params.id as string;
@@ -31,6 +32,12 @@
 			queryFn: () => UserRequest.getUsersByEmails(JSON.stringify(membersList)),
 			enabled: !!membersList
 		})
+	);
+
+	$effect(() => console.log(trip));
+
+	let _permission = $derived(
+		Helpers.getPermission($membersQuery?.data?.data?.travelMembers?.members, user, trip?.ownerId)
 	);
 
 	let usersList = $derived($usersQuery?.data?.data?.users);
@@ -72,6 +79,17 @@
 			isRemoving = '';
 		}
 	}
+
+	async function updatePermission(memberId: string, newPermission: string) {
+		try {
+			// const result = await TripRequest.updateMemberPermission(boardId, memberId, newPermission);
+			// if (result) {
+			// 	queryClient.invalidateQueries({ queryKey: queryKeys.getBoardMembers(boardId) });
+			// }
+		} catch (error: any) {
+			addToast(error?.message || 'An error occured', 'error');
+		}
+	}
 </script>
 
 <ModalWrapper {onClose} {isOpen} label="Invites">
@@ -100,7 +118,15 @@
 				<InvitedUserItem isOwner={true} member={user} />
 				{#if usersList?.length > 0}
 					{#each usersList as member, index (index)}
-						<InvitedUserItem {isRemoving} {removeMember} {member} />
+						<!-- <InvitedUserItem {isRemoving} {removeMember} {member} /> -->
+						<InvitedUserItem
+							{_permission}
+							{isRemoving}
+							{updatePermission}
+							{removeMember}
+							{member}
+							membersList={$membersQuery?.data?.data?.travelMembers?.members}
+						/>
 					{/each}
 				{/if}
 			</div>

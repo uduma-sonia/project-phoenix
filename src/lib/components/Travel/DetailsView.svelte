@@ -119,5 +119,5 @@
 </div>
 
 {#if user?._id}
-	<InviteModal onClose={closeModal} isOpen={modalsState.data.isOpen} {user} />
+	<InviteModal onClose={closeModal} isOpen={modalsState.data.isOpen} {user} {trip} />
 {/if}
