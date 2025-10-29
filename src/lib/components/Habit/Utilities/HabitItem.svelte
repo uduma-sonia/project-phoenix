@@ -170,6 +170,7 @@
 			action: _delete
 		}
 	];
+
 	const stopOptions = [
 		{
 			label: 'Start',

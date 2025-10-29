@@ -50,7 +50,7 @@ class TrackerService {
 	}
 
 	async updateHistory(
-		data: { trackerId: string; text: string; status: HabitStatus },
+		data: { trackerId: string; text: string; status: HabitStatus; date: string },
 		reqConfig?: ReqConfig
 	) {
 		return await this.api.post(`${this.historyPrefix}/`, data, { ...reqConfig });

@@ -11,6 +11,7 @@
 	import { HabitStatus } from '../../../types/tracker';
 	import { goto } from '$app/navigation';
 	import Tooltip from '../Common/Tooltip.svelte';
+	import TrackerUtils from './Utilities/utils';
 
 	let { user } = $props();
 
@@ -71,7 +72,8 @@
 			await TrackerRequest.updateHistory({
 				trackerId: id,
 				text: 'You started this streak for the first time',
-				status: HabitStatus.START
+				status: HabitStatus.START,
+				date: TrackerUtils.getISODate(new Date())
 			});
 		} catch (error: any) {
 			addToast(error?.message || 'An error occured', 'error');
