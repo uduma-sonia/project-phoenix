@@ -353,8 +353,10 @@ class Helpers {
 		return numbers.reduce((sum, num) => sum + num, 0);
 	}
 
-	static getPermission(membersList: BoardMember[], user: User, ownerId: string) {
+	static getPermission(membersList: BoardMember[], user: User, ownerId?: string) {
 		const memberIdList = membersList?.map((item: { memberId: string }) => item.memberId);
+
+		// console.log(membersList, user);
 
 		if (user?._id) {
 			if (ownerId === user?._id) {

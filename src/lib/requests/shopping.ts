@@ -1,3 +1,4 @@
+import Helpers from '$lib/utils/helpers';
 import type { ReqConfig, Service } from '../../types/axios';
 import type { BoardItem, BoardMember, CreateBooard } from '../../types/shopping';
 
@@ -81,9 +82,22 @@ class ShoppingService {
 	}
 
 	async removeMemberFromBoard(boardId: string, memberId: string, reqConfig?: ReqConfig) {
-		return await this.api.post(`${this.memberPrefix}/remove/${boardId}?memberId=${memberId}`, {
+		return await this.api.delete(`${this.memberPrefix}/remove/${boardId}?memberId=${memberId}`, {
 			...reqConfig
 		});
+	}
+	async updateMemberPermission(
+		boardId: string,
+		memberId: string,
+		_permission: string,
+		reqConfig?: ReqConfig
+	) {
+		return await this.api.post(
+			`${this.memberPrefix}/update-permission/${boardId}?${Helpers.formatQueryParams({ memberId, permission: _permission })}`,
+			{
+				...reqConfig
+			}
+		);
 	}
 }
 
