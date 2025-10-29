@@ -105,4 +105,4 @@ export const profileLinks = [
 
 export const publicRoutes = ['/', 'login', ' signup', 'forgot-password', 'reset-password'];
 
-export const BUNNY_STORAGE_BASE = 'https://imaginelagos.b-cdn.net';
+export const BUNNY_STORAGE_BASE = 'https://laniva.b-cdn.net';
