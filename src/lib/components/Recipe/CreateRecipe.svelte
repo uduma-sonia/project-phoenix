@@ -319,6 +319,8 @@
 		const files = [imageOneEl?.files[0], imageTwoEl?.files[0], imageThreeEl?.files[0]];
 
 		try {
+			isSubmitting = true;
+
 			const results = await Promise.all(
 				files.map((file) =>
 					file
@@ -342,6 +344,8 @@
 
 			await handleSubmit();
 		} catch (error) {
+			isSubmitting = false;
+
 			console.error(error);
 			addToast('Image upload failed', 'error');
 		}
