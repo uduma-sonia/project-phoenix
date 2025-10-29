@@ -11,7 +11,7 @@
 	<Navbar />
 	<Hero />
 	<Features />
-	<!-- <Download /> -->
+	<Download />
 	<Pricing />
 	<Footer />
 </div>

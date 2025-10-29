@@ -3,21 +3,14 @@
 
 	type Props = {
 		isReverse?: boolean;
-		bgColor?: string;
 		title?: string;
 		featuresList?: string[];
 		ListIcon?: any;
 		imageUrl: string;
+		feature?: string;
 	};
 
-	let {
-		bgColor = '#FFFFFF',
-		title = '',
-		featuresList,
-		isReverse,
-		imageUrl,
-		ListIcon
-	}: Props = $props();
+	let { title = '', featuresList, isReverse, imageUrl, ListIcon, feature }: Props = $props();
 </script>
 
 <div
@@ -60,7 +53,7 @@
 
 	<div class="w-full lg:w-1/2">
 		<div
-			class="feature_img_wrapper mx-auto h-[350px] w-full md:h-[600px] md:max-w-4xl lg:h-[550px]"
+			class="feature_img_wrapper mx-auto h-[350px] w-full md:h-[600px] md:max-w-4xl lg:h-[550px] {feature} "
 		>
 			<div class="feature_img_inner bg-brand-light h-full overflow-hidden rounded-3xl border-2 p-4">
 				<Image src={imageUrl} alt={title} />
@@ -95,5 +88,18 @@
 		z-index: 2;
 		border-radius: 24px;
 		padding: 20px;
+	}
+
+	.tracker::before {
+		background-color: #db7760;
+	}
+	.shopping::before {
+		background-color: #ffa673;
+	}
+	.recipe::before {
+		background-color: #cfc4e7;
+	}
+	.trip::before {
+		background-color: #ff9a9a;
 	}
 </style>
