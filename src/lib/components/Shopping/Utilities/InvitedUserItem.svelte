@@ -34,6 +34,11 @@
 		updatePermission?.(member.email, _permission);
 		memberPermission = _permission;
 	}
+
+	// FIX
+	const isViewer = membersList?.find((item: any) => item.memberId === member.email);
+
+	// $effect(() => console.log(membersList, member));
 </script>
 
 <div class="flex items-center justify-between gap-3">
@@ -73,7 +78,15 @@
 					Remove
 				{/if}
 			</button>
+			<!-- {:else }
+			<button
+				class="text-sm text-red-600 hover:underline"
+				onclick={() => removeMember?.(member?.email)}
+			>
+				Leave
+			</button> -->
 		{/if}
+
 		{#if isOwner}
 			<button class="text-sm text-gray-500"> Owner </button>
 		{/if}
