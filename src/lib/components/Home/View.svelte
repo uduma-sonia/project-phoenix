@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Download from './Download.svelte';
 	import Features from './Features.svelte';
 	import Footer from './Footer.svelte';
 	import Hero from './Hero.svelte';
@@ -10,6 +11,7 @@
 	<Navbar />
 	<Hero />
 	<Features />
+	<!-- <Download /> -->
 	<Pricing />
 	<Footer />
 </div>

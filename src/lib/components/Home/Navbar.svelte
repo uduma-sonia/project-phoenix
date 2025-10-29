@@ -1,8 +1,9 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { AlignJustify, X } from '@lucide/svelte';
-	let {} = $props();
 
 	let showMobileNav = $state(false);
+	let currentRoute = page.url.pathname;
 
 	let navLinks = [
 		{
@@ -15,7 +16,7 @@
 		},
 		{
 			label: 'Download',
-			link: '/'
+			link: '/#download'
 		},
 		{
 			label: 'Pricing',
@@ -39,12 +40,14 @@
 		</a>
 	</div>
 
-	<div class="hidden gap-8 md:flex">
+	<div class="hidden gap-10 md:flex">
 		<div class="flex items-center gap-6">
 			{#each navLinks as item, index (index)}
 				<a
 					href={item.link}
-					class="font-lexend text-15 block font-normal underline-offset-8 hover:underline"
+					class="font-lexend text-15 block font-light text-[#111111] underline-offset-8 hover:underline"
+					class:underline={currentRoute === item.link}
+					class:font-normal={currentRoute === item.link}
 				>
 					{item.label}
 				</a>
@@ -52,11 +55,6 @@
 		</div>
 
 		<div class="flex items-center gap-4">
-			<div>
-				<a href="/login">
-					<button class="shadow_button_outline shadow_button_sm" type="button"> Log in </button>
-				</a>
-			</div>
 			<div>
 				<a href="/signup">
 					<button class="shadow_button shadow_button_sm" type="button"> Start for free </button>

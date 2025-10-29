@@ -5,7 +5,7 @@
 	let { trip } = $props();
 
 	function getBudget() {
-		const getCurrency = Helpers.transformObjectToList(currencies[0])?.find(
+		const getCurrency: any = Helpers.transformObjectToList(currencies[0])?.find(
 			(item) => item.id === trip.currency
 		);
 
