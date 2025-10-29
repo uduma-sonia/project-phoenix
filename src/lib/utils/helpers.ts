@@ -353,7 +353,7 @@ class Helpers {
 		return numbers.reduce((sum, num) => sum + num, 0);
 	}
 
-	static getPermission(membersList: BoardMember[], user: User, ownerId: string) {
+	static getPermission(membersList: BoardMember[], user: User, ownerId?: string) {
 		const memberIdList = membersList?.map((item: { memberId: string }) => item.memberId);
 
 		if (user?._id) {
@@ -395,6 +395,11 @@ class Helpers {
 			counter += 1;
 		}
 		return result;
+	}
+
+	static scrollTo(id: string) {
+		const el = document.getElementById(id);
+		el?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
 	}
 }
 

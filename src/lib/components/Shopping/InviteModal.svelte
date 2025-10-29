@@ -62,9 +62,26 @@
 			isRemoving = '';
 		}
 	}
+
+	async function updatePermission(memberId: string, newPermission: string) {
+		try {
+			const result = await ShoppingRequest.updateMemberPermission(boardId, memberId, newPermission);
+
+			if (result) {
+				queryClient.invalidateQueries({ queryKey: queryKeys.getBoardMembers(boardId) });
+			}
+		} catch (error: any) {
+			addToast(error?.message || 'An error occured', 'error');
+		}
+	}
 </script>
 
-<ModalWrapper {onClose} {isOpen} label="Members">
+<ModalWrapper
+	{onClose}
+	{isOpen}
+	label="Members"
+	helperText="Only users that have an account will show on the list"
+>
 	<div class="p-4">
 		{#if _permission === Permissions.OWNER || _permission === Permissions.CAN_EDIT}
 			<div class="mb-8 flex items-center gap-3">
@@ -87,12 +104,18 @@
 
 		<div>
 			<hr class="border-gray-300" />
-
 			<div class="mt-4 space-y-4">
 				<InvitedUserItem isOwner={true} member={ownerDetails} />
 				{#if usersList?.length > 0}
 					{#each usersList as member, index (index)}
-						<InvitedUserItem {_permission} {isRemoving} {removeMember} {member} />
+						<InvitedUserItem
+							{_permission}
+							{isRemoving}
+							{updatePermission}
+							{removeMember}
+							{member}
+							membersList={$membersQuery?.data?.data?.members?.members}
+						/>
 					{/each}
 				{/if}
 			</div>

@@ -16,3 +16,6 @@
 - Email template
 - Fix date picker - Let the selected day be in view by default
 - Add service worker for offline capabilities
+- add loader to "add to list button"
+- explain how membership works
+- faq page

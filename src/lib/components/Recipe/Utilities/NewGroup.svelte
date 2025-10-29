@@ -40,7 +40,7 @@
 
 <form class="flex h-[56px] items-center gap-4" onsubmit={handleSubmit}>
 	<div class="max-w-[400px] flex-1">
-		<BasicInputField autofocus={true} bind:value={groupName} placeholder="Group name" />
+		<BasicInputField autofocus={true} bind:value={groupName} placeholder="Category name" />
 	</div>
 
 	<div class="flex items-center gap-3">
