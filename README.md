@@ -13,6 +13,6 @@
 
 ## General
 
-- Make the clear button work properly for the dropdown component
 - Email template
 - Fix date picker - Let the selected day be in view by default
+- Add service worker for offline capabilities
