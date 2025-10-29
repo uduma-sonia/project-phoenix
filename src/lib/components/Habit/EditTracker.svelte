@@ -117,7 +117,7 @@
 </script>
 
 <div>
-	<div class="mx-auto w-full px-4 md:max-w-[500px]">
+	<div class="mx-auto w-full md:max-w-[500px]">
 		<BackComponent backLink="/tracker" />
 	</div>
 

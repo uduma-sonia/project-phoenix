@@ -40,7 +40,7 @@
 </script>
 
 <div>
-	<div class="mx-auto w-full px-4 md:max-w-[600px]">
+	<div class="mx-auto w-full md:max-w-[600px]">
 		<BackComponent backLink="/shopping" />
 	</div>
 

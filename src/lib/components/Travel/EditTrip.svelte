@@ -13,6 +13,7 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import type { Trip } from '../../../types/trip';
 	import { page } from '$app/state';
+	import BasicButton from '../Common/Form/BasicButton.svelte';
 
 	const queryClient = useQueryClient();
 	let { trip }: { trip: Trip } = $props();
@@ -122,11 +123,11 @@
 </script>
 
 <div>
-	<div class="mx-auto w-full px-4 md:max-w-[500px]">
+	<div class="mx-auto w-full md:max-w-[500px]">
 		<BackComponent backLink="/travel" />
 	</div>
 
-	<div class="mt-4 flex items-center justify-center px-4 pb-52">
+	<div class="mt-4 flex items-center justify-center pb-52">
 		<div class="login_form_wrapper w-full md:max-w-[500px]">
 			<form class="login_form h-full rounded-3xl border-2 bg-white" onsubmit={handleSubmit}>
 				<div class="pb-3">
@@ -187,20 +188,14 @@
 					{/if}
 
 					<div class="pt-4">
-						<div class="rounded-lg border-2 p-4">
+						<div class="rounded-lg border p-4">
 							<DateRangePicker bind:range={dateRange} isClickable={true} />
 						</div>
 					</div>
 				</div>
 
 				<div>
-					<button class="shadow_button" type="submit">
-						{#if isLoading}
-							<div class="spinner_white border-2 border-black"></div>
-						{:else}
-							Save
-						{/if}
-					</button>
+					<BasicButton label="Save" type="submit" {isLoading} />
 				</div>
 			</form>
 		</div>

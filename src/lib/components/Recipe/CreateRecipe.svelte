@@ -14,6 +14,7 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { goto } from '$app/navigation';
 	import { BUNNY_STORAGE_BASE } from '$lib/constants/global';
+	import BasicButton from '../Common/Form/BasicButton.svelte';
 
 	type Group = { name: string; id: string };
 	type Ingredient = { name: string; amount: string; unit: string };
@@ -387,7 +388,7 @@
 />
 
 <div id="createRecipe">
-	<div class="mx-auto w-full px-4 md:max-w-[600px]">
+	<div class="mx-auto w-full md:max-w-[600px]">
 		<BackComponent backLink="/recipe" />
 	</div>
 
@@ -829,13 +830,7 @@
 				</div>
 
 				<div>
-					<button class="shadow_button" type="button" onclick={onSubmit}>
-						{#if isSubmitting}
-							<div class="spinner_white border-2 border-black"></div>
-						{:else}
-							Save
-						{/if}
-					</button>
+					<BasicButton label="Save" type="button" action={onSubmit} isLoading={isSubmitting} />
 				</div>
 			</div>
 		</div>
