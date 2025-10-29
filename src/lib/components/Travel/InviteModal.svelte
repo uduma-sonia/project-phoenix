@@ -34,8 +34,6 @@
 		})
 	);
 
-	$effect(() => console.log(trip));
-
 	let _permission = $derived(
 		Helpers.getPermission($membersQuery?.data?.data?.travelMembers?.members, user, trip?.ownerId)
 	);
