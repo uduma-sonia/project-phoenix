@@ -12,6 +12,9 @@
 	import { goto } from '$app/navigation';
 	import Tooltip from '../Common/Tooltip.svelte';
 	import TrackerUtils from './Utilities/utils';
+	import BasicInputField from '../Common/Form/BasicInputField.svelte';
+	import TextArea from '../Common/Form/TextArea.svelte';
+	import BasicButton from '../Common/Form/BasicButton.svelte';
 
 	let { user } = $props();
 
@@ -21,7 +24,7 @@
 	let habitName = $state('');
 	let unitMeasurement = $state('');
 	let description = $state('');
-	let goalValue = $state(1);
+	let goalValue = $state('1');
 	let selectedDays: number[] = $state([0, 1, 2, 3, 4, 5, 6]);
 	let startDateValue = $state(new Date());
 	let endDateValue = $state(addDays(new Date(), 30));
@@ -124,7 +127,7 @@
 </script>
 
 <div>
-	<div class="mx-auto w-full px-4 md:max-w-[600px]">
+	<div class="mx-auto w-full md:max-w-[600px]">
 		<BackComponent backLink="/tracker" />
 	</div>
 
@@ -144,7 +147,7 @@
 						<div class="flex items-center gap-4">
 							<button
 								class:bg-brand-build={type === 'BUILD'}
-								class="button_active h-[35px] rounded-lg border-2 px-4"
+								class="button_active h-[35px] rounded-lg border px-4 text-sm"
 								onclick={() => changeType('BUILD')}
 								type="button"
 							>
@@ -152,7 +155,7 @@
 							</button>
 							<button
 								class:bg-brand-quit={type === 'QUIT'}
-								class="button_active h-[35px] rounded-lg border-2 px-4"
+								class="button_active h-[35px] rounded-lg border px-4 text-sm"
 								onclick={() => changeType('QUIT')}
 								type="button"
 							>
@@ -160,27 +163,23 @@
 							</button>
 						</div>
 					</div>
-					<div>
-						<label for="habitName" class="mb-2">Name</label>
-						<input
-							type="text"
-							id="habitName"
-							name="habitName"
-							bind:value={habitName}
-							required
-							class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-						/>
-					</div>
-					<div>
-						<label for="description" class="mb-2">Description</label>
-						<input
-							type="text"
-							id="description"
-							name="description"
-							bind:value={description}
-							class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-						/>
-					</div>
+
+					<BasicInputField
+						label="Name"
+						bind:value={habitName}
+						type="text"
+						id="habitName"
+						name="habitName"
+						required
+					/>
+
+					<TextArea
+						label="Description"
+						type="text"
+						id="description"
+						name="description"
+						bind:value={description}
+					/>
 
 					{#if type === 'BUILD'}
 						<div>
@@ -188,7 +187,7 @@
 							<div class="flex items-center gap-4">
 								<button
 									class:bg-brand-lime={interval === 'DAILY'}
-									class="button_active h-[35px] rounded-lg border-2 px-4"
+									class="button_active h-[35px] rounded-lg border px-4 text-sm"
 									onclick={() => changeInterval('DAILY')}
 									type="button"
 								>
@@ -196,7 +195,7 @@
 								</button>
 								<button
 									class:bg-brand-lime={interval === 'WEEKLY'}
-									class="button_active h-[35px] rounded-lg border-2 px-4"
+									class="button_active h-[35px] rounded-lg border px-4 text-sm"
 									onclick={() => changeInterval('WEEKLY')}
 									type="button"
 								>
@@ -204,7 +203,7 @@
 								</button>
 								<button
 									class:bg-brand-lime={interval === 'MONTHLY'}
-									class="button_active h-[35px] rounded-lg border-2 px-4"
+									class="button_active h-[35px] rounded-lg border px-4 text-sm"
 									onclick={() => changeInterval('MONTHLY')}
 									type="button"
 								>
@@ -212,27 +211,22 @@
 								</button>
 							</div>
 						</div>
-						<div>
-							<label for="unitM" class="mb-2">Unit measurement</label>
-							<input
-								type="text"
-								id="unitMeasurement"
-								name="unitMeasurement"
-								bind:value={unitMeasurement}
-								placeholder="Kg, Steps, Min"
-								class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-							/>
-						</div>
-						<div>
-							<label for="unitM" class="mb-2">Goal value</label>
-							<input
-								type="text"
-								id="goalValue"
-								name="goalValue"
-								bind:value={goalValue}
-								class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-							/>
-						</div>
+
+						<BasicInputField
+							label="Unit measurement"
+							type="text"
+							id="unitMeasurement"
+							name="unitMeasurement"
+							bind:value={unitMeasurement}
+							placeholder="Kg, Steps, Min"
+						/>
+						<BasicInputField
+							label="Goal value"
+							type="text"
+							id="goalValue"
+							name="goalValue"
+							bind:value={goalValue}
+						/>
 
 						<div>
 							<div class="flex flex-wrap items-center gap-4">
@@ -240,7 +234,7 @@
 									{@const isSelected = selectedDays.includes(day.id)}
 									<button
 										class:bg-brand-lime={isSelected}
-										class="button_active h-[35px] rounded-lg border-2 px-4"
+										class="button_active h-[35px] rounded-lg border px-4 text-sm capitalize"
 										onclick={() => selectDay(day.id)}
 										type="button"
 									>
@@ -257,7 +251,7 @@
 
 							<div class="relative">
 								<button
-									class="button_active font-lexend h-[50px] w-full rounded-lg border-2 px-4 text-left text-sm font-light sm:text-base"
+									class="button_active font-lexend h-[50px] w-full rounded-lg border px-4 text-left text-sm font-light sm:text-base"
 									type="button"
 									onclick={toggleStart}
 								>
@@ -284,7 +278,7 @@
 
 								<div class="relative">
 									<button
-										class="button_active font-lexend h-[50px] w-full rounded-lg border-2 px-4 text-left text-sm font-light sm:text-base"
+										class="button_active font-lexend h-[50px] w-full rounded-lg border px-4 text-left text-sm font-light sm:text-base"
 										type="button"
 										onclick={toggleEnd}
 									>
@@ -312,7 +306,7 @@
 
 								<div class="h-[50px]">
 									<button
-										class="button_active relative flex h-7 w-7 items-center justify-center rounded-md border-2 p-0"
+										class="button_active relative flex h-7 w-7 items-center justify-center rounded-md border p-0"
 										onclick={() => (isIndefinite = !isIndefinite)}
 									>
 										<Check size="22px" />
@@ -329,7 +323,7 @@
 
 								<div class="h-[50px]">
 									<button
-										class="button_active relative flex h-7 w-7 items-center justify-center rounded-md border-2 p-0"
+										class="button_active relative flex h-7 w-7 items-center justify-center rounded-md border p-0"
 										onclick={() => (isIndefinite = !isIndefinite)}
 									>
 										{#if isIndefinite}
@@ -351,7 +345,7 @@
 											onclick={() => selectIcon(icon.img)}
 											class="button_active flex h-11 w-11 items-center justify-center rounded-full border-black"
 											type="button"
-											class:border-2={selectedIcon === icon.img}
+											class:border={selectedIcon === icon.img}
 										>
 											<img src={icon.img} class="h-6 min-w-9" alt="walk icon" />
 										</button>
@@ -363,13 +357,7 @@
 				</div>
 
 				<div>
-					<button class="shadow_button" type="submit">
-						{#if isSubmitting}
-							<div class="spinner_white border-2 border-black"></div>
-						{:else}
-							Save
-						{/if}
-					</button>
+					<BasicButton isLoading={isSubmitting} label="Save" type="submit" />
 				</div>
 			</form>
 		</div>

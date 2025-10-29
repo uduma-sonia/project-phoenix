@@ -73,6 +73,14 @@
 					description="Skipped"
 				/>
 			</div>
+
+			<br />
+			<br />
+			<div>
+				<p class="font-lexend text-sm font-light">
+					{details.description}
+				</p>
+			</div>
 		</div>
 	</div>
 </div>

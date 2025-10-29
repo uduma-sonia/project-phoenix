@@ -3,21 +3,21 @@
 	import FeatureCardV2 from './FeatureCard.svelte';
 </script>
 
-<div class="mx-auto max-w-7xl px-4 pt-36 md:pt-44 lg:pt-60">
+<div class="mx-auto max-w-7xl px-4 pt-44 lg:pt-60">
 	<div class="mb-14 text-center md:mb-40" id="features">
 		<h2 class="font-lexend feature_heading mb-5 text-center font-bold tracking-tight">
-			Manage your activities <br /> <span class="text-[#1eb564]">in one place</span>
+			Manage Your Activities
+			<br /> <span class="text-brand-quit">in One Place</span>
 		</h2>
 
 		<p class="font-lexend mx-auto mt-4 max-w-[600px] font-light">
-			Your life neatly in one place. <b class="font-semibold">Laniva</b> keeps you on track without feeling
-			like work software.
+			<b class="font-semibold">Laniva</b> keeps you on track without feeling like work software.
 		</p>
 	</div>
 
-	<div class="space-y-20 lg:space-y-40">
+	<div class="space-y-32 lg:space-y-72">
 		<FeatureCardV2
-			bgColor="#8cbf8091"
+			feature="tracker"
 			title="Track your habits"
 			imageUrl="/images/tracker_img.jpg"
 			ListIcon={Sprout}
@@ -29,7 +29,7 @@
 			]}
 		/>
 		<FeatureCardV2
-			bgColor="#8cbf8091"
+			feature="shopping"
 			title="Shopping list"
 			imageUrl="/images/shopping_list_img.jpg"
 			ListIcon={ShoppingCart}
@@ -43,7 +43,7 @@
 		/>
 
 		<FeatureCardV2
-			bgColor="#cfc4e791"
+			feature="recipe"
 			title="Recipe manager"
 			imageUrl="/images/recipe_img2.jpg"
 			ListIcon={ChefHat}
@@ -55,7 +55,7 @@
 			]}
 		/>
 		<FeatureCardV2
-			bgColor="#ff9a9a91"
+			feature="trip"
 			title="Plan your trips"
 			imageUrl="/images/trip_img.jpg"
 			ListIcon={Plane}

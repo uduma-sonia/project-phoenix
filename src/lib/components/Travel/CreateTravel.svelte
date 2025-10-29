@@ -12,6 +12,7 @@
 	import { goto } from '$app/navigation';
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
+	import BasicButton from '../Common/Form/BasicButton.svelte';
 
 	const queryClient = useQueryClient();
 
@@ -80,7 +81,7 @@
 </script>
 
 <div>
-	<div class="mx-auto w-full px-4 md:max-w-[600px]">
+	<div class="mx-auto w-full md:max-w-[600px]">
 		<BackComponent backLink="/travel" />
 	</div>
 
@@ -145,20 +146,14 @@
 					{/if}
 
 					<div class="pt-4">
-						<div class="rounded-lg border-2 p-4">
+						<div class="rounded-lg border p-4">
 							<DateRangePicker bind:range={dateRange} isClickable={true} />
 						</div>
 					</div>
 				</div>
 
 				<div>
-					<button class="shadow_button" type="submit">
-						{#if isLoading}
-							<div class="spinner_white border-2 border-black"></div>
-						{:else}
-							Save
-						{/if}
-					</button>
+					<BasicButton label="Save" type="submit" {isLoading} />
 				</div>
 			</form>
 		</div>

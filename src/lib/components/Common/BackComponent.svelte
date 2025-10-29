@@ -4,12 +4,15 @@
 	let { backLink, title }: { backLink: string; title?: string } = $props();
 </script>
 
-<div>
-	<a href={backLink} class="inline-flex items-center gap-4">
+<div class="flex items-center gap-3">
+	<a
+		href={backLink}
+		class="inline-flex aspect-square w-10 items-center justify-center rounded-full hover:bg-[#e8ddc1]"
+	>
 		<MoveLeft />
-
-		{#if title}
-			<span class="text-lg">{title}</span>
-		{/if}
 	</a>
+
+	{#if title}
+		<span class="text-lg">{title}</span>
+	{/if}
 </div>

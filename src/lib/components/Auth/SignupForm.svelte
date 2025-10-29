@@ -4,6 +4,7 @@
 	import { AuthRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';
+	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import AuthLayout from './AuthLayout.svelte';
 
 	let formElement = $state();
@@ -50,39 +51,34 @@
 			<hr />
 
 			<div class="mb-10 space-y-5 pt-5">
-				<div>
-					<label for="username" class="mb-2">Username</label>
-					<input
-						type="text"
-						id="username"
-						name="username"
-						autocomplete="username"
-						bind:value={username}
-						class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-					/>
-				</div>
-				<div>
-					<label for="email" class="mb-2">Email Address</label>
-					<input
-						bind:value={email}
-						type="email"
-						id="email"
-						name="email"
-						autocomplete="email"
-						class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-					/>
-				</div>
-				<div>
-					<label for="password" class="mb-2">Password</label>
-					<input
-						type="password"
-						bind:value={password}
-						id="password"
-						name="password"
-						autocomplete="new-password"
-						class="h-[50px] w-full rounded-lg border-2 border-black px-3 outline-none"
-					/>
-				</div>
+				<BasicInputField
+					label="Username"
+					bind:value={username}
+					type="text"
+					id="username"
+					name="username"
+					required
+					autocomplete="username"
+				/>
+				<BasicInputField
+					label="Email Address"
+					bind:value={email}
+					type="email"
+					id="email"
+					name="email"
+					required
+					autocomplete="email"
+				/>
+
+				<BasicInputField
+					label="Password"
+					type="password"
+					bind:value={password}
+					id="password"
+					name="password"
+					required
+					autocomplete="new-password"
+				/>
 			</div>
 
 			<div>
