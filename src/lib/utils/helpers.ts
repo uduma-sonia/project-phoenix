@@ -356,8 +356,6 @@ class Helpers {
 	static getPermission(membersList: BoardMember[], user: User, ownerId?: string) {
 		const memberIdList = membersList?.map((item: { memberId: string }) => item.memberId);
 
-		// console.log(membersList, user);
-
 		if (user?._id) {
 			if (ownerId === user?._id) {
 				return Permissions.OWNER;
@@ -397,6 +395,11 @@ class Helpers {
 			counter += 1;
 		}
 		return result;
+	}
+
+	static scrollTo(id: string) {
+		const el = document.getElementById(id);
+		el?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
 	}
 }
 

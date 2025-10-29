@@ -15,6 +15,7 @@
 		handleUpdateItem?: (itemId: any, name: string) => void;
 	} = $props();
 
+	let itemId = $state('');
 	let itemName = $state(item?.name);
 
 	function handleUpdate() {
@@ -49,9 +50,16 @@
 				<div>
 					<button
 						class="text-sm hover:underline"
-						onclick={() => handleAddToList?.(boardId, item?.name)}
+						onclick={() => {
+							handleAddToList?.(boardId, item?.name);
+							itemId = item._id;
+						}}
 					>
-						Add to list
+						{#if itemId === item._id}
+							<div class="spinner_white_sm border border-black"></div>
+						{:else}
+							Add to list
+						{/if}
 					</button>
 				</div>
 			{/if}

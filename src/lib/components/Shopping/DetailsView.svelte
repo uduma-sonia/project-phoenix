@@ -47,8 +47,6 @@
 		Helpers.getPermission($membersQuery?.data?.data?.members?.members, user, boardDetails?.ownerId)
 	);
 
-	$effect(() => console.log(_permission));
-
 	let ownerQuery = $derived(fetchSingleUser(boardDetails?.ownerId));
 	let ownerDetails = $derived($ownerQuery?.data?.data?.user);
 
