@@ -30,7 +30,9 @@
 	];
 </script>
 
-<div class="bg-brand-light fixed bottom-0 left-0 z-[99] w-full rounded-t-2xl pt-2 pb-6 md:hidden">
+<div
+	class="bg-brand-light fixed bottom-0 left-0 z-[99] w-full rounded-t-2xl pt-2 pb-6 shadow-2xl shadow-black md:hidden"
+>
 	<div class="grid h-full grid-cols-4">
 		{#each routeLinks as route, index (index)}
 			{@const isActive = page.url.pathname.startsWith(route.route)}
