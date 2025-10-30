@@ -5,47 +5,34 @@
 	import { TripRequest } from '$lib/requests';
 	import { page } from '$app/state';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import type { TripActivity } from '../../../../types/trip';
 	import Timeline from './Timeline.svelte';
 	import Tooltip from '$lib/components/Common/Tooltip.svelte';
 	import TripUtils from './utils';
+	import { openCreateActivityModal } from '$lib/state/modal.svelte';
 
-	let addNewGroup = $state(false);
-	let currentTab = $state('ALL');
-
-	function toggleView() {
-		addNewGroup = !addNewGroup;
-	}
-
-	const groupQuery = createQuery({
+	let groupQuery = createQuery({
 		queryKey: queryKeys.getTripActivityGroups(page.params.id),
 		queryFn: () => TripRequest.getTripActivityGroups(page.params.id)
 	});
-
-	let groupList = $derived($groupQuery?.data?.data?.travelGroup);
-
 	let activityQuery = createQuery({
 		queryKey: queryKeys.getTripActivities(page.params.id),
 		queryFn: () => TripRequest.getTripActivities(page.params.id)
 	});
 
+	let addNewGroup = $state(false);
+	let currentTab = $state('ALL');
+
+	let groupList = $derived($groupQuery?.data?.data?.travelGroup);
 	let activityList = $derived($activityQuery?.data?.data?.travelActivity);
+	let filteredActivityList = $derived(TripUtils.filterActivityList(activityList, currentTab));
 
 	function changeTab(arg: string) {
 		currentTab = arg;
 	}
 
-	let filteredActivityList = $derived(
-		activityList?.filter((item: TripActivity) => {
-			if (currentTab === 'ALL') {
-				return item;
-			} else {
-				if (currentTab === item.groupId) {
-					return item;
-				}
-			}
-		}) || []
-	);
+	function toggleView() {
+		addNewGroup = !addNewGroup;
+	}
 </script>
 
 <div class="mt-8">
@@ -95,28 +82,26 @@
 		{/if}
 	</div>
 
-	<div class="space-y-8">
-		<!-- <div class="timeline_wrapper no-scrollbar space-y-8 overflow-y-auto"> -->
-		{#each TripUtils.groupByDay(filteredActivityList) as activity, index (index)}
-			<Timeline {activity} />
-		{/each}
-	</div>
-
-	<!-- {#if filteredActivityList?.length > 0}
+	{#if filteredActivityList?.length > 0}
 		<div class="space-y-3">
 			{#each filteredActivityList as activity, index (index)}
-				<ActivityCard {activity} />
+				<Timeline {activity} />
 			{/each}
 		</div>
 	{:else}
 		<div class="flex h-32 items-center justify-center">
-			<p>No activity created</p>
+			<div class="flex flex-col items-center justify-center">
+				<p class="text-13 font-lexend mb-6 font-light">No activity created</p>
+				<button
+					class="shadow_button shadow_button_sm shadow_button_thin"
+					type="button"
+					onclick={openCreateActivityModal}
+				>
+					Create activity
+				</button>
+			</div>
 		</div>
-	{/if} -->
-
-	<!-- <div class="mt-6">
-		<AddActivity {groupList} />
-	</div> -->
+	{/if}
 </div>
 
 <style>

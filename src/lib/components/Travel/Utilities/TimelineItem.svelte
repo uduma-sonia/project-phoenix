@@ -56,7 +56,7 @@
 </script>
 
 {#snippet linkSnippet(link?: string, label?: string, Icon?: any)}
-	{#if link}
+	{#if link && label}
 		<div>
 			<a
 				href={link}

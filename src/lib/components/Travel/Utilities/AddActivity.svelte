@@ -23,7 +23,7 @@
 	let menuLink = $state('');
 	let mobile = $state('');
 	let note = $state('');
-	let selectedDay = $state(new Date());
+	let selectedDay: Date | null = $state(null);
 
 	let selectedGroup: { name: string; _id: string } = $state({ name: '', _id: '' });
 
@@ -45,7 +45,6 @@
 	function selectDay(day: Date) {
 		selectedDay = day;
 		// selectedDay = TrackerUtils.getISODate(day)
-		console.log(day);
 	}
 
 	async function handleSubmit() {
@@ -62,7 +61,7 @@
 				visited: false,
 				menuLink: menuLink,
 				otherLink: otherLink,
-				day: TrackerUtils.getISODate(selectedDay),
+				day: selectedDay ? TrackerUtils.getISODate(selectedDay) : '',
 				note: note
 			};
 
@@ -129,8 +128,9 @@
 			{#if _eachDayOfInterval?.length > 0}
 				<div class="mt-4 flex flex-wrap gap-2">
 					{#each _eachDayOfInterval as day, index (index)}
-						{@const isSelected =
-							TrackerUtils.getISODate(selectedDay) === TrackerUtils.getISODate(day)}
+						{@const isSelected = selectedDay
+							? TrackerUtils.getISODate(selectedDay) === TrackerUtils.getISODate(day)
+							: false}
 
 						<button
 							class:selected={isSelected}

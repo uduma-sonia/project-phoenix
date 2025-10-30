@@ -113,7 +113,6 @@
 				<Budget {trip} />
 			</div>
 			<Calendar {trip} />
-			<!-- <Timeline /> -->
 		</div>
 	</div>
 </div>

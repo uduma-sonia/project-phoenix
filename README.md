@@ -20,5 +20,3 @@
 - Email template
 - Fix date picker - Let the selected day be in view by default
 - Add service worker for offline capabilities
-
-Fix create button to show on mobile
