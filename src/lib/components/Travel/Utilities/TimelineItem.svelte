@@ -2,6 +2,7 @@
 	import { page } from '$app/state';
 	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
 	import { TripRequest } from '$lib/requests';
+	import { openUpdateActivityModal, selectActivity } from '$lib/state/modal.svelte';
 	import { addToast } from '$lib/store/toast';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import {
@@ -41,10 +42,16 @@
 		}
 	}
 
+	function editActivity() {
+		openUpdateActivityModal();
+		selectActivity(data);
+	}
+
 	const moreOptions = [
 		{
 			label: 'Edit',
-			icon: SquarePen
+			icon: SquarePen,
+			action: editActivity
 		},
 		{
 			label: 'Delete',
@@ -87,7 +94,7 @@
 			</div>
 		</div>
 
-		<div class="absolute top-6 right-2 z-[99px] -translate-y-1/2">
+		<div class="absolute top-6 right-2 z-[9999px] -translate-y-1/2">
 			<HamburgerDropdown options={moreOptions} />
 		</div>
 	</div>

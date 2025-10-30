@@ -1,3 +1,5 @@
+import type { TripActivity } from '../../types/trip';
+
 export const modalsState = $state({
 	data: {
 		isOpen: false,
@@ -10,6 +12,7 @@ export const modalsState = $state({
 		isOpenPacking: false,
 		isOpenAddToList: false,
 		isOpenCreateActivity: false,
+		isOpenUpdateActivity: false,
 		isOpenInstall: false
 	}
 });
@@ -18,6 +21,14 @@ export const imageCarouselData = $state<{ images: string[]; currentSelectedIndex
 	images: [],
 	currentSelectedIndex: 0
 });
+
+export const selectedActivity = $state<{ data: TripActivity | null }>({
+	data: null
+});
+
+export function selectActivity(activity: TripActivity) {
+	selectedActivity.data = activity;
+}
 
 export function openModal() {
 	modalsState.data.isOpen = true;
@@ -94,6 +105,13 @@ export function openCreateActivityModal() {
 }
 export function closeCreateActivityModal() {
 	modalsState.data.isOpenCreateActivity = false;
+}
+
+export function openUpdateActivityModal() {
+	modalsState.data.isOpenUpdateActivity = true;
+}
+export function closeUpdateActivityModal() {
+	modalsState.data.isOpenUpdateActivity = false;
 }
 
 export function openInstallModal() {

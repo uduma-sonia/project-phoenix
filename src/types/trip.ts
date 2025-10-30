@@ -19,7 +19,7 @@ export type Trip = {
 export type TripActivity = {
 	ownerId?: string;
 	tripId: string;
-	name: string;
+	name?: string;
 	groupId?: string;
 	instagramLink?: string;
 	websiteLink?: string;

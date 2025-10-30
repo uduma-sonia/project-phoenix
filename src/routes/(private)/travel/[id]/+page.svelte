@@ -10,6 +10,7 @@
 	import DeleteTripModal from '$lib/components/Modals/DeleteTripModal.svelte';
 	import PackingModal from '$lib/components/Modals/PackingModal.svelte';
 	import AddActivity from '$lib/components/Travel/Utilities/AddActivity.svelte';
+	import EditActivity from '$lib/components/Travel/Utilities/EditActivity.svelte';
 
 	let detailsQuery = createQuery({
 		queryKey: queryKeys.getSingleTrip(page.params.id),
@@ -42,3 +43,4 @@
 <DeleteTripModal />
 <PackingModal />
 <AddActivity {groupList} {trip} />
+<EditActivity {groupList} {trip} />
