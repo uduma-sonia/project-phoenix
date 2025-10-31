@@ -16,17 +16,12 @@
 	} from '$lib/state/modal.svelte';
 	import { handleSelectTrip } from '$lib/state/trip.svelte';
 	import InviteModal from './InviteModal.svelte';
-	import { UserRequest } from '$lib/requests';
-	import { queryKeys } from '$lib/utils/queryKeys';
-	import { createQuery } from '@tanstack/svelte-query';
 	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
+	import useCurrentUser from '$lib/hooks/useCurrentUser';
 
 	let { trip }: { trip: Trip } = $props();
 
-	let userQuery = createQuery({
-		queryKey: queryKeys.getCurrentUser,
-		queryFn: () => UserRequest.getCurrentUser()
-	});
+	let userQuery = useCurrentUser();
 	let user = $derived($userQuery?.data?.data?.user);
 
 	function deleteTrip() {

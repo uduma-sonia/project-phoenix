@@ -1,17 +1,11 @@
 <script lang="ts">
 	import Profile from '../Profile/Profile.svelte';
-	import { createQuery } from '@tanstack/svelte-query';
 	import { closeProfile, modalsState, openProfile } from '$lib/state/modal.svelte';
-	import { queryKeys } from '$lib/utils/queryKeys';
-	import { UserRequest } from '$lib/requests';
 	import { Play } from '@lucide/svelte';
 	import Avatar from './Avatar.svelte';
+	import useCurrentUser from '$lib/hooks/useCurrentUser';
 
-	const userQuery = createQuery({
-		queryKey: queryKeys.getCurrentUser,
-		queryFn: () => UserRequest.getCurrentUser()
-	});
-
+	let userQuery = useCurrentUser();
 	let user = $derived($userQuery?.data?.data?.user);
 </script>
 

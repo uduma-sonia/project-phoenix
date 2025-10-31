@@ -10,14 +10,6 @@
 
 	let { children } = $props();
 
-	let hasBeenInstalled = $state(true);
-	let install_banner_seen = $state(true);
-
-	const closeDownloadWidget = () => {
-		hasBeenInstalled = true;
-		sessionStorage.setItem('install_banner_seen', '1');
-	};
-
 	const queryClient = new QueryClient({
 		defaultOptions: {
 			queries: {
@@ -27,6 +19,9 @@
 			}
 		}
 	});
+
+	let hasBeenInstalled = $state(true);
+	let install_banner_seen = $state(true);
 
 	if (typeof window !== 'undefined') {
 		// Don't show on the home page or auth
@@ -40,6 +35,11 @@
 				}, 10000);
 			}
 		}
+	}
+
+	function closeDownloadWidget() {
+		hasBeenInstalled = true;
+		sessionStorage.setItem('install_banner_seen', '1');
 	}
 </script>
 

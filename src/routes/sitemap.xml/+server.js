@@ -19,7 +19,12 @@ export async function GET() {
         <url>
             <loc>https://laniva.app/login</loc>
             <changefreq>yearly</changefreq>
-            <priority>0.8</priority>
+            <priority>0.9</priority>
+        </url>
+        <url>
+            <loc>https://laniva.app/signup</loc>
+            <changefreq>yearly</changefreq>
+            <priority>0.9</priority>
         </url>
         <url>
             <loc>https://laniva.app/#features</loc>
@@ -27,19 +32,9 @@ export async function GET() {
             <priority>0.8</priority>
         </url>
         <url>
-            <loc>https://laniva.app/pricing</loc>
+            <loc>https://laniva.app/#pricing</loc>
             <changefreq>yearly</changefreq>
             <priority>0.8</priority>
-        </url>
-        <url>
-            <loc>https://laniva.app/login</loc>
-            <changefreq>yearly</changefreq>
-            <priority>0.9</priority>
-        </url>
-        <url>
-            <loc>https://laniva.app/signup</loc>
-            <changefreq>yearly</changefreq>
-            <priority>0.9</priority>
         </url>
 		</urlset>`.trim(),
 		{
