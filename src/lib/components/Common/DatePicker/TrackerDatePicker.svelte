@@ -15,6 +15,7 @@
 		addDays
 	} from 'date-fns';
 	import { HabitStatus } from '../../../../types/tracker';
+	import Tooltip from '../Tooltip.svelte';
 
 	let { details, handleUpdate, value, logsList, canClick = true } = $props();
 
