@@ -23,6 +23,21 @@ class TripUtils {
 			return new Date(a.day).getTime() - new Date(b.day).getTime();
 		});
 	}
+
+	static filterActivityList(activityList: TripActivity[], currentTab: string) {
+		const result =
+			activityList?.filter((item: TripActivity) => {
+				if (currentTab === 'ALL') {
+					return item;
+				} else {
+					if (currentTab === item.groupId) {
+						return item;
+					}
+				}
+			}) || [];
+
+		return this.groupByDay(result);
+	}
 }
 
 export default TripUtils;

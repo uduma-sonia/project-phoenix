@@ -35,9 +35,7 @@
 		</div>
 
 		{#if floatingLink}
-			<div class="hidden md:block">
-				<FloatingButton {tooltipText} link={floatingLink} />
-			</div>
+			<FloatingButton {tooltipText} link={floatingLink} />
 		{/if}
 	</div>
 </div>

@@ -4,15 +4,12 @@
 	import LoaderError from '$lib/components/Common/LoaderError.svelte';
 	import Seo from '$lib/components/Common/SEO.svelte';
 	import EditTracker from '$lib/components/Habit/EditTracker.svelte';
-	import { TrackerRequest, UserRequest } from '$lib/requests';
+	import useCurrentUser from '$lib/hooks/useCurrentUser';
+	import { TrackerRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { createQuery } from '@tanstack/svelte-query';
 
-	const userQuery = createQuery({
-		queryKey: queryKeys.getCurrentUser,
-		queryFn: () => UserRequest.getCurrentUser()
-	});
-
+	let userQuery = useCurrentUser();
 	let user = $derived($userQuery?.data?.data?.user);
 
 	const trackerQuery = createQuery({

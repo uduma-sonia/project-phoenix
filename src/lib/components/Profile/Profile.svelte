@@ -1,26 +1,21 @@
 <script lang="ts">
 	import { Play, LogOutIcon, MoveLeft } from '@lucide/svelte';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
-	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
+	import { useQueryClient } from '@tanstack/svelte-query';
 	import Helpers from '$lib/utils/helpers';
 	import { goto } from '$app/navigation';
-	import { UserRequest } from '$lib/requests';
-	import { queryKeys } from '$lib/utils/queryKeys';
 	import { closeProfile } from '$lib/state/modal.svelte';
 	import { AUTH_TOKEN, PAGE_REDIRECTED_FROM_KEY, profileLinks } from '$lib/constants/global';
 	import Views from './Views.svelte';
+	import useCurrentUser from '$lib/hooks/useCurrentUser';
 
 	let { onClose, isOpen } = $props();
 
 	const queryClient = useQueryClient();
+	let userQuery = useCurrentUser();
 
 	let currentView = $state('profile');
 	let showView = $state(false);
-
-	const userQuery = createQuery({
-		queryKey: queryKeys.getCurrentUser,
-		queryFn: () => UserRequest.getCurrentUser()
-	});
 
 	let user = $derived($userQuery?.data?.data?.user);
 
@@ -28,13 +23,13 @@
 		currentView = params;
 	}
 
-	const handleLogout = async () => {
+	async function handleLogout() {
 		Helpers.deleteCookie(AUTH_TOKEN);
 		sessionStorage.removeItem(PAGE_REDIRECTED_FROM_KEY);
 		closeProfile();
 		goto('/login');
 		queryClient.clear();
-	};
+	}
 </script>
 
 <ModalWrapper {onClose} {isOpen} maxWidth="max-w-[500px] md:max-w-[800px]" label="Account">

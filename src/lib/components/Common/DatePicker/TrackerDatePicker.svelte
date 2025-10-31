@@ -15,6 +15,7 @@
 		addDays
 	} from 'date-fns';
 	import { HabitStatus } from '../../../../types/tracker';
+	import Tooltip from '../Tooltip.svelte';
 
 	let { details, handleUpdate, value, logsList, canClick = true } = $props();
 
@@ -89,6 +90,7 @@
 				class:date-selected-quit={renderQuitDateColor(day)}
 				class:not={!isSameMonth(day, currentMonth)}
 				class:date-color={renderDateColor(day)}
+				class:date-skip={getLog?.status == HabitStatus.SKIPPED}
 				onclick={() => {
 					if (canClick) {
 						if (isSameMonth(day, currentMonth)) {
@@ -228,5 +230,9 @@
 
 	.date-color {
 		color: #000000 !important;
+	}
+	.date-skip {
+		background-color: #e98623 !important;
+		border: 1px solid #e98623 !important;
 	}
 </style>

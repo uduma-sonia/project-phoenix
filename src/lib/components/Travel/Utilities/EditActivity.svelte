@@ -5,7 +5,7 @@
 	import ModalWrapper from '$lib/components/Common/ModalWrapper.svelte';
 	import TrackerUtils from '$lib/components/Habit/Utilities/utils';
 	import { TripRequest } from '$lib/requests';
-	import { closeCreateActivityModal, modalsState } from '$lib/state/modal.svelte';
+	import { closeUpdateActivityModal, modalsState, selectedActivity } from '$lib/state/modal.svelte';
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';
 	import { queryKeys } from '$lib/utils/queryKeys';
@@ -16,14 +16,14 @@
 	const queryClient = useQueryClient();
 
 	let isLoading = $state(false);
-	let actvityName = $state('');
-	let instagramLink = $state('');
-	let websiteLink = $state('');
-	let otherLink = $state('');
-	let menuLink = $state('');
-	let mobile = $state('');
-	let note = $state('');
-	let selectedDay: Date | null = $state(null);
+	let actvityName = $derived(selectedActivity?.data?.name);
+	let instagramLink = $derived(selectedActivity?.data?.instagramLink);
+	let websiteLink = $derived(selectedActivity?.data?.websiteLink);
+	let otherLink = $derived(selectedActivity?.data?.otherLink);
+	let menuLink = $derived(selectedActivity?.data?.menuLink);
+	let mobile = $derived(selectedActivity?.data?.mobile);
+	let note = $state(selectedActivity?.data?.note);
+	let selectedDay: any = $derived(selectedActivity.data?.day);
 
 	let selectedGroup: { name: string; _id: string } = $state({ name: '', _id: '' });
 
@@ -68,23 +68,18 @@
 				note: note
 			};
 
-			Helpers.removeEmptyFields(payload);
-
-			const result = await TripRequest.createTripActivity(payload);
+			const result = await TripRequest.updateTripActivity(
+				selectedActivity.data?._id as string,
+				payload
+			);
 
 			if (result) {
 				queryClient.invalidateQueries({
 					queryKey: queryKeys.getTripActivities(page.params.id)
 				});
 
-				actvityName = '';
-				instagramLink = '';
-				websiteLink = '';
-				otherLink = '';
-				menuLink = '';
-				mobile = '';
-				addToast('Activity added', 'success');
-				closeCreateActivityModal();
+				addToast('Activity updated', 'success');
+				closeUpdateActivityModal();
 			}
 		} catch (error: any) {
 			addToast(error?.message || 'An error occured', 'error');
@@ -95,9 +90,9 @@
 </script>
 
 <ModalWrapper
-	label="Add activity"
-	isOpen={modalsState.data.isOpenCreateActivity}
-	onClose={closeCreateActivityModal}
+	label="Edit activity"
+	isOpen={modalsState.data.isOpenUpdateActivity}
+	onClose={closeUpdateActivityModal}
 >
 	<div class="p-4">
 		<div>
@@ -148,7 +143,7 @@
 		</div>
 
 		<div class="mt-8 flex items-center justify-end gap-5">
-			<BasicButton label="Cancel" variant="error" action={closeCreateActivityModal} />
+			<BasicButton label="Cancel" variant="error" action={closeUpdateActivityModal} />
 			<BasicButton label="Add" {isLoading} variant="primary" action={handleSubmit} />
 		</div>
 	</div>

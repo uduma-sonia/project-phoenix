@@ -36,7 +36,7 @@
 	}
 </script>
 
-<div class="relative">
+<div class="relative z-[999px]">
 	<button aria-label="presentation" class={getVariantClass()} onclick={toggleDropDownMenu}>
 		<div class="h-[3px] w-4 rounded-full bg-black"></div>
 		<div class="h-[3px] w-4 rounded-full bg-black"></div>
@@ -47,7 +47,7 @@
 		<div
 			use:Helpers.clickOutside
 			onclick_outside={handleClickOutside}
-			class="slide_in_down absolute top-[-0px] right-8 z-[9999] gap-4 overflow-hidden rounded-lg shadow-2xl"
+			class="slide_in_down absolute top-[-0px] right-8 z-[9999px] gap-4 overflow-hidden rounded-lg shadow-2xl"
 		>
 			<div class="w-[200px] rounded-lg border-2 border-black bg-[#FFFFFF] p-0.5">
 				{#each options as option}

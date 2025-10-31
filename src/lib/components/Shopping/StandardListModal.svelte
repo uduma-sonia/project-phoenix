@@ -3,23 +3,20 @@
 	import AddStandardItem from './Utilities/AddStandardItem.svelte';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import { page } from '$app/state';
-	import { ShoppingRequest, UserRequest } from '$lib/requests';
+	import { ShoppingRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import { addToast } from '$lib/store/toast';
+	import useCurrentUser from '$lib/hooks/useCurrentUser';
 
 	let { onClose, isOpen } = $props();
-	const queryClient = useQueryClient();
 
-	const userQuery = createQuery({
-		queryKey: queryKeys.getCurrentUser,
-		queryFn: () => UserRequest.getCurrentUser()
-	});
+	const queryClient = useQueryClient();
+	let userQuery = useCurrentUser();
 
 	let user = $derived($userQuery?.data?.data?.user);
-
-	let boardId = page.params.id;
 	let isLoading = $state(false);
+	let boardId = page.params.id;
 
 	async function handleItemAdd(value: string) {
 		try {

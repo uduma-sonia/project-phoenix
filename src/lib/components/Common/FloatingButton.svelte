@@ -6,7 +6,7 @@
 </script>
 
 <div
-	class="fixed bottom-0 left-1/2 z-50 flex w-full max-w-[1000px] -translate-x-1/2 items-center justify-end px-4 pb-8"
+	class="fixed bottom-14 left-1/2 z-50 flex w-full max-w-[1000px] -translate-x-1/2 items-center justify-end px-4 pb-8 md:bottom-0"
 >
 	<Tooltip text={tooltipText || ''}>
 		<a href={link} class="block">
@@ -16,3 +16,5 @@
 		</a>
 	</Tooltip>
 </div>
+
+<!-- <div class="slide_in_up fixed bottom-20 left-1/2 -translate-x-1/2 md:bottom-5"> -->

@@ -10,7 +10,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			event.route.id?.includes('/(private)/recipe/[id') ||
 			event.route.id?.includes('/(private)/recipe/user/[id')
 		) {
-			console.log('dont redirect');
+			console.log('don"t redirect');
 		} else {
 			if (!token) {
 				throw redirect(302, '/login');
