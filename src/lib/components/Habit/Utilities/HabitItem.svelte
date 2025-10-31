@@ -23,8 +23,6 @@
 	let { habit, deleteHabit, updateLog, updateBuildLog, openDetailsModal }: HabitItemProps =
 		$props();
 
-	// $effect(() => console.log(habit));
-
 	const logQuery = $derived(
 		createQuery({
 			queryKey: queryKeys.getLogs(habit._id, {

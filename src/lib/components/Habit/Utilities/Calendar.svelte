@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DatePicker from '$lib/components/Common/DatePicker/DatePicker.svelte';
+	import DatePicker from '$lib/components/Common/DatePicker/TrackerDatePicker.svelte';
 	import { currentStatsMonth, updateCurrentStatMonth } from '$lib/state/tracker.svelte';
 
 	let { details, logsList } = $props();

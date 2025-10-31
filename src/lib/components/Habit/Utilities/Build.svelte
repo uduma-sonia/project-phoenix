@@ -5,13 +5,13 @@
 
 	let currentView = $state('monthly');
 
-	const changeView = () => {
+	function changeView() {
 		if (currentView === 'monthly') {
 			currentView = 'yearly';
 		} else if (currentView === 'yearly') {
 			currentView = 'monthly';
 		}
-	};
+	}
 </script>
 
 <div class="flex flex-col gap-4 px-4 pb-0 sm:flex-row sm:items-center">
