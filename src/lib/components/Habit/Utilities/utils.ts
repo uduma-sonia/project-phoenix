@@ -41,6 +41,10 @@ export default class TrackerUtils {
 	}
 
 	static isHabitActive(habit: Habit, dateViewing: string): boolean {
+		const dayOfWeek = format(dateViewing, 'i');
+
+		if (!habit.selectedDays.includes(Number(dayOfWeek))) return false;
+
 		if (!dateViewing) return false;
 
 		const viewingDate = parseISO(dateViewing);
@@ -362,5 +366,33 @@ export default class TrackerUtils {
 
 	static generateRandomNumber(length: number) {
 		return Math.random().toString(16).substring(2, length);
+	}
+
+	static generateOptionsDropdown(arr: any[], type: string) {
+		const options = [];
+
+		for (let i = 0; i < arr.length; i++) {
+			const element = arr[i];
+			if (element.type?.toLowerCase() == type.toLowerCase() || element.type == 'all') {
+				options.push(element);
+			}
+		}
+
+		return options;
+	}
+
+	static getOptionList(status: HabitStatus, { restart, more, stop }: any) {
+		if (status === HabitStatus.COMPLETED || status === HabitStatus.SKIPPED) {
+			return restart;
+		}
+
+		if (status === HabitStatus.PENDING || status === HabitStatus.START) {
+			return more;
+		}
+		if (status === HabitStatus.STOP) {
+			return stop;
+		}
+
+		return more;
 	}
 }

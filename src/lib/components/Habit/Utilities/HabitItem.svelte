@@ -23,6 +23,8 @@
 	let { habit, deleteHabit, updateLog, updateBuildLog, openDetailsModal }: HabitItemProps =
 		$props();
 
+	// $effect(() => console.log(habit));
+
 	const logQuery = $derived(
 		createQuery({
 			queryKey: queryKeys.getLogs(habit._id, {
@@ -37,7 +39,7 @@
 
 	let logDetails = $derived($logQuery?.data?.data?.trackerLog);
 	let logValue = $derived(logDetails?.value || 0);
-	const habitType = $derived(logDetails?._id ? 'update' : 'create');
+	let habitType = $derived(logDetails?._id ? 'update' : 'create');
 
 	let debounceTimer: any = $state();
 
@@ -143,7 +145,7 @@
 
 		// BUILD
 		{
-			label: 'Done',
+			label: 'Completed',
 			icon: Check,
 			type: 'build',
 			action: done
@@ -193,6 +195,7 @@
 			action: _delete
 		}
 	];
+
 	const restartOptions = [
 		{
 			label: 'Restart',
@@ -215,34 +218,6 @@
 			action: _delete
 		}
 	];
-
-	function getOptionList(status: HabitStatus, { restart, more, stop }: any) {
-		if (status === HabitStatus.COMPLETED || status === HabitStatus.SKIPPED) {
-			return restart;
-		}
-
-		if (status === HabitStatus.PENDING || status === HabitStatus.START) {
-			return more;
-		}
-		if (status === HabitStatus.STOP) {
-			return stop;
-		}
-
-		return more;
-	}
-
-	function generateOptionsDropdown(arr: any[], type: string, status: string) {
-		let options = [];
-
-		for (let i = 0; i < arr.length; i++) {
-			const element = arr[i];
-			if (element.type?.toLowerCase() == type.toLowerCase() || element.type == 'all') {
-				options.push(element);
-			}
-		}
-
-		return options;
-	}
 </script>
 
 <div class="item_wrapper h-[170px]">
@@ -349,14 +324,13 @@
 
 	<div class="absolute top-6 right-3 z-50 -translate-y-1/2">
 		<HamburgerDropdown
-			options={generateOptionsDropdown(
-				getOptionList(logDetails?.status, {
+			options={TrackerUtils.generateOptionsDropdown(
+				TrackerUtils.getOptionList(logDetails?.status, {
 					restart: restartOptions,
 					more: moreOptions,
 					stop: stopOptions
 				}),
-				habit?.type,
-				logDetails?.status
+				habit?.type
 			)}
 		/>
 	</div>

@@ -47,7 +47,7 @@
 		<div
 			use:Helpers.clickOutside
 			onclick_outside={handleClickOutside}
-			class="slide_in_down absolute right-8 bottom-[-0px] z-[9999px] gap-4 overflow-hidden rounded-lg shadow-2xl"
+			class="slide_in_down absolute top-[-0px] right-8 z-[9999px] gap-4 overflow-hidden rounded-lg shadow-2xl"
 		>
 			<div class="w-[200px] rounded-lg border-2 border-black bg-[#FFFFFF] p-0.5">
 				{#each options as option}

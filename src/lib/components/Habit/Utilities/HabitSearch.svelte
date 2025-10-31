@@ -15,7 +15,7 @@
 				{placeholder}
 				type="text"
 				bind:value={searchQuery}
-				class="relative z-10 h-[50px] w-full max-w-[350px] rounded-lg border-2 border-black bg-white px-3 outline-none placeholder:font-light"
+				class="relative z-10 h-[50px] w-full max-w-[350px] rounded-lg border bg-white px-3 outline-none placeholder:font-light"
 				{...restProps}
 			/>
 
@@ -35,19 +35,5 @@
 <style>
 	.input_wrapper {
 		position: relative;
-	}
-
-	.input_wrapper::before {
-		content: '';
-		position: absolute;
-		top: 5px;
-		left: 5px;
-		right: 0;
-		bottom: 0;
-		border: 2px solid black;
-		z-index: 1;
-		border-radius: 8px;
-		width: 100%;
-		height: 100%;
 	}
 </style>
