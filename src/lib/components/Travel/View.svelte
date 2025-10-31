@@ -47,7 +47,7 @@
 
 	<LoaderError {isLoading} error={isError} />
 
-	{#if !isLoading}
+	{#if !isLoading && !isError}
 		{#if hasTrips}
 			<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
 				{#if !$tripQuery?.isLoading && filteredTripsList?.length > 0}
