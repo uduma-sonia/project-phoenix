@@ -35,7 +35,9 @@
 	{#if isLoading}
 		<span class="spinner_white border-2 border-black"></span>
 	{:else}
-		<LeftIcon {...leftIconProps} />
+		{#if LeftIcon}
+			<LeftIcon {...leftIconProps} />
+		{/if}
 		{label}
 	{/if}
 </button>
