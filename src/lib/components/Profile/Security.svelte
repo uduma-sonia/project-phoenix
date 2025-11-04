@@ -11,7 +11,6 @@
 	async function handleSubmit() {
 		try {
 			isSubmitting = true;
-
 			const result = await AuthRequest.changePassword({ currentPassword: password, newPassword });
 
 			if (result) {
