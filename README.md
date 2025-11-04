@@ -2,7 +2,7 @@
 
 ## Later features
 
-- Recipe review system, star rating, commentsn
+- Recipe review system, star rating, comments
 - General page to search other people's public recipe
 - Cook mode
 - meal tracker
@@ -22,8 +22,8 @@
 - Fix date picker - Let the selected day be in view by default
 - Add service worker for offline capabilities
 - Add some text formatting options to text area component
+- Achievement board
 
 ## Tracker
 
 - Allow users to input custom goal value
-- Hide tracker if the day viewed is not among days selected
