@@ -1,3 +1,5 @@
+import { ChefHat, Plane, ShoppingCart, Sprout } from '@lucide/svelte';
+
 export const AUTH_TOKEN = 'phoenix_token';
 export const RECIPE_COUNT_TRACKER = 'recipe_ct';
 
@@ -93,16 +95,99 @@ export const profileLinks = [
 		label: 'Subscription',
 		id: 'subscription'
 	},
+	// {
+	// 	label: 'Help',
+	// 	id: 'help'
+	// },
 	{
 		label: 'Help',
 		id: 'help'
-	},
-	{
-		label: 'Feedback',
-		id: 'feedback'
 	}
 ];
 
 export const publicRoutes = ['/', 'login', ' signup', 'forgot-password', 'reset-password'];
 
 export const BUNNY_STORAGE_BASE = 'https://laniva.b-cdn.net';
+
+export const homeFeaturesList = [
+	{
+		id: 'tracker',
+		title: 'Track your habits',
+		icon: Sprout,
+		imageUrl: '/images/tracker_img.jpg',
+		features: [
+			'Straightfoward habit tracker without the distracting bits',
+			'Build streaks and visualize progress with minimal setup',
+			'Progress charts and monthly/yearly trends',
+			'Streaks, streak freeze and streak history to keep momentum'
+		]
+	},
+	{
+		id: 'shopping',
+		title: 'Shopping list',
+		icon: ShoppingCart,
+		imageUrl: '/images/shopping_list_img.jpg',
+		isReverse: true,
+		features: [
+			'Create collaborative lists for your home, and grocery runs',
+			'Add items as you remember, never forget anything again',
+			'Print/export lists and email or share invite links',
+			'Shared boards with real-time sync'
+		]
+	},
+	{
+		id: 'recipe',
+		title: 'Recipe manager',
+		icon: ChefHat,
+		imageUrl: '/images/recipe_img2.jpg',
+		features: [
+			'Straightfoward recipe manager',
+			'Auto-generate ingredient shopping lists',
+			'Scale ingredients by servings and auto-convert units',
+			'Share recipes or publish public recipe pages'
+		]
+	},
+	{
+		id: 'trip',
+		title: 'Plan your trips',
+		icon: Plane,
+		imageUrl: '/images/trip_img.jpg',
+		isReverse: true,
+		features: [
+			'Plan perfect trips with itineraries, activities and packing list',
+			'Collaborate with others or go solo.',
+			'Packing lists',
+			'Build itineraries with days, activities and times'
+		]
+	}
+];
+
+export const plansList = [
+	{
+		amount: 'Free',
+		interval: '',
+		discount: '',
+		offerings: [
+			'Unlimited habit tracker with analytics',
+			'Mood tracker',
+			'Unlimited shopping list',
+			'Save up to 20 recipes',
+			'Share recipe with others',
+			'Invite upto 2 members to trip'
+		],
+		isFree: true
+	},
+	{
+		amount: '$4',
+		interval: 'Monthly',
+		discount: '',
+		offerings: [
+			'Shared shopping list',
+			'Unlimited recipes',
+			'Meal planner',
+			'Group trip planner',
+			'Streak protection',
+			'Custom themes and personalization'
+		]
+	}
+];

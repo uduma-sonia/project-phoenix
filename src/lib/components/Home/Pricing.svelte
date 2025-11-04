@@ -1,35 +1,6 @@
 <script>
+	import { plansList } from '$lib/constants/global';
 	import PricingCard from './PricingCard.svelte';
-
-	const plansList = [
-		{
-			amount: 'Free',
-			interval: '',
-			discount: '',
-			offerings: [
-				'Unlimited personal habit tracker',
-				'Habit tracker analytics',
-				'Unlimited shopping list',
-				'Save up to 30 recipes',
-				'Share recipe with others',
-				'Solo trip planner',
-				'Email support'
-			],
-			isFree: true
-		},
-		{
-			amount: '$4',
-			interval: 'Monthly',
-			discount: '',
-			offerings: [
-				'Shared shopping list',
-				'Unlimited recipes',
-				'Custom themes',
-				'Group trip planner',
-				'Connect Pinterest'
-			]
-		}
-	];
 </script>
 
 <div class="mx-auto max-w-7xl px-4 pt-36 md:pt-40">
