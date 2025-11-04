@@ -41,9 +41,10 @@ export default class TrackerUtils {
 	}
 
 	static isHabitActive(habit: Habit, dateViewing: string): boolean {
-		const dayOfWeek = format(dateViewing, 'i');
-
-		if (!habit.selectedDays.includes(Number(dayOfWeek))) return false;
+		if (habit.type === 'BUILD') {
+			const dayOfWeek = Number(format(dateViewing, 'e')) - 1;
+			if (!habit.selectedDays.includes(Number(dayOfWeek))) return false;
+		}
 
 		if (!dateViewing) return false;
 
