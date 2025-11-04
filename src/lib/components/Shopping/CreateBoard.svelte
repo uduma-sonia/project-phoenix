@@ -4,6 +4,7 @@
 	import { addToast } from '$lib/store/toast';
 	import { ShoppingStatus } from '../../../types/shopping';
 	import BackComponent from '../Common/BackComponent.svelte';
+	import BasicButton from '../Common/Form/BasicButton.svelte';
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 
 	let { user } = $props();
@@ -73,13 +74,7 @@
 				</div>
 
 				<div>
-					<button class="shadow_button" type="submit">
-						{#if isSubmitting}
-							<div class="spinner_white border-2 border-black"></div>
-						{:else}
-							Save
-						{/if}
-					</button>
+					<BasicButton label="Save" type="submit" isLoading={isSubmitting} />
 				</div>
 			</form>
 		</div>
