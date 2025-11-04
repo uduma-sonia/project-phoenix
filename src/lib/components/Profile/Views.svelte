@@ -18,13 +18,13 @@
 	{#if currentView == 'subscription'}
 		<Subscription />
 	{/if}
-	{#if currentView == 'help'}
+	<!-- {#if currentView == 'help'}
 		<Help />
-	{/if}
+	{/if} -->
 	{#if currentView == 'security'}
 		<Security />
 	{/if}
-	{#if currentView == 'feedback'}
+	{#if currentView == 'help'}
 		<Feedback />
 	{/if}
 </div>

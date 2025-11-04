@@ -36,7 +36,7 @@
 	}
 </script>
 
-<div class="relative z-[999px]">
+<div class="relative z-[999]">
 	<button aria-label="presentation" class={getVariantClass()} onclick={toggleDropDownMenu}>
 		<div class="h-[3px] w-4 rounded-full bg-black"></div>
 		<div class="h-[3px] w-4 rounded-full bg-black"></div>

@@ -32,7 +32,7 @@
 				setTimeout(() => {
 					install_banner_seen =
 						sessionStorage.getItem('install_banner_seen') !== null ? true : false;
-				}, 10000);
+				}, 20000);
 			}
 		}
 	}

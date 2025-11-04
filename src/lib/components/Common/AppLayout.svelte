@@ -24,7 +24,7 @@
 
 <div class="bg-brand-light" style="min-height: {innerHeight}px;">
 	<div class="relative mx-auto max-w-[1000px]">
-		<div class="bg-brand-light sticky top-0 z-50 hidden md:block">
+		<div class="bg-brand-light sticky top-0 z-50">
 			<NavBar />
 		</div>
 		<div class="relativ z-20">

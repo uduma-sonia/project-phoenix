@@ -38,6 +38,13 @@ class AuthService {
 			{ ...reqConfig }
 		);
 	}
+
+	async changePassword(
+		data: { currentPassword: string; newPassword: string },
+		reqConfig?: ReqConfig
+	) {
+		return await this.api.post(`${this.prefix}/change-password`, data, { ...reqConfig });
+	}
 }
 
 export default AuthService;

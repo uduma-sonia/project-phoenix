@@ -14,6 +14,7 @@
 - Manage group
 - Poll feature
 - Google places API integration
+- Prevent items from being added twice to packing list
 
 ## General
 

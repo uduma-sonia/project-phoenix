@@ -156,7 +156,7 @@
 			const result = await ShoppingRequest.shoppingDone(page.params.id);
 
 			if (result) {
-				queryClient.invalidateQueries({ queryKey: queryKeys.getAllBoards });
+				queryClient.invalidateQueries({ queryKey: queryKeys.getInvitedBoards });
 				goto('/shopping');
 			}
 		} catch (error: any) {

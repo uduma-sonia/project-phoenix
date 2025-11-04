@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Check } from '@lucide/svelte';
+	import { Check, Pencil } from '@lucide/svelte';
 	import EditItem from './EditItem.svelte';
 
 	let { data, handleUpdateItem, currency, canEditId, handleEdit, handleUpdate, canEdit } = $props();
@@ -23,7 +23,11 @@
 		{#if canEditId == data?._id}
 			<EditItem {data} {handleEdit} {handleUpdate} />
 		{:else}
-			<div class="flex items-center gap-4">
+			<div class="relative flex items-center gap-4">
+				<div class="edit_icon absolute top-2 right-2 lg:hidden">
+					<Pencil size="14px" />
+				</div>
+
 				<div class="pl-3">
 					<button
 						class="button_active relative flex h-7 w-7 items-center justify-center rounded-md border-2 p-0"
@@ -74,5 +78,9 @@
 		border-radius: 8px;
 		width: 100%;
 		height: 100%;
+	}
+
+	.item_wrapper:hover .edit_icon {
+		display: block;
 	}
 </style>

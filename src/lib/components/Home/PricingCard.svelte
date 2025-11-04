@@ -4,7 +4,7 @@
 	let { plan } = $props();
 </script>
 
-<div class="rounded-20 h-[410px] w-full max-w-[350px]">
+<div class="rounded-20 h-[400px] w-full max-w-[350px]">
 	<div class="card_wrapper">
 		<div
 			class="rounded-20 font-lexend relative z-10 flex h-full w-full flex-col justify-between overflow-hidden border-2 border-black p-6"
