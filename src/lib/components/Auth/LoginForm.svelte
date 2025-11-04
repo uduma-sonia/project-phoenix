@@ -4,6 +4,7 @@
 	import { AuthRequest } from '$lib/requests';
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';
+	import BasicButton from '../Common/Form/BasicButton.svelte';
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import AuthLayout from './AuthLayout.svelte';
 
@@ -79,13 +80,7 @@
 		</div>
 
 		<div>
-			<button class="shadow_button" type="submit">
-				{#if isSubmitting}
-					<div class="spinner_white border-2 border-black"></div>
-				{:else}
-					Continue
-				{/if}
-			</button>
+			<BasicButton type="submit" label="Continue" />
 		</div>
 
 		<div class="mt-6 pb-4">
