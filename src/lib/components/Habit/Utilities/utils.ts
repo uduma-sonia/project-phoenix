@@ -382,16 +382,19 @@ export default class TrackerUtils {
 		return options;
 	}
 
-	static getOptionList(status: HabitStatus, { restart, more, stop }: any) {
-		if (status === HabitStatus.COMPLETED || status === HabitStatus.SKIPPED) {
-			return restart;
-		}
+	static getOptionList(status: HabitStatus, isActive: boolean, { restart, more, stop }: any) {
+		if (isActive) {
+			if (status === HabitStatus.COMPLETED || status === HabitStatus.SKIPPED) {
+				return restart;
+			}
 
-		if (status === HabitStatus.PENDING || status === HabitStatus.START) {
-			return more;
-		}
-		if (status === HabitStatus.STOP) {
+			if (status === HabitStatus.PENDING || status === HabitStatus.START) {
+				return more;
+			}
+		} else {
+			// if (status === HabitStatus.STOP) {
 			return stop;
+			// }
 		}
 
 		return more;

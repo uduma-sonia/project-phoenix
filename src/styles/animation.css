@@ -60,6 +60,18 @@
 	animation: spin 1.2s linear infinite;
 }
 
+.spin {
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	border-top: transparent;
+	border-left: transparent;
+	animation-name: spin;
+	animation-duration: 1.2s;
+	animation-timing-function: linear;
+	animation-iteration-count: infinite;
+}
+
 .spinner_white_sm {
 	display: inline-block;
 	width: 16px;

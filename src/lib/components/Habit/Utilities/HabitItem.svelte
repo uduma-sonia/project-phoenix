@@ -89,7 +89,7 @@
 		const _status = logDetails?.status == HabitStatus.STOP ? HabitStatus.START : HabitStatus.STOP;
 
 		const updated_at = Helpers.toISOString(logDetails?.updatedAt);
-		updateLog(habit._id, _status, habitType, logDetails?._id, updated_at);
+		updateLog(habit._id, _status, habitType, logDetails?._id, updated_at, habit);
 	}
 
 	function restartAction() {
@@ -300,19 +300,21 @@
 
 				{#if habit.type === 'QUIT'}
 					<div>
-						{#if logDetails?._id && logDetails?.status === HabitStatus.STOP}
+						{#if (logDetails?._id && logDetails?.status === HabitStatus.STOP) || !habit?.isActive}
 							<p class="font-lexend stopped text-center text-[13px] font-semibold">Stopped</p>
 						{/if}
 
-						{#if !logDetails?._id || logDetails?.status === HabitStatus.START}
-							<p class="font-lexend text-center text-[13px] font-light">
-								{TrackerUtils.renderStreakCountdown(
-									TrackerUtils.calculateStreakTime(logDetails?.updatedAt || habit?.startDate)
-								)}
-								{TrackerUtils.renderStreakCountdownSuffix(
-									TrackerUtils.calculateStreakTime(logDetails?.updatedAt || habit?.startDate)
-								)}
-							</p>
+						{#if habit?.isActive}
+							{#if !logDetails?._id || logDetails?.status === HabitStatus.START}
+								<p class="font-lexend text-center text-[13px] font-light">
+									{TrackerUtils.renderStreakCountdown(
+										TrackerUtils.calculateStreakTime(logDetails?.updatedAt || habit?.startDate)
+									)}
+									{TrackerUtils.renderStreakCountdownSuffix(
+										TrackerUtils.calculateStreakTime(logDetails?.updatedAt || habit?.startDate)
+									)}
+								</p>
+							{/if}
 						{/if}
 					</div>
 				{/if}
@@ -323,7 +325,7 @@
 	<div class="absolute top-6 right-3 z-50 -translate-y-1/2">
 		<HamburgerDropdown
 			options={TrackerUtils.generateOptionsDropdown(
-				TrackerUtils.getOptionList(logDetails?.status, {
+				TrackerUtils.getOptionList(logDetails?.status, habit?.isActive, {
 					restart: restartOptions,
 					more: moreOptions,
 					stop: stopOptions

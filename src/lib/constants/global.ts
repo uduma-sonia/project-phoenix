@@ -169,11 +169,12 @@ export const plansList = [
 		discount: '',
 		offerings: [
 			'Unlimited habit tracker with analytics',
-			'Mood tracker',
+			'Mood board',
 			'Unlimited shopping list',
 			'Save up to 20 recipes',
 			'Share recipe with others',
-			'Invite upto 2 members to trip'
+			'Invite upto 2 members to trip',
+			'Basic meal planner'
 		],
 		isFree: true
 	},
@@ -184,10 +185,10 @@ export const plansList = [
 		offerings: [
 			'Shared shopping list',
 			'Unlimited recipes',
-			'Meal planner',
 			'Group trip planner',
 			'Streak protection',
-			'Custom themes and personalization'
+			'Custom themes and personalization',
+			'Advanced meal planner'
 		]
 	}
 ];
