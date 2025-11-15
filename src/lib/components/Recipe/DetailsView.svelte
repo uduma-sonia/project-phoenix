@@ -29,6 +29,7 @@
 	import Ingredients from './Utilities/Ingredients.svelte';
 	import Directions from './Utilities/Directions.svelte';
 	import PrepNote from './Utilities/PrepNote.svelte';
+	import Image from '../Common/Image.svelte';
 
 	const queryClient = useQueryClient();
 
@@ -143,10 +144,10 @@
 						onclick={viewImages}
 					>
 						{#if recipe?.images}
-							<img
+							<Image
 								src={recipe?.images[0]}
 								alt=""
-								class="max-h-full w-full max-w-full object-cover"
+								className="max-h-full w-full max-w-full object-cover"
 							/>
 						{/if}
 

@@ -60,7 +60,8 @@ export type HabitItemProps = {
 		status: HabitStatus,
 		type: string,
 		logId: string,
-		updated_at?: string
+		updated_at?: string,
+		habit?: Habit
 	) => void;
 	updateBuildLog: (params: UpdateBuildLog) => void;
 	openDetailsModal: (params: Habit) => void;

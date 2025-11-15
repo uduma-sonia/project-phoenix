@@ -20,6 +20,7 @@
 	let { user } = $props();
 
 	let searchQuery = $state('');
+	let hasMounted = $state(false);
 	const queryClient = useQueryClient();
 	let isDeleting = $state(false);
 	let userId = $derived(user?._id);
@@ -69,12 +70,17 @@
 		}
 	}
 
+	function isBuild(arg: string | undefined, type: string) {
+		return type === 'BUILD' ? arg : '';
+	}
+
 	async function updateLog(
 		trackerId: string,
 		status: HabitStatus,
 		type: string,
 		logId: string,
-		updated_at?: string
+		updated_at?: string,
+		habit?: Habit
 	) {
 		try {
 			isDeleting = true;
@@ -85,6 +91,23 @@
 				date: TrackerUtils.getISODate(trackerState.data.selectedDay),
 				status: status
 			};
+
+			if (status === HabitStatus.STOP) {
+				const payload = {
+					name: habit?.name,
+					isActive: false
+				};
+				// @ts-ignore
+				await TrackerRequest.updateHabit(trackerId, payload);
+			}
+			if (status === HabitStatus.START) {
+				const payload = {
+					name: habit?.name,
+					isActive: true
+				};
+				// @ts-ignore
+				await TrackerRequest.updateHabit(trackerId, payload);
+			}
 
 			if (type === 'create') {
 				await TrackerLogRequest.createLog(payload);
@@ -196,9 +219,8 @@
 		openHabitDetails();
 	}
 
-	let hasMount = $state(false);
 	onMount(() => {
-		hasMount = true;
+		hasMounted = true;
 	});
 </script>
 
@@ -225,7 +247,7 @@
 				{/each}
 			</div>
 		{:else if !isError}
-			{#if hasMount}
+			{#if hasMounted}
 				<EmptyState
 					buttonText="Create Tracker"
 					link="/tracker/create"

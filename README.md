@@ -27,3 +27,4 @@
 ## Tracker
 
 - Allow users to input custom goal value
+- Handle Quit type if stopped

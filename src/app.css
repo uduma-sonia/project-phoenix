@@ -88,3 +88,13 @@ button {
 	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
+
+.container {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+}
