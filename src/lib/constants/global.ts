@@ -142,7 +142,7 @@ export const homeFeaturesList = [
 		imageUrl: '/images/recipe_img2.jpg',
 		features: [
 			'Straightfoward recipe manager',
-			'Auto-generate ingredient shopping lists',
+			'Generate shopping lists',
 			'Scale ingredients by servings and auto-convert units',
 			'Share recipes or publish public recipe pages'
 		]

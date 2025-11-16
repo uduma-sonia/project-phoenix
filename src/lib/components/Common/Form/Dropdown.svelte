@@ -11,6 +11,7 @@
 		withClearButton?: boolean;
 		handleSelectChange?: any;
 		shouldSearch?: boolean;
+		inputClass?: string;
 	};
 
 	type Options = {
@@ -24,7 +25,8 @@
 		withClearButton = false,
 		selectedOption = $bindable(),
 		handleSelectChange,
-		shouldSearch = true
+		shouldSearch = true,
+		inputClass
 	}: Props = $props();
 
 	let isDropDownOpen = $state(false);
@@ -109,6 +111,7 @@
 		onkeydown={handleKeyDown}
 		{withClearButton}
 		clearButtonWrapperClass="right-11"
+		{inputClass}
 	/>
 
 	<div class="absolute right-3 bottom-2.5">
