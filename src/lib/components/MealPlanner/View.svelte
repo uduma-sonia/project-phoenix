@@ -9,6 +9,7 @@
 	import type { MealPlan } from '../../../types/meal';
 	import WeekPlanner from './Utilities/WeekPlanner.svelte';
 	import Seo from '$lib/components/Common/SEO.svelte';
+	import { openDeleteMealPlanModal } from '$lib/state/modal.svelte';
 
 	let mealPlansQuery = createQuery({
 		queryKey: queryKeys.getRecipes,
@@ -28,7 +29,7 @@
 	let seoTitle = $derived(selectedPlan?.name || 'Meal planner');
 
 	function deleteMealPlanner() {
-		console.log('deleteMealPlanner');
+		openDeleteMealPlanModal(selectedPlan);
 	}
 
 	const moreOptions = [
