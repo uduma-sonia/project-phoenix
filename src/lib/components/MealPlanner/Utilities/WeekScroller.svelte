@@ -38,7 +38,7 @@
 			</div>
 
 			<div>
-				<p class="font-lexend text-center text-xs leading-2 font-light">
+				<p class="font-lexend text-center text-sm leading-2 font-normal">
 					{Helpers.getRelativeWeek(currentWeek)}
 				</p>
 			</div>

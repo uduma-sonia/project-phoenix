@@ -46,7 +46,7 @@
 <div>
 	<WeekScroller {currentWeek} {updateCurrentWeek} />
 
-	<div class="px-4">
+	<div class="px-3">
 		<div class="relative overflow-hidden rounded-lg border bg-[#cfc4e7] pt-[40px] pl-[50px]">
 			<WeekLabels />
 
