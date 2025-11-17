@@ -5,6 +5,7 @@
 	import WeekLabels from './Utilities/WeekLabels.svelte';
 	import Dropdown from '../Common/Form/Dropdown.svelte';
 	import MealsUtils from './Utilities/utils';
+	import BackComponent from '../Common/BackComponent.svelte';
 
 	let selectedPlan = $state({
 		value: 'Normal diet',
@@ -46,18 +47,23 @@
 </script>
 
 <div class="pb-24">
-	<p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">Plan and track your meals</p>
+	<div class="px-4">
+		<BackComponent backLink="/recipe" />
+	</div>
 
-	<div class="mb-4 flex flex-col-reverse items-center justify-between lg:mb-0 lg:flex-row">
-		<div>
+	<div class="mb-4 flex flex-col-reverse items-center justify-between px-4 lg:mb-0 lg:flex-row">
+		<div class="">
 			<Dropdown
 				options={[
 					{
 						id: 'Keto',
 						value: 'Keto diet'
+					},
+					{
+						id: 'Ketos',
+						value: 'Keto diet'
 					}
 				]}
-				inputClass="border-none"
 				shouldSearch={false}
 				bind:selectedOption={selectedPlan}
 			/>
@@ -66,7 +72,7 @@
 		<WeekScroller />
 	</div>
 
-	<div class="px-2">
+	<div class="px-4">
 		<div class="relative overflow-hidden rounded-lg border bg-[#cfc4e7] pt-[40px] pl-[50px]">
 			<WeekLabels />
 

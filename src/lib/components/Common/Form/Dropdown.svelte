@@ -121,6 +121,7 @@
 			<ChevronDown size="26px" />
 		{/if}
 	</div>
+
 	{#if isDropDownOpen}
 		<div
 			use:Helpers.clickOutside

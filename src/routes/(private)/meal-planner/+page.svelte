@@ -4,7 +4,7 @@
 	import View from '$lib/components/MealPlanner/View.svelte';
 </script>
 
-<AppLayout>
+<AppLayout withName={false}>
 	<Seo title="Meal Planner" />
 	<View />
 </AppLayout>

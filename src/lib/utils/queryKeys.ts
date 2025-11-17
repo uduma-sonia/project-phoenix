@@ -62,6 +62,11 @@ const packingKeys = {
 	getPackingItems: [`/packing-item`]
 };
 
+const mealKeys = {
+	getPackingCategories: [`/meal`],
+	getPackingItems: [`/meal-plan`]
+};
+
 export const queryKeys = {
 	...userKeys,
 	...trackerKeys,
@@ -70,5 +75,6 @@ export const queryKeys = {
 	...recipeKeys,
 	...statsKeys,
 	...tripKeys,
-	...packingKeys
+	...packingKeys,
+	...mealKeys
 };

@@ -6,3 +6,8 @@ export type Meal = {
 	date?: string;
 	hasEaten?: boolean;
 };
+
+export type MealPlan = {
+	name: string;
+	isPrivate: boolean;
+};
