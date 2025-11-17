@@ -6,7 +6,13 @@ export const toasts: any = writable([]);
 export function addToast(
 	message: any,
 	type: 'error' | 'success',
-	options?: { imgLink?: string; withSound?: boolean; link?: string; linkName?: string }
+	options?: {
+		imgLink?: string;
+		withSound?: boolean;
+		link?: string;
+		linkName?: string;
+		action?: () => void;
+	}
 ) {
 	const id = Date.now();
 

@@ -49,8 +49,17 @@
 
 	<GroupScroller {handleChangeTab} {currentTab} />
 
-	<div class="relative z-30 mt-5 gap-3 px-3">
+	<div class="relative z-30 mt-5 flex items-center justify-between gap-3 px-3">
 		<HabitSearch bind:searchQuery placeholder="Search recipe" />
+
+		<div>
+			<a
+				href="/meal-planner"
+				class="font-lexend block min-w-max text-sm font-normal hover:underline sm:text-base"
+			>
+				Meal planner
+			</a>
+		</div>
 	</div>
 
 	<LoaderError {isLoading} error={isError} />

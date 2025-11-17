@@ -62,6 +62,13 @@ const packingKeys = {
 	getPackingItems: [`/packing-item`]
 };
 
+const mealKeys = {
+	getMeals: (data: { mealPlanId: string; days: string }) => [
+		`/meal?${Helpers.formatQueryParams(data)}`
+	],
+	getMealPlans: [`/meal-plan`]
+};
+
 export const queryKeys = {
 	...userKeys,
 	...trackerKeys,
@@ -70,5 +77,6 @@ export const queryKeys = {
 	...recipeKeys,
 	...statsKeys,
 	...tripKeys,
-	...packingKeys
+	...packingKeys,
+	...mealKeys
 };

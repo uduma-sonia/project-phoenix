@@ -1,6 +1,4 @@
-# Backlogs
-
-## Later features
+## Backlogs
 
 - Recipe review system, star rating, comments
 - General page to search other people's public recipe
@@ -8,6 +6,7 @@
 - meal tracker
 - Advanced search - search ingredients
 - Meal tracker/planner
+- Manage groups
 
 ## Travel planner
 
@@ -22,9 +21,7 @@
 - Fix date picker - Let the selected day be in view by default
 - Add service worker for offline capabilities
 - Add some text formatting options to text area component
-- Achievement board
 
 ## Tracker
 
 - Allow users to input custom goal value
-- Handle Quit type if stopped

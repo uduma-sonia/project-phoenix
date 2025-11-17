@@ -8,7 +8,7 @@
 	<div class="card_wrapper">
 		<div
 			class="rounded-20 font-lexend relative z-10 flex h-full w-full flex-col justify-between overflow-hidden border-2 border-black p-6"
-			style="background-color: #f5ecd5;"
+			style="background-color: #fff;"
 		>
 			<div class="flex items-center justify-between">
 				<div>

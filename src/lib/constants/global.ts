@@ -142,7 +142,7 @@ export const homeFeaturesList = [
 		imageUrl: '/images/recipe_img2.jpg',
 		features: [
 			'Straightfoward recipe manager',
-			'Auto-generate ingredient shopping lists',
+			'Generate shopping lists',
 			'Scale ingredients by servings and auto-convert units',
 			'Share recipes or publish public recipe pages'
 		]
@@ -173,8 +173,7 @@ export const plansList = [
 			'Unlimited shopping list',
 			'Save up to 20 recipes',
 			'Share recipe with others',
-			'Invite upto 2 members to trip',
-			'Basic meal planner'
+			'Invite upto 2 members to trip'
 		],
 		isFree: true
 	},
@@ -187,8 +186,7 @@ export const plansList = [
 			'Unlimited recipes',
 			'Group trip planner',
 			'Streak protection',
-			'Custom themes and personalization',
-			'Advanced meal planner'
+			'Meal planner'
 		]
 	}
 ];

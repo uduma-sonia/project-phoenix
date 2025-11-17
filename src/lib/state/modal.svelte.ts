@@ -13,7 +13,9 @@ export const modalsState = $state({
 		isOpenAddToList: false,
 		isOpenCreateActivity: false,
 		isOpenUpdateActivity: false,
-		isOpenInstall: false
+		isOpenInstall: false,
+		isDeleteMealPlan: false,
+		isOpenCreateMealPlan: false
 	}
 });
 
@@ -23,6 +25,12 @@ export const imageCarouselData = $state<{ images: string[]; currentSelectedIndex
 });
 
 export const selectedActivity = $state<{ data: TripActivity | null }>({
+	data: null
+});
+
+export const selectedMealPlan = $state<{
+	data: { id: string; value: string; description?: string; isEditing?: boolean } | null;
+}>({
 	data: null
 });
 
@@ -120,4 +128,31 @@ export function openInstallModal() {
 export function closeInstallModal() {
 	modalsState.data.isOpenInstall = false;
 	sessionStorage.setItem('install_banner_seen', '1');
+}
+
+export function openDeleteMealPlanModal(arg: { id: string; value: string }) {
+	modalsState.data.isDeleteMealPlan = true;
+
+	selectedMealPlan.data = arg;
+}
+export function closeDeleteMealPlanModal() {
+	modalsState.data.isDeleteMealPlan = false;
+	selectedMealPlan.data = null;
+}
+
+export function openCreateMealPlanModal(arg?: {
+	id: string;
+	value: string;
+	description?: string;
+	isEditing?: boolean;
+}) {
+	modalsState.data.isOpenCreateMealPlan = true;
+
+	if (arg?.id) {
+		selectedMealPlan.data = arg;
+	}
+}
+export function closeCreateMealPlanModal() {
+	modalsState.data.isOpenCreateMealPlan = false;
+	selectedMealPlan.data = null;
 }
