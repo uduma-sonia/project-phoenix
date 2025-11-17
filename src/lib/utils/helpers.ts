@@ -21,7 +21,14 @@ import {
 	endOfYear,
 	startOfWeek,
 	startOfYear,
-	getHours
+	getHours,
+	eachWeekOfInterval,
+	subYears,
+	addYears,
+	getISOWeek,
+	isThisISOWeek,
+	subWeeks,
+	addWeeks
 } from 'date-fns';
 import { Permissions, type BoardMember } from '../../types/shopping';
 import type { User } from '../../types/user';
@@ -178,6 +185,18 @@ class Helpers {
 			return 'Tomorrow';
 		} else {
 			return format(date, _format);
+		}
+	}
+
+	static getRelativeWeek(date: Date): string {
+		if (isThisISOWeek(date)) {
+			return 'This week';
+		} else if (isThisISOWeek(subWeeks(date, 1))) {
+			return 'Next week';
+		} else if (isThisISOWeek(addWeeks(date, 1))) {
+			return 'Last week';
+		} else {
+			return `Week ${getISOWeek(date)}`;
 		}
 	}
 
@@ -400,6 +419,22 @@ class Helpers {
 	static scrollTo(id: string) {
 		const el = document.getElementById(id);
 		el?.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+	}
+
+	static generateWeekList() {
+		const today = new Date();
+
+		const start = subYears(today, 1);
+		const end = addYears(today, 1);
+
+		// Generate array of the start date for each week
+		const weeks = eachWeekOfInterval(
+			{ start, end },
+			{ weekStartsOn: 1 } // ISO week (Monday start)
+		);
+
+		// Convert each to ISO week number and string
+		return weeks.map((date) => String(getISOWeek(date)));
 	}
 }
 

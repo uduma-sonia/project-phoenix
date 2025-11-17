@@ -1,5 +1,6 @@
+import Helpers from '$lib/utils/helpers';
 import type { ReqConfig, Service } from '../../types/axios';
-import type { MealPlan } from '../../types/meal';
+import type { Meal, MealPlan } from '../../types/meal';
 
 class MealService {
 	private api;
@@ -23,13 +24,15 @@ class MealService {
 		return await this.api.delete(`${this.mealPlanPrefix}/${mealPlanId}`, { ...reqConfig });
 	}
 
-	async createMeal(data: MealPlan, reqConfig?: ReqConfig) {
+	async createMeal(data: Meal, reqConfig?: ReqConfig) {
 		return await this.api.post(`${this.mealPrefix}`, data, { ...reqConfig });
 	}
-	async getMeals(reqConfig?: ReqConfig) {
-		return await this.api.get(`${this.mealPrefix}`, { ...reqConfig });
+	async getMeals(data: { mealPlanId: string; days: string }, reqConfig?: ReqConfig) {
+		return await this.api.get(`${this.mealPrefix}?${Helpers.formatQueryParams(data)}`, {
+			...reqConfig
+		});
 	}
-	async updateMeal(mealId: string, data: MealPlan, reqConfig?: ReqConfig) {
+	async updateMeal(mealId: string, data: Meal, reqConfig?: ReqConfig) {
 		return await this.api.put(`${this.mealPrefix}/${mealId}`, data, { ...reqConfig });
 	}
 	async deleteMeal(mealId: string, reqConfig?: ReqConfig) {

@@ -1,113 +1,70 @@
 <script lang="ts">
-	import { mealsChart } from '$lib/constants/meals';
-	import MealItem from './Utilities/MealItem.svelte';
-	import WeekScroller from './Utilities/WeekScroller.svelte';
-	import WeekLabels from './Utilities/WeekLabels.svelte';
 	import Dropdown from '../Common/Form/Dropdown.svelte';
-	import MealsUtils from './Utilities/utils';
 	import BackComponent from '../Common/BackComponent.svelte';
+	import { createQuery } from '@tanstack/svelte-query';
+	import { queryKeys } from '$lib/utils/queryKeys';
+	import { MealRequest } from '$lib/requests';
+	import { Plus, SquarePen, Trash } from '@lucide/svelte';
+	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
+	import type { MealPlan } from '../../../types/meal';
+	import WeekPlanner from './Utilities/WeekPlanner.svelte';
+	import Seo from '$lib/components/Common/SEO.svelte';
 
-	let selectedPlan = $state({
-		value: 'Normal diet',
-		id: 'normaldiet'
+	let mealPlansQuery = createQuery({
+		queryKey: queryKeys.getRecipes,
+		queryFn: () => MealRequest.getMealPlans()
 	});
 
-	const meals = [
+	let mealPlansList = $derived($mealPlansQuery?.data?.data?.mealPlans);
+	let mealsOptions = $derived(
+		mealPlansList?.map((item: MealPlan) => {
+			return {
+				id: item._id,
+				value: item.name
+			};
+		}) || []
+	);
+	let selectedPlan = $derived(mealsOptions[0] || []);
+	let seoTitle = $derived(selectedPlan?.name || 'Meal planner');
+
+	function deleteMealPlanner() {
+		console.log('deleteMealPlanner');
+	}
+
+	const moreOptions = [
 		{
-			day: 'monday',
-			timeOfDay: 'breakfast',
-			name: 'Pancakes, egg, sausage',
-			recipeLink: '/recipe/classic-vanilla-cake?owner=687a9cf8943f0bdec838454c',
-			date: '2025-11-17',
-			hasEaten: false
+			label: 'Create new plan',
+			icon: Plus
+			// action: openPackingModal
 		},
 		{
-			day: 'monday',
-			timeOfDay: 'lunch',
-			name: 'Fried yam and egg sauce',
-			date: '2025-11-17',
-			hasEaten: true
+			label: 'Edit plan',
+			icon: SquarePen
+			// link: `/travel/${trip._id}/edit`
 		},
 		{
-			day: 'monday',
-			timeOfDay: 'dinner',
-			name: 'Chicken salad',
-			recipeLink: '/recipe/classic-vanilla-cake?owner=687a9cf8943f0bdec838454c',
-			date: '2025-11-17',
-			hasEaten: true
-		},
-		{
-			day: 'monday',
-			timeOfDay: 'snack',
-			name: 'Cookies',
-			date: '2025-11-17',
-			hasEaten: false
+			label: 'Delete plan',
+			icon: Trash,
+			iconColor: 'red',
+			action: deleteMealPlanner
 		}
 	];
 </script>
 
+<Seo title={seoTitle} />
+
 <div class="pb-24">
-	<div class="px-4">
+	<div class="my-6 justify-between gap-3 px-3 md:flex">
 		<BackComponent backLink="/recipe" />
-	</div>
 
-	<div class="mb-4 flex flex-col-reverse items-center justify-between px-4 lg:mb-0 lg:flex-row">
-		<div class="">
-			<Dropdown
-				options={[
-					{
-						id: 'Keto',
-						value: 'Keto diet'
-					},
-					{
-						id: 'Ketos',
-						value: 'Keto diet'
-					}
-				]}
-				shouldSearch={false}
-				bind:selectedOption={selectedPlan}
-			/>
-		</div>
+		<div class="flex items-center gap-4">
+			<Dropdown options={mealsOptions} shouldSearch={false} bind:selectedOption={selectedPlan} />
 
-		<WeekScroller />
-	</div>
-
-	<div class="px-4">
-		<div class="relative overflow-hidden rounded-lg border bg-[#cfc4e7] pt-[40px] pl-[50px]">
-			<WeekLabels />
-
-			<div class="item_wrapper">
-				<div class="relative z-10 grid grid-cols-4 bg-white">
-					{#each mealsChart as meal, index (index)}
-						{@const mealData = MealsUtils.getMeal(meal, meals)}
-
-						<MealItem {meal} {mealData} />
-					{/each}
-				</div>
+			<div>
+				<HamburgerDropdown variant="solid" options={moreOptions} />
 			</div>
 		</div>
 	</div>
+
+	<WeekPlanner {selectedPlan} />
 </div>
-
-<style>
-	.item_wrapper {
-		position: relative;
-		border-radius: 8px;
-		transition: all 0.4s linear;
-	}
-
-	.item_wrapper::before {
-		content: '';
-		position: absolute;
-		top: 4px;
-		left: 4px;
-		right: 0;
-		bottom: 0;
-		background-color: black;
-		border: 2px solid black;
-		z-index: 1;
-		border-radius: 8px;
-		width: 100%;
-		height: 100%;
-	}
-</style>

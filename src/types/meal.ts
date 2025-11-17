@@ -5,9 +5,11 @@ export type Meal = {
 	recipeLink?: string;
 	date?: string;
 	hasEaten?: boolean;
+	mealPlanId: string;
 };
 
 export type MealPlan = {
 	name: string;
 	isPrivate: boolean;
+	_id?: string;
 };

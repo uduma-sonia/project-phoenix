@@ -1,5 +1,21 @@
 export const mealsChart = [
 	{
+		day: 'sunday',
+		timeOfDay: 'breakfast'
+	},
+	{
+		day: 'sunday',
+		timeOfDay: 'lunch'
+	},
+	{
+		day: 'sunday',
+		timeOfDay: 'dinner'
+	},
+	{
+		day: 'sunday',
+		timeOfDay: 'snack'
+	},
+	{
 		day: 'monday',
 		timeOfDay: 'breakfast'
 	},
@@ -98,23 +114,6 @@ export const mealsChart = [
 	},
 	{
 		day: 'saturday',
-		timeOfDay: 'snack'
-	},
-
-	{
-		day: 'sunday',
-		timeOfDay: 'breakfast'
-	},
-	{
-		day: 'sunday',
-		timeOfDay: 'lunch'
-	},
-	{
-		day: 'sunday',
-		timeOfDay: 'dinner'
-	},
-	{
-		day: 'sunday',
 		timeOfDay: 'snack'
 	}
 ];

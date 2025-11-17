@@ -27,12 +27,12 @@
 
 <div class="absolute top-0 left-0 z-30 h-full w-[50px] pt-[40px]">
 	<div>
+		{@render dayButton('Sun')}
 		{@render dayButton('Mon')}
 		{@render dayButton('Tue')}
 		{@render dayButton('Wed')}
 		{@render dayButton('Thu')}
 		{@render dayButton('Fri')}
 		{@render dayButton('Sat')}
-		{@render dayButton('Sun')}
 	</div>
 </div>
