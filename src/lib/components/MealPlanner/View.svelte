@@ -66,7 +66,7 @@
 <Seo title={seoTitle} />
 
 <div class="pb-24">
-	<div class="my-6 justify-between gap-3 px-3 md:flex">
+	<div class="my-6 justify-between gap-3 space-y-3 px-3 md:flex md:space-y-0">
 		<BackComponent backLink="/recipe" />
 
 		<div class="flex items-center gap-4">

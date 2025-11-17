@@ -1,43 +1,25 @@
 <script lang="ts">
-	import { mealsChart } from '$lib/constants/meals';
-	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import MealItem from './MealItem.svelte';
 	import MealsUtils from './utils';
 	import WeekLabels from './WeekLabels.svelte';
 	import WeekScroller from './WeekScroller.svelte';
-	import { queryKeys } from '$lib/utils/queryKeys';
 	import { MealRequest } from '$lib/requests';
-	import { eachDayOfInterval, endOfWeek, format, startOfWeek } from 'date-fns';
-	import TrackerUtils from '$lib/components/Habit/Utilities/utils';
+	import { eachDayOfInterval, endOfWeek, startOfWeek } from 'date-fns';
 	import type { Meal } from '../../../../types/meal';
 	import { addToast } from '$lib/store/toast';
+	import fetchMealsList from '$lib/hooks/fetchMealsList';
 
 	let { selectedPlan } = $props();
 
 	let currentWeek = $state(new Date());
-	const queryClient = useQueryClient();
 
-	function getDaysList(currentWeek: any) {
-		const daysInterval = eachDayOfInterval({
+	const weekDates = $derived(
+		eachDayOfInterval({
 			start: startOfWeek(currentWeek),
 			end: endOfWeek(currentWeek)
-		});
-
-		const result = daysInterval.map((item) => TrackerUtils.getISODate(item));
-
-		return JSON.stringify(result);
-	}
-
-	let mealsQuery = $derived(
-		createQuery({
-			queryKey: queryKeys.getMeals({
-				mealPlanId: selectedPlan?.id,
-				days: getDaysList(currentWeek)
-			}),
-			queryFn: () =>
-				MealRequest.getMeals({ mealPlanId: selectedPlan?.id, days: getDaysList(currentWeek) })
 		})
 	);
+	let mealsQuery = $derived(fetchMealsList(selectedPlan?.id, currentWeek));
 	let mealsList = $derived($mealsQuery?.data?.data?.meals);
 
 	function updateCurrentWeek(value: any) {
@@ -59,13 +41,6 @@
 			addToast(`Create a meal plan first`, 'error');
 		}
 	}
-
-	const weekDates = $derived(
-		eachDayOfInterval({
-			start: startOfWeek(currentWeek),
-			end: endOfWeek(currentWeek)
-		})
-	);
 </script>
 
 <div>
