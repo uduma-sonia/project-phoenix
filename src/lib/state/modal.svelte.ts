@@ -14,7 +14,8 @@ export const modalsState = $state({
 		isOpenCreateActivity: false,
 		isOpenUpdateActivity: false,
 		isOpenInstall: false,
-		isDeleteMealPlan: false
+		isDeleteMealPlan: false,
+		isOpenCreateMealPlan: false
 	}
 });
 
@@ -27,7 +28,9 @@ export const selectedActivity = $state<{ data: TripActivity | null }>({
 	data: null
 });
 
-export const selectedMealPlan = $state<{ data: { id: string; value: string } | null }>({
+export const selectedMealPlan = $state<{
+	data: { id: string; value: string; description?: string; isEditing?: boolean } | null;
+}>({
 	data: null
 });
 
@@ -134,4 +137,22 @@ export function openDeleteMealPlanModal(arg: { id: string; value: string }) {
 }
 export function closeDeleteMealPlanModal() {
 	modalsState.data.isDeleteMealPlan = false;
+	selectedMealPlan.data = null;
+}
+
+export function openCreateMealPlanModal(arg?: {
+	id: string;
+	value: string;
+	description?: string;
+	isEditing?: boolean;
+}) {
+	modalsState.data.isOpenCreateMealPlan = true;
+
+	if (arg?.id) {
+		selectedMealPlan.data = arg;
+	}
+}
+export function closeCreateMealPlanModal() {
+	modalsState.data.isOpenCreateMealPlan = false;
+	selectedMealPlan.data = null;
 }

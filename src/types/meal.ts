@@ -12,4 +12,5 @@ export type MealPlan = {
 	name: string;
 	isPrivate: boolean;
 	_id?: string;
+	description?: string;
 };

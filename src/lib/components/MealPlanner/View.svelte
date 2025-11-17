@@ -9,7 +9,7 @@
 	import type { MealPlan } from '../../../types/meal';
 	import WeekPlanner from './Utilities/WeekPlanner.svelte';
 	import Seo from '$lib/components/Common/SEO.svelte';
-	import { openDeleteMealPlanModal } from '$lib/state/modal.svelte';
+	import { openCreateMealPlanModal, openDeleteMealPlanModal } from '$lib/state/modal.svelte';
 
 	let mealPlansQuery = createQuery({
 		queryKey: queryKeys.getRecipes,
@@ -32,16 +32,27 @@
 		openDeleteMealPlanModal(selectedPlan);
 	}
 
+	function createMealPlan() {
+		openCreateMealPlanModal();
+	}
+	function updateMealPlan() {
+		openCreateMealPlanModal({
+			...selectedPlan,
+			isEditing: true,
+			description: mealPlansList[0]?.description
+		});
+	}
+
 	const moreOptions = [
 		{
 			label: 'Create new plan',
-			icon: Plus
-			// action: openPackingModal
+			icon: Plus,
+			action: createMealPlan
 		},
 		{
 			label: 'Edit plan',
-			icon: SquarePen
-			// link: `/travel/${trip._id}/edit`
+			icon: SquarePen,
+			action: updateMealPlan
 		},
 		{
 			label: 'Delete plan',
