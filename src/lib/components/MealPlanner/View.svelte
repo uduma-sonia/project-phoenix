@@ -12,7 +12,7 @@
 	import { openCreateMealPlanModal, openDeleteMealPlanModal } from '$lib/state/modal.svelte';
 
 	let mealPlansQuery = createQuery({
-		queryKey: queryKeys.getRecipes,
+		queryKey: queryKeys.getMealPlans,
 		queryFn: () => MealRequest.getMealPlans()
 	});
 

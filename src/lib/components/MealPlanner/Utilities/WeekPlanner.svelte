@@ -45,14 +45,18 @@
 	}
 
 	async function handleMealItemUpdate(mealId: string, data: Meal) {
-		try {
-			if (mealId) {
-				await MealRequest.updateMeal(mealId, { ...data, mealPlanId: selectedPlan?.id });
-			} else {
-				await MealRequest.createMeal({ ...data, mealPlanId: selectedPlan?.id });
+		if (selectedPlan.id) {
+			try {
+				if (mealId) {
+					await MealRequest.updateMeal(mealId, { ...data, mealPlanId: selectedPlan?.id });
+				} else {
+					await MealRequest.createMeal({ ...data, mealPlanId: selectedPlan?.id });
+				}
+			} catch (error) {
+				addToast(`Meal could not be saved`, 'error');
 			}
-		} catch (error) {
-			addToast(`Meal could not be saved`, 'error');
+		} else {
+			addToast(`Create a meal plan first`, 'error');
 		}
 	}
 
