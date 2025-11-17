@@ -173,8 +173,7 @@ export const plansList = [
 			'Unlimited shopping list',
 			'Save up to 20 recipes',
 			'Share recipe with others',
-			'Invite upto 2 members to trip',
-			'Basic meal planner'
+			'Invite upto 2 members to trip'
 		],
 		isFree: true
 	},
@@ -187,8 +186,7 @@ export const plansList = [
 			'Unlimited recipes',
 			'Group trip planner',
 			'Streak protection',
-			'Custom themes and personalization',
-			'Advanced meal planner'
+			'Meal planner'
 		]
 	}
 ];
