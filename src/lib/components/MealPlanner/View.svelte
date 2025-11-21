@@ -26,7 +26,7 @@
 		}) || []
 	);
 	let selectedPlan = $derived(mealsOptions[0] || []);
-	let seoTitle = $derived(selectedPlan?.name || 'Meal planner');
+	let seoTitle = $derived(selectedPlan?.value || 'Meal planner');
 
 	function deleteMealPlanner() {
 		openDeleteMealPlanModal(selectedPlan);

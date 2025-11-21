@@ -43,16 +43,31 @@
 	}
 </script>
 
+{#snippet timeOfDay(title: string)}
+	<div
+		class="font-lexend flex h-10 items-center justify-center border bg-[#cfc4e7] px-4 text-center text-sm md:text-base"
+	>
+		{title}
+	</div>
+{/snippet}
+
 <div>
 	<WeekScroller {currentWeek} {updateCurrentWeek} />
 
 	<div class="px-3">
-		<div class="relative overflow-hidden rounded-lg border bg-[#cfc4e7] pt-[40px] pl-[50px]">
+		<div class="relative overflow-hidden rounded-lg border bg-[#cfc4e7] pt-[0px] pl-[50px]">
 			<WeekLabels />
 
-			<div class="item_wrapper">
+			<div>
 				{#key mealsList}
-					<div class="relative z-10 grid grid-cols-4 bg-white">
+					<div
+						class="no-scrollbar relative z-10 grid grid-cols-[repeat(4,minmax(200px,1fr))] overflow-x-auto bg-white md:grid-cols-4 md:overflow-x-visible"
+					>
+						{@render timeOfDay('Breakfast')}
+						{@render timeOfDay('Lunch')}
+						{@render timeOfDay('Dinner')}
+						{@render timeOfDay('Snacks')}
+
 						{#each MealsUtils.mapMealsToWeek(weekDates) as meal, index (index)}
 							{@const mealData = MealsUtils.getMeal(meal, mealsList)}
 
@@ -64,26 +79,3 @@
 		</div>
 	</div>
 </div>
-
-<style>
-	.item_wrapper {
-		position: relative;
-		border-radius: 8px;
-		transition: all 0.4s linear;
-	}
-
-	.item_wrapper::before {
-		content: '';
-		position: absolute;
-		top: 4px;
-		left: 4px;
-		right: 0;
-		bottom: 0;
-		background-color: black;
-		border: 2px solid black;
-		z-index: 1;
-		border-radius: 8px;
-		width: 100%;
-		height: 100%;
-	}
-</style>
