@@ -98,22 +98,12 @@
 				TrackerUtils.calculateStreakTime(updated_at)
 			);
 
-			if (status === HabitStatus.STOP) {
-				console.log('STOP');
+			if (status) {
 				const payload = {
 					name: habit?.name,
-					isActive: false
+					isActive: status === HabitStatus.START ? true : false
 				};
-				// @ts-ignore
-				await TrackerRequest.updateHabit(trackerId, payload);
-			}
-			if (status === HabitStatus.START) {
-				console.log('START');
 
-				const payload = {
-					name: habit?.name,
-					isActive: true
-				};
 				// @ts-ignore
 				await TrackerRequest.updateHabit(trackerId, payload);
 			}
@@ -136,8 +126,6 @@
 			}
 
 			if (type === 'update') {
-				console.log('UPDATE');
-
 				const result = await TrackerLogRequest.updateLog(logId, payload);
 
 				if (result) {
