@@ -67,10 +67,12 @@
 
 <div class="relative pb-24">
 	<div class="my-6 justify-between gap-3 space-y-3 px-3 md:flex md:space-y-0">
-		<BackComponent backLink="/recipe" />
+		<BackComponent backLink="/recipe" title={selectedPlan?.value} />
 
 		<div class="flex items-center gap-4">
-			<Dropdown options={mealsOptions} shouldSearch={false} bind:selectedOption={selectedPlan} />
+			<div class="rounded-xl bg-white">
+				<Dropdown options={mealsOptions} shouldSearch={false} bind:selectedOption={selectedPlan} />
+			</div>
 
 			<div>
 				<HamburgerDropdown variant="solid" options={moreOptions} />

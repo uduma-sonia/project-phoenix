@@ -56,7 +56,7 @@
 
 	<div class="px-3">
 		<div class="relative overflow-hidden rounded-lg border bg-[#cfc4e7] pt-[0px] pl-[50px]">
-			<WeekLabels />
+			<WeekLabels {weekDates} />
 
 			<div>
 				{#key mealsList}
