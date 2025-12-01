@@ -4,8 +4,8 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { MealRequest } from '$lib/requests';
-	import { Plus, SquarePen, Trash } from '@lucide/svelte';
-	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
+	import { Plus, SquarePen, Trash, ChartNetwork } from '@lucide/svelte';
+	import HamburgerDropdown, { type Options } from '../Common/HamburgerDropdown.svelte';
 	import type { MealPlan } from '../../../types/meal';
 	import WeekPlanner from './Utilities/WeekPlanner.svelte';
 	import Seo from '$lib/components/Common/SEO.svelte';
@@ -43,7 +43,7 @@
 		});
 	}
 
-	const moreOptions = [
+	const moreOptions: Options[] = $derived([
 		{
 			label: 'Create new plan',
 			icon: Plus,
@@ -55,22 +55,29 @@
 			action: updateMealPlan
 		},
 		{
+			label: 'Insight',
+			icon: ChartNetwork,
+			link: `/meal-planner/insight?plan=${selectedPlan?.value}`
+		},
+		{
 			label: 'Delete plan',
 			icon: Trash,
 			iconColor: 'red',
 			action: deleteMealPlanner
 		}
-	];
+	]);
 </script>
 
 <Seo title={seoTitle} />
 
-<div class="pb-24">
+<div class="relative pb-24">
 	<div class="my-6 justify-between gap-3 space-y-3 px-3 md:flex md:space-y-0">
-		<BackComponent backLink="/recipe" />
+		<BackComponent backLink="/recipe" title={selectedPlan?.value} />
 
 		<div class="flex items-center gap-4">
-			<Dropdown options={mealsOptions} shouldSearch={false} bind:selectedOption={selectedPlan} />
+			<div class="rounded-xl bg-white">
+				<Dropdown options={mealsOptions} shouldSearch={false} bind:selectedOption={selectedPlan} />
+			</div>
 
 			<div>
 				<HamburgerDropdown variant="solid" options={moreOptions} />

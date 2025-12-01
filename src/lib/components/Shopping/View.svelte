@@ -43,7 +43,7 @@
 	</p>
 
 	<div class="flex items-center justify-between gap-4 px-3">
-		<HabitSearch placeholder="Search board" bind:searchQuery />
+		<HabitSearch placeholder="Search list" bind:searchQuery />
 		<div>
 			<button class="shadow_button" onclick={openModal}> Standard list </button>
 		</div>

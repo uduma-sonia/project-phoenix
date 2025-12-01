@@ -1,12 +1,12 @@
 ## Backlogs
 
 - Recipe review system, star rating, comments
-- General page to search other people's public recipe
 - Cook mode
 - meal tracker
 - Advanced search - search ingredients
 - Meal tracker/planner
 - Manage groups
+- Display date in meal planner
 
 ## Travel planner
 

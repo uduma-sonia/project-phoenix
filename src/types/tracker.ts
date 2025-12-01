@@ -33,6 +33,7 @@ export type HabitLog = {
 	status: HabitStatus;
 	createdAt: Date;
 	updatedAt: Date;
+	_id?: string;
 };
 
 export enum HabitStatus {
@@ -55,7 +56,7 @@ export type UpdateBuildLog = {
 export type HabitItemProps = {
 	habit: Habit;
 	deleteHabit: (habitId: string) => void;
-	updateLog: (
+	updateQuitLog: (
 		habitId: string,
 		status: HabitStatus,
 		type: string,
@@ -65,4 +66,5 @@ export type HabitItemProps = {
 	) => void;
 	updateBuildLog: (params: UpdateBuildLog) => void;
 	openDetailsModal: (params: Habit) => void;
+	_openLogValueModal: (params: Habit) => void;
 };

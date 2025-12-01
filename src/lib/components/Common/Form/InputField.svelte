@@ -71,7 +71,7 @@
 		<label class="input_right_placeholder" for={id}>{label}</label>
 	{/if}
 
-	{#if type === 'number'}
+	<!-- {#if type === 'number'}
 		<input
 			type="text"
 			value={transformValue(value)}
@@ -86,19 +86,19 @@
 			oninput={handleInput}
 			{...restProps}
 		/>
-	{:else}
-		<input
-			{type}
-			bind:value
-			class="h-[40px] w-full border-b border-b-[#393838] px-3 outline-none"
-			{id}
-			{name}
-			readonly={readOnly}
-			{placeholder}
-			{required}
-			{disabled}
-			inputmode={inputMode}
-			{...restProps}
-		/>
-	{/if}
+	{:else} -->
+	<input
+		{type}
+		bind:value
+		class="h-[40px] w-full border-b border-b-[#393838] px-3 outline-none"
+		{id}
+		{name}
+		readonly={readOnly}
+		{placeholder}
+		{required}
+		{disabled}
+		inputmode={inputMode}
+		{...restProps}
+	/>
+	<!-- {/if} -->
 </div>

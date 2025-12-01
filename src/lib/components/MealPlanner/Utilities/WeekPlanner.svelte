@@ -8,8 +8,11 @@
 	import type { Meal } from '../../../../types/meal';
 	import { addToast } from '$lib/store/toast';
 	import fetchMealsList from '$lib/hooks/fetchMealsList';
+	import { useQueryClient } from '@tanstack/svelte-query';
+	import { queryKeys } from '$lib/utils/queryKeys';
 
 	let { selectedPlan } = $props();
+	const queryClient = useQueryClient();
 
 	let currentWeek = $state(new Date());
 
@@ -34,6 +37,13 @@
 				} else {
 					await MealRequest.createMeal({ ...data, mealPlanId: selectedPlan?.id });
 				}
+
+				queryClient.invalidateQueries({
+					queryKey: queryKeys.getMeals({
+						mealPlanId: selectedPlan?.id,
+						days: MealsUtils.getDaysList(currentWeek)
+					})
+				});
 			} catch (error) {
 				addToast(`Meal could not be saved`, 'error');
 			}
@@ -56,7 +66,7 @@
 
 	<div class="px-3">
 		<div class="relative overflow-hidden rounded-lg border bg-[#cfc4e7] pt-[0px] pl-[50px]">
-			<WeekLabels />
+			<WeekLabels {weekDates} />
 
 			<div>
 				{#key mealsList}
@@ -73,6 +83,11 @@
 
 							<MealItem {handleMealItemUpdate} {meal} {mealData} />
 						{/each}
+
+						{@render timeOfDay('Breakfast')}
+						{@render timeOfDay('Lunch')}
+						{@render timeOfDay('Dinner')}
+						{@render timeOfDay('Snacks')}
 					</div>
 				{/key}
 			</div>

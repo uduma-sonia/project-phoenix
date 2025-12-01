@@ -20,8 +20,14 @@
 	import type { HabitItemProps } from '../../../../types/tracker';
 	import Helpers from '$lib/utils/helpers';
 
-	let { habit, deleteHabit, updateLog, updateBuildLog, openDetailsModal }: HabitItemProps =
-		$props();
+	let {
+		habit,
+		deleteHabit,
+		updateQuitLog,
+		updateBuildLog,
+		openDetailsModal,
+		_openLogValueModal
+	}: HabitItemProps = $props();
 
 	const logQuery = $derived(
 		createQuery({
@@ -87,16 +93,16 @@
 
 	function statusAction() {
 		const _status = logDetails?.status == HabitStatus.STOP ? HabitStatus.START : HabitStatus.STOP;
+		const updated_at = Helpers.toISOString(logDetails?.updatedAt || habit?.startDate);
 
-		const updated_at = Helpers.toISOString(logDetails?.updatedAt);
-		updateLog(habit._id, _status, habitType, logDetails?._id, updated_at, habit);
+		updateQuitLog(habit._id, _status, habitType, logDetails?._id, updated_at, habit);
 	}
 
 	function restartAction() {
 		const _status = HabitStatus.PENDING;
 
 		if (habit.type === 'QUIT') {
-			updateLog(habit._id, _status, habitType, logDetails?._id);
+			updateQuitLog(habit._id, _status, habitType, logDetails?._id);
 		}
 
 		if (habit.type === 'BUILD') {
@@ -131,6 +137,9 @@
 	function _delete() {
 		deleteHabit(habit?._id);
 	}
+	function openLogValueModal() {
+		_openLogValueModal({ ...habit, logDetails });
+	}
 
 	const moreOptions = [
 		// QUIT
@@ -147,6 +156,12 @@
 			icon: Check,
 			type: 'build',
 			action: done
+		},
+		{
+			label: 'Add log',
+			icon: Plus,
+			type: 'build',
+			action: openLogValueModal
 		},
 		{
 			label: 'Skip',

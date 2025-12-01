@@ -11,11 +11,17 @@
 	import Helpers from '$lib/utils/helpers';
 	import { HabitStatus, type Habit } from '../../../types/tracker';
 	import DetailsModal from './DetailsModal.svelte';
-	import { closeHabitDetails, modalsState, openHabitDetails } from '$lib/state/modal.svelte';
+	import {
+		closeHabitDetails,
+		modalsState,
+		openHabitDetails,
+		openLogValueModal
+	} from '$lib/state/modal.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
 	import { format } from 'date-fns';
 	import EmptyState from '../Common/EmptyState.svelte';
 	import { onMount } from 'svelte';
+	import AddLogModal from './AddLogModal.svelte';
 
 	let { user } = $props();
 
@@ -70,11 +76,7 @@
 		}
 	}
 
-	function isBuild(arg: string | undefined, type: string) {
-		return type === 'BUILD' ? arg : '';
-	}
-
-	async function updateLog(
+	async function updateQuitLog(
 		trackerId: string,
 		status: HabitStatus,
 		type: string,
@@ -91,71 +93,59 @@
 				date: TrackerUtils.getISODate(trackerState.data.selectedDay),
 				status: status
 			};
+			const _date = TrackerUtils.renderStreakCountdown(
+				TrackerUtils.calculateStreakTime(updated_at)
+			);
+			const _time = TrackerUtils.renderStreakCountdownSuffix(
+				TrackerUtils.calculateStreakTime(updated_at)
+			);
 
-			if (status === HabitStatus.STOP) {
+			if (status) {
 				const payload = {
 					name: habit?.name,
-					isActive: false
+					isActive: status === HabitStatus.START ? true : false
 				};
-				// @ts-ignore
-				await TrackerRequest.updateHabit(trackerId, payload);
-			}
-			if (status === HabitStatus.START) {
-				const payload = {
-					name: habit?.name,
-					isActive: true
-				};
+
 				// @ts-ignore
 				await TrackerRequest.updateHabit(trackerId, payload);
 			}
 
 			if (type === 'create') {
-				await TrackerLogRequest.createLog(payload);
-				queryClient.invalidateQueries({
-					queryKey: queryKeys.getLogs(trackerId, {
-						date: TrackerUtils.getISODate(trackerState.data.selectedDay)
-					})
-				});
+				const result = await TrackerLogRequest.createLog(payload);
 
-				if (status === HabitStatus.STOP) {
-					const _date = TrackerUtils.renderStreakCountdown(
-						TrackerUtils.calculateStreakTime(updated_at)
-					);
-					const _time = TrackerUtils.renderStreakCountdownSuffix(
-						TrackerUtils.calculateStreakTime(updated_at)
-					);
+				if (result) {
+					queryClient.invalidateQueries({
+						queryKey: queryKeys.getLogs(trackerId, {
+							date: TrackerUtils.getISODate(trackerState.data.selectedDay)
+						})
+					});
 
-					const text = `You stopped this streak. Record: ${_date} ${_time}`;
-
-					updateHistory(trackerId, text);
+					if (status === HabitStatus.STOP) {
+						const text = `You stopped this streak. Record: ${_date} ${_time}`;
+						updateHistory(trackerId, text);
+					}
 				}
 			}
 
 			if (type === 'update') {
-				await TrackerLogRequest.updateLog(logId, payload);
-				queryClient.invalidateQueries({
-					queryKey: queryKeys.getLogs(trackerId, {
-						date: TrackerUtils.getISODate(trackerState.data.selectedDay)
-					})
-				});
+				const result = await TrackerLogRequest.updateLog(logId, payload);
 
-				if (status === HabitStatus.STOP) {
-					const _date = TrackerUtils.renderStreakCountdown(
-						TrackerUtils.calculateStreakTime(updated_at)
-					);
-					const _time = TrackerUtils.renderStreakCountdownSuffix(
-						TrackerUtils.calculateStreakTime(updated_at)
-					);
-
-					const text = `You stopped this streak. Record: ${_date} ${_time}`;
-
-					updateHistory(trackerId, text);
-				}
-
-				if (status === HabitStatus.START) {
-					if (updated_at) {
-						const text = `You started this streak again on ${format(new Date(updated_at), 'PP')}`;
+				if (result) {
+					queryClient.invalidateQueries({
+						queryKey: queryKeys.getLogs(trackerId, {
+							date: TrackerUtils.getISODate(trackerState.data.selectedDay)
+						})
+					});
+					if (status === HabitStatus.STOP) {
+						const text = `You stopped this streak. Record: ${_date} ${_time}`;
 						updateHistory(trackerId, text);
+					}
+
+					if (status === HabitStatus.START) {
+						if (updated_at) {
+							const text = `You started this streak again on ${format(new Date(updated_at), 'PP')}`;
+							updateHistory(trackerId, text);
+						}
 					}
 				}
 			}
@@ -219,6 +209,11 @@
 		openHabitDetails();
 	}
 
+	function _openLogValueModal(arg: Habit) {
+		updateTrackerDetails(arg);
+		openLogValueModal();
+	}
+
 	onMount(() => {
 		hasMounted = true;
 	});
@@ -242,7 +237,14 @@
 					{@const isActive = TrackerUtils.isHabitActive(habit, dateViewing)}
 
 					{#if isActive}
-						<HabitItem {openDetailsModal} {habit} {deleteHabit} {updateLog} {updateBuildLog} />
+						<HabitItem
+							{_openLogValueModal}
+							{openDetailsModal}
+							{habit}
+							{deleteHabit}
+							{updateQuitLog}
+							{updateBuildLog}
+						/>
 					{/if}
 				{/each}
 			</div>
@@ -262,3 +264,4 @@
 </div>
 
 <DetailsModal isOpen={modalsState.data.isOpenHabitDetails} onClose={closeHabitDetails} />
+<AddLogModal {updateBuildLog} />

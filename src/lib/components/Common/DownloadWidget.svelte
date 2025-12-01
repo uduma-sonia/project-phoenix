@@ -5,7 +5,7 @@
 	let { closeDownloadWidget } = $props();
 </script>
 
-<div class="slide_in_down_dw fixed top-0 right-0 z-[999] w-[300px] p-4">
+<div class="slide_in_down_dw fixed top-0 right-0 z-[99999] w-[300px] p-4">
 	<div class="retro_wrapper slide_in_down">
 		<div class="retro_wrapper_inner retro_wrapper_inner_dw">
 			<div class="absolute -top-2 -left-2">
