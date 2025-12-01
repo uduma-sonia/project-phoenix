@@ -87,8 +87,8 @@
 
 	function statusAction() {
 		const _status = logDetails?.status == HabitStatus.STOP ? HabitStatus.START : HabitStatus.STOP;
+		const updated_at = Helpers.toISOString(logDetails?.updatedAt || habit?.startDate);
 
-		const updated_at = Helpers.toISOString(logDetails?.updatedAt);
 		updateLog(habit._id, _status, habitType, logDetails?._id, updated_at, habit);
 	}
 

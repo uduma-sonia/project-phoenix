@@ -91,8 +91,15 @@
 				date: TrackerUtils.getISODate(trackerState.data.selectedDay),
 				status: status
 			};
+			const _date = TrackerUtils.renderStreakCountdown(
+				TrackerUtils.calculateStreakTime(updated_at)
+			);
+			const _time = TrackerUtils.renderStreakCountdownSuffix(
+				TrackerUtils.calculateStreakTime(updated_at)
+			);
 
 			if (status === HabitStatus.STOP) {
+				console.log('STOP');
 				const payload = {
 					name: habit?.name,
 					isActive: false
@@ -101,6 +108,8 @@
 				await TrackerRequest.updateHabit(trackerId, payload);
 			}
 			if (status === HabitStatus.START) {
+				console.log('START');
+
 				const payload = {
 					name: habit?.name,
 					isActive: true
@@ -110,52 +119,43 @@
 			}
 
 			if (type === 'create') {
-				await TrackerLogRequest.createLog(payload);
-				queryClient.invalidateQueries({
-					queryKey: queryKeys.getLogs(trackerId, {
-						date: TrackerUtils.getISODate(trackerState.data.selectedDay)
-					})
-				});
+				const result = await TrackerLogRequest.createLog(payload);
 
-				if (status === HabitStatus.STOP) {
-					const _date = TrackerUtils.renderStreakCountdown(
-						TrackerUtils.calculateStreakTime(updated_at)
-					);
-					const _time = TrackerUtils.renderStreakCountdownSuffix(
-						TrackerUtils.calculateStreakTime(updated_at)
-					);
+				if (result) {
+					queryClient.invalidateQueries({
+						queryKey: queryKeys.getLogs(trackerId, {
+							date: TrackerUtils.getISODate(trackerState.data.selectedDay)
+						})
+					});
 
-					const text = `You stopped this streak. Record: ${_date} ${_time}`;
-
-					updateHistory(trackerId, text);
+					if (status === HabitStatus.STOP) {
+						const text = `You stopped this streak. Record: ${_date} ${_time}`;
+						updateHistory(trackerId, text);
+					}
 				}
 			}
 
 			if (type === 'update') {
-				await TrackerLogRequest.updateLog(logId, payload);
-				queryClient.invalidateQueries({
-					queryKey: queryKeys.getLogs(trackerId, {
-						date: TrackerUtils.getISODate(trackerState.data.selectedDay)
-					})
-				});
+				console.log('UPDATE');
 
-				if (status === HabitStatus.STOP) {
-					const _date = TrackerUtils.renderStreakCountdown(
-						TrackerUtils.calculateStreakTime(updated_at)
-					);
-					const _time = TrackerUtils.renderStreakCountdownSuffix(
-						TrackerUtils.calculateStreakTime(updated_at)
-					);
+				const result = await TrackerLogRequest.updateLog(logId, payload);
 
-					const text = `You stopped this streak. Record: ${_date} ${_time}`;
-
-					updateHistory(trackerId, text);
-				}
-
-				if (status === HabitStatus.START) {
-					if (updated_at) {
-						const text = `You started this streak again on ${format(new Date(updated_at), 'PP')}`;
+				if (result) {
+					queryClient.invalidateQueries({
+						queryKey: queryKeys.getLogs(trackerId, {
+							date: TrackerUtils.getISODate(trackerState.data.selectedDay)
+						})
+					});
+					if (status === HabitStatus.STOP) {
+						const text = `You stopped this streak. Record: ${_date} ${_time}`;
 						updateHistory(trackerId, text);
+					}
+
+					if (status === HabitStatus.START) {
+						if (updated_at) {
+							const text = `You started this streak again on ${format(new Date(updated_at), 'PP')}`;
+							updateHistory(trackerId, text);
+						}
 					}
 				}
 			}

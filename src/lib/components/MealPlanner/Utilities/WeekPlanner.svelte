@@ -73,6 +73,11 @@
 
 							<MealItem {handleMealItemUpdate} {meal} {mealData} />
 						{/each}
+
+						{@render timeOfDay('Breakfast')}
+						{@render timeOfDay('Lunch')}
+						{@render timeOfDay('Dinner')}
+						{@render timeOfDay('Snacks')}
 					</div>
 				{/key}
 			</div>

@@ -22,13 +22,15 @@
 		/>
 	</div> -->
 	<div class="w-full text-center">
-		<p class="font-lexend text-4xl font-semibold">
-			{TrackerUtils.renderStreakCountdown(TrackerUtils.calculateStreakTime(_date))}
+		{#if details?.logDetails?.status === HabitStatus.START}
+			<p class="font-lexend text-4xl font-semibold">
+				{TrackerUtils.renderStreakCountdown(TrackerUtils.calculateStreakTime(_date))}
 
-			<small class="text-base font-medium">
-				{TrackerUtils.renderStreakCountdownSuffix(TrackerUtils.calculateStreakTime(_date))}
-			</small>
-		</p>
+				<small class="text-base font-medium">
+					{TrackerUtils.renderStreakCountdownSuffix(TrackerUtils.calculateStreakTime(_date))}
+				</small>
+			</p>
+		{/if}
 
 		{#if details?.logDetails?.status === HabitStatus.STOP}
 			<p class="font-lexend text-13 text-brand-error mt-4 font-light">
