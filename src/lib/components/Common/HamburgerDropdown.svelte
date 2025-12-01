@@ -4,7 +4,7 @@
 	import type { IconProps } from '@lucide/svelte';
 	import type { Component } from 'svelte';
 
-	type Options = {
+	export type Options = {
 		label: string;
 		icon?: Component<IconProps, {}, ''>;
 		iconColor?: string;

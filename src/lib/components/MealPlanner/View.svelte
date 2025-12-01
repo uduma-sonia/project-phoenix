@@ -5,7 +5,7 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { MealRequest } from '$lib/requests';
 	import { Plus, SquarePen, Trash, ChartNetwork } from '@lucide/svelte';
-	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
+	import HamburgerDropdown, { type Options } from '../Common/HamburgerDropdown.svelte';
 	import type { MealPlan } from '../../../types/meal';
 	import WeekPlanner from './Utilities/WeekPlanner.svelte';
 	import Seo from '$lib/components/Common/SEO.svelte';
@@ -43,7 +43,7 @@
 		});
 	}
 
-	const moreOptions = [
+	const moreOptions: Options[] = $derived([
 		{
 			label: 'Create new plan',
 			icon: Plus,
@@ -56,8 +56,8 @@
 		},
 		{
 			label: 'Insight',
-			icon: ChartNetwork
-			// action: updateMealPlan
+			icon: ChartNetwork,
+			link: `/meal-planner/insight?plan=${selectedPlan?.value}`
 		},
 		{
 			label: 'Delete plan',
@@ -65,7 +65,7 @@
 			iconColor: 'red',
 			action: deleteMealPlanner
 		}
-	];
+	]);
 </script>
 
 <Seo title={seoTitle} />

@@ -213,7 +213,7 @@
 	</div>
 
 	<div class="flex items-center gap-6 px-3">
-		<Search bind:value={searchQuery} placeholder="Search board" />
+		<Search bind:value={searchQuery} placeholder="Search list" />
 
 		<div>
 			<p class="font-lexend text-sm">
