@@ -4,7 +4,7 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { MealRequest } from '$lib/requests';
-	import { Plus, SquarePen, Trash } from '@lucide/svelte';
+	import { Plus, SquarePen, Trash, ChartNetwork } from '@lucide/svelte';
 	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
 	import type { MealPlan } from '../../../types/meal';
 	import WeekPlanner from './Utilities/WeekPlanner.svelte';
@@ -53,6 +53,11 @@
 			label: 'Edit plan',
 			icon: SquarePen,
 			action: updateMealPlan
+		},
+		{
+			label: 'Insight',
+			icon: ChartNetwork
+			// action: updateMealPlan
 		},
 		{
 			label: 'Delete plan',
