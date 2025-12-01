@@ -70,11 +70,7 @@
 		}
 	}
 
-	function isBuild(arg: string | undefined, type: string) {
-		return type === 'BUILD' ? arg : '';
-	}
-
-	async function updateLog(
+	async function updateQuitLog(
 		trackerId: string,
 		status: HabitStatus,
 		type: string,
@@ -230,7 +226,7 @@
 					{@const isActive = TrackerUtils.isHabitActive(habit, dateViewing)}
 
 					{#if isActive}
-						<HabitItem {openDetailsModal} {habit} {deleteHabit} {updateLog} {updateBuildLog} />
+						<HabitItem {openDetailsModal} {habit} {deleteHabit} {updateQuitLog} {updateBuildLog} />
 					{/if}
 				{/each}
 			</div>

@@ -20,7 +20,7 @@
 	import type { HabitItemProps } from '../../../../types/tracker';
 	import Helpers from '$lib/utils/helpers';
 
-	let { habit, deleteHabit, updateLog, updateBuildLog, openDetailsModal }: HabitItemProps =
+	let { habit, deleteHabit, updateQuitLog, updateBuildLog, openDetailsModal }: HabitItemProps =
 		$props();
 
 	const logQuery = $derived(
@@ -89,14 +89,14 @@
 		const _status = logDetails?.status == HabitStatus.STOP ? HabitStatus.START : HabitStatus.STOP;
 		const updated_at = Helpers.toISOString(logDetails?.updatedAt || habit?.startDate);
 
-		updateLog(habit._id, _status, habitType, logDetails?._id, updated_at, habit);
+		updateQuitLog(habit._id, _status, habitType, logDetails?._id, updated_at, habit);
 	}
 
 	function restartAction() {
 		const _status = HabitStatus.PENDING;
 
 		if (habit.type === 'QUIT') {
-			updateLog(habit._id, _status, habitType, logDetails?._id);
+			updateQuitLog(habit._id, _status, habitType, logDetails?._id);
 		}
 
 		if (habit.type === 'BUILD') {

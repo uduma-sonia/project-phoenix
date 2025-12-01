@@ -55,7 +55,7 @@ export type UpdateBuildLog = {
 export type HabitItemProps = {
 	habit: Habit;
 	deleteHabit: (habitId: string) => void;
-	updateLog: (
+	updateQuitLog: (
 		habitId: string,
 		status: HabitStatus,
 		type: string,
