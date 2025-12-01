@@ -11,11 +11,17 @@
 	import Helpers from '$lib/utils/helpers';
 	import { HabitStatus, type Habit } from '../../../types/tracker';
 	import DetailsModal from './DetailsModal.svelte';
-	import { closeHabitDetails, modalsState, openHabitDetails } from '$lib/state/modal.svelte';
+	import {
+		closeHabitDetails,
+		modalsState,
+		openHabitDetails,
+		openLogValueModal
+	} from '$lib/state/modal.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
 	import { format } from 'date-fns';
 	import EmptyState from '../Common/EmptyState.svelte';
 	import { onMount } from 'svelte';
+	import AddLogModal from './AddLogModal.svelte';
 
 	let { user } = $props();
 
@@ -203,6 +209,11 @@
 		openHabitDetails();
 	}
 
+	function _openLogValueModal(arg: Habit) {
+		updateTrackerDetails(arg);
+		openLogValueModal();
+	}
+
 	onMount(() => {
 		hasMounted = true;
 	});
@@ -226,7 +237,14 @@
 					{@const isActive = TrackerUtils.isHabitActive(habit, dateViewing)}
 
 					{#if isActive}
-						<HabitItem {openDetailsModal} {habit} {deleteHabit} {updateQuitLog} {updateBuildLog} />
+						<HabitItem
+							{_openLogValueModal}
+							{openDetailsModal}
+							{habit}
+							{deleteHabit}
+							{updateQuitLog}
+							{updateBuildLog}
+						/>
 					{/if}
 				{/each}
 			</div>
@@ -246,3 +264,4 @@
 </div>
 
 <DetailsModal isOpen={modalsState.data.isOpenHabitDetails} onClose={closeHabitDetails} />
+<AddLogModal {updateBuildLog} />

@@ -15,7 +15,8 @@ export const modalsState = $state({
 		isOpenUpdateActivity: false,
 		isOpenInstall: false,
 		isDeleteMealPlan: false,
-		isOpenCreateMealPlan: false
+		isOpenCreateMealPlan: false,
+		isOpenLogValueModal: false
 	}
 });
 
@@ -155,4 +156,11 @@ export function openCreateMealPlanModal(arg?: {
 export function closeCreateMealPlanModal() {
 	modalsState.data.isOpenCreateMealPlan = false;
 	selectedMealPlan.data = null;
+}
+
+export function openLogValueModal() {
+	modalsState.data.isOpenLogValueModal = true;
+}
+export function closeLogValueModal() {
+	modalsState.data.isOpenLogValueModal = false;
 }

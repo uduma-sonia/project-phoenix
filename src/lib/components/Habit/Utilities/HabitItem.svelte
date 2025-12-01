@@ -20,8 +20,14 @@
 	import type { HabitItemProps } from '../../../../types/tracker';
 	import Helpers from '$lib/utils/helpers';
 
-	let { habit, deleteHabit, updateQuitLog, updateBuildLog, openDetailsModal }: HabitItemProps =
-		$props();
+	let {
+		habit,
+		deleteHabit,
+		updateQuitLog,
+		updateBuildLog,
+		openDetailsModal,
+		_openLogValueModal
+	}: HabitItemProps = $props();
 
 	const logQuery = $derived(
 		createQuery({
@@ -131,6 +137,9 @@
 	function _delete() {
 		deleteHabit(habit?._id);
 	}
+	function openLogValueModal() {
+		_openLogValueModal({ ...habit, logDetails });
+	}
 
 	const moreOptions = [
 		// QUIT
@@ -147,6 +156,12 @@
 			icon: Check,
 			type: 'build',
 			action: done
+		},
+		{
+			label: 'Add log',
+			icon: Plus,
+			type: 'build',
+			action: openLogValueModal
 		},
 		{
 			label: 'Skip',

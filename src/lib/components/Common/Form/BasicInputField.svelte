@@ -76,7 +76,20 @@
 		</label>
 	{/if}
 
-	{#if type === 'number'}
+	<input
+		type={type === 'password' ? (passwordType === 'password' ? 'password' : 'text') : type}
+		bind:value
+		class={`h-[50px] w-full appearance-none rounded-lg border border-black px-3 outline-none ${inputClass}`}
+		{id}
+		{name}
+		readonly={readOnly}
+		{placeholder}
+		{required}
+		{disabled}
+		inputmode={inputMode}
+		{...restProps}
+	/>
+	<!-- {#if type === 'number'}
 		<input
 			type="text"
 			value={transformValue(value)}
@@ -105,7 +118,7 @@
 			inputmode={inputMode}
 			{...restProps}
 		/>
-	{/if}
+	{/if} -->
 
 	{#if type === 'password'}
 		<button type="button" class="absolute right-3 bottom-[13px]" onclick={togglePasswordType}>
