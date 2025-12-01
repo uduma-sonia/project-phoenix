@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Check, Minus, Plus } from '@lucide/svelte';
+	import { Check, Minus, Plus, X } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import Helpers from '$lib/utils/helpers';
 	import { addToast } from '$lib/store/toast';
@@ -495,15 +495,25 @@
 					</div>
 
 					{#if groupList?.length > 0}
-						<div class="flex items-center gap-3 pt-4">
+						<p class="pt-4">Category</p>
+
+						<div class="flex items-center gap-3 pt-2">
 							{#each groupList as group}
 								{@const isSelected = selectedGroupList?.find((item) => item.id === group._id)}
 								<button
-									class="font-lexend hover:bg-brand-rose inline-block rounded-md border bg-white px-4 py-2 text-[11px] font-light text-black capitalize"
+									class="font-lexend hover:bg-brand-rose relative inline-block rounded-md border bg-white px-4 py-2 text-[11px] font-light text-black capitalize"
 									class:selected={isSelected}
 									onclick={() => selectGroup(group)}
 								>
 									{group.name}
+
+									{#if isSelected}
+										<span
+											class="absolute -top-1.5 -right-1.5 flex aspect-square w-4 items-center justify-center rounded-full border bg-white"
+										>
+											<X size="14px" />
+										</span>
+									{/if}
 								</button>
 							{/each}
 						</div>

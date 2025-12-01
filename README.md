@@ -2,11 +2,8 @@
 
 - Recipe review system, star rating, comments
 - Cook mode
-- meal tracker
 - Advanced search - search ingredients
-- Meal tracker/planner
 - Manage groups
-- Display date in meal planner
 
 ## Travel planner
 
@@ -22,7 +19,3 @@
 - Add service worker for offline capabilities
 - Add some text formatting options to text area component
 - Link recipe to meal in meal planner
-
-## Tracker
-
-- Allow users to input custom goal value
