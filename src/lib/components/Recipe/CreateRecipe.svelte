@@ -326,7 +326,7 @@
 				files.map((file) =>
 					file
 						? UtilsRequest.uploadImage({
-								title: 'business',
+								title: 'recipe',
 								name: `${Helpers.createSlug(user.username)}_${file.name}`,
 								image: file
 							})
@@ -337,11 +337,11 @@
 			const [fileOne, fileTwo, fileThree] = files;
 
 			if (results[0])
-				imageOneUrl = `${BUNNY_STORAGE_BASE}/business/${Helpers.createSlug(user.username)}_${fileOne.name}`;
+				imageOneUrl = `${BUNNY_STORAGE_BASE}/recipe/${Helpers.createSlug(user.username)}_${fileOne.name}`;
 			if (results[1])
-				imageTwoUrl = `${BUNNY_STORAGE_BASE}/business/${Helpers.createSlug(user.username)}_${fileTwo.name}`;
+				imageTwoUrl = `${BUNNY_STORAGE_BASE}/recipe/${Helpers.createSlug(user.username)}_${fileTwo.name}`;
 			if (results[2])
-				imageThreeUrl = `${BUNNY_STORAGE_BASE}/business/${Helpers.createSlug(user.username)}_${fileThree.name}`;
+				imageThreeUrl = `${BUNNY_STORAGE_BASE}/recipe/${Helpers.createSlug(user.username)}_${fileThree.name}`;
 
 			await handleSubmit();
 		} catch (error) {

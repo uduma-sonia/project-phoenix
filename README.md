@@ -4,6 +4,7 @@
 - Cook mode
 - Advanced search - search ingredients
 - Manage groups
+- dark mode
 
 ## Travel planner
 
@@ -19,3 +20,10 @@
 - Add service worker for offline capabilities
 - Add some text formatting options to text area component
 - Link recipe to meal in meal planner
+
+## Meal planner analytics
+
+- Top 3 meals eaten (week - month)
+-
+
+## Budget planner
