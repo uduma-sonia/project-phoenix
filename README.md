@@ -5,13 +5,7 @@
 - Advanced search - search ingredients
 - Manage groups
 - dark mode
-
-## Travel planner
-
-- Manage group
-- Poll feature
-- Google places API integration
-- Prevent items from being added twice to packing list
+- review list
 
 ## General
 

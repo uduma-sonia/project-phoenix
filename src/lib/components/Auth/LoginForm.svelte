@@ -80,7 +80,7 @@
 		</div>
 
 		<div>
-			<BasicButton type="submit" label="Continue" />
+			<BasicButton type="submit" label="Continue" isLoading={isSubmitting} />
 		</div>
 
 		<div class="mt-6 pb-4">
