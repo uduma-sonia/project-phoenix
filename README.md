@@ -6,6 +6,7 @@
 - Manage groups
 - dark mode
 - review list
+- universal currency mode
 
 ## General
 
