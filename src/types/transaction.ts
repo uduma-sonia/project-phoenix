@@ -1,3 +1,12 @@
+export type CreateTransaction = {
+	amount: number;
+	type: TransactionType;
+	categoryId: string;
+	categoryName: string;
+	date: Date;
+	description?: string;
+};
+
 export type Transaction = {
 	ownerId?: string;
 	amount: number;

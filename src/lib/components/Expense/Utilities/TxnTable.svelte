@@ -24,7 +24,7 @@
 </script>
 
 <div class="mb-4 flex items-center justify-between gap-4">
-	<p class="mb-3 text-xl font-medium">All Transactions</p>
+	<p class="text-lg font-medium md:text-xl">All Transactions</p>
 
 	<div>
 		<div class="max-w-[140px] rounded-xl bg-white">

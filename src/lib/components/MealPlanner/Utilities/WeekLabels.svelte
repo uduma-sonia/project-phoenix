@@ -5,7 +5,7 @@
 </script>
 
 {#snippet dayButton(title: string, date: Date)}
-	<div class="font-lexend h-[140px] border bg-[#cfc4e7] px-1 pt-3 text-center text-sm md:text-base">
+	<div class="font-lexend h-[100px] border bg-[#cfc4e7] px-1 pt-3 text-center text-sm md:text-base">
 		{title}
 
 		{#if date}

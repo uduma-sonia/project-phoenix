@@ -13,7 +13,7 @@
 	};
 </script>
 
-<div class="my-4 flex items-center gap-3 overflow-hidden px-3 pr-1">
+<div class="flex items-center gap-3 overflow-hidden">
 	<div>
 		<button class="shadow_button shadow_button_sm" onclick={prevMonth}>
 			<span class="block rotate-180">
@@ -32,3 +32,22 @@
 		</button>
 	</div>
 </div>
+<!-- <div class="my-4 flex items-center gap-3 overflow-hidden bg-red-700 px-3 pr-1">
+	<div>
+		<button class="shadow_button shadow_button_sm" onclick={prevMonth}>
+			<span class="block rotate-180">
+				<Play />
+			</span>
+		</button>
+	</div>
+
+	<div>
+		<p>{format(new Date(currentMonth), 'MMMM yyyy')}</p>
+	</div>
+
+	<div>
+		<button class="shadow_button shadow_button_sm" onclick={nextMonth}>
+			<Play />
+		</button>
+	</div>
+</div> -->

@@ -1,6 +1,6 @@
 import Helpers from '$lib/utils/helpers';
 import type { ReqConfig, Service } from '../../types/axios';
-import type { Transaction } from '../../types/transaction';
+import type { Transaction, CreateTransaction } from '../../types/transaction';
 
 class TransactionService {
 	private api;
@@ -11,7 +11,7 @@ class TransactionService {
 		this.api = api;
 	}
 
-	async createTransaction(data: Transaction, reqConfig?: ReqConfig) {
+	async createTransaction(data: CreateTransaction, reqConfig?: ReqConfig) {
 		return await this.api.post(`${this.prefix}`, data, { ...reqConfig });
 	}
 
