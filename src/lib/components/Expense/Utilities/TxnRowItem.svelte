@@ -17,7 +17,7 @@
 	}
 </script>
 
-<div class="flex h-16 items-stretch">
+<div class="flex h-20 min-w-[500px] items-stretch md:h-16">
 	<div class="font-lexend flex h-full w-1/3 flex-col justify-center border-b border-gray-300">
 		<p class="text-[15px]">{txn?.categoryName}</p>
 
@@ -27,11 +27,13 @@
 			{/if}
 		</p>
 	</div>
+
 	<div class="font-lexend flex h-full w-1/3 flex-col justify-center border-b border-gray-300">
 		<div class="font-lexend">
-			<p class="text-13 font-light">{txn?.description || '-'}</p>
+			<p class="text-11 md:text-13 font-light">{txn?.description || '-'}</p>
 		</div>
 	</div>
+
 	<div class="font-lexend flex h-full w-1/3 flex-col justify-center border-b border-gray-300">
 		<div class="flex items-center justify-end gap-3">
 			<div>

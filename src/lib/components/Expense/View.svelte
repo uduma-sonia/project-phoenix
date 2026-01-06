@@ -69,7 +69,7 @@
 	<div class="my-4 flex flex-col justify-between px-3 md:flex-row md:items-center">
 		<DateScroller {nextMonth} {prevMonth} {currentMonth} />
 
-		<div class="mt-4 flex w-fit items-center justify-end gap-4 md:mt-0">
+		<div class="mt-4 flex w-full items-center justify-end gap-4 md:mt-0 md:w-fit">
 			<div>
 				<button
 					class="shadow_button shadow_button_thin shadow_button_with_icon"

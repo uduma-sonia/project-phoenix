@@ -70,7 +70,7 @@
 </div>
 <div class="retro_wrapper">
 	<div class="retro_wrapper_inner_ejf">
-		<div class="flex flex-col overflow-x-auto">
+		<div class="no-scrollbar flex flex-col overflow-x-auto">
 			{#each getList(txnList) as txn, index (index)}
 				<TxnRowItem {handleDelete} {txn} />
 			{/each}
