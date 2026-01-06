@@ -5,35 +5,33 @@
 	import TxnRowItem from './TxnRowItem.svelte';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TransactionRequest } from '$lib/requests';
+	import { TransactionType } from '../../../../types/transaction';
 
 	let { txnList, start, end } = $props();
 	const queryClient = useQueryClient();
 
-	let selectedPlan = $state({
-		id: 'all',
+	let selectedView = $state({
+		id: 'ALL',
 		value: 'All'
 	});
 
-	let isDeleting = $state(false);
-
 	const viewOptions = [
 		{
-			id: 'all',
+			id: 'ALL',
 			value: 'All'
 		},
 		{
-			id: 'expense',
+			id: TransactionType.EXPENSE,
 			value: 'Expense'
 		},
 		{
-			id: 'income',
+			id: TransactionType.INCOME,
 			value: 'Income'
 		}
 	];
 
 	async function handleDelete(id: string) {
 		try {
-			isDeleting = true;
 			await TransactionRequest.deleteTransaction(id);
 			addToast('Transaction deleted', 'success');
 			queryClient.invalidateQueries({
@@ -41,9 +39,23 @@
 			});
 		} catch (error: any) {
 			addToast(error?.message || 'An error occured', 'error');
-		} finally {
-			isDeleting = false;
 		}
+	}
+
+	function getList(txnList: any[]) {
+		if (txnList?.length) {
+			return txnList?.filter((item) => {
+				if (selectedView.id === TransactionType.EXPENSE) {
+					return item.type === TransactionType.EXPENSE;
+				} else if (selectedView.id === TransactionType.INCOME) {
+					return item.type === TransactionType.INCOME;
+				} else {
+					return item;
+				}
+			});
+		}
+
+		return [];
 	}
 </script>
 
@@ -52,14 +64,14 @@
 
 	<div>
 		<div class="max-w-[140px] rounded-xl bg-white">
-			<Dropdown options={viewOptions} shouldSearch={false} bind:selectedOption={selectedPlan} />
+			<Dropdown options={viewOptions} shouldSearch={false} bind:selectedOption={selectedView} />
 		</div>
 	</div>
 </div>
 <div class="retro_wrapper">
 	<div class="retro_wrapper_inner_ejf">
 		<div class="flex flex-col overflow-x-auto">
-			{#each txnList as txn, index (index)}
+			{#each getList(txnList) as txn, index (index)}
 				<TxnRowItem {handleDelete} {txn} />
 			{/each}
 		</div>

@@ -4,7 +4,7 @@
 	import Helpers from '$lib/utils/helpers';
 	import { SquarePen, Trash2 } from '@lucide/svelte';
 	import { format } from 'date-fns';
-	import type { Transaction } from '../../../../types/transaction';
+	import { TransactionType, type Transaction } from '../../../../types/transaction';
 
 	let { txn, handleDelete }: { txn: Transaction; handleDelete: (id: string) => void } = $props();
 
@@ -35,8 +35,16 @@
 	<div class="font-lexend flex h-full w-1/3 flex-col justify-center border-b border-gray-300">
 		<div class="flex items-center justify-end gap-3">
 			<div>
-				<p class="font-lexend text-sm">
-					{Helpers.currencyFormatter({
+				<p
+					class="font-lexend text-sm"
+					class:text-brand-error={txn.type === TransactionType.EXPENSE}
+					class:text-brand-green={txn.type === TransactionType.INCOME}
+				>
+					{#if TransactionType.EXPENSE}
+						-
+					{:else}
+						+
+					{/if}{Helpers.currencyFormatter({
 						currency: getCurrency?.details?.code,
 						minimumFractionDigits: getCurrency?.details.rounding,
 						maximumFractionDigits: getCurrency?.details?.decimal_digits

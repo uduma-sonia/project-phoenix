@@ -1,5 +1,5 @@
 <script lang="ts">
-	// @ts-nochec
+	// @ts-nocheck
 	import { closeAddTxnModal, modalsState } from '$lib/state/modal.svelte';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import BasicButton from '../Common/Form/BasicButton.svelte';
