@@ -6,7 +6,7 @@
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import { Trash } from '@lucide/svelte';
+	import { Trash, Check } from '@lucide/svelte';
 	import { useQueryClient } from '@tanstack/svelte-query';
 
 	let { data, handleEdit, handleUpdate } = $props();
@@ -55,13 +55,19 @@
 	<InputField bind:value={unit} label="Units eg. cartons, packets" />
 	<InputField bind:value={price} label="Price" type="number" />
 
-	<div class="flex items-center justify-end pt-4">
+	<div class="flex items-center justify-end gap-4 pt-4">
 		<button onclick={() => handleItemDelete(data?._id)} class="flex items-center justify-center">
 			{#if isDeleting}
 				<div class="spinner_white_sm border-2 border-black"></div>
 			{:else}
 				<Trash color="red" size="20px" />
 			{/if}
+		</button>
+		<button
+			class="bg-brand-green flex aspect-square w-6 items-center justify-center rounded-full shadow-md"
+			onclick={() => handleClickOutside()}
+		>
+			<Check size="20px" color="#fff" />
 		</button>
 	</div>
 </div>
