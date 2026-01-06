@@ -3,7 +3,7 @@
 		smallText,
 		description,
 		value
-	}: { smallText?: string; description: string; value: number } = $props();
+	}: { smallText?: string; description: string; value: number | string } = $props();
 </script>
 
 <div class="dropdown_wrapper h-[100px]">

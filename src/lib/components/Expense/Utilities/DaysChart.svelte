@@ -1,11 +1,14 @@
 <script lang="ts">
-	// import { Chart, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
-	// import { Bar } from 'svelte-chartjs';
+	import BarChart from '$lib/components/Common/BarChart.svelte';
+	import ExpenseUtils from './utils';
+
+	import { Chart, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
+	// import { Line } from 'svelte-chartjs';
 	// import { Chart } from 'chart.js/auto';
 
 	// Chart.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
-	let {} = $props();
+	let { txnList } = $props();
 
 	// let data = {
 	// 	labels: ['_label', '_label', '_label', '_label', '_label'],
@@ -63,9 +66,19 @@
 			}
 		]
 	};
+
+	$effect(() => console.log(ExpenseUtils.getDailyExpenseLineData(txnList)));
 </script>
 
+<div class="mb-4 flex items-center justify-between gap-4">
+	<p class="text-lg font-medium md:text-xl">Daily Spending Trend</p>
+</div>
+
 <div>
+	<!-- <BarChart/> -->
+	<BarChart title="Bar" xLabels={['mon', 'tue', 'wed']} yValues={[1, 2, 3, 4]} textColor="red" />
+
+	<!-- chart -->
 	<!-- <Bar {options} {data} /> -->
 	<!-- data={{
 			labels: ['_label', '_label', '_label', '_label', '_label'],

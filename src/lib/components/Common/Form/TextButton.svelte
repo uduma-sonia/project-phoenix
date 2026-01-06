@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { Plus } from '@lucide/svelte';
-
 	let {
 		isLoading = false,
 		variant = 'primary',
@@ -8,10 +6,12 @@
 		action,
 		type,
 		RightIcon,
+		className,
 		...restProps
 	}: {
 		isLoading?: boolean;
 		variant?: string;
+		className?: string;
 		label?: string;
 		action?: () => void;
 		type?: 'button' | 'reset' | 'submit' | null | undefined;
@@ -19,9 +19,13 @@
 	} = $props();
 </script>
 
-<button class="text-brand-green flex items-center" {type} onclick={() => action?.()} {...restProps}>
+<button
+	class="text-brand-green flex items-center hover:underline hover:underline-offset-4 {className} "
+	{type}
+	onclick={() => action?.()}
+	{...restProps}
+>
 	{label}
 
 	<RightIcon />
-	<!-- <Plus size="20px" /> -->
 </button>

@@ -4,7 +4,7 @@
 	import BalanceCard from './Utilities/BalanceCard.svelte';
 	import Breakdown from './Utilities/Breakdown.svelte';
 	import DaysChart from './Utilities/DaysChart.svelte';
-	import { Cog, Plus, ClipboardList } from '@lucide/svelte';
+	import { Cog, Plus, ClipboardList, Check } from '@lucide/svelte';
 	import AddTxnModal from '../Modals/AddTxnModal.svelte';
 	import { openAddTxnModal, openTxnCategoryModal } from '$lib/state/modal.svelte';
 	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
@@ -15,7 +15,8 @@
 	import Helpers from '$lib/utils/helpers';
 	import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
 	import ExpenseUtils from './Utilities/utils';
-	import StatItem from '../Habit/Utilities/StatItem.svelte';
+	import StatsSections from './Utilities/StatsSections.svelte';
+	import BreakdownInsight from './Utilities/BreakdownInsight.svelte';
 
 	let currentMonth = $state(new Date());
 
@@ -63,6 +64,8 @@
 	const nextMonth = () => {
 		currentMonth = addMonths(currentMonth, 1);
 	};
+
+	let insightsStrings = $derived(ExpenseUtils.getInsights(txnList));
 </script>
 
 <div class="pb-24">
@@ -109,19 +112,25 @@
 		/>
 	</div>
 
-	<div class="mt-10 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-10">
+	<div class="mt-10 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
 		<div>
 			<Breakdown {breakdownList} txnLoading={$txnQuery?.isLoading} isError={$txnQuery?.isError} />
 		</div>
-		<div>
-			<div class="w-full space-y-4">
-				<StatItem value={100} description="Total Transactions" />
-				<StatItem value={100} description="Daily average spending" />
-			</div>
+
+		<div class="py-8">
+			{#if txnList?.length}
+				<BreakdownInsight {insightsStrings} />
+			{/if}
 		</div>
 	</div>
 
-	<DaysChart />
+	<div class="mt-10 px-3">
+		<StatsSections {txnList} {start} {end} />
+	</div>
+
+	<!-- <div class="mt-10 px-3">
+		<DaysChart {txnList} />
+	</div> -->
 </div>
 
 <AddTxnModal {transactionCategoriesList} {start} {end} />
