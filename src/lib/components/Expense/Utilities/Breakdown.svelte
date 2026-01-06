@@ -1,7 +1,18 @@
 <script lang="ts">
+	import LoaderError from '$lib/components/Common/LoaderError.svelte';
+	import { onMount } from 'svelte';
 	import BreakdownRowItem from './BreakdownRowItem.svelte';
+	import EmptyState from '$lib/components/Common/EmptyState.svelte';
 
-	let { breakdownList } = $props();
+	let { breakdownList, txnLoading, isError } = $props();
+
+	let hasTxns = $derived((breakdownList ?? []).length > 0);
+
+	let hasMount = $state(false);
+
+	onMount(() => {
+		hasMount = true;
+	});
 </script>
 
 <div class="">
@@ -12,15 +23,27 @@
 
 <div class="retro_wrapper">
 	<div class="retro_wrapper_inner_ejf">
-		<table class="w-full border-collapse">
-			<tbody>
-				{#if breakdownList}
-					{#each breakdownList as item, index (index)}
-						<BreakdownRowItem {item} />
-					{/each}
+		<LoaderError isLoading={txnLoading} error={isError} />
+
+		{#if !txnLoading && !isError}
+			{#if hasTxns}
+				<table class="w-full border-collapse">
+					<tbody>
+						{#if breakdownList}
+							{#each breakdownList as item, index (index)}
+								<BreakdownRowItem {item} />
+							{/each}
+						{/if}
+					</tbody>
+				</table>
+			{:else if !isError}
+				{#if hasMount}
+					<EmptyState heading="No Breakdown yet" />
+				{:else}
+					<LoaderError isLoading={true} />
 				{/if}
-			</tbody>
-		</table>
+			{/if}
+		{/if}
 	</div>
 </div>
 

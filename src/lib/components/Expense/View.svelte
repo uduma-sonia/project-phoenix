@@ -15,6 +15,7 @@
 	import Helpers from '$lib/utils/helpers';
 	import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
 	import ExpenseUtils from './Utilities/utils';
+	import StatItem from '../Habit/Utilities/StatItem.svelte';
 
 	let currentMonth = $state(new Date());
 
@@ -42,6 +43,7 @@
 	});
 	let transactionCategoriesList = $derived($txnCategoriesQuery?.data?.data?.transactionCategories);
 	let breakdownList = $derived(ExpenseUtils.getBreakdownList(txnList, 'desc'));
+
 	const moreOptions = [
 		{
 			label: 'Manage category',
@@ -61,12 +63,12 @@
 	const nextMonth = () => {
 		currentMonth = addMonths(currentMonth, 1);
 	};
-
-	$effect(() => console.log(breakdownList));
 </script>
 
 <div class="pb-24">
-	<p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">Track and manage your expenses</p>
+	<p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">
+		Manage and track all your financial transactions
+	</p>
 
 	<div class="my-4 flex flex-col justify-between px-3 md:flex-row md:items-center">
 		<DateScroller {nextMonth} {prevMonth} {currentMonth} />
@@ -107,11 +109,16 @@
 		/>
 	</div>
 
-	<div class="mt-10 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
+	<div class="mt-10 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-10">
 		<div>
-			<Breakdown {breakdownList} />
+			<Breakdown {breakdownList} txnLoading={$txnQuery?.isLoading} isError={$txnQuery?.isError} />
 		</div>
-		<div></div>
+		<div>
+			<div class="w-full space-y-4">
+				<StatItem value={100} description="Total Transactions" />
+				<StatItem value={100} description="Daily average spending" />
+			</div>
+		</div>
 	</div>
 
 	<DaysChart />

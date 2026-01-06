@@ -7,7 +7,7 @@
 		link,
 		buttonText,
 		action
-	}: { heading: string; text: string; link?: string; buttonText: string; action?: () => void } =
+	}: { heading?: string; text?: string; link?: string; buttonText?: string; action?: () => void } =
 		$props();
 </script>
 
