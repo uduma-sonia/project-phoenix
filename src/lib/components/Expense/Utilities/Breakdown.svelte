@@ -1,5 +1,7 @@
-<script>
+<script lang="ts">
 	import BreakdownRowItem from './BreakdownRowItem.svelte';
+
+	let { breakdownList } = $props();
 </script>
 
 <div class="">
@@ -12,8 +14,11 @@
 	<div class="retro_wrapper_inner_ejf">
 		<table class="w-full border-collapse">
 			<tbody>
-				<BreakdownRowItem />
-				<BreakdownRowItem />
+				{#if breakdownList}
+					{#each breakdownList as item, index (index)}
+						<BreakdownRowItem {item} />
+					{/each}
+				{/if}
 			</tbody>
 		</table>
 	</div>
@@ -27,6 +32,6 @@
 		border-radius: 8px;
 		border: 2px solid black;
 		background-color: #fff;
-		padding: 16px;
+		padding: 0px 16px 0px;
 	}
 </style>

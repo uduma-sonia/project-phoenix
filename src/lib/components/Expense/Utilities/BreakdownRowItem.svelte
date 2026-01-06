@@ -2,7 +2,7 @@
 	import { currencies } from '$lib/constants/currency';
 	import Helpers from '$lib/utils/helpers';
 
-	let {} = $props();
+	let { item } = $props();
 
 	const getCurrency: any = Helpers.transformObjectToList(currencies[0])?.find(
 		(item) => item.id === 'NGN'
@@ -10,10 +10,10 @@
 </script>
 
 <tr>
-	<td class="font-lexend border-b border-gray-300 py-3">
-		<p class="text-[15px]">Food delivery</p>
+	<td class="font-lexend border-b border-gray-300 py-2.5">
+		<p class="text-[15px]">{item?.categoryName}</p>
 
-		<p class="text-xs font-light text-gray-600">2</p>
+		<p class="text-xs font-light text-gray-600">{item?.count} time{Helpers.returnS(item.count)}</p>
 	</td>
 	<td class="font-lexend border-b border-gray-300">
 		<div class="flex items-center justify-end gap-3">
@@ -23,7 +23,7 @@
 						currency: getCurrency?.details?.code,
 						minimumFractionDigits: getCurrency?.details.rounding,
 						maximumFractionDigits: getCurrency?.details?.decimal_digits
-					}).format(1000)}
+					}).format(item?.totalAmount)}
 				</p>
 			</div>
 		</div>

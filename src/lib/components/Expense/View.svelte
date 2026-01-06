@@ -41,7 +41,7 @@
 		queryFn: () => TransactionRequest.getTransactionCategories()
 	});
 	let transactionCategoriesList = $derived($txnCategoriesQuery?.data?.data?.transactionCategories);
-
+	let breakdownList = $derived(ExpenseUtils.getBreakdownList(txnList, 'desc'));
 	const moreOptions = [
 		{
 			label: 'Manage category',
@@ -62,27 +62,7 @@
 		currentMonth = addMonths(currentMonth, 1);
 	};
 
-	// const getExpensesList = useMemo(() => {
-	// 	const result = transactions?.filter((item) => item.type === TransactionType.EXPENSE);
-
-	// 	return ExpensesUtils.groupTransactionsByCategory(result, sortOrder);
-	// }, [transactions, sortOrder]);
-
-	function groupTransactionsByCategory(transactions: any[], sort: 'asc' | 'desc' = 'asc') {
-		// return transactions.reduce((acc, transaction) => {
-		//   const { categoryName, amount } = transaction;
-		//   const existingCategory = acc.find(
-		//     (item: TransactionTracker) => item.categoryName === categoryName
-		//   );
-		//   if (existingCategory) {
-		//     existingCategory.totalAmount += amount;
-		//     existingCategory.count += 1;
-		//   } else {
-		//     acc.push({ categoryName, totalAmount: amount, count: 1 });
-		//   }
-		//   return this.sortTransactionsGroupByAmount(acc, sort);
-		// }, [] as { categoryName: string; totalAmount: number; count: number }[]);
-	}
+	$effect(() => console.log(breakdownList));
 </script>
 
 <div class="pb-24">
@@ -129,7 +109,7 @@
 
 	<div class="mt-10 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
 		<div>
-			<Breakdown />
+			<Breakdown {breakdownList} />
 		</div>
 		<div></div>
 	</div>

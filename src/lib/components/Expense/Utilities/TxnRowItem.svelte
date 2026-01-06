@@ -17,7 +17,7 @@
 	}
 </script>
 
-<div class="flex h-20 min-w-[600px] items-stretch md:h-16">
+<div class="flex h-14 min-w-[600px] items-stretch">
 	<div class="font-lexend flex h-full flex-1 flex-col justify-center border-b border-gray-300 pr-3">
 		<p class="text-[15px]">{txn?.categoryName}</p>
 	</div>
@@ -31,7 +31,6 @@
 	<div class="font-lexend flex h-full w-fit flex-col justify-center border-b border-gray-300 pr-3">
 		<p class="text-xs font-light text-gray-600">
 			{#if txn?.date}
-				<!-- {Helpers.getRelativeDate(txn?.date)} -->
 				{format(new Date(txn.date), 'PP')}
 			{/if}
 		</p>
