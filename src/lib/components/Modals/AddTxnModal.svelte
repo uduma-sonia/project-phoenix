@@ -1,5 +1,5 @@
 <script lang="ts">
-	// @ts-nocheck
+	// @ts-nochec
 	import { closeAddTxnModal, modalsState } from '$lib/state/modal.svelte';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import BasicButton from '../Common/Form/BasicButton.svelte';
@@ -8,15 +8,21 @@
 	import Helpers from '$lib/utils/helpers';
 	import { format } from 'date-fns';
 	import DatePickerMini from '../Common/DatePicker/DatePickerMini.svelte';
-	import { TransactionType } from '../../../types/transaction';
+	import { TransactionType, type TransactionCategory } from '../../../types/transaction';
+	import { addToast } from '$lib/store/toast';
+	import { useQueryClient } from '@tanstack/svelte-query';
+	import { queryKeys } from '$lib/utils/queryKeys';
+	import { TransactionRequest } from '$lib/requests';
 
-	let { transactionCategoriesList } = $props();
+	let { transactionCategoriesList, start, end } = $props();
+	const queryClient = useQueryClient();
 
-	let selectedDifficulty = $state();
 	let isSubmitting = $state(false);
-	let type = $state('EXPENSE');
+	let type = $state(TransactionType.EXPENSE);
 	let startDateValue = $state(new Date());
 	let isStartDateOpen = $state(false);
+	let amount = $state('');
+	let description = $state('');
 
 	function toggleStart() {
 		isStartDateOpen = !isStartDateOpen;
@@ -26,37 +32,54 @@
 		isStartDateOpen = false;
 	}
 
-	function changeType(val: string) {
+	function changeType(val: TransactionType) {
 		type = val;
 	}
-
-	const difficultyOptions = [
-		{
-			value: 'Easy',
-			id: 'EASY'
-		},
-		{
-			value: 'Medium',
-			id: 'MEDIUM'
-		},
-		{
-			value: 'Hard',
-			id: 'HARD'
-		}
-	];
 
 	let transformedList = $derived(
 		transactionCategoriesList?.filter((item: TransactionCategory) => item.type === type)
 	);
 
-	let catOptions = $derived(
-		transformedList?.map((item) => {
+	let txnCategoriesOptions = $derived(
+		transformedList?.map((item: any) => {
 			return {
 				value: item.name,
 				id: item._id
 			};
 		})
 	);
+	let selectedCategory = $derived({ value: '', id: '' });
+
+	async function handleSubmit() {
+		try {
+			isSubmitting = true;
+
+			const payload = {
+				date: startDateValue,
+				description,
+				amount: Number(amount),
+				categoryName: selectedCategory?.value,
+				categoryId: selectedCategory?.id,
+				type
+			};
+
+			await TransactionRequest.createTransaction(payload);
+			addToast('Transaction created', 'success');
+			queryClient.invalidateQueries({
+				queryKey: queryKeys.getTransactions({ startDate: start, endDate: end })
+			});
+			amount = '';
+			selectedCategory = { value: '', id: '' };
+			description = '';
+			startDateValue = new Date();
+
+			closeAddTxnModal();
+		} catch (error: any) {
+			addToast(error?.message || 'An error occured', 'error');
+		} finally {
+			isSubmitting = false;
+		}
+	}
 </script>
 
 <ModalWrapper
@@ -117,32 +140,54 @@
 				</div>
 
 				<div>
-					<Dropdown
-						label="Category"
-						options={catOptions}
-						bind:selectedOption={selectedDifficulty}
-						shouldSearch={false}
-					/>
+					{#if txnCategoriesOptions?.length}
+						<Dropdown
+							label="Category"
+							options={txnCategoriesOptions}
+							bind:selectedOption={selectedCategory}
+							shouldSearch={true}
+							placeholder="Select category"
+						/>
+					{/if}
 				</div>
 
 				<div>
-					<BasicInputField label="Amount" type="number" id="amount" name="amount" required />
+					<BasicInputField
+						inputMode="numeric"
+						label="Amount"
+						type="number"
+						id="amount"
+						name="amount"
+						required
+						bind:value={amount}
+					/>
 				</div>
 				<div>
-					<BasicInputField label="Description" type="text" id="description" name="description" />
+					<BasicInputField
+						label="Description"
+						placeholder="Enter description"
+						type="text"
+						id="description"
+						name="description"
+						bind:value={description}
+					/>
 				</div>
 			</div>
 		</div>
 		<div class="fle mt-8 justify-end">
 			<div class="mt-8 flex items-center justify-end gap-5">
-				<BasicButton label="Cancel" variant="error" />
-				<BasicButton label="Add Transaction" isLoading={isSubmitting} variant="primary" />
+				<div class="flex-1">
+					<BasicButton action={closeAddTxnModal} label="Cancel" variant="error" />
+				</div>
+				<div class="w-[60%]">
+					<BasicButton
+						label="Add Transaction"
+						action={handleSubmit}
+						isLoading={isSubmitting}
+						variant="primary"
+					/>
+				</div>
 			</div>
-			<!-- <BasicButton isLoading={isSubmitting} label="Save" type="submit" /> -->
-
-			<!-- <div class="w-fit">
-				<BasicButton className="shadow_button_thin" LeftIcon={Plus} label="Create list" />
-			</div> -->
 		</div>
 	</div>
 </ModalWrapper>

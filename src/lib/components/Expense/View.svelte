@@ -112,5 +112,5 @@
 	<DaysChart />
 </div>
 
-<AddTxnModal {transactionCategoriesList} />
+<AddTxnModal {transactionCategoriesList} {start} {end} />
 <TxnCategoryModal {transactionCategoriesList} />

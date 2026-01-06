@@ -40,7 +40,7 @@
 						currency: getCurrency?.details?.code,
 						minimumFractionDigits: getCurrency?.details.rounding,
 						maximumFractionDigits: getCurrency?.details?.decimal_digits
-					}).format(1000)}
+					}).format(txn.amount)}
 				</p>
 			</div>
 
