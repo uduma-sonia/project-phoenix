@@ -25,17 +25,6 @@ class ExpenseUtils {
 		};
 	}
 
-	static getBalanceTotal(transactions: Transaction[]) {
-		if (!transactions?.length) return 0;
-		const { totalIncome, totalExpense } = this.getTotals(transactions);
-
-		// const incomeValue = this.getIncomeTotal(transactions);
-		// const expensesValue = this.getExpensesTotal(transactions);
-		const result = totalIncome - totalExpense;
-
-		return result;
-	}
-
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	static sortTransactionsGroupByAmount(transactions: any[], sort: 'asc' | 'desc' = 'asc') {
 		return transactions.sort((a, b) => (sort === 'asc' ? a.count - b.count : b.count - a.count));
@@ -158,6 +147,22 @@ class ExpenseUtils {
 				date,
 				amount: map[date]
 			}));
+	}
+
+	static getList(txnList: Transaction[], selectedView: { id: string }) {
+		if (txnList?.length) {
+			return txnList?.filter((item) => {
+				if (selectedView.id === TransactionType.EXPENSE) {
+					return item.type === TransactionType.EXPENSE;
+				} else if (selectedView.id === TransactionType.INCOME) {
+					return item.type === TransactionType.INCOME;
+				} else {
+					return item;
+				}
+			});
+		}
+
+		return [];
 	}
 }
 

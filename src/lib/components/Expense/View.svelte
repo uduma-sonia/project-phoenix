@@ -17,6 +17,7 @@
 	import ExpenseUtils from './Utilities/utils';
 	import StatsSections from './Utilities/StatsSections.svelte';
 	import BreakdownInsight from './Utilities/BreakdownInsight.svelte';
+	import BarChart from '../Common/BarChart.svelte';
 
 	let currentMonth = $state(new Date());
 
@@ -115,7 +116,7 @@
 		</div>
 
 		<div class="py-8">
-			{#if txnList?.length}
+			{#if breakdownList?.length > 2}
 				<BreakdownInsight {insightsStrings} />
 			{/if}
 		</div>
@@ -126,7 +127,9 @@
 	</div>
 
 	<div class="mt-10 px-3">
-		<DaysChart {txnList} />
+		<!-- <DaysChart {txnList} /> -->
+
+		<BarChart transactions={txnList} />
 	</div>
 </div>
 
