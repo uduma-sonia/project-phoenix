@@ -1,4 +1,4 @@
-import { ChefHat, Plane, ShoppingCart, Sprout } from '@lucide/svelte';
+import { ChefHat, ShoppingCart, Sprout } from '@lucide/svelte';
 
 export const AUTH_TOKEN = 'phoenix_token';
 export const RECIPE_COUNT_TRACKER = 'recipe_ct';
@@ -146,20 +146,20 @@ export const homeFeaturesList = [
 			'Scale ingredients by servings and auto-convert units',
 			'Share recipes or publish public recipe pages'
 		]
-	},
-	{
-		id: 'trip',
-		title: 'Plan your trips',
-		icon: Plane,
-		imageUrl: '/images/trip_img.jpg',
-		isReverse: true,
-		features: [
-			'Plan perfect trips with itineraries, activities and packing list',
-			'Collaborate with others or go solo.',
-			'Packing lists',
-			'Build itineraries with days, activities and times'
-		]
 	}
+	// {
+	// 	id: 'trip',
+	// 	title: 'Plan your trips',
+	// 	icon: Plane,
+	// 	imageUrl: '/images/trip_img.jpg',
+	// 	isReverse: true,
+	// 	features: [
+	// 		'Plan perfect trips with itineraries, activities and packing list',
+	// 		'Collaborate with others or go solo.',
+	// 		'Packing lists',
+	// 		'Build itineraries with days, activities and times'
+	// 	]
+	// }
 ];
 
 export const plansList = [
