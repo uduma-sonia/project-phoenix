@@ -6,11 +6,15 @@
 	import { format } from 'date-fns';
 	import type { Transaction } from '../../../../types/transaction';
 
-	let { txn }: { txn: Transaction } = $props();
+	let { txn, handleDelete }: { txn: Transaction; handleDelete: (id: string) => void } = $props();
 
 	const getCurrency: any = Helpers.transformObjectToList(currencies[0])?.find(
 		(item) => item.id === 'NGN'
 	);
+
+	function _handleDelete() {
+		handleDelete(txn?._id);
+	}
 </script>
 
 <div class="flex h-16 items-stretch">
@@ -50,7 +54,8 @@
 						{
 							label: 'Delete',
 							icon: Trash2,
-							iconColor: 'red'
+							iconColor: 'red',
+							action: _handleDelete
 						}
 					]}
 				/>

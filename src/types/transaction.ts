@@ -15,6 +15,7 @@ export type Transaction = {
 	type: TransactionType;
 	date?: Date;
 	description: string;
+	_id: string;
 };
 
 export type TransactionCategory = {

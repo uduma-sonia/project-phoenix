@@ -1,12 +1,20 @@
 <script lang="ts">
 	import Dropdown from '$lib/components/Common/Form/Dropdown.svelte';
+	import { addToast } from '$lib/store/toast';
+	import { useQueryClient } from '@tanstack/svelte-query';
 	import TxnRowItem from './TxnRowItem.svelte';
+	import { queryKeys } from '$lib/utils/queryKeys';
+	import { TransactionRequest } from '$lib/requests';
 
-	let { txnList } = $props();
+	let { txnList, start, end } = $props();
+	const queryClient = useQueryClient();
+
 	let selectedPlan = $state({
 		id: 'all',
 		value: 'All'
 	});
+
+	let isDeleting = $state(false);
 
 	const viewOptions = [
 		{
@@ -22,6 +30,21 @@
 			value: 'Income'
 		}
 	];
+
+	async function handleDelete(id: string) {
+		try {
+			isDeleting = true;
+			await TransactionRequest.deleteTransaction(id);
+			addToast('Transaction deleted', 'success');
+			queryClient.invalidateQueries({
+				queryKey: queryKeys.getTransactions({ startDate: start, endDate: end })
+			});
+		} catch (error: any) {
+			addToast(error?.message || 'An error occured', 'error');
+		} finally {
+			isDeleting = false;
+		}
+	}
 </script>
 
 <div class="mb-4 flex items-center justify-between gap-4">
@@ -37,7 +60,7 @@
 	<div class="retro_wrapper_inner_ejf">
 		<div class="flex flex-col overflow-x-auto">
 			{#each txnList as txn, index (index)}
-				<TxnRowItem {txn} />
+				<TxnRowItem {handleDelete} {txn} />
 			{/each}
 		</div>
 	</div>
@@ -51,6 +74,6 @@
 		border-radius: 8px;
 		border: 2px solid black;
 		background-color: #fff;
-		padding: 16px;
+		padding: 0px 16px 16px;
 	}
 </style>

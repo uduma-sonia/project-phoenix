@@ -97,7 +97,7 @@
 
 	<div class="mt-6 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
 		<div>
-			<TxnTable {txnList} />
+			<TxnTable {txnList} {start} {end} />
 		</div>
 		<div></div>
 	</div>
