@@ -91,13 +91,13 @@
 		class="no-scrollbar flex w-full flex-nowrap items-center gap-3 overflow-x-auto px-3 py-3 md:gap-6"
 	>
 		<BalanceCard title="Balance" value={getBalance} />
-		<BalanceCard title="Income" value={getIncome} />
-		<BalanceCard title="Expense" value={getExpense} />
+		<BalanceCard title="Income" value={getIncome} balanceClass="text-brand-green" />
+		<BalanceCard title="Expense" value={getExpense} balanceClass="text-brand-error" />
 	</div>
 
 	<div class="mt-6 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
 		<div>
-			<TxnTable />
+			<TxnTable {txnList} />
 		</div>
 		<div></div>
 	</div>

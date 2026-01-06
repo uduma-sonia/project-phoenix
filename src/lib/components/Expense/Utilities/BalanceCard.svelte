@@ -2,7 +2,8 @@
 	import { currencies } from '$lib/constants/currency';
 	import Helpers from '$lib/utils/helpers';
 
-	let { title, value } = $props();
+	let { title, value, balanceClass }: { title: string; value: number; balanceClass?: string } =
+		$props();
 
 	const getCurrency: any = Helpers.transformObjectToList(currencies[0])?.find(
 		(item) => item.id === 'NGN'
@@ -13,8 +14,8 @@
 	<div class="retro_wrapper">
 		<div class="retro_wrapper_inner_iwjd">
 			<div class="flex h-20 flex-col justify-center">
-				<p class="font-lexend mb-2 text-xs font-light md:text-sm">{title}</p>
-				<p class="font-lexend text-lg font-normal md:text-xl">
+				<p class="font-lexend mb-2 text-xs font-light opacity-70 md:text-sm">{title}</p>
+				<p class="font-lexend text-lg font-normal md:text-xl {balanceClass}">
 					{Helpers.currencyFormatter({
 						currency: getCurrency?.details?.code,
 						minimumFractionDigits: getCurrency?.details.rounding,

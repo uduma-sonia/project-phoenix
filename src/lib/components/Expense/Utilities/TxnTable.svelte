@@ -2,6 +2,7 @@
 	import Dropdown from '$lib/components/Common/Form/Dropdown.svelte';
 	import TxnRowItem from './TxnRowItem.svelte';
 
+	let { txnList } = $props();
 	let selectedPlan = $state({
 		id: 'all',
 		value: 'All'
@@ -34,14 +35,11 @@
 </div>
 <div class="retro_wrapper">
 	<div class="retro_wrapper_inner_ejf">
-		<table class="w-full border-collapse">
-			<tbody>
-				<TxnRowItem />
-				<TxnRowItem />
-				<TxnRowItem />
-				<TxnRowItem />
-			</tbody>
-		</table>
+		<div class="flex flex-col overflow-x-auto">
+			{#each txnList as txn, index (index)}
+				<TxnRowItem {txn} />
+			{/each}
+		</div>
 	</div>
 </div>
 
