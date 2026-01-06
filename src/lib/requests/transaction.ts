@@ -15,8 +15,7 @@ class TransactionService {
 		return await this.api.post(`${this.prefix}`, data, { ...reqConfig });
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	async getTransactions(params: any, reqConfig?: ReqConfig) {
+	async getTransactions(params: { startDate: string; endDate: string }, reqConfig?: ReqConfig) {
 		return await this.api.get(`${this.prefix}?${Helpers.formatQueryParams(params)}`, {
 			...reqConfig
 		});

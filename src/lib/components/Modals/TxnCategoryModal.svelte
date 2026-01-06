@@ -14,7 +14,6 @@
 	const queryClient = useQueryClient();
 
 	let isSubmitting = $state(false);
-	let isLoading = $state(false);
 	let type = $state(TransactionType.EXPENSE);
 
 	let transformedList = $derived(
@@ -52,8 +51,6 @@
 
 	async function handleUpdateItem(itemId: string, name: string) {
 		try {
-			isLoading = true;
-
 			const payload = {
 				name: name
 			};
@@ -65,8 +62,6 @@
 			}
 		} catch (error: any) {
 			addToast(error?.message || 'An error occured', 'error');
-		} finally {
-			isLoading = false;
 		}
 	}
 </script>

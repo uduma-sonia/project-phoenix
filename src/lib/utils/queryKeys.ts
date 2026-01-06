@@ -70,7 +70,7 @@ const mealKeys = {
 };
 
 const transactionKeys = {
-	getTransactions: (data: { mealPlanId: string; days: string }) => [
+	getTransactions: (data: { startDate: string; endDate: string }) => [
 		`/transaction?${Helpers.formatQueryParams(data)}`
 	],
 	getTransactionCategories: [`/transaction-category`]

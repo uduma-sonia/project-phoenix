@@ -2,15 +2,17 @@
 	import { Play } from '@lucide/svelte';
 	import { addMonths, format, subMonths } from 'date-fns';
 
-	let currentMonth = $state(new Date());
+	let { prevMonth, nextMonth, currentMonth = $bindable() } = $props();
 
-	const prevMonth = () => {
-		currentMonth = subMonths(currentMonth, 1);
-	};
+	// let currentMonth = $state(new Date());
 
-	const nextMonth = () => {
-		currentMonth = addMonths(currentMonth, 1);
-	};
+	// const prevMonth = () => {
+	// 	currentMonth = subMonths(currentMonth, 1);
+	// };
+
+	// const nextMonth = () => {
+	// 	currentMonth = addMonths(currentMonth, 1);
+	// };
 </script>
 
 <div class="flex items-center gap-3 overflow-hidden pr-3">
