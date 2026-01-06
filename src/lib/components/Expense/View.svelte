@@ -18,6 +18,8 @@
 	import StatsSections from './Utilities/StatsSections.svelte';
 	import BreakdownInsight from './Utilities/BreakdownInsight.svelte';
 	import BarChart from '../Common/BarChart.svelte';
+	import CategoryChart from './Utilities/CategoryChart.svelte';
+	import AnalyticsSection from './Utilities/AnalyticsSection.svelte';
 
 	let currentMonth = $state(new Date());
 
@@ -126,11 +128,7 @@
 		<StatsSections {txnList} {start} {end} />
 	</div>
 
-	<div class="mt-10 px-3">
-		<!-- <DaysChart {txnList} /> -->
-
-		<BarChart transactions={txnList} />
-	</div>
+	<AnalyticsSection {txnList} />
 </div>
 
 <AddTxnModal {transactionCategoriesList} {start} {end} />

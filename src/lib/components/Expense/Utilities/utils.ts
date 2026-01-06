@@ -164,6 +164,22 @@ class ExpenseUtils {
 
 		return [];
 	}
+
+	static getExpenseBarData(transactions: Transaction[], type: TransactionType) {
+		if (!transactions) return [];
+
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const map: any = {};
+		transactions.forEach((tx) => {
+			if (tx.type !== type) return;
+			map[tx.categoryName] = (map[tx.categoryName] || 0) + tx.amount;
+		});
+
+		return Object.entries(map).map(([category, amount]) => ({
+			category,
+			amount
+		}));
+	}
 }
 
 export default ExpenseUtils;
