@@ -181,7 +181,7 @@
 			action: handleShoppingDone
 		},
 		{
-			label: 'Delete board',
+			label: 'Delete list',
 			icon: Trash,
 			iconColor: 'red',
 			action: deleteTrip
@@ -222,36 +222,22 @@
 		</div>
 	</div>
 
-	<div class="mt-14 grid grid-cols-1 gap-10 px-3 md:grid-cols-2">
+	<div class="mt-1 grid grid-cols-1 gap-10 px-3 md:grid-cols-2">
 		<div>
 			<LoaderError isLoading={$boardItemsQuery?.isLoading} error={$boardItemsQuery?.isError} />
 
+			{#if _total}
+				<div class="mt-4 flex items-center justify-between px-1">
+					<p class="font-lexend font-medium">Total amount</p>
+
+					<p class="font-lexend text-right font-light">
+						{_total}
+					</p>
+				</div>
+			{/if}
+
 			{#if !$boardItemsQuery?.isLoading}
 				<div>
-					<div class="mb- space-y-2">
-						{#each sortByDone(filteredItems) as items, index (index)}
-							<ListItem
-								currency={boardDetails?.currency}
-								{handleUpdate}
-								{canEditId}
-								data={items}
-								{handleUpdateItem}
-								{handleEdit}
-								canEdit={_permission === Permissions.OWNER || _permission === Permissions.CAN_EDIT}
-							/>
-						{/each}
-					</div>
-
-					{#if _total}
-						<div class="mt-4 flex items-center justify-between px-1">
-							<p class="font-lexend font-medium">Total</p>
-
-							<p class="font-lexend text-right font-light">
-								{_total}
-							</p>
-						</div>
-					{/if}
-
 					{#if _permission === Permissions.OWNER || _permission === Permissions.CAN_EDIT}
 						<div class="relative z-10 mt-8 w-full gap-3 rounded-lg border-2 bg-white p-3">
 							<form
@@ -268,18 +254,35 @@
 									placeholder="Type and enter"
 								/>
 							</form>
-						</div>
 
-						<div class="mt-4 flex justify-center">
-							<button class="create_button_sm shadow_button" onclick={() => handleItemAdd(boardId)}>
-								{#if isAdding}
-									<div class="spinner_white border-2 border-black"></div>
-								{:else}
-									<Plus size="26px" />
-								{/if}
-							</button>
+							<div class="absolute top-1/2 right-3 -translate-y-1/2">
+								<button
+									class="bg-brand-green flex aspect-square w-8 items-center justify-center rounded-full shadow-lg"
+									onclick={() => handleItemAdd(boardId)}
+								>
+									{#if isAdding}
+										<div class="spinner_white border-2 border-black"></div>
+									{:else}
+										<Check size="20px" color="#fff" />
+									{/if}
+								</button>
+							</div>
 						</div>
 					{/if}
+
+					<div class="mt-6 space-y-2">
+						{#each sortByDone(filteredItems) as items, index (index)}
+							<ListItem
+								currency={boardDetails?.currency}
+								{handleUpdate}
+								{canEditId}
+								data={items}
+								{handleUpdateItem}
+								{handleEdit}
+								canEdit={_permission === Permissions.OWNER || _permission === Permissions.CAN_EDIT}
+							/>
+						{/each}
+					</div>
 				</div>
 			{/if}
 		</div>

@@ -436,6 +436,19 @@ class Helpers {
 		// Convert each to ISO week number and string
 		return weeks.map((date) => String(getISOWeek(date)));
 	}
+
+	static convertNumber(num: number) {
+		if (num >= 1e9) {
+			return (num / 1e9).toFixed(1).replace(/\.0$/, '') + 'B';
+		}
+		if (num >= 1e6) {
+			return (num / 1e6).toFixed(1).replace(/\.0$/, '') + 'M';
+		}
+		if (num >= 1e3) {
+			return (num / 1e3).toFixed(1).replace(/\.0$/, '') + 'k';
+		}
+		return num.toString();
+	}
 }
 
 export default Helpers;

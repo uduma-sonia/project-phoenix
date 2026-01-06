@@ -1,28 +1,15 @@
-import Helpers from '$lib/utils/helpers';
 import { differenceInDays, parseISO } from 'date-fns';
 import { TransactionType, type Transaction } from '../../../../types/transaction';
 
 class ExpenseUtils {
-	static getIncomeTotal(transactions: Transaction[]) {
-		if (!transactions?.length) return 0;
-
-		const filteredIncome = transactions?.filter((item) => item.type === TransactionType.INCOME);
-		const getAmountList = filteredIncome.map((item) => item.amount);
-		const result = Helpers.sumArray(getAmountList);
-
-		return result;
-	}
-
-	static getExpensesTotal(transactions: Transaction[]) {
-		if (!transactions?.length) return 0;
-
-		const filteredIncome = transactions.filter((item) => item.type === TransactionType.EXPENSE);
-		const getAmountList = filteredIncome.map((item) => item.amount);
-		const result = Helpers.sumArray(getAmountList);
-		return result;
-	}
-
 	static getTotals(transactions: Transaction[]) {
+		if (!transactions)
+			return {
+				totalIncome: 0,
+				totalExpense: 0,
+				balance: 0
+			};
+
 		let income = 0;
 		let expense = 0;
 
@@ -36,17 +23,6 @@ class ExpenseUtils {
 			totalExpense: expense,
 			balance: income - expense
 		};
-	}
-
-	static getBalanceTotal(transactions: Transaction[]) {
-		if (!transactions?.length) return 0;
-		const { totalIncome, totalExpense } = this.getTotals(transactions);
-
-		// const incomeValue = this.getIncomeTotal(transactions);
-		// const expensesValue = this.getExpensesTotal(transactions);
-		const result = totalIncome - totalExpense;
-
-		return result;
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -155,7 +131,8 @@ class ExpenseUtils {
 	static getDailyExpenseLineData(transactions: Transaction[]) {
 		if (!transactions) return [];
 
-		const map = {};
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const map: any = {};
 
 		transactions.forEach((tx) => {
 			if (tx.type !== 'EXPENSE') return;
@@ -170,6 +147,38 @@ class ExpenseUtils {
 				date,
 				amount: map[date]
 			}));
+	}
+
+	static getList(txnList: Transaction[], selectedView: { id: string }) {
+		if (txnList?.length) {
+			return txnList?.filter((item) => {
+				if (selectedView.id === TransactionType.EXPENSE) {
+					return item.type === TransactionType.EXPENSE;
+				} else if (selectedView.id === TransactionType.INCOME) {
+					return item.type === TransactionType.INCOME;
+				} else {
+					return item;
+				}
+			});
+		}
+
+		return [];
+	}
+
+	static getExpenseBarData(transactions: Transaction[], type: TransactionType) {
+		if (!transactions) return [];
+
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const map: any = {};
+		transactions.forEach((tx) => {
+			if (tx.type !== type) return;
+			map[tx.categoryName] = (map[tx.categoryName] || 0) + tx.amount;
+		});
+
+		return Object.entries(map).map(([category, amount]) => ({
+			category,
+			amount
+		}));
 	}
 }
 

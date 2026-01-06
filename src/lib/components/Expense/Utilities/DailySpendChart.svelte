@@ -11,9 +11,9 @@
 		Legend,
 		Filler
 	} from 'chart.js';
-	import ExpenseUtils from '../Expense/Utilities/utils';
 	import { format } from 'date-fns';
 	import Helpers from '$lib/utils/helpers';
+	import ExpenseUtils from './utils';
 
 	Chart.register(
 		BarController,
@@ -71,8 +71,11 @@
 	});
 </script>
 
-<div class="mb-4 flex items-center justify-between gap-4">
+<div class="mb-4">
 	<p class="text-lg font-medium md:text-xl">Daily Spending Trend</p>
+	<p class="font-lexend text-13 font-light">
+		Shows how much you spend each day and helps you spot spending patterns over time
+	</p>
 </div>
 
 <div class="retro_wrapper">

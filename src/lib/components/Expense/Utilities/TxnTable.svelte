@@ -5,37 +5,51 @@
 	import TxnRowItem from './TxnRowItem.svelte';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TransactionRequest } from '$lib/requests';
-	import { TransactionType } from '../../../../types/transaction';
 	import EmptyState from '$lib/components/Common/EmptyState.svelte';
 	import { openAddTxnModal } from '$lib/state/modal.svelte';
 	import LoaderError from '$lib/components/Common/LoaderError.svelte';
 	import { onMount } from 'svelte';
+	import { viewOptions } from '$lib/constants/transaction';
+	import Pagination from './Pagination.svelte';
+	import ExpenseUtils from './utils';
 
 	let { txnList, start, end, txnLoading, isError } = $props();
 	const queryClient = useQueryClient();
 
 	let hasMount = $state(false);
-	let hasTxns = $derived((getList(txnList) ?? []).length > 0);
 
 	let selectedView = $state({
 		id: 'ALL',
 		value: 'All'
 	});
 
-	const viewOptions = [
-		{
-			id: 'ALL',
-			value: 'All'
-		},
-		{
-			id: TransactionType.EXPENSE,
-			value: 'Expense'
-		},
-		{
-			id: TransactionType.INCOME,
-			value: 'Income'
+	let ITEMS_PER_PAGE = 10;
+	let currentPage = $state(1);
+
+	let totalItems = $derived(ExpenseUtils.getList(txnList, selectedView)?.length);
+	let startPage = $derived((currentPage - 1) * ITEMS_PER_PAGE);
+	let endPage = $derived(startPage + ITEMS_PER_PAGE);
+	let paginatedTransactions = $derived(
+		ExpenseUtils.getList(txnList, selectedView)?.slice(startPage, endPage)
+	);
+
+	let totalPages = $derived(Math.max(1, Math.ceil(totalItems / ITEMS_PER_PAGE)));
+
+	function nextPage() {
+		if (currentPage < totalPages) {
+			currentPage += 1;
 		}
-	];
+	}
+
+	function prevPage() {
+		if (currentPage > 1) {
+			currentPage -= 1;
+		}
+	}
+
+	let hasTxns = $derived(
+		(ExpenseUtils.getList(paginatedTransactions, selectedView) ?? []).length > 0
+	);
 
 	async function handleDelete(id: string) {
 		try {
@@ -47,22 +61,6 @@
 		} catch (error: any) {
 			addToast(error?.message || 'An error occured', 'error');
 		}
-	}
-
-	function getList(txnList: any[]) {
-		if (txnList?.length) {
-			return txnList?.filter((item) => {
-				if (selectedView.id === TransactionType.EXPENSE) {
-					return item.type === TransactionType.EXPENSE;
-				} else if (selectedView.id === TransactionType.INCOME) {
-					return item.type === TransactionType.INCOME;
-				} else {
-					return item;
-				}
-			});
-		}
-
-		return [];
 	}
 
 	onMount(() => {
@@ -86,9 +84,13 @@
 
 			{#if !txnLoading && !isError}
 				{#if hasTxns}
-					{#each getList(txnList) as txn, index (index)}
+					{#each paginatedTransactions as txn, index (index)}
 						<TxnRowItem {handleDelete} {txn} />
 					{/each}
+
+					<div class="h-28">
+						<Pagination {totalPages} {nextPage} {prevPage} {currentPage} />
+					</div>
 				{:else if !isError}
 					{#if hasMount}
 						<EmptyState
@@ -103,8 +105,6 @@
 				{/if}
 			{/if}
 		</div>
-
-		<div class="h-10"></div>
 	</div>
 </div>
 
@@ -116,6 +116,6 @@
 		border-radius: 8px;
 		border: 2px solid black;
 		background-color: #fff;
-		padding: 0px 16px 16px;
+		padding: 0px 16px 0px;
 	}
 </style>

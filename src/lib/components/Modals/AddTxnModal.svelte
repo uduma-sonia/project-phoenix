@@ -114,7 +114,7 @@
 				</div>
 
 				<div class="w-1/2">
-					<label for="habitName" class="mb-2"> Start date</label>
+					<label for="habitName" class="mb-2"> Date</label>
 
 					<div class="relative">
 						<button

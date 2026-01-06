@@ -19,7 +19,7 @@
 </script>
 
 <div class="item_wrapper">
-	<div class="relative z-10 w-full gap-3 rounded-lg border-2 border-black bg-white">
+	<div class="relative z-10 w-full gap-3 rounded-lg border border-[#222] bg-white">
 		{#if canEditId == data?._id}
 			<EditItem {data} {handleEdit} {handleUpdate} />
 		{:else}
@@ -72,8 +72,8 @@
 		left: 1px;
 		right: 0;
 		bottom: 0;
-		background-color: black;
-		border: 2px solid black;
+		background-color: #222;
+		border: 1px solid #222;
 		z-index: 1;
 		border-radius: 8px;
 		width: 100%;

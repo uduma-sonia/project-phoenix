@@ -4,7 +4,7 @@
 	import View from '$lib/components/Shopping/View.svelte';
 </script>
 
-<AppLayout floatingLink="/shopping/create" tooltipText="Create Board">
+<AppLayout floatingLink="/shopping/create" tooltipText="Create List">
 	<Seo title="Shopping" />
 	<View />
 </AppLayout>

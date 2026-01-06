@@ -61,7 +61,7 @@
 		{:else if !isError}
 			{#if hasMount}
 				<EmptyState
-					buttonText="Create Board"
+					buttonText="Create List"
 					heading="Never forget milk again!"
 					text="Add items as you think of them"
 					link="/shopping/create"

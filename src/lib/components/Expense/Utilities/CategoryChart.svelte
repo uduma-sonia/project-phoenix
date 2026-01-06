@@ -11,9 +11,8 @@
 		Legend,
 		Filler
 	} from 'chart.js';
-	import ExpenseUtils from '../Expense/Utilities/utils';
-	import { format } from 'date-fns';
 	import Helpers from '$lib/utils/helpers';
+	import ExpenseUtils from './utils';
 
 	Chart.register(
 		BarController,
@@ -27,18 +26,18 @@
 		Legend
 	);
 
-	let { transactions } = $props();
+	let { transactions, type, description, title } = $props();
 
 	let canvas: any = $state();
-	let chart: Chart | undefined = $state();
+	let chart: Chart | any = $state();
 
 	$effect(() => {
-		const data = ExpenseUtils.getDailyExpenseLineData(transactions);
+		const data = ExpenseUtils.getExpenseBarData(transactions, type);
 
 		chart = new Chart(canvas, {
 			type: 'bar',
 			data: {
-				labels: data.map((d) => format(new Date(d.date), 'MMM d')),
+				labels: data.map((d) => d.category),
 				datasets: [
 					{
 						label: 'Daily Spending',
@@ -71,8 +70,12 @@
 	});
 </script>
 
-<div class="mb-4 flex items-center justify-between gap-4">
-	<p class="text-lg font-medium md:text-xl">Daily Spending Trend</p>
+<div class="mb-4">
+	<p class="text-lg font-medium md:text-xl">{title}</p>
+
+	<p class="font-lexend text-13 font-light">
+		{description}
+	</p>
 </div>
 
 <div class="retro_wrapper">
