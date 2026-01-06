@@ -4,7 +4,7 @@
 	import BalanceCard from './Utilities/BalanceCard.svelte';
 	import Breakdown from './Utilities/Breakdown.svelte';
 	import DaysChart from './Utilities/DaysChart.svelte';
-	import { Cog, Plus, ClipboardList, Check } from '@lucide/svelte';
+	import { Cog, Plus, ClipboardList } from '@lucide/svelte';
 	import AddTxnModal from '../Modals/AddTxnModal.svelte';
 	import { openAddTxnModal, openTxnCategoryModal } from '$lib/state/modal.svelte';
 	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
@@ -34,9 +34,7 @@
 	);
 
 	let txnList = $derived($txnQuery?.data?.data?.transactions);
-	let getBalance = $derived(ExpenseUtils.getBalanceTotal(txnList));
-	let getIncome = $derived(ExpenseUtils.getIncomeTotal(txnList));
-	let getExpense = $derived(ExpenseUtils.getExpensesTotal(txnList));
+	let { totalIncome, totalExpense, balance } = $derived(ExpenseUtils.getTotals(txnList));
 
 	let txnCategoriesQuery = createQuery({
 		queryKey: queryKeys.getTransactionCategories,
@@ -44,6 +42,7 @@
 	});
 	let transactionCategoriesList = $derived($txnCategoriesQuery?.data?.data?.transactionCategories);
 	let breakdownList = $derived(ExpenseUtils.getBreakdownList(txnList, 'desc'));
+	let insightsStrings = $derived(ExpenseUtils.getInsights(txnList));
 
 	const moreOptions = [
 		{
@@ -64,8 +63,6 @@
 	const nextMonth = () => {
 		currentMonth = addMonths(currentMonth, 1);
 	};
-
-	let insightsStrings = $derived(ExpenseUtils.getInsights(txnList));
 </script>
 
 <div class="pb-24">
@@ -97,9 +94,9 @@
 	<div
 		class="no-scrollbar flex w-full flex-nowrap items-center gap-3 overflow-x-auto px-3 py-3 md:gap-6"
 	>
-		<BalanceCard title="Balance" value={getBalance} />
-		<BalanceCard title="Income" value={getIncome} balanceClass="text-brand-green" />
-		<BalanceCard title="Expense" value={getExpense} balanceClass="text-brand-error" />
+		<BalanceCard title="Balance" value={balance} />
+		<BalanceCard title="Income" value={totalIncome} balanceClass="text-brand-green" />
+		<BalanceCard title="Expense" value={totalExpense} balanceClass="text-brand-error" />
 	</div>
 
 	<div class="gri mt-6 grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
@@ -128,9 +125,9 @@
 		<StatsSections {txnList} {start} {end} />
 	</div>
 
-	<!-- <div class="mt-10 px-3">
+	<div class="mt-10 px-3">
 		<DaysChart {txnList} />
-	</div> -->
+	</div>
 </div>
 
 <AddTxnModal {transactionCategoriesList} {start} {end} />
