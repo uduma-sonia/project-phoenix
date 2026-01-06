@@ -44,7 +44,7 @@
 					class:text-brand-error={txn.type === TransactionType.EXPENSE}
 					class:text-brand-green={txn.type === TransactionType.INCOME}
 				>
-					{#if TransactionType.EXPENSE}
+					{#if txn.type === TransactionType.EXPENSE}
 						-
 					{:else}
 						+

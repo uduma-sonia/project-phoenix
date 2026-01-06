@@ -16,6 +16,7 @@
 	import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
 	import ExpenseUtils from './Utilities/utils';
 	import StatItem from '../Habit/Utilities/StatItem.svelte';
+	import { currencies } from '$lib/constants/currency';
 
 	let currentMonth = $state(new Date());
 
@@ -63,6 +64,10 @@
 	const nextMonth = () => {
 		currentMonth = addMonths(currentMonth, 1);
 	};
+
+	const getCurrency: any = Helpers.transformObjectToList(currencies[0])?.find(
+		(item) => item.id === 'NGN'
+	);
 </script>
 
 <div class="pb-24">
@@ -115,8 +120,15 @@
 		</div>
 		<div>
 			<div class="w-full space-y-4">
-				<StatItem value={100} description="Total Transactions" />
-				<StatItem value={100} description="Daily average spending" />
+				<StatItem value={txnList?.length || 0} description="Total Transactions" />
+				<StatItem
+					value={Helpers.currencyFormatter({
+						currency: getCurrency?.details?.code,
+						minimumFractionDigits: getCurrency?.details.rounding,
+						maximumFractionDigits: getCurrency?.details?.decimal_digits
+					}).format(ExpenseUtils.getDailySpending(txnList, start, end))}
+					description="Daily average spending"
+				/>
 			</div>
 		</div>
 	</div>

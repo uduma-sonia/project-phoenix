@@ -1,4 +1,5 @@
 import Helpers from '$lib/utils/helpers';
+import { differenceInDays, parseISO } from 'date-fns';
 import { TransactionType, type Transaction } from '../../../../types/transaction';
 
 class ExpenseUtils {
@@ -59,6 +60,17 @@ class ExpenseUtils {
 			},
 			[] as { categoryName: string; totalAmount: number; count: number }[]
 		);
+	}
+
+	static getDailySpending(transactions: Transaction[], startDate: string, endDate: string) {
+		if (!transactions) return 0;
+
+		const start = parseISO(startDate);
+		const end = parseISO(endDate);
+
+		const totalSpending = transactions.reduce((sum, expense) => sum + expense.amount, 0);
+		const daysInRange = differenceInDays(end, start) + 1;
+		return Number((totalSpending / daysInRange).toFixed(0));
 	}
 }
 

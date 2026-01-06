@@ -1,4 +1,5 @@
 <script lang="ts">
+	import TextButton from '$lib/components/Common/Form/TextButton.svelte';
 	import { currencies } from '$lib/constants/currency';
 	import Helpers from '$lib/utils/helpers';
 
@@ -26,6 +27,12 @@
 					}).format(item?.totalAmount)}
 				</p>
 			</div>
+		</div>
+	</td>
+
+	<td class="font-lexend w-[50px] border-b border-gray-300 px-2 text-right">
+		<div class="flex justify-end">
+			<TextButton label="More" className="text-11" />
 		</div>
 	</td>
 </tr>
