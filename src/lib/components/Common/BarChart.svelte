@@ -75,7 +75,8 @@
 	let { title, xLabels, yValues, textColor } = $props();
 
 	let canvas: HTMLCanvasElement;
-	const devicePixelRatio = window.devicePixelRatio || 1;
+	// const devicePixelRatio = window.devicePixelRatio || 1;
+	let devicePixelRatio = $derived(typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1);
 
 	function drawChart() {
 		const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;

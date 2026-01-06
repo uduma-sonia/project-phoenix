@@ -4,7 +4,7 @@
 	import BalanceCard from './Utilities/BalanceCard.svelte';
 	import Breakdown from './Utilities/Breakdown.svelte';
 	import DaysChart from './Utilities/DaysChart.svelte';
-	import { Cog, Plus, ClipboardList } from '@lucide/svelte';
+	import { Cog, Plus, ClipboardList, Check } from '@lucide/svelte';
 	import AddTxnModal from '../Modals/AddTxnModal.svelte';
 	import { openAddTxnModal, openTxnCategoryModal } from '$lib/state/modal.svelte';
 	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
@@ -15,8 +15,8 @@
 	import Helpers from '$lib/utils/helpers';
 	import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
 	import ExpenseUtils from './Utilities/utils';
-	import StatItem from '../Habit/Utilities/StatItem.svelte';
-	import { currencies } from '$lib/constants/currency';
+	import StatsSections from './Utilities/StatsSections.svelte';
+	import BreakdownInsight from './Utilities/BreakdownInsight.svelte';
 
 	let currentMonth = $state(new Date());
 
@@ -65,9 +65,7 @@
 		currentMonth = addMonths(currentMonth, 1);
 	};
 
-	const getCurrency: any = Helpers.transformObjectToList(currencies[0])?.find(
-		(item) => item.id === 'NGN'
-	);
+	let insightsStrings = $derived(ExpenseUtils.getInsights(txnList));
 </script>
 
 <div class="pb-24">
@@ -114,26 +112,25 @@
 		/>
 	</div>
 
-	<div class="mt-10 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-10">
+	<div class="mt-10 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
 		<div>
 			<Breakdown {breakdownList} txnLoading={$txnQuery?.isLoading} isError={$txnQuery?.isError} />
 		</div>
-		<div>
-			<div class="w-full space-y-4">
-				<StatItem value={txnList?.length || 0} description="Total Transactions" />
-				<StatItem
-					value={Helpers.currencyFormatter({
-						currency: getCurrency?.details?.code,
-						minimumFractionDigits: getCurrency?.details.rounding,
-						maximumFractionDigits: getCurrency?.details?.decimal_digits
-					}).format(ExpenseUtils.getDailySpending(txnList, start, end))}
-					description="Daily average spending"
-				/>
-			</div>
+
+		<div class="py-8">
+			{#if txnList?.length}
+				<BreakdownInsight {insightsStrings} />
+			{/if}
 		</div>
 	</div>
 
-	<DaysChart />
+	<div class="mt-10 px-3">
+		<StatsSections {txnList} {start} {end} />
+	</div>
+
+	<!-- <div class="mt-10 px-3">
+		<DaysChart {txnList} />
+	</div> -->
 </div>
 
 <AddTxnModal {transactionCategoriesList} {start} {end} />

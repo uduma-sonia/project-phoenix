@@ -23,7 +23,7 @@
 
 <div class="retro_wrapper">
 	<div class="retro_wrapper_inner_ejf">
-		<LoaderError isLoading={txnLoading} error={isError} />
+		<LoaderError height="300px" isLoading={txnLoading} error={isError} />
 
 		{#if !txnLoading && !isError}
 			{#if hasTxns}
@@ -40,7 +40,7 @@
 				{#if hasMount}
 					<EmptyState heading="No Breakdown yet" />
 				{:else}
-					<LoaderError isLoading={true} />
+					<LoaderError height="300px" isLoading={true} />
 				{/if}
 			{/if}
 		{/if}
