@@ -4,6 +4,12 @@
 
 	const routeLinks = [
 		{
+			label: 'Expenses',
+			route: '/expense',
+			keyword: 'expense',
+			icon: WalletMinimal
+		},
+		{
 			label: 'Tracker',
 			route: '/tracker',
 			keyword: 'tracker',
@@ -20,12 +26,6 @@
 			route: '/recipe',
 			keyword: 'recipe',
 			icon: ChefHat
-		},
-		{
-			label: 'Expenses',
-			route: '/expense',
-			keyword: 'expense',
-			icon: WalletMinimal
 		}
 		// {
 		// 	label: 'Trips',
