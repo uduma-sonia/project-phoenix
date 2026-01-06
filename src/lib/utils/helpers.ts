@@ -123,13 +123,23 @@ class Helpers {
 		currency: string;
 		maximumFractionDigits: number;
 		minimumFractionDigits: number;
-	}) =>
-		new Intl.NumberFormat('en-NG', {
+	}) => {
+		const currencyLocales: Record<string, string> = {
+			USD: 'en-US',
+			GBP: 'en-GB',
+			EUR: 'en-EU',
+			CAD: 'en-CA',
+			AUD: 'en-AU',
+			JPY: 'ja-JP'
+		};
+		const locale = currencyLocales[currency] || 'en-NG';
+		return new Intl.NumberFormat(locale, {
 			style: 'currency',
 			currency: currency,
 			minimumFractionDigits: minimumFractionDigits,
 			maximumFractionDigits: maximumFractionDigits
 		});
+	};
 
 	/** Dispatch event on click outside of node */
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -381,15 +391,17 @@ class Helpers {
 			}
 
 			if (memberIdList) {
-				if (memberIdList.includes(user.email)) {
-					const getMember = membersList.find(
-						(item: { memberId: string }) => item.memberId === user?.email
-					);
+				if (user?.email) {
+					if (memberIdList.includes(user.email)) {
+						const getMember = membersList.find(
+							(item: { memberId: string }) => item.memberId === user?.email
+						);
 
-					if (getMember?.permissions === Permissions.CAN_EDIT) {
-						return Permissions.CAN_EDIT;
-					} else {
-						return Permissions.READ_ONLY;
+						if (getMember?.permissions === Permissions.CAN_EDIT) {
+							return Permissions.CAN_EDIT;
+						} else {
+							return Permissions.READ_ONLY;
+						}
 					}
 				} else {
 					return Permissions.UNAUTHORIZED;

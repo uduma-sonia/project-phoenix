@@ -6,7 +6,11 @@
 	import DaysChart from './Utilities/DaysChart.svelte';
 	import { Cog, Plus, ClipboardList } from '@lucide/svelte';
 	import AddTxnModal from '../Modals/AddTxnModal.svelte';
-	import { openAddTxnModal, openTxnCategoryModal } from '$lib/state/modal.svelte';
+	import {
+		openAddTxnModal,
+		openTxnCategoryModal,
+		openTxnSettingsModal
+	} from '$lib/state/modal.svelte';
 	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
 	import TxnCategoryModal from '../Modals/TxnCategoryModal.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
@@ -20,6 +24,7 @@
 	import BarChart from '../Common/BarChart.svelte';
 	import CategoryChart from './Utilities/CategoryChart.svelte';
 	import AnalyticsSection from './Utilities/AnalyticsSection.svelte';
+	import TxnSettingsModal from '../Modals/TxnSettingsModal.svelte';
 
 	let currentMonth = $state(new Date());
 
@@ -55,7 +60,8 @@
 		},
 		{
 			label: 'Settings',
-			icon: Cog
+			icon: Cog,
+			action: openTxnSettingsModal
 		}
 	];
 
@@ -133,3 +139,4 @@
 
 <AddTxnModal {transactionCategoriesList} {start} {end} />
 <TxnCategoryModal {transactionCategoriesList} />
+<TxnSettingsModal />

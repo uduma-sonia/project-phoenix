@@ -6,7 +6,7 @@
 		$props();
 
 	const getCurrency: any = Helpers.transformObjectToList(currencies[0])?.find(
-		(item) => item.id === 'NGN'
+		(item) => item.id === 'USD'
 	);
 </script>
 

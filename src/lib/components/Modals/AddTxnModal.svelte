@@ -51,6 +51,14 @@
 	let selectedCategory = $derived({ value: '', id: '' });
 
 	async function handleSubmit() {
+		if (!selectedCategory?.id) {
+			addToast('Select a category', 'error');
+			return;
+		}
+		if (!amount) {
+			addToast('Add an amount', 'error');
+			return;
+		}
 		try {
 			isSubmitting = true;
 

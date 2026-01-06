@@ -1,4 +1,4 @@
-import { ChefHat, ShoppingCart, Sprout } from '@lucide/svelte';
+import { ChefHat, ShoppingCart, Sprout, WalletMinimal } from '@lucide/svelte';
 
 export const AUTH_TOKEN = 'phoenix_token';
 export const RECIPE_COUNT_TRACKER = 'recipe_ct';
@@ -111,10 +111,26 @@ export const BUNNY_STORAGE_BASE = 'https://laniva.b-cdn.net';
 
 export const homeFeaturesList = [
 	{
+		id: 'expense',
+		title: 'Expense Tracker',
+		icon: WalletMinimal,
+		imageUrl: '/images/tracker_img.jpg',
+		features: [
+			'Track income and expenses effortlessly',
+			'Visualize spending trends with daily charts',
+			'Categorize transactions and view breakdowns',
+			'Monitor balance, totals, and financial insights',
+			'Paginated transaction history',
+			'Add, edit, and delete transactions easily'
+		]
+	},
+	{
 		id: 'tracker',
 		title: 'Track your habits',
 		icon: Sprout,
 		imageUrl: '/images/tracker_img.jpg',
+		isReverse: true,
+
 		features: [
 			'Straightfoward habit tracker without the distracting bits',
 			'Build streaks and visualize progress with minimal setup',
@@ -127,7 +143,6 @@ export const homeFeaturesList = [
 		title: 'Shopping list',
 		icon: ShoppingCart,
 		imageUrl: '/images/shopping_list_img.jpg',
-		isReverse: true,
 		features: [
 			'Create collaborative lists for your home, and grocery runs',
 			'Add items as you remember, never forget anything again',
@@ -140,6 +155,8 @@ export const homeFeaturesList = [
 		title: 'Recipe manager',
 		icon: ChefHat,
 		imageUrl: '/images/recipe_img2.jpg',
+		isReverse: true,
+
 		features: [
 			'Straightfoward recipe manager',
 			'Generate shopping lists',

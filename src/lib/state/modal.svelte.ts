@@ -19,7 +19,8 @@ export const modalsState = $state({
 		isOpenLogValueModal: false,
 
 		isOpenAddTxn: false,
-		isOpenTxnCategory: false
+		isOpenTxnCategory: false,
+		isOpenTxnSettings: false
 	}
 });
 
@@ -180,4 +181,11 @@ export function openTxnCategoryModal() {
 }
 export function closeTxnCategoryModal() {
 	modalsState.data.isOpenTxnCategory = false;
+}
+
+export function openTxnSettingsModal() {
+	modalsState.data.isOpenTxnSettings = true;
+}
+export function closeTxnSettingsModal() {
+	modalsState.data.isOpenTxnSettings = false;
 }
