@@ -17,24 +17,27 @@
 	}
 </script>
 
-<div class="flex h-20 min-w-[500px] items-stretch md:h-16">
-	<div class="font-lexend flex h-full w-1/3 flex-col justify-center border-b border-gray-300">
+<div class="flex h-20 min-w-[600px] items-stretch md:h-16">
+	<div class="font-lexend flex h-full flex-1 flex-col justify-center border-b border-gray-300 pr-3">
 		<p class="text-[15px]">{txn?.categoryName}</p>
-
-		<p class="text-xs font-light text-gray-600">
-			{#if txn?.date}
-				{format(new Date(txn.date), 'PP')}
-			{/if}
-		</p>
 	</div>
 
-	<div class="font-lexend flex h-full w-1/3 flex-col justify-center border-b border-gray-300">
+	<div class="font-lexend flex h-full flex-1 flex-col justify-center border-b border-gray-300 pr-3">
 		<div class="font-lexend">
 			<p class="text-11 md:text-13 font-light">{txn?.description || '-'}</p>
 		</div>
 	</div>
 
-	<div class="font-lexend flex h-full w-1/3 flex-col justify-center border-b border-gray-300">
+	<div class="font-lexend flex h-full w-fit flex-col justify-center border-b border-gray-300 pr-3">
+		<p class="text-xs font-light text-gray-600">
+			{#if txn?.date}
+				<!-- {Helpers.getRelativeDate(txn?.date)} -->
+				{format(new Date(txn.date), 'PP')}
+			{/if}
+		</p>
+	</div>
+
+	<div class="font-lexend flex h-full flex-1 flex-col justify-center border-b border-gray-300">
 		<div class="flex items-center justify-end gap-3">
 			<div>
 				<p

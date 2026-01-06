@@ -6,9 +6,16 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TransactionRequest } from '$lib/requests';
 	import { TransactionType } from '../../../../types/transaction';
+	import EmptyState from '$lib/components/Common/EmptyState.svelte';
+	import { openAddTxnModal } from '$lib/state/modal.svelte';
+	import LoaderError from '$lib/components/Common/LoaderError.svelte';
+	import { onMount } from 'svelte';
 
-	let { txnList, start, end } = $props();
+	let { txnList, start, end, txnLoading, isError } = $props();
 	const queryClient = useQueryClient();
+
+	let hasMount = $state(false);
+	let hasTxns = $derived((getList(txnList) ?? []).length > 0);
 
 	let selectedView = $state({
 		id: 'ALL',
@@ -57,6 +64,10 @@
 
 		return [];
 	}
+
+	onMount(() => {
+		hasMount = true;
+	});
 </script>
 
 <div class="mb-4 flex items-center justify-between gap-4">
@@ -70,11 +81,30 @@
 </div>
 <div class="retro_wrapper">
 	<div class="retro_wrapper_inner_ejf">
-		<div class="no-scrollbar flex flex-col overflow-x-auto">
-			{#each getList(txnList) as txn, index (index)}
-				<TxnRowItem {handleDelete} {txn} />
-			{/each}
+		<div class="no-scrollbar overflow-x-aut flex flex-col overflow-x-auto">
+			<LoaderError isLoading={txnLoading} error={isError} />
+
+			{#if !txnLoading && !isError}
+				{#if hasTxns}
+					{#each getList(txnList) as txn, index (index)}
+						<TxnRowItem {handleDelete} {txn} />
+					{/each}
+				{:else if !isError}
+					{#if hasMount}
+						<EmptyState
+							buttonText="Add Transaction"
+							heading="No transaction recorded"
+							text="Start recording your transactions"
+							action={openAddTxnModal}
+						/>
+					{:else}
+						<LoaderError isLoading={true} />
+					{/if}
+				{/if}
+			{/if}
 		</div>
+
+		<div class="h-10"></div>
 	</div>
 </div>
 

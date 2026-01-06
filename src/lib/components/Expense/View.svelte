@@ -61,6 +61,28 @@
 	const nextMonth = () => {
 		currentMonth = addMonths(currentMonth, 1);
 	};
+
+	// const getExpensesList = useMemo(() => {
+	// 	const result = transactions?.filter((item) => item.type === TransactionType.EXPENSE);
+
+	// 	return ExpensesUtils.groupTransactionsByCategory(result, sortOrder);
+	// }, [transactions, sortOrder]);
+
+	function groupTransactionsByCategory(transactions: any[], sort: 'asc' | 'desc' = 'asc') {
+		// return transactions.reduce((acc, transaction) => {
+		//   const { categoryName, amount } = transaction;
+		//   const existingCategory = acc.find(
+		//     (item: TransactionTracker) => item.categoryName === categoryName
+		//   );
+		//   if (existingCategory) {
+		//     existingCategory.totalAmount += amount;
+		//     existingCategory.count += 1;
+		//   } else {
+		//     acc.push({ categoryName, totalAmount: amount, count: 1 });
+		//   }
+		//   return this.sortTransactionsGroupByAmount(acc, sort);
+		// }, [] as { categoryName: string; totalAmount: number; count: number }[]);
+	}
 </script>
 
 <div class="pb-24">
@@ -95,11 +117,14 @@
 		<BalanceCard title="Expense" value={getExpense} balanceClass="text-brand-error" />
 	</div>
 
-	<div class="mt-6 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
-		<div>
-			<TxnTable {txnList} {start} {end} />
-		</div>
-		<div></div>
+	<div class="gri mt-6 grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
+		<TxnTable
+			txnLoading={$txnQuery?.isLoading}
+			isError={$txnQuery?.isError}
+			{txnList}
+			{start}
+			{end}
+		/>
 	</div>
 
 	<div class="mt-10 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
