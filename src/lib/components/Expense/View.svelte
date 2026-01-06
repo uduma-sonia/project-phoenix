@@ -4,10 +4,33 @@
 	import BalanceCard from './Utilities/BalanceCard.svelte';
 	import Breakdown from './Utilities/Breakdown.svelte';
 	import DaysChart from './Utilities/DaysChart.svelte';
-	import BasicButton from '../Common/Form/BasicButton.svelte';
-	import { Plus } from '@lucide/svelte';
+	import { Cog, Plus, Settings2 } from '@lucide/svelte';
 	import AddTxnModal from '../Modals/AddTxnModal.svelte';
-	import { openAddTxnModal } from '$lib/state/modal.svelte';
+	import { openAddTxnModal, openTxnCategoryModal } from '$lib/state/modal.svelte';
+	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
+	import TxnCategoryModal from '../Modals/TxnCategoryModal.svelte';
+	import { createQuery } from '@tanstack/svelte-query';
+	import { queryKeys } from '$lib/utils/queryKeys';
+	import { TransactionRequest } from '$lib/requests';
+
+	let txnCategoriesQuery = createQuery({
+		queryKey: queryKeys.getTransactionCategories,
+		queryFn: () => TransactionRequest.getTransactionCategories()
+	});
+
+	let transactionCategoriesList = $derived($txnCategoriesQuery?.data?.data?.transactionCategories);
+
+	const moreOptions = [
+		{
+			label: 'Manage category',
+			icon: Settings2,
+			action: openTxnCategoryModal
+		},
+		{
+			label: 'Settings',
+			icon: Cog
+		}
+	];
 </script>
 
 <div class="pb-24">
@@ -16,8 +39,21 @@
 	<div class="my-4 flex flex-col justify-between px-3 md:flex-row md:items-center">
 		<DateScroller />
 
-		<div class="mt-4 w-fit md:mt-0">
-			<BasicButton label="Add Transaction" LeftIcon={Plus} action={openAddTxnModal} />
+		<div class="mt-4 flex w-fit items-center justify-end gap-4 md:mt-0">
+			<div>
+				<button
+					class="shadow_button shadow_button_thin shadow_button_with_icon"
+					onclick={openAddTxnModal}
+				>
+					<Plus size="20px" />
+
+					Add Transaction
+				</button>
+			</div>
+
+			<div>
+				<HamburgerDropdown variant="solid" options={moreOptions} />
+			</div>
 		</div>
 	</div>
 
@@ -46,4 +82,5 @@
 	<DaysChart />
 </div>
 
-<AddTxnModal />
+<AddTxnModal {transactionCategoriesList} />
+<TxnCategoryModal {transactionCategoriesList} />

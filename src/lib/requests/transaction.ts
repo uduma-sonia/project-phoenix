@@ -1,6 +1,6 @@
 import Helpers from '$lib/utils/helpers';
 import type { ReqConfig, Service } from '../../types/axios';
-import type { Transaction, CreateTransaction } from '../../types/transaction';
+import type { Transaction, CreateTransaction, TransactionType } from '../../types/transaction';
 
 class TransactionService {
 	private api;
@@ -30,7 +30,10 @@ class TransactionService {
 		return await this.api.delete(`${this.prefix}/${id}`, { ...reqConfig });
 	}
 
-	async createTransactionCategory(data: Transaction, reqConfig?: ReqConfig) {
+	async createTransactionCategory(
+		data: { name: string; type: TransactionType },
+		reqConfig?: ReqConfig
+	) {
 		return await this.api.post(`${this.categoryPrefix}`, data, { ...reqConfig });
 	}
 
@@ -38,7 +41,7 @@ class TransactionService {
 		return await this.api.get(`${this.categoryPrefix}`, { ...reqConfig });
 	}
 
-	async updateTransactionCategory(id: string, data: Transaction, reqConfig?: ReqConfig) {
+	async updateTransactionCategory(id: string, data: { name: string }, reqConfig?: ReqConfig) {
 		return await this.api.put(`${this.categoryPrefix}/${id}`, data, { ...reqConfig });
 	}
 

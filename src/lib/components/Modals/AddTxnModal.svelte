@@ -1,4 +1,5 @@
 <script lang="ts">
+	// @ts-nocheck
 	import { closeAddTxnModal, modalsState } from '$lib/state/modal.svelte';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import BasicButton from '../Common/Form/BasicButton.svelte';
@@ -7,12 +8,27 @@
 	import Helpers from '$lib/utils/helpers';
 	import { format } from 'date-fns';
 	import DatePickerMini from '../Common/DatePicker/DatePickerMini.svelte';
+	import { TransactionType } from '../../../types/transaction';
 
-	let selectedDifficulty = $state({
-		value: 'Easy',
-		id: 'EASY'
-	});
+	let { transactionCategoriesList } = $props();
+
+	let selectedDifficulty = $state();
 	let isSubmitting = $state(false);
+	let type = $state('EXPENSE');
+	let startDateValue = $state(new Date());
+	let isStartDateOpen = $state(false);
+
+	function toggleStart() {
+		isStartDateOpen = !isStartDateOpen;
+	}
+
+	function handleClickOutside() {
+		isStartDateOpen = false;
+	}
+
+	function changeType(val: string) {
+		type = val;
+	}
 
 	const difficultyOptions = [
 		{
@@ -28,16 +44,19 @@
 			id: 'HARD'
 		}
 	];
-	let startDateValue = $state(new Date());
-	let isStartDateOpen = $state(false);
 
-	function toggleStart() {
-		isStartDateOpen = !isStartDateOpen;
-	}
+	let transformedList = $derived(
+		transactionCategoriesList?.filter((item: TransactionCategory) => item.type === type)
+	);
 
-	function handleClickOutside() {
-		isStartDateOpen = false;
-	}
+	let catOptions = $derived(
+		transformedList?.map((item) => {
+			return {
+				value: item.name,
+				id: item._id
+			};
+		})
+	);
 </script>
 
 <ModalWrapper
@@ -52,14 +71,20 @@
 					<label for="habitName" class="mb-2">Type</label>
 
 					<div class="flex items-center gap-4">
-						<!-- class:bg-brand-build={type === 'BUILD'} -->
-						<button class="button_active h-[35px] rounded-lg border px-4 text-sm" type="button">
-							<!-- onclick={() => changeType('BUILD')} -->
+						<button
+							class:bg-brand-build={type === TransactionType.EXPENSE}
+							onclick={() => changeType(TransactionType.EXPENSE)}
+							class="button_active h-[35px] rounded-lg border px-4 text-sm"
+							type="button"
+						>
 							Expense
 						</button>
-						<!-- class:bg-brand-quit={type === 'QUIT'} -->
-						<button class="button_active h-[35px] rounded-lg border px-4 text-sm" type="button">
-							<!-- onclick={() => changeType('QUIT')} -->
+						<button
+							class:bg-brand-build={type === TransactionType.INCOME}
+							onclick={() => changeType(TransactionType.INCOME)}
+							class="button_active h-[35px] rounded-lg border px-4 text-sm"
+							type="button"
+						>
 							Income
 						</button>
 					</div>
@@ -92,19 +117,19 @@
 				</div>
 
 				<div>
+					<Dropdown
+						label="Category"
+						options={catOptions}
+						bind:selectedOption={selectedDifficulty}
+						shouldSearch={false}
+					/>
+				</div>
+
+				<div>
 					<BasicInputField label="Amount" type="number" id="amount" name="amount" required />
 				</div>
 				<div>
 					<BasicInputField label="Description" type="text" id="description" name="description" />
-				</div>
-
-				<div>
-					<Dropdown
-						label="Category"
-						options={difficultyOptions}
-						bind:selectedOption={selectedDifficulty}
-						shouldSearch={false}
-					/>
 				</div>
 			</div>
 		</div>

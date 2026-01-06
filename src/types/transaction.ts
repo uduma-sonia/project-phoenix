@@ -18,11 +18,11 @@ export type Transaction = {
 
 export type TransactionCategory = {
 	ownerId?: string;
-	amount: number;
-	categoryId: string;
-	categoryName: string;
+	createdAt: number;
+	updatedAt: number;
+	name: string;
 	type: TransactionType;
-	date?: Date;
+	_id?: Date;
 };
 
 export enum TransactionType {

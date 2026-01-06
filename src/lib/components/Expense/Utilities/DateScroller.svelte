@@ -13,7 +13,7 @@
 	};
 </script>
 
-<div class="flex items-center gap-3 overflow-hidden">
+<div class="flex items-center gap-3 overflow-hidden pr-3">
 	<div>
 		<button class="shadow_button shadow_button_sm" onclick={prevMonth}>
 			<span class="block rotate-180">

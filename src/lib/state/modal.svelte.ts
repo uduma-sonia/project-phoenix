@@ -18,7 +18,8 @@ export const modalsState = $state({
 		isOpenCreateMealPlan: false,
 		isOpenLogValueModal: false,
 
-		isOpenAddTxn: false
+		isOpenAddTxn: false,
+		isOpenTxnCategory: false
 	}
 });
 
@@ -172,4 +173,11 @@ export function openAddTxnModal() {
 }
 export function closeAddTxnModal() {
 	modalsState.data.isOpenAddTxn = false;
+}
+
+export function openTxnCategoryModal() {
+	modalsState.data.isOpenTxnCategory = true;
+}
+export function closeTxnCategoryModal() {
+	modalsState.data.isOpenTxnCategory = false;
 }
