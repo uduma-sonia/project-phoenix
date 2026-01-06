@@ -18,10 +18,15 @@
 			keyword: 'recipe'
 		},
 		{
-			label: 'Travel Planner',
-			route: '/travel',
-			keyword: 'travel'
+			label: 'Expenses',
+			route: '/expense',
+			keyword: 'expense'
 		}
+		// {
+		// 	label: 'Travel Planner',
+		// 	route: '/travel',
+		// 	keyword: 'travel'
+		// }
 	];
 </script>
 

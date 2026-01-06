@@ -1,5 +1,9 @@
 <script lang="ts">
-	let { smallText, description, value } = $props();
+	let {
+		smallText,
+		description,
+		value
+	}: { smallText?: string; description: string; value: number } = $props();
 </script>
 
 <div class="dropdown_wrapper h-[100px]">

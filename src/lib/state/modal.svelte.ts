@@ -16,7 +16,10 @@ export const modalsState = $state({
 		isOpenInstall: false,
 		isDeleteMealPlan: false,
 		isOpenCreateMealPlan: false,
-		isOpenLogValueModal: false
+		isOpenLogValueModal: false,
+
+		isOpenAddTxn: false,
+		isOpenTxnCategory: false
 	}
 });
 
@@ -163,4 +166,18 @@ export function openLogValueModal() {
 }
 export function closeLogValueModal() {
 	modalsState.data.isOpenLogValueModal = false;
+}
+
+export function openAddTxnModal() {
+	modalsState.data.isOpenAddTxn = true;
+}
+export function closeAddTxnModal() {
+	modalsState.data.isOpenAddTxn = false;
+}
+
+export function openTxnCategoryModal() {
+	modalsState.data.isOpenTxnCategory = true;
+}
+export function closeTxnCategoryModal() {
+	modalsState.data.isOpenTxnCategory = false;
 }

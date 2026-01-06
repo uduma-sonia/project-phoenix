@@ -41,7 +41,7 @@
 </script>
 
 <div
-	class="no-scrollbar relative flex h-[140px] items-start justify-center overflow-y-auto border p-3"
+	class="no-scrollbar relative flex h-[100px] items-start justify-center overflow-y-auto border p-3"
 >
 	<textarea
 		oninput={resizeTextarea}

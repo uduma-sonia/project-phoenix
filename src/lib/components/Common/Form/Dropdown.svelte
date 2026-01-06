@@ -12,12 +12,13 @@
 		handleSelectChange?: any;
 		shouldSearch?: boolean;
 		inputClass?: string;
+		placeholder?: string;
 	};
 
 	type Options = {
 		value: string;
 		id: string;
-	} | null;
+	};
 
 	let {
 		options,
@@ -26,7 +27,8 @@
 		selectedOption = $bindable(),
 		handleSelectChange,
 		shouldSearch = true,
-		inputClass
+		inputClass,
+		placeholder
 	}: Props = $props();
 
 	let isDropDownOpen = $state(false);
@@ -49,7 +51,7 @@
 
 	function getFilteredOptions() {
 		if (shouldSearch) {
-			options?.filter((option: Options) =>
+			return options?.filter((option: Options) =>
 				option?.value.toUpperCase().includes(searchQuery.toUpperCase())
 			);
 		} else {
@@ -88,7 +90,8 @@
 			case 'ArrowUp':
 				event.preventDefault();
 				focusedIndex = (focusedIndex - 1 + options.length) % options.length;
-				scrollTo(options[focusedIndex]?.id);
+
+				scrollTo(options[focusedIndex].id);
 				break;
 			case 'Enter':
 				event.preventDefault();
@@ -112,6 +115,7 @@
 		{withClearButton}
 		clearButtonWrapperClass="right-11"
 		{inputClass}
+		{placeholder}
 	/>
 
 	<div class="absolute right-3 bottom-2.5">

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { Sprout, ShoppingCart, ChefHat, Plane } from '@lucide/svelte';
+	import { Sprout, ShoppingCart, ChefHat, Plane, WalletMinimal } from '@lucide/svelte';
 
 	const routeLinks = [
 		{
@@ -22,16 +22,22 @@
 			icon: ChefHat
 		},
 		{
-			label: 'Trips',
-			route: '/travel',
-			keyword: 'travel',
-			icon: Plane
+			label: 'Expenses',
+			route: '/expense',
+			keyword: 'expense',
+			icon: WalletMinimal
 		}
+		// {
+		// 	label: 'Trips',
+		// 	route: '/travel',
+		// 	keyword: 'travel',
+		// 	icon: Plane
+		// }
 	];
 </script>
 
 <div
-	class="bg-brand-light fixed bottom-0 left-0 z-[99] w-full rounded-t-2xl pt-2 pb-6 shadow-2xl shadow-black md:hidden"
+	class="bg-brand-light fixed bottom-0 left-0 z-[99] w-full rounded-t-3xl pt-2 pb-6 shadow-lg shadow-black md:hidden"
 >
 	<div class="grid h-full grid-cols-4">
 		{#each routeLinks as route, index (index)}

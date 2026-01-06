@@ -16,6 +16,7 @@ import PackingService from './packing';
 import FeedbackService from './feedback';
 import UtilsService from './utils';
 import MealService from './meal';
+import TransactionService from './transaction';
 
 export const API_ENDPOINT = import.meta.env.VITE_API_URL;
 export const BUNNY_STORAGE_KEY = import.meta.env.VITE_BUNNY_STORAGE_KEY;
@@ -133,5 +134,6 @@ export const TripRequest = new TripService({ api });
 export const PackingRequest = new PackingService({ api });
 export const FeedbackRequest = new FeedbackService({ api });
 export const MealRequest = new MealService({ api });
+export const TransactionRequest = new TransactionService({ api });
 
 export const UtilsRequest = new UtilsService({ api: bunnyAPI });

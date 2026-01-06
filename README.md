@@ -2,18 +2,11 @@
 
 - Recipe review system, star rating, comments
 - Cook mode
-- meal tracker
 - Advanced search - search ingredients
-- Meal tracker/planner
 - Manage groups
-- Display date in meal planner
-
-## Travel planner
-
-- Manage group
-- Poll feature
-- Google places API integration
-- Prevent items from being added twice to packing list
+- dark mode
+- review list
+- universal currency mode
 
 ## General
 
@@ -23,6 +16,9 @@
 - Add some text formatting options to text area component
 - Link recipe to meal in meal planner
 
-## Tracker
+## Meal planner analytics
 
-- Allow users to input custom goal value
+- Top 3 meals eaten (week - month)
+-
+
+## Budget planner

@@ -1,7 +1,14 @@
 <script lang="ts">
 	import { Hourglass } from '@lucide/svelte';
 
-	let { heading, text, link, buttonText } = $props();
+	let {
+		heading,
+		text,
+		link,
+		buttonText,
+		action
+	}: { heading?: string; text?: string; link?: string; buttonText?: string; action?: () => void } =
+		$props();
 </script>
 
 <div class="mx-auto flex h-[300px] max-w-[300px] items-center justify-center">
@@ -21,11 +28,23 @@
 		</p>
 
 		<div class="mx-auto mt-6 w-[170px]">
-			<a href={link}>
-				<button class="shadow_button shadow_button_sm shadow_button_thin" type="button">
+			{#if link}
+				<a href={link}>
+					<button class="shadow_button shadow_button_sm shadow_button_thin" type="button">
+						{buttonText}
+					</button>
+				</a>
+			{/if}
+
+			{#if action}
+				<button
+					onclick={action}
+					class="shadow_button shadow_button_sm shadow_button_thin"
+					type="button"
+				>
 					{buttonText}
 				</button>
-			</a>
+			{/if}
 		</div>
 	</div>
 </div>

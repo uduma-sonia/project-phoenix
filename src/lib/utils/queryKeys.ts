@@ -69,6 +69,13 @@ const mealKeys = {
 	getMealPlans: [`/meal-plan`]
 };
 
+const transactionKeys = {
+	getTransactions: (data: { startDate: string; endDate: string }) => [
+		`/transaction?${Helpers.formatQueryParams(data)}`
+	],
+	getTransactionCategories: [`/transaction-category`]
+};
+
 export const queryKeys = {
 	...userKeys,
 	...trackerKeys,
@@ -78,5 +85,6 @@ export const queryKeys = {
 	...statsKeys,
 	...tripKeys,
 	...packingKeys,
-	...mealKeys
+	...mealKeys,
+	...transactionKeys
 };

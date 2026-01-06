@@ -1,5 +1,5 @@
 <script lang="ts">
-	let { handleItemAdd, isSubmitting } = $props();
+	let { handleItemAdd, isSubmitting, placeholder = 'Type and enter' } = $props();
 	let itemName = $state('');
 </script>
 
@@ -16,7 +16,7 @@
 			type="text"
 			bind:value={itemName}
 			class="h-[50px] w-full border-b border-b-gray-300 px-3 outline-none"
-			placeholder="Type and enter"
+			{placeholder}
 		/>
 
 		<button class="shadow_button" type="submit">
