@@ -1,3 +1,5 @@
+import type { BudgetCycle } from './transaction';
+
 export interface User {
 	_id?: string;
 	email?: string;
@@ -7,4 +9,5 @@ export interface User {
 	currency?: string;
 	isBudgetMode?: boolean;
 	budgetAmount?: number;
+	budgetCycle?: BudgetCycle;
 }

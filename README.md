@@ -6,7 +6,7 @@
 - Manage groups
 - dark mode
 - review list
-- universal currency mode
+- budget mode
 
 ## General
 
@@ -15,8 +15,3 @@
 - Add service worker for offline capabilities
 - Add some text formatting options to text area component
 - Link recipe to meal in meal planner
-
-## Meal planner analytics
-
-- Top 3 meals eaten (week - month)
--

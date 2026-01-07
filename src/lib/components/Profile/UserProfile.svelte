@@ -16,9 +16,12 @@
 	let isLoading = $state(false);
 	const queryClient = useQueryClient();
 
-	let selectedCurrency = $state({
-		value: 'US Dollar',
-		id: '$'
+	let getCurrency: any = $derived(
+		Helpers.transformObjectToList(currencies[0])?.find((item) => item.id === user?.currency)
+	);
+	let selectedCurrency = $derived({
+		value: getCurrency?.details?.name,
+		id: getCurrency?.id
 	});
 
 	async function onSubmit() {
