@@ -14,7 +14,6 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import { budgetCycles } from '$lib/constants/transaction';
-	import { BudgetCycle } from '../../../types/transaction';
 
 	const queryClient = useQueryClient();
 	let isLoading = $state(false);
@@ -39,7 +38,7 @@
 		id: getCurrency?.id
 	});
 
-	let selectedCycle = $state({ id: BudgetCycle.MONTHLY, value: 'Monthly' });
+	let selectedCycle = $derived({ id: user?.budgetCycle, value: user?.budgetCycle });
 	let isBudgetMode = $derived(user?.isBudgetMode);
 	let budgetAmount = $derived(user?.budgetAmount);
 
@@ -55,7 +54,7 @@
 			});
 
 			if (result) {
-				addToast('Settings updated', 'success');
+				addToast('Expense settings updated', 'success');
 				queryClient.invalidateQueries({ queryKey: queryKeys.getCurrentUser });
 				closeTxnSettingsModal();
 			}

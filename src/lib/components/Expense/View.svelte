@@ -21,9 +21,6 @@
 		addWeeks,
 		endOfMonth,
 		endOfWeek,
-		formatISO,
-		isSameMonth,
-		isSameWeek,
 		startOfMonth,
 		startOfWeek,
 		subMonths,
@@ -103,21 +100,10 @@
 		currentMonth = addWeeks(currentMonth, 1);
 	};
 
-	let _isSameMonth = $derived(isSameMonth(formatISO(new Date()), currentMonth));
-	let _isSameWeek = $derived(isSameWeek(formatISO(new Date()), currentMonth));
-
-	const show = () => {
-		if (budgetPercentage > 70) {
-			if (user?.budgetCycle === BudgetCycle.WEEKLY) {
-				return _isSameWeek;
-			} else {
-				return _isSameMonth;
-			}
-		}
-		return false;
-	};
-
-	let showBudgetWarning = $derived(user?.isBudgetMode && show());
+	let showBudgetWarning = $derived(
+		user?.isBudgetMode &&
+			ExpenseUtils.showBudgetWarning(budgetPercentage, user?.budgetCycle, currentMonth)
+	);
 
 	let getCurrency: any = $derived(
 		Helpers.transformObjectToList(currencies[0])?.find((item) => item.id === user?.currency)
@@ -130,7 +116,7 @@
 	</p>
 
 	{#if showBudgetWarning}
-		<div class="hidden md:block">
+		<div class="hidde md:bloc">
 			<BudgetWarning
 				{budgetPercentage}
 				userBudget={Helpers.currencyFormatter({
