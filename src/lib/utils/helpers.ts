@@ -32,6 +32,7 @@ import {
 } from 'date-fns';
 import { Permissions, type BoardMember } from '../../types/shopping';
 import type { User } from '../../types/user';
+import { currencyLocales } from '$lib/constants/currency';
 
 class Helpers {
 	static setCookie(name: string, value: string, minutes: number) {
@@ -124,14 +125,6 @@ class Helpers {
 		maximumFractionDigits: number;
 		minimumFractionDigits: number;
 	}) => {
-		const currencyLocales: Record<string, string> = {
-			USD: 'en-US',
-			GBP: 'en-GB',
-			EUR: 'en-EU',
-			CAD: 'en-CA',
-			AUD: 'en-AU',
-			JPY: 'ja-JP'
-		};
 		const locale = currencyLocales[currency] || 'en-NG';
 		return new Intl.NumberFormat(locale, {
 			style: 'currency',

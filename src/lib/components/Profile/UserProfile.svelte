@@ -46,7 +46,7 @@
 		Helpers.transformObjectToList(currencies[0])?.map((item: any) => {
 			return {
 				value: item?.details.name,
-				id: item?.details.symbol
+				id: item?.details.code
 			};
 		})
 	);

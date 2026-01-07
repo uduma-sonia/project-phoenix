@@ -4,7 +4,7 @@
 	import BreakdownRowItem from './BreakdownRowItem.svelte';
 	import EmptyState from '$lib/components/Common/EmptyState.svelte';
 
-	let { breakdownList, txnLoading, isError } = $props();
+	let { breakdownList, txnLoading, isError, user } = $props();
 
 	let hasTxns = $derived((breakdownList ?? []).length > 0);
 
@@ -31,7 +31,7 @@
 					<tbody>
 						{#if breakdownList}
 							{#each breakdownList as item, index (index)}
-								<BreakdownRowItem {item} />
+								<BreakdownRowItem {user} {item} />
 							{/each}
 						{/if}
 					</tbody>

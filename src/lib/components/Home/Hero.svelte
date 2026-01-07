@@ -28,7 +28,7 @@
 	<div class="mt-14">
 		<div class="hero_img_wrapper mx-auto h-[300px] w-full md:h-[500px] md:max-w-4xl lg:h-[600px]">
 			<div class="hero_img_inner h-full overflow-hidden rounded-3xl border-2 bg-white p-4">
-				<Image src="/images/stats_monthly.jpg" />
+				<Image src="/images/expense_hero_big_img.jpg" />
 			</div>
 
 			<div class="absolute top-1/2 -right-32 z-50 hidden -translate-y-1/2 lg:block">
@@ -74,7 +74,7 @@
 	.hero_img_inner {
 		position: relative;
 		z-index: 2;
-		background: white;
+		background: #f5ecd5;
 		border-radius: 24px;
 		padding: 20px;
 	}

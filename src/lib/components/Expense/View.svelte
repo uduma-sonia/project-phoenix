@@ -3,7 +3,6 @@
 	import TxnTable from './Utilities/TxnTable.svelte';
 	import BalanceCard from './Utilities/BalanceCard.svelte';
 	import Breakdown from './Utilities/Breakdown.svelte';
-	import DaysChart from './Utilities/DaysChart.svelte';
 	import { Cog, Plus, ClipboardList } from '@lucide/svelte';
 	import AddTxnModal from '../Modals/AddTxnModal.svelte';
 	import {
@@ -21,19 +20,22 @@
 	import ExpenseUtils from './Utilities/utils';
 	import StatsSections from './Utilities/StatsSections.svelte';
 	import BreakdownInsight from './Utilities/BreakdownInsight.svelte';
-	import BarChart from '../Common/BarChart.svelte';
-	import CategoryChart from './Utilities/CategoryChart.svelte';
 	import AnalyticsSection from './Utilities/AnalyticsSection.svelte';
 	import TxnSettingsModal from '../Modals/TxnSettingsModal.svelte';
+	import useCurrentUser from '$lib/hooks/useCurrentUser';
 
 	let currentMonth = $state(new Date());
 
+	let userQuery = useCurrentUser();
+
+	let user = $derived($userQuery?.data?.data?.user);
 	let { start, end } = $derived(
 		Helpers.getStartAndEndDates({
 			startDate: startOfMonth(currentMonth),
 			endDate: endOfMonth(currentMonth)
 		})
 	);
+
 	let txnQuery = $derived(
 		createQuery({
 			queryKey: queryKeys.getTransactions({ startDate: start, endDate: end }),
@@ -103,9 +105,9 @@
 	<div
 		class="no-scrollbar flex w-full flex-nowrap items-center gap-3 overflow-x-auto px-3 py-3 md:gap-6"
 	>
-		<BalanceCard title="Balance" value={balance} />
-		<BalanceCard title="Income" value={totalIncome} balanceClass="text-brand-green" />
-		<BalanceCard title="Expense" value={totalExpense} balanceClass="text-brand-error" />
+		<BalanceCard {user} title="Balance" value={balance} />
+		<BalanceCard {user} title="Income" value={totalIncome} balanceClass="text-brand-green" />
+		<BalanceCard {user} title="Expense" value={totalExpense} balanceClass="text-brand-error" />
 	</div>
 
 	<div class="gri mt-6 grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
@@ -115,12 +117,18 @@
 			{txnList}
 			{start}
 			{end}
+			{user}
 		/>
 	</div>
 
 	<div class="mt-10 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
 		<div>
-			<Breakdown {breakdownList} txnLoading={$txnQuery?.isLoading} isError={$txnQuery?.isError} />
+			<Breakdown
+				{user}
+				{breakdownList}
+				txnLoading={$txnQuery?.isLoading}
+				isError={$txnQuery?.isError}
+			/>
 		</div>
 
 		<div class="py-8">
@@ -131,7 +139,7 @@
 	</div>
 
 	<div class="mt-10 px-3">
-		<StatsSections {txnList} {start} {end} />
+		<StatsSections {txnList} {start} {end} {user} />
 	</div>
 
 	<AnalyticsSection {txnList} />

@@ -24,14 +24,14 @@
 		Helpers.transformObjectToList(currencies[0])?.map((item: any) => {
 			return {
 				value: item?.details.name,
-				id: item?.details.symbol
+				id: item?.details.code
 			};
 		})
 	);
 
 	let selectedCurrency = $state({
 		value: 'US Dollar',
-		id: '$'
+		id: 'USD'
 	});
 	let isBudgetMode = $derived(user?.isBudgetMode);
 	let budgetAmount = $derived(user?.budgetAmount);

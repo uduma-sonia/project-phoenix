@@ -4,10 +4,10 @@
 	import ExpenseUtils from './utils';
 	import { currencies } from '$lib/constants/currency';
 
-	let { txnList, start, end } = $props();
+	let { txnList, start, end, user } = $props();
 
-	const getCurrency: any = Helpers.transformObjectToList(currencies[0])?.find(
-		(item) => item.id === 'NGN'
+	let getCurrency: any = $derived(
+		Helpers.transformObjectToList(currencies[0])?.find((item) => item.id === user?.currency)
 	);
 
 	let txnCounts = $derived(ExpenseUtils.getTransactionCounts(txnList));
@@ -18,11 +18,13 @@
 	<StatItem value={txnCounts?.income} description="Total Income" />
 	<StatItem value={txnCounts?.expense} description="Total Expenses" />
 	<StatItem
-		value={Helpers.currencyFormatter({
-			currency: getCurrency?.details?.code,
-			minimumFractionDigits: getCurrency?.details.rounding,
-			maximumFractionDigits: getCurrency?.details?.decimal_digits
-		}).format(ExpenseUtils.getDailySpending(txnList, start, end))}
+		value={getCurrency?.id
+			? Helpers.currencyFormatter({
+					currency: getCurrency?.details?.code,
+					minimumFractionDigits: getCurrency?.details.rounding,
+					maximumFractionDigits: getCurrency?.details?.decimal_digits
+				}).format(ExpenseUtils.getDailySpending(txnList, start, end))
+			: ''}
 		description="Daily average spending"
 	/>
 </div>
