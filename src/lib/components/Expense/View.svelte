@@ -24,6 +24,8 @@
 	import TxnSettingsModal from '../Modals/TxnSettingsModal.svelte';
 	import useCurrentUser from '$lib/hooks/useCurrentUser';
 	import BudgetWarning from './Utilities/BudgetWarning.svelte';
+	import { BudgetCycle } from '../../../types/transaction';
+	import { currencies } from '$lib/constants/currency';
 
 	let currentMonth = $state(new Date());
 
@@ -54,6 +56,7 @@
 	let transactionCategoriesList = $derived($txnCategoriesQuery?.data?.data?.transactionCategories);
 	let breakdownList = $derived(ExpenseUtils.getBreakdownList(txnList, 'desc'));
 	let insightsStrings = $derived(ExpenseUtils.getInsights(txnList));
+	let budgetPercentage = $derived(Helpers.getPercentage(totalExpense, user?.budgetAmount, false));
 
 	const moreOptions = [
 		{
@@ -75,6 +78,25 @@
 	const nextMonth = () => {
 		currentMonth = addMonths(currentMonth, 1);
 	};
+
+	const show = () => {
+		if (budgetPercentage > 70) {
+			return true;
+			//   if (goalPeriod === BudgetCycle.WEEKLY) {
+			//     return _isSameWeek;
+			//   }
+			//   if (goalPeriod === BudgetCycle.MONTHLY) {
+			//     return _isSameMonth;
+			//   }
+		}
+		return false;
+	};
+
+	let showBudgetWarning = $derived(user?.isBudgetMode && show());
+
+	let getCurrency: any = $derived(
+		Helpers.transformObjectToList(currencies[0])?.find((item) => item.id === user?.currency)
+	);
 </script>
 
 <div class="pb-24">
@@ -82,7 +104,19 @@
 		Manage and track all your financial transactions
 	</p>
 
-	<BudgetWarning />
+	{#if showBudgetWarning}
+		<div class="hidden md:block">
+			<BudgetWarning
+				{budgetPercentage}
+				userBudget={Helpers.currencyFormatter({
+					currency: getCurrency?.details?.code,
+					minimumFractionDigits: getCurrency?.details.rounding,
+					maximumFractionDigits: getCurrency?.details?.decimal_digits
+				}).format(user?.budgetAmount)}
+				goalPeriod={user?.budgetCycle}
+			/>
+		</div>
+	{/if}
 
 	<div class="my-4 flex flex-col justify-between px-3 md:flex-row md:items-center">
 		<DateScroller {nextMonth} {prevMonth} {currentMonth} />

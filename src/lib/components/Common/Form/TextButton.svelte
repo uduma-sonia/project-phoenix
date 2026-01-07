@@ -27,5 +27,7 @@
 >
 	{label}
 
-	<RightIcon />
+	{#if RightIcon}
+		<RightIcon />
+	{/if}
 </button>

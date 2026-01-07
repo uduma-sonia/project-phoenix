@@ -454,6 +454,16 @@ class Helpers {
 		}
 		return num.toString();
 	}
+
+	static getPercentage(num: number = 0, whole: number = 0, toFixed = true) {
+		if (!num || !whole) return 0;
+
+		const percent = (num / whole) * 100;
+
+		if (toFixed) return Number(percent.toFixed(0));
+
+		return Number(percent);
+	}
 }
 
 export default Helpers;

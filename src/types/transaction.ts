@@ -34,8 +34,8 @@ export enum TransactionType {
 
 export enum BudgetCycle {
 	WEEKLY = 'WEEKLY',
-	BI_WEEKLY = 'BI_WEEKLY',
 	MONTHLY = 'MONTHLY',
-	QUARTERLY = 'QUARTERLY',
-	YEARLY = 'YEARLY'
+	YEARLY = 'YEARLY',
+	QUARTERLY = 'QUARTERLY'
+	// BI_WEEKLY = 'BI_WEEKLY',
 }

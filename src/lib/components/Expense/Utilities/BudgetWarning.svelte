@@ -1,6 +1,24 @@
 <script lang="ts">
 	import TextButton from '$lib/components/Common/Form/TextButton.svelte';
 	import { TriangleAlert } from '@lucide/svelte';
+	import { BudgetCycle } from '../../../../types/transaction';
+
+	let { budgetPercentage, userBudget, goalPeriod } = $props();
+
+	const getTextFromPeriod = () => {
+		if (goalPeriod === BudgetCycle.MONTHLY) {
+			return 'the month';
+		}
+		if (goalPeriod === BudgetCycle.WEEKLY) {
+			return 'the week';
+		}
+		if (goalPeriod === BudgetCycle.YEARLY) {
+			return 'this year';
+		}
+		if (goalPeriod === BudgetCycle.QUARTERLY) {
+			return 'this quarter';
+		}
+	};
 </script>
 
 <div class="px-3">
@@ -12,8 +30,8 @@
 		</div>
 
 		<p>
-			You're approaching your main budget limit for the month. You've spent 0.0% of your main budget
-			- N800,000 already. Keep an eye on your expenses.
+			You're approaching your main budget limit for {getTextFromPeriod()}. You've spent {budgetPercentage}%
+			of your main budget - {userBudget} already. Keep an eye on your expenses.
 		</p>
 
 		<div class="absolute right-3 bottom-2">

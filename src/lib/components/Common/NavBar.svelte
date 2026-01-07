@@ -31,7 +31,7 @@
 	];
 </script>
 
-<div class="mx-auto max-w-[600px] px-2 pt-2 md:hidden">
+<div class="mx-auto max-w-[800px] px-2 pt-2 md:hidden">
 	<a href="/expense" class="flex items-center gap-2">
 		<img src="/images/laniva_logo_rounded.png" class="aspect-square w-7" alt="laniva logo" />
 	</a>

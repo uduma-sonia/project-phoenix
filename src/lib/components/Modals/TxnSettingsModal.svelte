@@ -55,8 +55,9 @@
 			});
 
 			if (result) {
-				addToast('Profile updated', 'success');
+				addToast('Settings updated', 'success');
 				queryClient.invalidateQueries({ queryKey: queryKeys.getCurrentUser });
+				closeTxnSettingsModal();
 			}
 		} catch (error: any) {
 			addToast(error?.message || 'An error occured', 'error');
