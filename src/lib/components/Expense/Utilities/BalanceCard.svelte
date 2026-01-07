@@ -18,7 +18,7 @@
 <div class="min-w-[280px] flex-1">
 	<div class="retro_wrapper">
 		<div class="retro_wrapper_inner_iwjd">
-			<div class="flex h-20 flex-col justify-center">
+			<div class="flex h-16 flex-col justify-center">
 				<p class="font-lexend mb-2 text-xs font-light opacity-70 md:text-sm">{title}</p>
 				<p class="font-lexend text-lg font-normal md:text-xl {balanceClass}">
 					{#if getCurrency?.id}

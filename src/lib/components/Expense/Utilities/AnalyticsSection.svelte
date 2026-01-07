@@ -28,12 +28,12 @@
 </script>
 
 <div class="mt-10 px-3">
-	<div class="mb-6 flex items-center gap-4">
+	<div class="mb-6 flex items-center gap-3">
 		{#each viewList as item, index (index)}
 			<button
 				class:bg-brand-build={currentView === item.id}
 				onclick={() => changeView(item.id)}
-				class="button_active text-13 h-[35px] rounded-lg border px-2 md:text-sm"
+				class="button_active text-13 h-[45px] rounded-lg border px-2 shadow-sm md:text-sm"
 				type="button"
 			>
 				{item.label}
