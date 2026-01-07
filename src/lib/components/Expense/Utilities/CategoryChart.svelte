@@ -1,8 +1,8 @@
 <script lang="ts">
 	import {
 		Chart,
-		BarController,
-		BarElement,
+		LineController,
+		LineElement,
 		PointElement,
 		LinearScale,
 		CategoryScale,
@@ -15,8 +15,8 @@
 	import ExpenseUtils from './utils';
 
 	Chart.register(
-		BarController,
-		BarElement,
+		LineController,
+		LineElement,
 		PointElement,
 		LinearScale,
 		CategoryScale,
@@ -35,17 +35,17 @@
 		const data = ExpenseUtils.getExpenseBarData(transactions, type);
 
 		chart = new Chart(canvas, {
-			type: 'bar',
+			type: 'line',
 			data: {
 				labels: data.map((d) => d.category),
 				datasets: [
 					{
 						label: title,
 						data: data.map((d) => d.amount),
-						backgroundColor: '#ff9a9a90',
+						backgroundColor: '#1eb564',
 						borderWidth: 1,
-						borderColor: '#000000',
-						borderRadius: 8
+						borderColor: '#1eb564',
+						tension: 0.12
 					}
 				]
 			},

@@ -7,7 +7,6 @@
 	let { breakdownList, txnLoading, isError, user } = $props();
 
 	let hasTxns = $derived((breakdownList ?? []).length > 0);
-
 	let hasMount = $state(false);
 
 	onMount(() => {
