@@ -6,7 +6,7 @@
 	"theme_color": "#f5ecd5",
 	"display": "standalone",
 	"scope": "/",
-	"start_url": "/tracker",
+	"start_url": "/expense",
 	"orientation": "portrait",
 	"id": "/",
 	"icons": [
