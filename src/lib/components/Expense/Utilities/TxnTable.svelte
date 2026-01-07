@@ -13,7 +13,7 @@
 	import Pagination from './Pagination.svelte';
 	import ExpenseUtils from './utils';
 
-	let { txnList, start, end, txnLoading, isError } = $props();
+	let { txnList, start, end, txnLoading, isError, user } = $props();
 	const queryClient = useQueryClient();
 
 	let hasMount = $state(false);
@@ -85,7 +85,7 @@
 			{#if !txnLoading && !isError}
 				{#if hasTxns}
 					{#each paginatedTransactions as txn, index (index)}
-						<TxnRowItem {handleDelete} {txn} />
+						<TxnRowItem {user} {handleDelete} {txn} />
 					{/each}
 
 					<div class="h-28">

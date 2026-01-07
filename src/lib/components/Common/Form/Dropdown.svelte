@@ -13,6 +13,7 @@
 		shouldSearch?: boolean;
 		inputClass?: string;
 		placeholder?: string;
+		helperText?: string;
 	};
 
 	type Options = {
@@ -28,7 +29,8 @@
 		handleSelectChange,
 		shouldSearch = true,
 		inputClass,
-		placeholder
+		placeholder,
+		helperText
 	}: Props = $props();
 
 	let isDropDownOpen = $state(false);
@@ -102,6 +104,10 @@
 				break;
 		}
 	}
+
+	function dscj() {
+		isDropDownOpen = true;
+	}
 </script>
 
 <div class="relative w-full">
@@ -115,7 +121,9 @@
 		{withClearButton}
 		clearButtonWrapperClass="right-11"
 		{inputClass}
+		{helperText}
 		{placeholder}
+		openDropdown={dscj}
 	/>
 
 	<div class="absolute right-3 bottom-2.5">

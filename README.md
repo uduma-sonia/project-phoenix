@@ -20,5 +20,3 @@
 
 - Top 3 meals eaten (week - month)
 -
-
-## Budget planner

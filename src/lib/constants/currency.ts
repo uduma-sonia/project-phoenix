@@ -1001,3 +1001,117 @@ export const currencies = [
 		}
 	}
 ];
+
+export const currencyLocales: Record<string, string> = {
+	JOD: 'ar-JO', // Jordanian Dinar
+	COP: 'es-CO', // Colombian Peso
+	JPY: 'ja-JP', // Japanese Yen
+	TZS: 'sw-TZ', // Tanzanian Shilling
+	TTD: 'en-TT', // Trinidad and Tobago Dollar
+	XOF: 'fr-SN', // CFA Franc BCEAO (using Senegal as example)
+	ILS: 'he-IL', // Israeli New Sheqel
+	AFN: 'fa-AF', // Afghan Afghani
+	BGN: 'bg-BG', // Bulgarian Lev
+	BHD: 'ar-BH', // Bahraini Dinar
+	BDT: 'bn-BD', // Bangladeshi Taka
+	AMD: 'hy-AM', // Armenian Dram
+	BWP: 'en-BW', // Botswanan Pula
+	ALL: 'sq-AL', // Albanian Lek
+	BRL: 'pt-BR', // Brazilian Real
+	AUD: 'en-AU', // Australian Dollar
+	USD: 'en-US', // US Dollar
+	BZD: 'en-BZ', // Belize Dollar
+	IDR: 'id-ID', // Indonesian Rupiah
+	CUP: 'es-CU', // Cuban Peso
+	TND: 'ar-TN', // Tunisian Dinar
+	BND: 'ms-BN', // Brunei Dollar
+	DZD: 'ar-DZ', // Algerian Dinar
+	EGP: 'ar-EG', // Egyptian Pound
+	LBP: 'ar-LB', // Lebanese Pound
+	LKR: 'si-LK', // Sri Lankan Rupee
+	CZK: 'cs-CZ', // Czech Koruna
+	IQD: 'ar-IQ', // Iraqi Dinar
+	KHR: 'km-KH', // Cambodian Riel
+	KZT: 'kk-KZ', // Kazakhstani Tenge
+	ETB: 'am-ET', // Ethiopian Birr
+	GNF: 'fr-GN', // Guinean Franc
+	RSD: 'sr-RS', // Serbian Dinar
+	HKD: 'zh-HK', // Hong Kong Dollar
+	GHS: 'en-GH', // Ghanaian Cedi
+	AED: 'ar-AE', // UAE Dirham
+	KMF: 'ar-KM', // Comorian Franc
+	KRW: 'ko-KR', // South Korean Won
+	JMD: 'en-JM', // Jamaican Dollar
+	MOP: 'zh-MO', // Macanese Pataca
+	GTQ: 'es-GT', // Guatemalan Quetzal
+	ARS: 'es-AR', // Argentine Peso
+	AZN: 'az-AZ', // Azerbaijani Manat
+	INR: 'hi-IN', // Indian Rupee
+	MMK: 'my-MM', // Myanma Kyat
+	BOB: 'es-BO', // Bolivian Boliviano
+	LYD: 'ar-LY', // Libyan Dinar
+	DOP: 'es-DO', // Dominican Peso
+	YER: 'ar-YE', // Yemeni Rial
+	UYU: 'es-UY', // Uruguayan Peso
+	KES: 'sw-KE', // Kenyan Shilling
+	NZD: 'en-NZ', // New Zealand Dollar
+	CRC: 'es-CR', // Costa Rican Colón
+	KWD: 'ar-KW', // Kuwaiti Dinar
+	MUR: 'en-MU', // Mauritian Rupee
+	NGN: 'en-NG', // Nigerian Naira
+	CNY: 'zh-CN', // Chinese Yuan
+	PYG: 'es-PY', // Paraguayan Guarani
+	MXN: 'es-MX', // Mexican Peso
+	ZAR: 'en-ZA', // South African Rand
+	RWF: 'rw-RW', // Rwandan Franc
+	DJF: 'fr-DJ', // Djiboutian Franc
+	CAD: 'en-CA', // Canadian Dollar
+	BYN: 'be-BY', // Belarusian Ruble
+	UGX: 'en-UG', // Ugandan Shilling
+	NIO: 'es-NI', // Nicaraguan Córdoba
+	XCD: 'en-AG', // Eastern Caribbean Dollar (using Antigua as example)
+	NAD: 'en-NA', // Namibian Dollar
+	MYR: 'ms-MY', // Malaysian Ringgit
+	HUF: 'hu-HU', // Hungarian Forint
+	PLN: 'pl-PL', // Polish Zloty
+	SEK: 'sv-SE', // Swedish Krona
+	MDL: 'ro-MD', // Moldovan Leu
+	OMR: 'ar-OM', // Omani Rial
+	TRY: 'tr-TR', // Turkish Lira
+	PEN: 'es-PE', // Peruvian Nuevo Sol
+	MZN: 'pt-MZ', // Mozambican Metical
+	XAF: 'fr-CM', // CFA Franc BEAC (using Cameroon as example)
+	MKD: 'mk-MK', // Macedonian Denar
+	PAB: 'es-PA', // Panamanian Balboa
+	GBP: 'en-GB', // British Pound
+	CLP: 'es-CL', // Chilean Peso
+	PHP: 'fil-PH', // Philippine Peso
+	TOP: 'to-TO', // Tongan Paʻanga
+	GEL: 'ka-GE', // Georgian Lari
+	RUB: 'ru-RU', // Russian Ruble
+	SDG: 'ar-SD', // Sudanese Pound
+	RON: 'ro-RO', // Romanian Leu
+	SGD: 'en-SG', // Singapore Dollar
+	SOS: 'so-SO', // Somali Shilling
+	THB: 'th-TH', // Thai Baht
+	TWD: 'zh-TW', // New Taiwan Dollar
+	QAR: 'ar-QA', // Qatari Rial
+	UZS: 'uz-UZ', // Uzbekistan Som
+	SAR: 'ar-SA', // Saudi Riyal
+	NOK: 'nb-NO', // Norwegian Krone
+	HNL: 'es-HN', // Honduran Lempira
+	MGA: 'mg-MG', // Malagasy Ariary
+	NPR: 'ne-NP', // Nepalese Rupee
+	UAH: 'uk-UA', // Ukrainian Hryvnia
+	PKR: 'ur-PK', // Pakistani Rupee
+	VND: 'vi-VN', // Vietnamese Dong
+	ISK: 'is-IS', // Icelandic Króna
+	BAM: 'bs-BA', // Bosnia-Herzegovina Mark
+	DKK: 'da-DK', // Danish Krone
+	CHF: 'de-CH', // Swiss Franc
+	CDF: 'fr-CD', // Congolese Franc
+	MAD: 'ar-MA', // Moroccan Dirham
+	BIF: 'fr-BI', // Burundian Franc
+	IRR: 'fa-IR', // Iranian Rial
+	CVE: 'pt-CV' // Cape Verdean Escudo
+};

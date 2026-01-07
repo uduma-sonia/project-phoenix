@@ -18,6 +18,7 @@
 		withClearButton = false,
 		clearButtonWrapperClass,
 		helperText,
+		openDropdown,
 		...restProps
 	}: InputFieldProps = $props();
 
@@ -60,8 +61,12 @@
 		return formattedValue;
 	}
 
+	let previousActiveElement: any = $state();
+
 	function clearField() {
 		value = '';
+		previousActiveElement?.focus();
+		openDropdown();
 	}
 </script>
 
@@ -77,6 +82,7 @@
 	{/if}
 
 	<input
+		bind:this={previousActiveElement}
 		type={type === 'password' ? (passwordType === 'password' ? 'password' : 'text') : type}
 		bind:value
 		class={`h-[50px] w-full appearance-none rounded-lg border border-black px-3 outline-none ${inputClass}`}

@@ -3,10 +3,10 @@
 	import { currencies } from '$lib/constants/currency';
 	import Helpers from '$lib/utils/helpers';
 
-	let { item } = $props();
+	let { item, user } = $props();
 
-	const getCurrency: any = Helpers.transformObjectToList(currencies[0])?.find(
-		(item) => item.id === 'NGN'
+	let getCurrency: any = $derived(
+		Helpers.transformObjectToList(currencies[0])?.find((item) => item.id === user?.currency)
 	);
 </script>
 
@@ -20,11 +20,13 @@
 		<div class="flex items-center justify-end gap-3">
 			<div>
 				<p class="font-lexend text-sm">
-					{Helpers.currencyFormatter({
-						currency: getCurrency?.details?.code,
-						minimumFractionDigits: getCurrency?.details.rounding,
-						maximumFractionDigits: getCurrency?.details?.decimal_digits
-					}).format(item?.totalAmount)}
+					{#if getCurrency?.id}
+						{Helpers.currencyFormatter({
+							currency: getCurrency?.details?.code,
+							minimumFractionDigits: getCurrency?.details.rounding,
+							maximumFractionDigits: getCurrency?.details?.decimal_digits
+						}).format(item?.totalAmount)}
+					{/if}
 				</p>
 			</div>
 		</div>

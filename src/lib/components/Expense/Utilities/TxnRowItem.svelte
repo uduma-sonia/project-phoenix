@@ -5,11 +5,16 @@
 	import { SquarePen, Trash2 } from '@lucide/svelte';
 	import { format } from 'date-fns';
 	import { TransactionType, type Transaction } from '../../../../types/transaction';
+	import type { User } from '../../../../types/user';
 
-	let { txn, handleDelete }: { txn: Transaction; handleDelete: (id: string) => void } = $props();
+	let {
+		txn,
+		handleDelete,
+		user
+	}: { txn: Transaction; handleDelete: (id: string) => void; user: User } = $props();
 
-	const getCurrency: any = Helpers.transformObjectToList(currencies[0])?.find(
-		(item) => item.id === 'NGN'
+	let getCurrency: any = $derived(
+		Helpers.transformObjectToList(currencies[0])?.find((item) => item.id === user?.currency)
 	);
 
 	function _handleDelete() {
@@ -48,11 +53,13 @@
 						-
 					{:else}
 						+
-					{/if}{Helpers.currencyFormatter({
-						currency: getCurrency?.details?.code,
-						minimumFractionDigits: getCurrency?.details.rounding,
-						maximumFractionDigits: getCurrency?.details?.decimal_digits
-					}).format(txn.amount)}
+					{/if}{#if getCurrency?.id}
+						{Helpers.currencyFormatter({
+							currency: getCurrency?.details?.code,
+							minimumFractionDigits: getCurrency?.details.rounding,
+							maximumFractionDigits: getCurrency?.details?.decimal_digits
+						}).format(txn.amount)}
+					{/if}
 				</p>
 			</div>
 

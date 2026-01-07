@@ -29,7 +29,7 @@
 					goto(redirectUrl);
 					sessionStorage.removeItem(PAGE_REDIRECTED_FROM_KEY);
 				} else {
-					goto('/tracker');
+					goto('/expense');
 				}
 			}
 		} catch (error: any) {

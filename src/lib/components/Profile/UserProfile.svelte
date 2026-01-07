@@ -5,6 +5,9 @@
 	import Avatar from '../Common/Avatar.svelte';
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
+	import Dropdown from '../Common/Form/Dropdown.svelte';
+	import { currencies } from '$lib/constants/currency';
+	import Helpers from '$lib/utils/helpers';
 
 	let { user } = $props();
 
@@ -13,11 +16,20 @@
 	let isLoading = $state(false);
 	const queryClient = useQueryClient();
 
+	let selectedCurrency = $state({
+		value: 'US Dollar',
+		id: '$'
+	});
+
 	async function onSubmit() {
 		try {
 			isLoading = true;
 
-			const result = await UserRequest.updateUser(user?._id, { username, email });
+			const result = await UserRequest.updateUser(user?._id, {
+				username,
+				email,
+				currency: selectedCurrency.id
+			});
 
 			if (result) {
 				addToast('Profile updated', 'success');
@@ -29,6 +41,15 @@
 			isLoading = false;
 		}
 	}
+
+	let currencyOptions = $derived(
+		Helpers.transformObjectToList(currencies[0])?.map((item: any) => {
+			return {
+				value: item?.details.name,
+				id: item?.details.code
+			};
+		})
+	);
 </script>
 
 <div>
@@ -55,6 +76,17 @@
 				required
 				autocomplete="email"
 			/>
+
+			{#if currencyOptions?.length}
+				<Dropdown
+					label="Currency"
+					placeholder="Select currency"
+					options={currencyOptions}
+					bind:selectedOption={selectedCurrency}
+					shouldSearch={true}
+					withClearButton={true}
+				/>
+			{/if}
 		</div>
 
 		<div>

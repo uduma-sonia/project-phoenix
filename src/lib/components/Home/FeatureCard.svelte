@@ -102,4 +102,7 @@
 	.trip::before {
 		background-color: #ff9a9a;
 	}
+	.expense::before {
+		background-color: #ff9a9a;
+	}
 </style>

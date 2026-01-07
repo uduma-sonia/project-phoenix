@@ -9,8 +9,6 @@
 			(item) => item.id === trip.currency
 		);
 
-		console.log(getCurrency);
-
 		let amount = '-';
 		if (getCurrency?.details) {
 			amount = Helpers.currencyFormatter({
