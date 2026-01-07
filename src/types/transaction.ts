@@ -31,3 +31,11 @@ export enum TransactionType {
 	EXPENSE = 'EXPENSE',
 	INCOME = 'INCOME'
 }
+
+export enum BudgetCycle {
+	WEEKLY = 'WEEKLY',
+	MONTHLY = 'MONTHLY',
+	YEARLY = 'YEARLY',
+	QUARTERLY = 'QUARTERLY'
+	// BI_WEEKLY = 'BI_WEEKLY',
+}

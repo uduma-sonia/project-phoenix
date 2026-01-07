@@ -1,4 +1,4 @@
-import { TransactionType } from '../../types/transaction';
+import { BudgetCycle, TransactionType } from '../../types/transaction';
 
 export const viewOptions = [
 	{
@@ -13,4 +13,12 @@ export const viewOptions = [
 		id: TransactionType.INCOME,
 		value: 'Income'
 	}
+];
+
+export const budgetCycles = [
+	{ id: BudgetCycle.WEEKLY, value: 'Weekly' },
+	{ id: BudgetCycle.BI_WEEKLY, value: 'Bi-Weekly' },
+	{ id: BudgetCycle.MONTHLY, value: 'Monthly' },
+	{ id: BudgetCycle.QUARTERLY, value: 'Quarterly' },
+	{ id: BudgetCycle.YEARLY, value: 'Yearly' }
 ];

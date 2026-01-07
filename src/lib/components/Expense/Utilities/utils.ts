@@ -1,5 +1,13 @@
-import { differenceInDays, parseISO } from 'date-fns';
-import { TransactionType, type Transaction } from '../../../../types/transaction';
+import {
+	differenceInDays,
+	formatISO,
+	isSameMonth,
+	isSameQuarter,
+	isSameWeek,
+	isSameYear,
+	parseISO
+} from 'date-fns';
+import { BudgetCycle, TransactionType, type Transaction } from '../../../../types/transaction';
 
 class ExpenseUtils {
 	static getTotals(transactions: Transaction[]) {
@@ -103,7 +111,7 @@ class ExpenseUtils {
 
 		return {
 			topCategoryText: topCategory
-				? `You spent the most on <b> ${topCategory[0]} </b> this month
+				? `You spent the most on <span class="font-semibold"> ${topCategory[0]} </span> this month
 
 				<br/>
 
@@ -179,6 +187,30 @@ class ExpenseUtils {
 			category,
 			amount
 		}));
+	}
+
+	static showBudgetWarning(
+		budgetPercentage: number,
+		budgetCycle: BudgetCycle,
+		currentMonth: string | number | Date
+	) {
+		const _isSameMonth = isSameMonth(formatISO(new Date()), currentMonth);
+		const _isSameWeek = isSameWeek(formatISO(new Date()), currentMonth);
+		const _isSameQuarter = isSameQuarter(formatISO(new Date()), currentMonth);
+		const _isSameYear = isSameYear(formatISO(new Date()), currentMonth);
+
+		if (budgetPercentage > 70) {
+			if (budgetCycle === BudgetCycle.WEEKLY) {
+				return _isSameWeek;
+			} else if (budgetCycle === BudgetCycle.QUARTERLY) {
+				return _isSameQuarter;
+			} else if (budgetCycle === BudgetCycle.YEARLY) {
+				return _isSameYear;
+			} else {
+				return _isSameMonth;
+			}
+		}
+		return false;
 	}
 }
 

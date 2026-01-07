@@ -16,24 +16,40 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TransactionRequest } from '$lib/requests';
 	import Helpers from '$lib/utils/helpers';
-	import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
+	import {
+		addMonths,
+		addWeeks,
+		endOfMonth,
+		endOfWeek,
+		startOfMonth,
+		startOfWeek,
+		subMonths,
+		subWeeks
+	} from 'date-fns';
 	import ExpenseUtils from './Utilities/utils';
 	import StatsSections from './Utilities/StatsSections.svelte';
 	import BreakdownInsight from './Utilities/BreakdownInsight.svelte';
 	import AnalyticsSection from './Utilities/AnalyticsSection.svelte';
 	import TxnSettingsModal from '../Modals/TxnSettingsModal.svelte';
 	import useCurrentUser from '$lib/hooks/useCurrentUser';
-
-	let currentMonth = $state(new Date());
+	import BudgetWarning from './Utilities/BudgetWarning.svelte';
+	import { currencies } from '$lib/constants/currency';
+	import { BudgetCycle } from '../../../types/transaction';
 
 	let userQuery = useCurrentUser();
-
 	let user = $derived($userQuery?.data?.data?.user);
+
+	let currentMonth = $state(new Date());
 	let { start, end } = $derived(
-		Helpers.getStartAndEndDates({
-			startDate: startOfMonth(currentMonth),
-			endDate: endOfMonth(currentMonth)
-		})
+		user?.budgetCycle === BudgetCycle.MONTHLY
+			? Helpers.getStartAndEndDates({
+					startDate: startOfMonth(currentMonth),
+					endDate: endOfMonth(currentMonth)
+				})
+			: Helpers.getStartAndEndDates({
+					startDate: startOfWeek(currentMonth),
+					endDate: endOfWeek(currentMonth)
+				})
 	);
 
 	let txnQuery = $derived(
@@ -53,6 +69,7 @@
 	let transactionCategoriesList = $derived($txnCategoriesQuery?.data?.data?.transactionCategories);
 	let breakdownList = $derived(ExpenseUtils.getBreakdownList(txnList, 'desc'));
 	let insightsStrings = $derived(ExpenseUtils.getInsights(txnList));
+	let budgetPercentage = $derived(Helpers.getPercentage(totalExpense, user?.budgetAmount, false));
 
 	const moreOptions = [
 		{
@@ -74,6 +91,23 @@
 	const nextMonth = () => {
 		currentMonth = addMonths(currentMonth, 1);
 	};
+
+	const prevWeek = () => {
+		currentMonth = subWeeks(currentMonth, 1);
+	};
+
+	const nextWeek = () => {
+		currentMonth = addWeeks(currentMonth, 1);
+	};
+
+	let showBudgetWarning = $derived(
+		user?.isBudgetMode &&
+			ExpenseUtils.showBudgetWarning(budgetPercentage, user?.budgetCycle, currentMonth)
+	);
+
+	let getCurrency: any = $derived(
+		Helpers.transformObjectToList(currencies[0])?.find((item) => item.id === user?.currency)
+	);
 </script>
 
 <div class="pb-24">
@@ -81,8 +115,29 @@
 		Manage and track all your financial transactions
 	</p>
 
+	{#if showBudgetWarning}
+		<div class="hidde md:bloc">
+			<BudgetWarning
+				{budgetPercentage}
+				userBudget={Helpers.currencyFormatter({
+					currency: getCurrency?.details?.code,
+					minimumFractionDigits: getCurrency?.details.rounding,
+					maximumFractionDigits: getCurrency?.details?.decimal_digits
+				}).format(user?.budgetAmount)}
+				goalPeriod={user?.budgetCycle}
+			/>
+		</div>
+	{/if}
+
 	<div class="my-4 flex flex-col justify-between px-3 md:flex-row md:items-center">
-		<DateScroller {nextMonth} {prevMonth} {currentMonth} />
+		<DateScroller
+			{nextMonth}
+			{prevMonth}
+			{currentMonth}
+			budgetCycle={user?.budgetCycle}
+			{nextWeek}
+			{prevWeek}
+		/>
 
 		<div class="mt-4 flex w-full items-center justify-end gap-4 md:mt-0 md:w-fit">
 			<div>

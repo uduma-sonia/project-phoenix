@@ -13,6 +13,7 @@
 	import { addToast } from '$lib/store/toast';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
+	import { budgetCycles } from '$lib/constants/transaction';
 
 	const queryClient = useQueryClient();
 	let isLoading = $state(false);
@@ -29,10 +30,15 @@
 		})
 	);
 
-	let selectedCurrency = $state({
-		value: 'US Dollar',
-		id: 'USD'
+	let getCurrency: any = $derived(
+		Helpers.transformObjectToList(currencies[0])?.find((item) => item.id === user?.currency)
+	);
+	let selectedCurrency = $derived({
+		value: getCurrency?.details?.name,
+		id: getCurrency?.id
 	});
+
+	let selectedCycle = $derived({ id: user?.budgetCycle, value: user?.budgetCycle });
 	let isBudgetMode = $derived(user?.isBudgetMode);
 	let budgetAmount = $derived(user?.budgetAmount);
 
@@ -43,12 +49,14 @@
 			const result = await UserRequest.updateUser(user?._id, {
 				isBudgetMode,
 				currency: selectedCurrency.id,
-				budgetAmount: Number(budgetAmount)
+				budgetAmount: Number(budgetAmount),
+				budgetCycle: selectedCycle?.id
 			});
 
 			if (result) {
-				addToast('Profile updated', 'success');
+				addToast('Expense settings updated', 'success');
 				queryClient.invalidateQueries({ queryKey: queryKeys.getCurrentUser });
+				closeTxnSettingsModal();
 			}
 		} catch (error: any) {
 			addToast(error?.message || 'An error occured', 'error');
@@ -61,7 +69,7 @@
 <ModalWrapper
 	isOpen={modalsState.data.isOpenTxnSettings}
 	onClose={closeTxnSettingsModal}
-	label="Transaction Settings"
+	label="Expense Settings"
 >
 	<div class="p-4">
 		<div>
@@ -91,15 +99,26 @@
 			</div>
 
 			{#if isBudgetMode}
-				<BasicInputField
-					label="Budget Amount"
-					bind:value={budgetAmount}
-					type="number"
-					id="amount"
-					name="amount"
-					required={isBudgetMode}
-					inputMode="numeric"
-				/>
+				<div class="space-y-6">
+					<Dropdown
+						label="Budget cycle"
+						placeholder="Select cycle"
+						options={budgetCycles}
+						bind:selectedOption={selectedCycle}
+						shouldSearch={true}
+						withClearButton={true}
+					/>
+
+					<BasicInputField
+						label="Budget Amount"
+						bind:value={budgetAmount}
+						type="number"
+						id="amount"
+						name="amount"
+						required={isBudgetMode}
+						inputMode="numeric"
+					/>
+				</div>
 			{/if}
 		</div>
 

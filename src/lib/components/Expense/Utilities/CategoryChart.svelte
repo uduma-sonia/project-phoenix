@@ -40,7 +40,7 @@
 				labels: data.map((d) => d.category),
 				datasets: [
 					{
-						label: 'Daily Spending',
+						label: title,
 						data: data.map((d) => d.amount),
 						backgroundColor: '#ff9a9a90',
 						borderWidth: 1,
