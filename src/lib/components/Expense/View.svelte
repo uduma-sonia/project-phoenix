@@ -16,7 +16,19 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TransactionRequest } from '$lib/requests';
 	import Helpers from '$lib/utils/helpers';
-	import { addMonths, endOfMonth, startOfMonth, subMonths } from 'date-fns';
+	import {
+		addMonths,
+		addWeeks,
+		endOfMonth,
+		endOfWeek,
+		formatISO,
+		isSameMonth,
+		isSameWeek,
+		startOfMonth,
+		startOfWeek,
+		subMonths,
+		subWeeks
+	} from 'date-fns';
 	import ExpenseUtils from './Utilities/utils';
 	import StatsSections from './Utilities/StatsSections.svelte';
 	import BreakdownInsight from './Utilities/BreakdownInsight.svelte';
@@ -24,19 +36,23 @@
 	import TxnSettingsModal from '../Modals/TxnSettingsModal.svelte';
 	import useCurrentUser from '$lib/hooks/useCurrentUser';
 	import BudgetWarning from './Utilities/BudgetWarning.svelte';
-	import { BudgetCycle } from '../../../types/transaction';
 	import { currencies } from '$lib/constants/currency';
-
-	let currentMonth = $state(new Date());
+	import { BudgetCycle } from '../../../types/transaction';
 
 	let userQuery = useCurrentUser();
-
 	let user = $derived($userQuery?.data?.data?.user);
+
+	let currentMonth = $state(new Date());
 	let { start, end } = $derived(
-		Helpers.getStartAndEndDates({
-			startDate: startOfMonth(currentMonth),
-			endDate: endOfMonth(currentMonth)
-		})
+		user?.budgetCycle === BudgetCycle.MONTHLY
+			? Helpers.getStartAndEndDates({
+					startDate: startOfMonth(currentMonth),
+					endDate: endOfMonth(currentMonth)
+				})
+			: Helpers.getStartAndEndDates({
+					startDate: startOfWeek(currentMonth),
+					endDate: endOfWeek(currentMonth)
+				})
 	);
 
 	let txnQuery = $derived(
@@ -79,15 +95,24 @@
 		currentMonth = addMonths(currentMonth, 1);
 	};
 
+	const prevWeek = () => {
+		currentMonth = subWeeks(currentMonth, 1);
+	};
+
+	const nextWeek = () => {
+		currentMonth = addWeeks(currentMonth, 1);
+	};
+
+	let _isSameMonth = $derived(isSameMonth(formatISO(new Date()), currentMonth));
+	let _isSameWeek = $derived(isSameWeek(formatISO(new Date()), currentMonth));
+
 	const show = () => {
 		if (budgetPercentage > 70) {
-			return true;
-			//   if (goalPeriod === BudgetCycle.WEEKLY) {
-			//     return _isSameWeek;
-			//   }
-			//   if (goalPeriod === BudgetCycle.MONTHLY) {
-			//     return _isSameMonth;
-			//   }
+			if (user?.budgetCycle === BudgetCycle.WEEKLY) {
+				return _isSameWeek;
+			} else {
+				return _isSameMonth;
+			}
 		}
 		return false;
 	};
@@ -119,7 +144,14 @@
 	{/if}
 
 	<div class="my-4 flex flex-col justify-between px-3 md:flex-row md:items-center">
-		<DateScroller {nextMonth} {prevMonth} {currentMonth} />
+		<DateScroller
+			{nextMonth}
+			{prevMonth}
+			{currentMonth}
+			budgetCycle={user?.budgetCycle}
+			{nextWeek}
+			{prevWeek}
+		/>
 
 		<div class="mt-4 flex w-full items-center justify-end gap-4 md:mt-0 md:w-fit">
 			<div>
