@@ -103,7 +103,7 @@ class ExpenseUtils {
 
 		return {
 			topCategoryText: topCategory
-				? `You spent the most on <b> ${topCategory[0]} </b> this month
+				? `You spent the most on <span class="font-semibold"> ${topCategory[0]} </span> this month
 
 				<br/>
 

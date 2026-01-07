@@ -23,6 +23,7 @@
 	import AnalyticsSection from './Utilities/AnalyticsSection.svelte';
 	import TxnSettingsModal from '../Modals/TxnSettingsModal.svelte';
 	import useCurrentUser from '$lib/hooks/useCurrentUser';
+	import BudgetWarning from './Utilities/BudgetWarning.svelte';
 
 	let currentMonth = $state(new Date());
 
@@ -80,6 +81,8 @@
 	<p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">
 		Manage and track all your financial transactions
 	</p>
+
+	<BudgetWarning />
 
 	<div class="my-4 flex flex-col justify-between px-3 md:flex-row md:items-center">
 		<DateScroller {nextMonth} {prevMonth} {currentMonth} />
