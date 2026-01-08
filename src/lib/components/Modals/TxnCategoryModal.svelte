@@ -3,7 +3,6 @@
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import TxnCategoryItem from './Utilities/TxnCategoryItem.svelte';
 	import { TransactionType, type TransactionCategory } from '../../../types/transaction';
-	import AddStandardItem from '../Shopping/Utilities/AddStandardItem.svelte';
 	import { addToast } from '$lib/store/toast';
 	import { TransactionRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
@@ -103,12 +102,17 @@
 
 			<div class="space-y-4">
 				{#each transformedList as item}
-					<TxnCategoryItem {handleUpdateItem} {item} {handleItemDelete} />
+					<TxnCategoryItem {type} {handleUpdateItem} {item} {handleItemDelete} />
 				{/each}
 			</div>
 
-			<div class="mt-6">
-				<AddCategory placeholder="Category name" {isSubmitting} handleItemAdd={handleAddCategory} />
+			<div class="mt-12">
+				<AddCategory
+					{type}
+					placeholder="Category name"
+					{isSubmitting}
+					handleItemAdd={handleAddCategory}
+				/>
 			</div>
 		</div>
 	</div>

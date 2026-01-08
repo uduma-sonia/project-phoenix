@@ -85,7 +85,7 @@
 		bind:this={previousActiveElement}
 		type={type === 'password' ? (passwordType === 'password' ? 'password' : 'text') : type}
 		bind:value
-		class={`h-[50px] w-full appearance-none rounded-lg border border-black px-3 outline-none ${inputClass}`}
+		class={`h-[50px] w-full appearance-none rounded-lg border border-black px-3 text-sm outline-none ${inputClass}`}
 		{id}
 		{name}
 		readonly={readOnly}

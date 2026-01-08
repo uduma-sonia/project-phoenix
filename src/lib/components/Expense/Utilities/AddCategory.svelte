@@ -1,5 +1,7 @@
 <script lang="ts">
-	let { handleItemAdd, isSubmitting, placeholder = 'Type and enter' } = $props();
+	import { TransactionType } from '../../../../types/transaction';
+
+	let { handleItemAdd, isSubmitting, placeholder = 'Type and enter', type } = $props();
 
 	let itemName = $state('');
 	let itemAmount = $state('');
@@ -22,12 +24,14 @@
 				class="h-[50px] w-full border-b border-b-gray-300 px-3 outline-none"
 				{placeholder}
 			/>
-			<input
-				type="text"
-				bind:value={itemAmount}
-				class="h-[50px] w-full border-b border-b-gray-300 px-3 outline-none"
-				placeholder="Budget amount"
-			/>
+			{#if type === TransactionType.EXPENSE}
+				<input
+					type="text"
+					bind:value={itemAmount}
+					class="h-[50px] w-full border-b border-b-gray-300 px-3 outline-none"
+					placeholder="Budget amount"
+				/>
+			{/if}
 		</div>
 
 		<button class="shadow_button" type="submit">

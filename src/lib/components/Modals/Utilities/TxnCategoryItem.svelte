@@ -1,5 +1,7 @@
 <script lang="ts">
 	import BasicInputField from '$lib/components/Common/Form/BasicInputField.svelte';
+	import { X } from '@lucide/svelte';
+	import { TransactionType } from '../../../../types/transaction';
 
 	let {
 		showSettings = false,
@@ -7,7 +9,8 @@
 		handleItemDelete,
 		handleAddToList,
 		boardId,
-		handleUpdateItem
+		handleUpdateItem,
+		type
 	}: {
 		showSettings?: boolean;
 		boardId?: string;
@@ -15,6 +18,7 @@
 		handleItemDelete?: (id: string) => void;
 		handleAddToList?: (boardId?: any, name?: string) => void;
 		handleUpdateItem?: (itemId: any, name: string, amount: number) => void;
+		type?: TransactionType;
 	} = $props();
 
 	let itemId = $state('');
@@ -26,16 +30,35 @@
 	}
 </script>
 
-<div class="flex gap-4">
-	<div class="w-1/2">
-		<BasicInputField type="text" bind:value={itemName} placeholder="Name" onblur={handleUpdate} />
+<div class="flex items-center gap-1">
+	<div class="flex flex-1 gap-2">
+		<div class="w-1/2" class:ksjc={type === TransactionType.INCOME}>
+			<BasicInputField type="text" bind:value={itemName} placeholder="Name" onblur={handleUpdate} />
+		</div>
+		{#if type === TransactionType.EXPENSE}
+			<div class="w-1/2">
+				<BasicInputField
+					type="number"
+					placeholder="Budget amount"
+					bind:value={itemAmount}
+					onblur={handleUpdate}
+				/>
+			</div>
+		{/if}
 	</div>
-	<div class="w-1/2">
-		<BasicInputField
-			type="number"
-			placeholder="Budget amount"
-			bind:value={itemAmount}
-			onblur={handleUpdate}
-		/>
+
+	<div>
+		<button
+			class="flex aspect-square w-6 items-center justify-center rounded-full text-red-500 hover:bg-gray-200"
+			onclick={() => handleItemDelete?.(item?._id)}
+		>
+			<X size="18px" strokeWidth={3} />
+		</button>
 	</div>
 </div>
+
+<style>
+	.ksjc {
+		width: 100%;
+	}
+</style>
