@@ -35,7 +35,7 @@ class ExpenseUtils {
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	static sortTransactionsGroupByAmount(transactions: any[], sort: 'asc' | 'desc' = 'asc') {
-		return transactions.sort((a, b) => (sort === 'asc' ? a.count - b.count : b.count - a.count));
+		return transactions.sort((a, b) => (sort === 'asc' ? a.totalAmount - b.totalAmount : b.totalAmount - a.totalAmount));
 	}
 
 	static getBreakdownList(transactions: Transaction[], sort: 'asc' | 'desc' = 'asc') {
