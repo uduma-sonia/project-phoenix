@@ -155,6 +155,7 @@
 							bind:selectedOption={selectedCategory}
 							shouldSearch={true}
 							placeholder="Select category"
+							withClearButton
 						/>
 					{/if}
 				</div>

@@ -30,7 +30,7 @@ class TransactionService {
 	}
 
 	async createTransactionCategory(
-		data: { name: string; type: TransactionType },
+		data: { name: string; type: TransactionType; budgetAmount: number },
 		reqConfig?: ReqConfig
 	) {
 		return await this.api.post(`${this.categoryPrefix}`, data, { ...reqConfig });
@@ -40,7 +40,11 @@ class TransactionService {
 		return await this.api.get(`${this.categoryPrefix}`, { ...reqConfig });
 	}
 
-	async updateTransactionCategory(id: string, data: { name: string }, reqConfig?: ReqConfig) {
+	async updateTransactionCategory(
+		id: string,
+		data: { name: string; budgetAmount: number },
+		reqConfig?: ReqConfig
+	) {
 		return await this.api.put(`${this.categoryPrefix}/${id}`, data, { ...reqConfig });
 	}
 

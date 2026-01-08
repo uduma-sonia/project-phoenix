@@ -15,3 +15,4 @@
 - Add service worker for offline capabilities
 - Add some text formatting options to text area component
 - Link recipe to meal in meal planner
+- Bi weekly budgeting
