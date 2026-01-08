@@ -112,7 +112,7 @@
 
 <div class="pb-24">
 	<p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">
-		Manage and track all your financial transactions
+		Manage and track all your financial transactions and budget
 	</p>
 
 	{#if showBudgetWarning}

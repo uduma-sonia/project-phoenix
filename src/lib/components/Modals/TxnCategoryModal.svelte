@@ -8,6 +8,7 @@
 	import { TransactionRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { useQueryClient } from '@tanstack/svelte-query';
+	import AddCategory from '../Expense/Utilities/AddCategory.svelte';
 
 	let { transactionCategoriesList } = $props();
 
@@ -24,10 +25,14 @@
 		type = val;
 	}
 
-	async function handleAddCategory(value: string) {
+	async function handleAddCategory(value: string, itemAmount: number) {
 		try {
 			isSubmitting = true;
-			await TransactionRequest.createTransactionCategory({ name: value, type: type });
+			await TransactionRequest.createTransactionCategory({
+				name: value,
+				type: type,
+				budgetAmount: itemAmount
+			});
 			addToast('Category added', 'success');
 			queryClient.invalidateQueries({ queryKey: queryKeys.getTransactionCategories });
 		} catch (error: any) {
@@ -49,10 +54,11 @@
 		}
 	}
 
-	async function handleUpdateItem(itemId: string, name: string) {
+	async function handleUpdateItem(itemId: string, name: string, budgetAmount: number) {
 		try {
 			const payload = {
-				name: name
+				name: name,
+				budgetAmount: budgetAmount
 			};
 
 			const result = await TransactionRequest.updateTransactionCategory(itemId, payload);
@@ -70,40 +76,39 @@
 	isOpen={modalsState.data.isOpenTxnCategory}
 	onClose={closeTxnCategoryModal}
 	label="Manage Categories"
+	maxWidth="max-w-[700px]"
 >
 	<div class="p-4">
-		<div>
+		<div class="space-y-4">
+			<div>
+				<div class="flex items-center gap-4">
+					<button
+						class:bg-brand-build={type === TransactionType.EXPENSE}
+						onclick={() => changeType(TransactionType.EXPENSE)}
+						class="button_active h-[35px] rounded-lg border px-4 text-sm"
+						type="button"
+					>
+						Expense
+					</button>
+					<button
+						class:bg-brand-build={type === TransactionType.INCOME}
+						onclick={() => changeType(TransactionType.INCOME)}
+						class="button_active h-[35px] rounded-lg border px-4 text-sm"
+						type="button"
+					>
+						Income
+					</button>
+				</div>
+			</div>
+
 			<div class="space-y-4">
-				<div>
-					<div class="flex items-center gap-4">
-						<button
-							class:bg-brand-build={type === TransactionType.EXPENSE}
-							onclick={() => changeType(TransactionType.EXPENSE)}
-							class="button_active h-[35px] rounded-lg border px-4 text-sm"
-							type="button"
-						>
-							Expense
-						</button>
-						<button
-							class:bg-brand-build={type === TransactionType.INCOME}
-							onclick={() => changeType(TransactionType.INCOME)}
-							class="button_active h-[35px] rounded-lg border px-4 text-sm"
-							type="button"
-						>
-							Income
-						</button>
-					</div>
-				</div>
+				{#each transformedList as item}
+					<TxnCategoryItem {handleUpdateItem} {item} {handleItemDelete} />
+				{/each}
+			</div>
 
-				<div>
-					{#each transformedList as item}
-						<TxnCategoryItem {handleUpdateItem} {item} {handleItemDelete} />
-					{/each}
-				</div>
-
-				<div class="mt-6">
-					<AddStandardItem placeholder="Add new" {isSubmitting} handleItemAdd={handleAddCategory} />
-				</div>
+			<div class="mt-6">
+				<AddCategory placeholder="Category name" {isSubmitting} handleItemAdd={handleAddCategory} />
 			</div>
 		</div>
 	</div>

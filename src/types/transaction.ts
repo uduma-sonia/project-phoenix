@@ -20,8 +20,9 @@ export type Transaction = {
 
 export type TransactionCategory = {
 	ownerId?: string;
-	createdAt: number;
-	updatedAt: number;
+	createdAt: string;
+	updatedAt: string;
+	budgetAmount?: number;
 	name: string;
 	type: TransactionType;
 	_id?: Date;
