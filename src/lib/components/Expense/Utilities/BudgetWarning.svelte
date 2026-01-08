@@ -19,6 +19,13 @@
 			return 'this quarter';
 		}
 	};
+	const getPrefixText = () => {
+		if (budgetPercentage > 70 && budgetPercentage < 100) {
+			return "You're approaching your main budget limit for";
+		} else {
+			return 'You have passed your main budget limit for';
+		}
+	};
 </script>
 
 <div class="px-3">
@@ -30,8 +37,9 @@
 		</div>
 
 		<p>
-			You're approaching your main budget limit for {getTextFromPeriod()}. You've spent {budgetPercentage}%
-			of your main budget - {userBudget} already. Keep an eye on your expenses.
+			{getPrefixText()}
+			{getTextFromPeriod()}. You've spent {budgetPercentage}% of your main budget - {userBudget} already.
+			Keep an eye on your expenses.
 		</p>
 
 		<div class="absolute right-3 bottom-1">

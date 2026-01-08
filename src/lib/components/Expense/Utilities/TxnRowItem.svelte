@@ -1,21 +1,15 @@
 <script lang="ts">
 	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
-	import { currencies } from '$lib/constants/currency';
 	import Helpers from '$lib/utils/helpers';
 	import { SquarePen, Trash2 } from '@lucide/svelte';
 	import { format } from 'date-fns';
 	import { TransactionType, type Transaction } from '../../../../types/transaction';
-	import type { User } from '../../../../types/user';
 
 	let {
 		txn,
 		handleDelete,
-		user
-	}: { txn: Transaction; handleDelete: (id: string) => void; user: User } = $props();
-
-	let getCurrency: any = $derived(
-		Helpers.transformObjectToList(currencies[0])?.find((item) => item.id === user?.currency)
-	);
+		getCurrency
+	}: { txn: Transaction; handleDelete: (id: string) => void; getCurrency: any } = $props();
 
 	function _handleDelete() {
 		handleDelete(txn?._id);

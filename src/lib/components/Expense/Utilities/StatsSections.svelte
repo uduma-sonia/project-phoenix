@@ -2,21 +2,13 @@
 	import StatItem from '$lib/components/Habit/Utilities/StatItem.svelte';
 	import Helpers from '$lib/utils/helpers';
 	import ExpenseUtils from './utils';
-	import { currencies } from '$lib/constants/currency';
 
-	let { txnList, start, end, user } = $props();
-
-	let getCurrency: any = $derived(
-		Helpers.transformObjectToList(currencies[0])?.find((item) => item.id === user?.currency)
-	);
+	let { txnList, start, end, getCurrency } = $props();
 
 	let txnCounts = $derived(ExpenseUtils.getTransactionCounts(txnList));
 </script>
 
-<div class="grid grid-cols-2 gap-6">
-	<StatItem value={txnCounts?.total} description="Total Transactions" />
-	<StatItem value={txnCounts?.income} description="Total Income" />
-	<StatItem value={txnCounts?.expense} description="Total Expenses" />
+<div class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-6">
 	<StatItem
 		value={getCurrency?.id
 			? Helpers.currencyFormatter({
@@ -27,4 +19,7 @@
 			: ''}
 		description="Daily average spending"
 	/>
+	<StatItem value={txnCounts?.total} description="Total Transactions" />
+	<StatItem value={txnCounts?.income} description="Total Income" />
+	<StatItem value={txnCounts?.expense} description="Total Expenses" />
 </div>

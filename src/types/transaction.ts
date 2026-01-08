@@ -25,7 +25,7 @@ export type TransactionCategory = {
 	budgetAmount?: number;
 	name: string;
 	type: TransactionType;
-	_id?: Date;
+	_id?: string;
 };
 
 export enum TransactionType {

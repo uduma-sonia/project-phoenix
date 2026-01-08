@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Check } from '@lucide/svelte';
+	import { Check, X } from '@lucide/svelte';
 
 	let { insightsStrings } = $props();
 </script>
@@ -27,7 +27,7 @@
 				{insightsStrings.spendingMeansText}
 
 				<div class="bg-brand-error aspect-square w-fit rounded-full p-1">
-					<Check size="14px" color="#ffffff" />
+					<X size="14px" color="#ffffff" />
 				</div>
 			</div>
 		{/if}
