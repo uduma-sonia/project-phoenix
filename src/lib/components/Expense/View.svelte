@@ -35,20 +35,21 @@
 	import BudgetWarning from './Utilities/BudgetWarning.svelte';
 	import { currencies } from '$lib/constants/currency';
 	import { BudgetCycle } from '../../../types/transaction';
+	import CategoryBreakdown from './Utilities/CategoryBreakdown.svelte';
 
 	let userQuery = useCurrentUser();
 	let user = $derived($userQuery?.data?.data?.user);
 
 	let currentMonth = $state(new Date());
 	let { start, end } = $derived(
-		user?.budgetCycle === BudgetCycle.MONTHLY
+		user?.budgetCycle === BudgetCycle.WEEKLY
 			? Helpers.getStartAndEndDates({
-					startDate: startOfMonth(currentMonth),
-					endDate: endOfMonth(currentMonth)
-				})
-			: Helpers.getStartAndEndDates({
 					startDate: startOfWeek(currentMonth),
 					endDate: endOfWeek(currentMonth)
+				})
+			: Helpers.getStartAndEndDates({
+					startDate: startOfMonth(currentMonth),
+					endDate: endOfMonth(currentMonth)
 				})
 	);
 
@@ -69,7 +70,7 @@
 	let transactionCategoriesList = $derived($txnCategoriesQuery?.data?.data?.transactionCategories);
 	let breakdownList = $derived(ExpenseUtils.getBreakdownList(txnList, 'desc'));
 	let insightsStrings = $derived(ExpenseUtils.getInsights(txnList));
-	let budgetPercentage = $derived(Helpers.getPercentage(totalExpense, user?.budgetAmount, false));
+	let budgetPercentage = $derived(Helpers.getPercentage(totalExpense, user?.budgetAmount));
 
 	const moreOptions = [
 		{
@@ -160,9 +161,19 @@
 	<div
 		class="no-scrollbar flex w-full flex-nowrap items-center gap-3 overflow-x-auto px-3 py-3 md:gap-6"
 	>
-		<BalanceCard {user} title="Balance" value={balance} />
-		<BalanceCard {user} title="Income" value={totalIncome} balanceClass="text-brand-green" />
-		<BalanceCard {user} title="Expense" value={totalExpense} balanceClass="text-brand-error" />
+		<BalanceCard currency={getCurrency} title="Balance" value={balance} />
+		<BalanceCard
+			currency={getCurrency}
+			title="Income"
+			value={totalIncome}
+			balanceClass="text-brand-green"
+		/>
+		<BalanceCard
+			currency={getCurrency}
+			title="Expense"
+			value={totalExpense}
+			balanceClass="text-brand-error"
+		/>
 	</div>
 
 	<div class="gri mt-6 grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
@@ -172,7 +183,7 @@
 			{txnList}
 			{start}
 			{end}
-			{user}
+			{getCurrency}
 		/>
 	</div>
 
@@ -183,6 +194,7 @@
 				{breakdownList}
 				txnLoading={$txnQuery?.isLoading}
 				isError={$txnQuery?.isError}
+				{getCurrency}
 			/>
 		</div>
 
@@ -194,10 +206,11 @@
 	</div>
 
 	<div class="mt-10 px-3">
-		<StatsSections {txnList} {start} {end} {user} />
+		<StatsSections {getCurrency} {txnList} {start} {end} />
 	</div>
 
 	<AnalyticsSection {txnList} />
+	<CategoryBreakdown {getCurrency} {breakdownList} {transactionCategoriesList} />
 </div>
 
 <AddTxnModal {transactionCategoriesList} {start} {end} />

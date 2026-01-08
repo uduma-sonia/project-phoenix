@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { currencies } from '$lib/constants/currency';
 	import Helpers from '$lib/utils/helpers';
 	import type { User } from '../../../../types/user';
 
@@ -7,12 +6,8 @@
 		title,
 		value,
 		balanceClass,
-		user
-	}: { title: string; value: number; balanceClass?: string; user: User } = $props();
-
-	let getCurrency: any = $derived(
-		Helpers.transformObjectToList(currencies[0])?.find((item) => item.id === user?.currency)
-	);
+		currency
+	}: { title: string; value: number; balanceClass?: string; currency: any } = $props();
 </script>
 
 <div class="min-w-[280px] flex-1">
@@ -21,11 +16,11 @@
 			<div class="flex h-16 flex-col justify-center">
 				<p class="font-lexend mb-2 text-xs font-light opacity-70 md:text-sm">{title}</p>
 				<p class="font-lexend text-lg font-normal md:text-xl {balanceClass}">
-					{#if getCurrency?.id}
+					{#if currency?.id}
 						{Helpers.currencyFormatter({
-							currency: getCurrency?.details?.code,
-							minimumFractionDigits: getCurrency?.details.rounding,
-							maximumFractionDigits: getCurrency?.details?.decimal_digits
+							currency: currency?.details?.code,
+							minimumFractionDigits: currency?.details.rounding,
+							maximumFractionDigits: currency?.details?.decimal_digits
 						}).format(value)}
 					{/if}
 				</p>

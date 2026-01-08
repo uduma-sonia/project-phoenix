@@ -7,7 +7,12 @@ import {
 	isSameYear,
 	parseISO
 } from 'date-fns';
-import { BudgetCycle, TransactionType, type Transaction } from '../../../../types/transaction';
+import {
+	BudgetCycle,
+	TransactionType,
+	type Transaction,
+	type TransactionCategory
+} from '../../../../types/transaction';
 
 class ExpenseUtils {
 	static getTotals(transactions: Transaction[]) {
@@ -35,7 +40,9 @@ class ExpenseUtils {
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	static sortTransactionsGroupByAmount(transactions: any[], sort: 'asc' | 'desc' = 'asc') {
-		return transactions.sort((a, b) => (sort === 'asc' ? a.totalAmount - b.totalAmount : b.totalAmount - a.totalAmount));
+		return transactions.sort((a, b) =>
+			sort === 'asc' ? a.totalAmount - b.totalAmount : b.totalAmount - a.totalAmount
+		);
 	}
 
 	static getBreakdownList(transactions: Transaction[], sort: 'asc' | 'desc' = 'asc') {
@@ -45,22 +52,26 @@ class ExpenseUtils {
 
 		return result.reduce(
 			(acc, transaction) => {
-				const { categoryName, amount } = transaction;
+				const { categoryName, amount, categoryId } = transaction;
 				const existingCategory = acc.find(
-					(item: { categoryName: string; totalAmount: number; count: number }) =>
-						item.categoryName === categoryName
+					(item: {
+						categoryName: string;
+						totalAmount: number;
+						count: number;
+						categoryId: string;
+					}) => item.categoryId == categoryId
 				);
 
 				if (existingCategory) {
 					existingCategory.totalAmount += amount;
 					existingCategory.count += 1;
 				} else {
-					acc.push({ categoryName, totalAmount: amount, count: 1 });
+					acc.push({ categoryName, totalAmount: amount, count: 1, categoryId });
 				}
 
 				return this.sortTransactionsGroupByAmount(acc, sort);
 			},
-			[] as { categoryName: string; totalAmount: number; count: number }[]
+			[] as { categoryName: string; totalAmount: number; count: number; categoryId: string }[]
 		);
 	}
 
@@ -211,6 +222,12 @@ class ExpenseUtils {
 			}
 		}
 		return false;
+	}
+
+	static getCategoryBudgetInfo(txnCat: TransactionCategory[], id: string) {
+		const getBudgetInfo = txnCat?.find((item) => item?._id === id);
+
+		return getBudgetInfo;
 	}
 }
 

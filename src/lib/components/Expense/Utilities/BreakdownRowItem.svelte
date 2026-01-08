@@ -3,11 +3,11 @@
 	import { currencies } from '$lib/constants/currency';
 	import Helpers from '$lib/utils/helpers';
 
-	let { item, user } = $props();
+	let { item, user, getCurrency } = $props();
 
-	let getCurrency: any = $derived(
-		Helpers.transformObjectToList(currencies[0])?.find((item) => item.id === user?.currency)
-	);
+	// let getCurrency: any = $derived(
+	// 	Helpers.transformObjectToList(currencies[0])?.find((item) => item.id === user?.currency)
+	// );
 </script>
 
 <tr>
