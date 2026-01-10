@@ -20,7 +20,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	if (event.url.pathname === '/login') {
 		if (token) {
-			throw redirect(302, '/tracker');
+			throw redirect(302, '/expense');
 		}
 	}
 
