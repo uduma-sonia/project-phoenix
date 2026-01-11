@@ -1,7 +1,8 @@
 <script lang="ts">
 	import Tooltip from '$lib/components/Common/Tooltip.svelte';
+	import { openMealPlannerModal } from '$lib/state/modal.svelte';
 	import { addToast } from '$lib/store/toast';
-	import { Check } from '@lucide/svelte';
+	import { Check, Plus } from '@lucide/svelte';
 
 	let { meal, mealData, handleMealItemUpdate } = $props();
 
@@ -41,6 +42,40 @@
 </script>
 
 <div
+	class="no-scrollbar relative flex h-[150px] min-w-[150px] items-start justify-center overflow-y-auto border"
+>
+	<button
+		class="flex h-full w-full items-center justify-center bg-lime-600"
+		onclick={openMealPlannerModal}
+	>
+		<Plus />
+	</button>
+
+	<!-- <textarea
+		oninput={resizeTextarea}
+		bind:this={textarea}
+		bind:value={mealValue}
+		onblur={updateItemName}
+		class="font-lexend no-scrollbar flex h-full max-h-[100px] w-full resize-none items-center justify-center rounded-lg px-0 py-2 text-center text-sm font-light outline-none"
+	></textarea> -->
+
+	<div class="absolute right-1 bottom-1 flex w-full items-center justify-end gap-5">
+		<Tooltip text="Eaten" position="left">
+			<button
+				class="button_active relative flex h-5 w-5 items-center justify-center rounded-md border p-0 opacity-40"
+				class:hasEaten
+				class:hasId={mealData?._id}
+				onclick={() => handleHasEaten()}
+			>
+				{#if hasEaten}
+					<Check size="16px" color="white" strokeWidth={4} />
+				{/if}
+			</button>
+		</Tooltip>
+	</div>
+</div>
+
+<!-- <div
 	class="no-scrollbar relative flex h-[100px] items-start justify-center overflow-y-auto border p-3"
 >
 	<textarea
@@ -65,7 +100,7 @@
 			</button>
 		</Tooltip>
 	</div>
-</div>
+</div> -->
 
 <style>
 	.hasEaten {

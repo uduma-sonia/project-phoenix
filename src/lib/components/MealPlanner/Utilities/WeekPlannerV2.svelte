@@ -1,0 +1,93 @@
+<script lang="ts">
+	import MealItem from './MealItem.svelte';
+	import MealsUtils from './utils';
+	import WeekScroller from './WeekScroller.svelte';
+	import { MealRequest } from '$lib/requests';
+	import { eachDayOfInterval, endOfWeek, startOfWeek } from 'date-fns';
+	import type { Meal } from '../../../../types/meal';
+	import { addToast } from '$lib/store/toast';
+	import fetchMealsList from '$lib/hooks/fetchMealsList';
+	import { useQueryClient } from '@tanstack/svelte-query';
+	import { queryKeys } from '$lib/utils/queryKeys';
+	import Ylabels from './Ylabels.svelte';
+
+	let { selectedPlan } = $props();
+	const queryClient = useQueryClient();
+
+	let currentWeek = $state(new Date());
+
+	const weekDates = $derived(
+		eachDayOfInterval({
+			start: startOfWeek(currentWeek),
+			end: endOfWeek(currentWeek)
+		})
+	);
+	let mealsQuery = $derived(fetchMealsList(selectedPlan?.id, currentWeek));
+	let mealsList = $derived($mealsQuery?.data?.data?.meals);
+
+	function updateCurrentWeek(value: any) {
+		currentWeek = value;
+	}
+
+	async function handleMealItemUpdate(mealId: string, data: Meal) {
+		if (selectedPlan.id) {
+			try {
+				if (mealId) {
+					await MealRequest.updateMeal(mealId, { ...data, mealPlanId: selectedPlan?.id });
+				} else {
+					await MealRequest.createMeal({ ...data, mealPlanId: selectedPlan?.id });
+				}
+
+				queryClient.invalidateQueries({
+					queryKey: queryKeys.getMeals({
+						mealPlanId: selectedPlan?.id,
+						days: MealsUtils.getDaysList(currentWeek)
+					})
+				});
+			} catch (error) {
+				addToast(`Meal could not be saved`, 'error');
+			}
+		} else {
+			addToast(`Create a meal plan first`, 'error');
+		}
+	}
+</script>
+
+{#snippet dayOfWeek(title: string)}
+	<div
+		class="font-lexend flex h-10 w-[150px] min-w-[150px] items-center justify-center border border-t-0 border-r-0 bg-[#cfc4e7] px-4 text-center text-sm font-normal"
+	>
+		{title}
+	</div>
+{/snippet}
+
+<div>
+	<WeekScroller {currentWeek} {updateCurrentWeek} />
+
+	<div class="px-3">
+		<div class="relative overflow-hidden rounded-lg border bg-[#cfc4e7] pt-[0px] pl-[80px]">
+			<Ylabels {weekDates} />
+
+			<div class="h-[650px]">
+				<div
+					class="grid h-full grid-cols-7 overflow-x-auto border"
+					style="grid-template-columns: repeat(7, minmax(150px, 1fr));"
+				>
+					{@render dayOfWeek('Mon')}
+					{@render dayOfWeek('Tue')}
+					{@render dayOfWeek('Wed')}
+					{@render dayOfWeek('Thu')}
+					{@render dayOfWeek('Fri')}
+					{@render dayOfWeek('Sat')}
+					{@render dayOfWeek('Sun')}
+
+					{#each MealsUtils.mapMealsToWeek(weekDates) as meal, index (index)}
+						{@const mealData = MealsUtils.getMeal(meal, mealsList)}
+
+						<MealItem {handleMealItemUpdate} {meal} {mealData} />
+					{/each}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

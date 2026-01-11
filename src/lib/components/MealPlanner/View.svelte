@@ -10,6 +10,8 @@
 	import WeekPlanner from './Utilities/WeekPlanner.svelte';
 	import Seo from '$lib/components/Common/SEO.svelte';
 	import { openCreateMealPlanModal, openDeleteMealPlanModal } from '$lib/state/modal.svelte';
+	import WeekPlannerV2 from './Utilities/WeekPlannerV2.svelte';
+	import AddMeal from '../Modals/AddMeal.svelte';
 
 	let mealPlansQuery = createQuery({
 		queryKey: queryKeys.getMealPlans,
@@ -85,5 +87,9 @@
 		</div>
 	</div>
 
-	<WeekPlanner {selectedPlan} />
+	<WeekPlannerV2 {selectedPlan} />
+
+	<!-- <WeekPlanner {selectedPlan} /> -->
 </div>
+
+<AddMeal />

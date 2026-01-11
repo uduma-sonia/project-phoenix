@@ -53,11 +53,10 @@
 		<HabitSearch bind:searchQuery placeholder="Search recipe" />
 
 		<div>
-			<a
-				href="/meal-planner"
-				class="font-lexend block min-w-max text-sm font-normal hover:underline sm:text-base"
-			>
-				Meal planner
+			<a href="/meal-planner">
+				<button class="shadow_button shadow_button_thin shadow_button_with_icon">
+					Meal planner
+				</button>
 			</a>
 		</div>
 	</div>
