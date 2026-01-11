@@ -7,7 +7,6 @@
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import AuthLayout from './AuthLayout.svelte';
 
-	let formElement = $state();
 	let email = $state('');
 	let username = $state('');
 	let password = $state('');
@@ -30,7 +29,7 @@
 				goto('/login');
 			}
 		} catch (error: any) {
-			addToast(error?.message || 'An error occured', 'error');
+			addToast(error?.data?.message || error?.message || 'An error occured', 'error');
 		} finally {
 			isSubmitting = false;
 		}
@@ -38,11 +37,7 @@
 </script>
 
 <AuthLayout>
-	<form
-		class="login_form_wrapper w-full md:max-w-[400px]"
-		onsubmit={handleSubmit}
-		bind:this={formElement}
-	>
+	<form class="login_form_wrapper w-full md:max-w-[400px]" onsubmit={handleSubmit}>
 		<div class="login_form h-full rounded-3xl border-2 bg-white p-4">
 			<div class="pb-3">
 				<p class="font-suez text-3xl">Signup</p>

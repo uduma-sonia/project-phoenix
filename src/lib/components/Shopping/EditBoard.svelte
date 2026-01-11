@@ -11,7 +11,6 @@
 
 	let isSubmitting = $state(false);
 	let boardName = $state(boardDetails?.name);
-	let currency = $state(boardDetails?.currency);
 
 	async function handleSubmit(e: any) {
 		e.preventDefault();
@@ -21,8 +20,7 @@
 
 			const payload = {
 				name: boardName,
-				status: ShoppingStatus.PENDING,
-				currency: currency
+				status: ShoppingStatus.PENDING
 			};
 
 			const result = await ShoppingRequest.updateBoard(page.params.id, payload);
@@ -62,13 +60,13 @@
 						required
 						label="Name"
 					/>
-					<BasicInputField
+					<!-- <BasicInputField
 						type="text"
 						id="currency"
 						name="currency"
 						bind:value={currency}
 						label="Currency"
-					/>
+					/> -->
 				</div>
 
 				<div>

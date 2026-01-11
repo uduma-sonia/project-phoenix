@@ -32,7 +32,12 @@
 	}
 </script>
 
-<ModalWrapper {onClose} {isOpen} maxWidth="max-w-[500px] md:max-w-[800px]" label="Account">
+<ModalWrapper
+	{onClose}
+	{isOpen}
+	maxWidth="max-w-[500px] md:max-w-[1000px]"
+	label="Account settings"
+>
 	<div class="flex items-stretch gap-2 p-4 pb-10 md:pb-20">
 		{#if !showView}
 			<div class="block w-full md:hidden md:w-1/2 md:border-r-2 md:pr-4">

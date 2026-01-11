@@ -2,7 +2,7 @@
 	import { Check, Pencil } from '@lucide/svelte';
 	import EditItem from './EditItem.svelte';
 
-	let { data, handleUpdateItem, currency, canEditId, handleEdit, handleUpdate, canEdit } = $props();
+	let { data, handleUpdateItem, price, canEditId, handleEdit, handleUpdate, canEdit } = $props();
 
 	let qty = $derived(data?.quantity > 0 ? data?.quantity : '');
 
@@ -49,7 +49,7 @@
 					</div>
 					{#if data?.price > 0}
 						<p class="text-sm" class:line-through={data?.done}>
-							{currency}{data?.price.toLocaleString()}
+							{price}
 						</p>
 					{/if}
 				</button>
