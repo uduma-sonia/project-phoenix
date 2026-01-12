@@ -10,11 +10,13 @@
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import Ylabels from './Ylabels.svelte';
+	import { Play } from '@lucide/svelte';
 
-	let { selectedPlan } = $props();
+	let { selectedPlan, currentWeek = $bindable(new Date()) } = $props();
 	const queryClient = useQueryClient();
+	let meal_items_container: any;
 
-	let currentWeek = $state(new Date());
+	// let currentWeek = $state(new Date());
 
 	const weekDates = $derived(
 		eachDayOfInterval({
@@ -51,6 +53,15 @@
 			addToast(`Create a meal plan first`, 'error');
 		}
 	}
+
+	// let daysArray = $state(Helpers.generateScrollableDays(180));
+
+	const handleScrollLeft = () => {
+		meal_items_container.scrollLeft -= 300;
+	};
+	const handleScrollRight = () => {
+		meal_items_container.scrollLeft += 300;
+	};
 </script>
 
 {#snippet dayOfWeek(title: string)}
@@ -65,21 +76,24 @@
 	<WeekScroller {currentWeek} {updateCurrentWeek} />
 
 	<div class="px-3">
-		<div class="relative overflow-hidden rounded-lg border bg-[#cfc4e7] pt-[0px] pl-[80px]">
+		<div
+			class="relative overflow-hidden rounded-lg border bg-[#cfc4e7] pt-[0px] pl-[70px] md:pl-[80px]"
+		>
 			<Ylabels {weekDates} />
 
 			<div class="h-[650px]">
 				<div
-					class="grid h-full grid-cols-7 overflow-x-auto border"
+					bind:this={meal_items_container}
+					class="meal_items_container grid h-full grid-cols-7 overflow-x-auto border"
 					style="grid-template-columns: repeat(7, minmax(150px, 1fr));"
 				>
+					{@render dayOfWeek('Sun')}
 					{@render dayOfWeek('Mon')}
 					{@render dayOfWeek('Tue')}
 					{@render dayOfWeek('Wed')}
 					{@render dayOfWeek('Thu')}
 					{@render dayOfWeek('Fri')}
 					{@render dayOfWeek('Sat')}
-					{@render dayOfWeek('Sun')}
 
 					{#each MealsUtils.mapMealsToWeek(weekDates) as meal, index (index)}
 						{@const mealData = MealsUtils.getMeal(meal, mealsList)}
@@ -89,5 +103,34 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="mt-6 flex items-center justify-center gap-5">
+			<div>
+				<button
+					class="shadow_button shadow_button_sm shadow_button_thin"
+					onclick={handleScrollLeft}
+				>
+					<span class="block rotate-180">
+						<Play />
+					</span>
+				</button>
+			</div>
+
+			<div>
+				<button
+					onclick={handleScrollRight}
+					class="shadow_button shadow_button_sm shadow_button_thin"
+				>
+					<Play />
+				</button>
+			</div>
+		</div>
 	</div>
 </div>
+
+<style>
+	.meal_items_container {
+		transition: all 0.3s linear;
+		scroll-behavior: smooth;
+	}
+</style>

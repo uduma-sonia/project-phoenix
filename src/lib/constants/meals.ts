@@ -4,66 +4,16 @@ export const mealsChart = [
 		timeOfDay: 'breakfast'
 	},
 	{
-		day: 'sunday',
-		timeOfDay: 'lunch'
-	},
-	{
-		day: 'sunday',
-		timeOfDay: 'dinner'
-	},
-	{
-		day: 'sunday',
-		timeOfDay: 'snack'
-	},
-	{
 		day: 'monday',
 		timeOfDay: 'breakfast'
 	},
-	{
-		day: 'monday',
-		timeOfDay: 'lunch'
-	},
-	{
-		day: 'monday',
-		timeOfDay: 'dinner'
-	},
-	{
-		day: 'monday',
-		timeOfDay: 'snack'
-	},
-
 	{
 		day: 'tuesday',
 		timeOfDay: 'breakfast'
 	},
 	{
-		day: 'tuesday',
-		timeOfDay: 'lunch'
-	},
-	{
-		day: 'tuesday',
-		timeOfDay: 'dinner'
-	},
-	{
-		day: 'tuesday',
-		timeOfDay: 'snack'
-	},
-
-	{
 		day: 'wednesday',
 		timeOfDay: 'breakfast'
-	},
-	{
-		day: 'wednesday',
-		timeOfDay: 'lunch'
-	},
-	{
-		day: 'wednesday',
-		timeOfDay: 'dinner'
-	},
-	{
-		day: 'wednesday',
-		timeOfDay: 'snack'
 	},
 
 	{
@@ -71,47 +21,106 @@ export const mealsChart = [
 		timeOfDay: 'breakfast'
 	},
 	{
-		day: 'thursday',
-		timeOfDay: 'lunch'
-	},
-	{
-		day: 'thursday',
-		timeOfDay: 'dinner'
-	},
-	{
-		day: 'thursday',
-		timeOfDay: 'snack'
-	},
-
-	{
 		day: 'friday',
 		timeOfDay: 'breakfast'
-	},
-	{
-		day: 'friday',
-		timeOfDay: 'lunch'
-	},
-	{
-		day: 'friday',
-		timeOfDay: 'dinner'
-	},
-	{
-		day: 'friday',
-		timeOfDay: 'snack'
 	},
 
 	{
 		day: 'saturday',
 		timeOfDay: 'breakfast'
 	},
+
+	{
+		day: 'sunday',
+		timeOfDay: 'lunch'
+	},
+	{
+		day: 'monday',
+		timeOfDay: 'lunch'
+	},
+	{
+		day: 'tuesday',
+		timeOfDay: 'lunch'
+	},
+	{
+		day: 'wednesday',
+		timeOfDay: 'lunch'
+	},
+	{
+		day: 'thursday',
+		timeOfDay: 'lunch'
+	},
+
+	{
+		day: 'friday',
+		timeOfDay: 'lunch'
+	},
+
 	{
 		day: 'saturday',
 		timeOfDay: 'lunch'
 	},
+
+	{
+		day: 'sunday',
+		timeOfDay: 'dinner'
+	},
+	{
+		day: 'monday',
+		timeOfDay: 'dinner'
+	},
+	{
+		day: 'tuesday',
+		timeOfDay: 'dinner'
+	},
+	{
+		day: 'wednesday',
+		timeOfDay: 'dinner'
+	},
+	{
+		day: 'thursday',
+		timeOfDay: 'dinner'
+	},
+
+	{
+		day: 'friday',
+		timeOfDay: 'dinner'
+	},
+
 	{
 		day: 'saturday',
 		timeOfDay: 'dinner'
 	},
+
+	{
+		day: 'sunday',
+		timeOfDay: 'snack'
+	},
+
+	{
+		day: 'monday',
+		timeOfDay: 'snack'
+	},
+	{
+		day: 'tuesday',
+		timeOfDay: 'snack'
+	},
+
+	{
+		day: 'wednesday',
+		timeOfDay: 'snack'
+	},
+
+	{
+		day: 'thursday',
+		timeOfDay: 'snack'
+	},
+
+	{
+		day: 'friday',
+		timeOfDay: 'snack'
+	},
+
 	{
 		day: 'saturday',
 		timeOfDay: 'snack'

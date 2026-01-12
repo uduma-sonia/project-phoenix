@@ -1,118 +1,121 @@
 <script lang="ts">
-	import { closeAddTxnModal, closeMealPlannerModal, modalsState } from '$lib/state/modal.svelte';
+	import { closeMealPlannerModal, modalsState, selectedMeal } from '$lib/state/modal.svelte';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import BasicButton from '../Common/Form/BasicButton.svelte';
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
+	import Dropdown from '../Common/Form/Dropdown.svelte';
+	import { Check } from '@lucide/svelte';
+	import type { RecipeResponse } from '../../../types/recipe';
+	import { useQueryClient } from '@tanstack/svelte-query';
+	import { addToast } from '$lib/store/toast';
+	import { MealRequest } from '$lib/requests';
+	import { queryKeys } from '$lib/utils/queryKeys';
+	import MealsUtils from '../MealPlanner/Utilities/utils';
 
-	// let { transactionCategoriesList, start, end } = $props();
-	// const queryClient = useQueryClient();
+	let { recipeList, selectedPlan, currentWeek } = $props();
 
-	// let isSubmitting = $state(false);
-	// let type = $state(TransactionType.EXPENSE);
-	// let startDateValue = $state(new Date());
-	// let isStartDateOpen = $state(false);
-	// let amount = $state('');
-	// let description = $state('');
+	const queryClient = useQueryClient();
 
-	// function toggleStart() {
-	// 	isStartDateOpen = !isStartDateOpen;
-	// }
+	let hasEaten = $derived(selectedMeal?.data?.hasEaten);
+	let mealName = $derived(selectedMeal?.data?.name);
+	let namePlaceholder = $derived(`What did you eat for ${selectedMeal?.data?.timeOfDay}`);
 
-	// function handleClickOutside() {
-	// 	isStartDateOpen = false;
-	// }
+	let recipeOptions = $derived(
+		recipeList?.length > 0
+			? recipeList?.map((item: RecipeResponse) => {
+					return {
+						id: item._id,
+						value: item.name
+					};
+				})
+			: []
+	);
 
-	// function changeType(val: TransactionType) {
-	// 	type = val;
-	// }
+	let selectedRecipe = $state({
+		id: '',
+		value: ''
+	});
 
-	// let transformedList = $derived(
-	// 	transactionCategoriesList?.filter((item: TransactionCategory) => item.type === type)
-	// );
+	async function handleSubmit() {
+		try {
+			const payload = {
+				name: mealName,
+				date: selectedMeal?.data?.date,
+				timeOfDay: selectedMeal?.data?.timeOfDay,
+				day: selectedMeal?.data?.day,
+				hasEaten,
+				mealPlanId: selectedPlan?.id,
+				recipeIds: [selectedRecipe?.id]
+			};
 
-	// let txnCategoriesOptions = $derived(
-	// 	transformedList?.map((item: any) => {
-	// 		return {
-	// 			value: item.name,
-	// 			id: item._id
-	// 		};
-	// 	})
-	// );
-	// let selectedCategory = $derived({ value: '', id: '' });
+			if (selectedMeal?.data?._id) {
+				await MealRequest.updateMeal(selectedMeal?.data?._id, payload);
+			} else {
+				await MealRequest.createMeal(payload);
+			}
 
-	// async function handleSubmit() {
-	// 	if (!selectedCategory?.id) {
-	// 		addToast('Select a category', 'error');
-	// 		return;
-	// 	}
-	// 	if (!amount) {
-	// 		addToast('Add an amount', 'error');
-	// 		return;
-	// 	}
-	// 	try {
-	// 		isSubmitting = true;
-
-	// 		const payload = {
-	// 			date: startDateValue,
-	// 			description,
-	// 			amount: Number(amount),
-	// 			categoryName: selectedCategory?.value,
-	// 			categoryId: selectedCategory?.id,
-	// 			type
-	// 		};
-
-	// 		await TransactionRequest.createTransaction(payload);
-	// 		addToast('Transaction created', 'success');
-	// 		queryClient.invalidateQueries({
-	// 			queryKey: queryKeys.getTransactions({ startDate: start, endDate: end })
-	// 		});
-	// 		amount = '';
-	// 		selectedCategory = { value: '', id: '' };
-	// 		description = '';
-	// 		startDateValue = new Date();
-
-	// 		closeAddTxnModal();
-	// 	} catch (error: any) {
-	// 		addToast(error?.message || 'An error occured', 'error');
-	// 	} finally {
-	// 		isSubmitting = false;
-	// 	}
-	// }
+			queryClient.invalidateQueries({
+				queryKey: queryKeys.getMeals({
+					mealPlanId: selectedPlan?.id,
+					days: MealsUtils.getDaysList(currentWeek)
+				})
+			});
+			closeMealPlannerModal();
+		} catch (error) {
+			addToast(`Meal could not be saved`, 'error');
+		}
+	}
 </script>
 
 <ModalWrapper
 	isOpen={modalsState.data.isOpenMealPlanner}
 	onClose={closeMealPlannerModal}
-	label="Add breakfast"
+	label={`Add ${selectedMeal?.data?.timeOfDay}`}
 >
 	<div class="p-4">
 		<div>
 			<BasicInputField
 				inputMode="numeric"
-				label="Amount"
-				type="number"
-				id="amount"
-				name="amount"
-				required
-			/>
-		</div>
-		<div>
-			<BasicInputField
-				label="Description"
-				placeholder="Enter description"
+				label="Meal name"
 				type="text"
-				id="description"
-				name="description"
+				id="name"
+				name="name"
+				required
+				bind:value={mealName}
+				placeholder={namePlaceholder}
 			/>
 		</div>
-		<div class="fle mt-8 justify-end">
-			<div class="mt-8 flex items-center justify-end gap-5">
-				<div class="flex-1">
-					<BasicButton action={closeAddTxnModal} label="Cancel" variant="error" />
-				</div>
-				<div class="w-[60%]">
-					<BasicButton label="Add Transaction" variant="primary" />
-				</div>
+		<div class="my-6">
+			{#if recipeOptions?.length > 0}
+				<Dropdown
+					placeholder="Search and link your recipes"
+					bind:selectedOption={selectedRecipe}
+					label="Link recipe"
+					withClearButton
+					options={recipeOptions}
+				/>
+			{/if}
+		</div>
+
+		<div class="mt-6 flex items-center gap-2">
+			<button
+				class="button_active relative flex h-7 w-7 items-center justify-center rounded-md border-2 p-0"
+				aria-label="Private"
+				type="button"
+				onclick={() => (hasEaten = !hasEaten)}
+			>
+				{#if hasEaten}
+					<Check size="22px" />
+				{/if}
+			</button>
+			<p class="font-lexend text-sm font-light">Has eaten</p>
+		</div>
+		<div class="mt-16 flex items-center justify-end gap-5">
+			<div class="flex-1">
+				<BasicButton action={closeMealPlannerModal} label="Cancel" variant="error" />
+			</div>
+			<div class="w-[60%]">
+				<BasicButton action={handleSubmit} label="Save" variant="primary" />
 			</div>
 		</div>
 	</div>

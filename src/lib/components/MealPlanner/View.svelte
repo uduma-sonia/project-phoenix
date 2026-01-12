@@ -3,11 +3,10 @@
 	import BackComponent from '../Common/BackComponent.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import { MealRequest } from '$lib/requests';
+	import { MealRequest, RecipeRequest } from '$lib/requests';
 	import { Plus, SquarePen, Trash, ChartNetwork } from '@lucide/svelte';
 	import HamburgerDropdown, { type Options } from '../Common/HamburgerDropdown.svelte';
 	import type { MealPlan } from '../../../types/meal';
-	import WeekPlanner from './Utilities/WeekPlanner.svelte';
 	import Seo from '$lib/components/Common/SEO.svelte';
 	import { openCreateMealPlanModal, openDeleteMealPlanModal } from '$lib/state/modal.svelte';
 	import WeekPlannerV2 from './Utilities/WeekPlannerV2.svelte';
@@ -17,6 +16,7 @@
 		queryKey: queryKeys.getMealPlans,
 		queryFn: () => MealRequest.getMealPlans()
 	});
+	let currentWeek = $state(new Date());
 
 	let mealPlansList = $derived($mealPlansQuery?.data?.data?.mealPlans);
 	let mealsOptions = $derived(
@@ -27,6 +27,17 @@
 			};
 		}) || []
 	);
+
+	let recipeQuery = createQuery({
+		queryKey: queryKeys.getRecipes,
+		queryFn: () => RecipeRequest.getRecipes()
+	});
+	// let uniqueMealsQuery = createQuery({
+	// 	queryKey: queryKeys.getUserUniqueMeals,
+	// 	queryFn: () => MealRequest.getUserUniqueMeals()
+	// });
+
+	let recipeList = $derived($recipeQuery?.data?.data?.recipes);
 	let selectedPlan = $derived(mealsOptions[0] || []);
 	let seoTitle = $derived(selectedPlan?.value || 'Meal planner');
 
@@ -87,9 +98,7 @@
 		</div>
 	</div>
 
-	<WeekPlannerV2 {selectedPlan} />
-
-	<!-- <WeekPlanner {selectedPlan} /> -->
+	<WeekPlannerV2 {currentWeek} {selectedPlan} />
 </div>
 
-<AddMeal />
+<AddMeal {recipeList} {selectedPlan} {currentWeek} />

@@ -6,6 +6,18 @@ export type Meal = {
 	date?: string;
 	hasEaten?: boolean;
 	mealPlanId: string;
+	_id?: string;
+};
+
+export type CreateMeal = {
+	day: string | undefined;
+	timeOfDay?: string;
+	name?: string;
+	recipeId?: string;
+	recipeIds?: string[];
+	date?: string;
+	hasEaten?: boolean;
+	mealPlanId?: string;
 };
 
 export type MealPlan = {

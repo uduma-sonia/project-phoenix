@@ -1,3 +1,4 @@
+import type { Meal } from '../../types/meal';
 import type { TripActivity } from '../../types/trip';
 
 export const modalsState = $state({
@@ -40,6 +41,14 @@ export const selectedMealPlan = $state<{
 }>({
 	data: null
 });
+
+export const selectedMeal = $state<{ data: Meal | null }>({
+	data: null
+});
+
+export function handleSelectMeal(meal: Meal) {
+	selectedMeal.data = meal;
+}
 
 export function selectActivity(activity: TripActivity) {
 	selectedActivity.data = activity;
