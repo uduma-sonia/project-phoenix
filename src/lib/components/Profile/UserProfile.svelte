@@ -33,7 +33,9 @@
 			const result = await UserRequest.updateUser(user?._id, {
 				username,
 				email,
-				currency: selectedCurrency.id
+				currency: selectedCurrency.id,
+				firstName,
+				lastName
 			});
 
 			if (result) {
