@@ -5,6 +5,8 @@
 	import ToastContainer from '$lib/components/Common/ToastContainer.svelte';
 	import InstallInstruction from '$lib/components/Modals/InstallInstruction.svelte';
 	import { publicRoutes } from '$lib/constants/global';
+	import Helpers from '$lib/utils/helpers';
+	import { differenceInDays } from 'date-fns';
 	import '../app.css';
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
 
@@ -30,16 +32,31 @@
 				hasBeenInstalled = false;
 
 				setTimeout(() => {
-					install_banner_seen =
-						sessionStorage.getItem('install_banner_seen') !== null ? true : false;
-				}, 20000);
+					const bannerDate = localStorage.getItem('install_banner_seen_date') || '';
+
+					if (bannerDate) {
+						const _daysDifference = differenceInDays(new Date(), new Date(JSON.parse(bannerDate)));
+
+						// do not show for 30 days if the users has not installed
+						if (_daysDifference > 30) {
+							install_banner_seen = false;
+							localStorage.removeItem('install_banner_seen_date');
+						}
+					} else {
+						install_banner_seen = false;
+					}
+				}, 2000);
 			}
 		}
 	}
 
 	function closeDownloadWidget() {
 		hasBeenInstalled = true;
-		sessionStorage.setItem('install_banner_seen', '1');
+
+		localStorage.setItem(
+			'install_banner_seen_date',
+			JSON.stringify(Helpers.toISOString(new Date()))
+		);
 	}
 </script>
 

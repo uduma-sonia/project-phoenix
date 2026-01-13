@@ -102,7 +102,7 @@
 
 {#if isOpen}
 	<div
-		class="fixed top-0 left-0 z-[999] w-full overflow-y-auto bg-[#0000009e]"
+		class="fixed top-0 left-0 z-[9999] w-full overflow-y-auto bg-[#0000009e]"
 		style="height: {innerHeight}px;"
 		onclick={_onClose}
 		aria-hidden="true"

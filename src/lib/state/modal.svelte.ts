@@ -1,3 +1,5 @@
+import Helpers from '$lib/utils/helpers';
+import { SvelteDate } from 'svelte/reactivity';
 import type { Meal } from '../../types/meal';
 import type { TripActivity } from '../../types/trip';
 
@@ -144,7 +146,11 @@ export function openInstallModal() {
 }
 export function closeInstallModal() {
 	modalsState.data.isOpenInstall = false;
-	sessionStorage.setItem('install_banner_seen', '1');
+	localStorage.setItem(
+		'install_banner_seen_date',
+		JSON.stringify(Helpers.toISOString(new SvelteDate()))
+	);
+	// localStorage.setItem('install_banner_seen_date', '1');
 }
 
 export function openDeleteMealPlanModal(arg: { id: string; value: string }) {

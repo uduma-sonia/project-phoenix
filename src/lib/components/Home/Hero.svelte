@@ -6,8 +6,8 @@
 	<div class="mt-20 text-center">
 		<h2 class="font-lexend herotext text-7xl font-bold tracking-tight">Organize your Life</h2>
 		<p class="font-lexend mx-auto mt-6 max-w-[550px] font-light">
-			<b class="font-semibold">Laniva</b> combines budget tracking, shared shopping lists, recipe manager
-			and habit tracking into a single, simple workspace so you spend less time juggling tools.
+			<b class="font-semibold">Laniva</b> combines budget tracking, shopping lists, recipe manager and
+			habit tracking into a single, simple workspace so you spend less time juggling tools.
 		</p>
 
 		<div class="mx-auto mt-12 mb-8 w-[160px]">

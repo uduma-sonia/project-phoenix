@@ -33,7 +33,7 @@
 						</a>
 					</div>
 
-					<p class="font-lexend mt-1 text-xs font-light">Install the Laniva app, easy!</p>
+					<p class="font-lexend mt-1 text-xs font-light">Install the Laniva app, no App store!</p>
 				</div>
 
 				<div>
@@ -44,7 +44,7 @@
 							openInstallModal();
 						}}
 					>
-						<img src="/images/icons/download.svg" class="w-7" alt="Download icon" />
+						<img src="/images/icons/download.svg" class="pulsing w-7" alt="Download icon" />
 					</button>
 				</div>
 			</div>
