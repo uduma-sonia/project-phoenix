@@ -114,7 +114,6 @@
 	<div class="p-4">
 		<div class="mb-6">
 			<BasicInputField
-				inputMode="numeric"
 				label="Meal name"
 				type="text"
 				id="name"
