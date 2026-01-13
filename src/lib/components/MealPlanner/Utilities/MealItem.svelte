@@ -3,7 +3,7 @@
 	import { addToast } from '$lib/store/toast';
 	import { Check, Plus } from '@lucide/svelte';
 
-	let { meal, mealData, handleMealItemUpdate } = $props();
+	let { meal, mealData, handleMealItemUpdate, hasMealPlan } = $props();
 
 	let hasEaten = $derived(mealData?.hasEaten);
 
@@ -15,6 +15,17 @@
 			}
 		}
 		return null;
+	}
+
+	let _image = $derived(getFirstRecipeImage(mealData?.recipeDetails));
+
+	function handleSelect() {
+		if (hasMealPlan) {
+			openMealPlannerModal();
+			handleSelectMeal({ ...meal, ...mealData });
+		} else {
+			addToast('You have to create a meal plan first', 'error');
+		}
 	}
 
 	function handleHasEaten() {
@@ -30,10 +41,10 @@
 			} else {
 				addToast('Write down what you ate first', 'error');
 			}
+		} else {
+			handleSelect();
 		}
 	}
-
-	let _image = $derived(getFirstRecipeImage(mealData?.recipeDetails));
 </script>
 
 <div
@@ -42,10 +53,7 @@
 	{#if mealData}
 		<button
 			class="font-lexend text-13 flex h-full w-full flex-col p-1 text-center font-light md:text-sm"
-			onclick={() => {
-				openMealPlannerModal();
-				handleSelectMeal({ ...meal, ...mealData });
-			}}
+			onclick={handleSelect}
 		>
 			<span
 				class="withoutImage flex w-full items-center justify-center"
@@ -63,13 +71,7 @@
 			{/if}
 		</button>
 	{:else}
-		<button
-			class="flex h-full w-full items-center justify-center"
-			onclick={() => {
-				openMealPlannerModal();
-				handleSelectMeal({ ...meal, ...mealData });
-			}}
-		>
+		<button class="flex h-full w-full items-center justify-center" onclick={handleSelect}>
 			<Plus size="16px" />
 		</button>
 	{/if}

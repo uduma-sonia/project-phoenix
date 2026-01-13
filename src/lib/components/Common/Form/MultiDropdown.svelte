@@ -66,6 +66,7 @@
 			selectedOptions = [...selectedOptions, option];
 		}
 		handleSelectChange?.(selectedOptions);
+		handleClickOutside();
 	}
 
 	function scrollTo(id: string) {

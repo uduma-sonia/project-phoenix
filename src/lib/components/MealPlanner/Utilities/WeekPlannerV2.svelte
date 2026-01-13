@@ -11,12 +11,11 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import Ylabels from './Ylabels.svelte';
 	import { Play } from '@lucide/svelte';
+	import TextButton from '$lib/components/Common/Form/TextButton.svelte';
 
 	let { selectedPlan, currentWeek = $bindable(new Date()) } = $props();
 	const queryClient = useQueryClient();
 	let meal_items_container: any;
-
-	// let currentWeek = $state(new Date());
 
 	const weekDates = $derived(
 		eachDayOfInterval({
@@ -53,8 +52,6 @@
 			addToast(`Create a meal plan first`, 'error');
 		}
 	}
-
-	// let daysArray = $state(Helpers.generateScrollableDays(180));
 
 	const handleScrollLeft = () => {
 		meal_items_container.scrollLeft -= 300;
@@ -98,7 +95,12 @@
 					{#each MealsUtils.mapMealsToWeek(weekDates) as meal, index (index)}
 						{@const mealData = MealsUtils.getMeal(meal, mealsList)}
 
-						<MealItem {handleMealItemUpdate} {meal} {mealData} />
+						<MealItem
+							{handleMealItemUpdate}
+							{meal}
+							{mealData}
+							hasMealPlan={Boolean(selectedPlan?.id)}
+						/>
 					{/each}
 				</div>
 			</div>

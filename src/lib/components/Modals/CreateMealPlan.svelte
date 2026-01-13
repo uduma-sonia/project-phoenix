@@ -19,7 +19,7 @@
 		try {
 			isLoading = true;
 			await MealRequest.createMealPlan({ name: planName as string, description, isPrivate: true });
-			addToast('Meal plan created', 'success');
+			addToast('Meal plan created', 'success', { imgLink: '/images/confetti.svg' });
 			queryClient.invalidateQueries({ queryKey: queryKeys.getMealPlans });
 			closeCreateMealPlanModal();
 		} catch (error: any) {

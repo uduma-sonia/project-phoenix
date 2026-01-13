@@ -8,7 +8,7 @@
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import BasicButton from '../Common/Form/BasicButton.svelte';
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
-	import { Check } from '@lucide/svelte';
+	import { Check, TriangleAlert } from '@lucide/svelte';
 	import type { RecipeResponse } from '../../../types/recipe';
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { addToast } from '$lib/store/toast';
@@ -109,7 +109,7 @@
 	isOpen={modalsState.data.isOpenMealPlanner}
 	onClose={_closeModal}
 	label={`Add ${selectedMeal?.data?.timeOfDay}`}
-	helperText={selectedMeal?.data?.day}
+	helperText={selectedMeal?.data?.day?.toUpperCase()}
 >
 	<div class="p-4">
 		<div class="mb-6">
@@ -151,14 +151,16 @@
 		{/if}
 
 		<div class="mb-6">
+			{#if recipeOptions?.length === 0}
+				<div class="font-lexend text-13 py-2 font-light">
+					<a href="/recipe/create" target="_blank" class=" text-[#0c66e4] underline">
+						Create recipes
+					</a>
+					to be able to link them
+				</div>
+			{/if}
+
 			{#if recipeOptions?.length > 0}
-				<!-- <Dropdown
-					placeholder="Search and link your recipes"
-					bind:selectedOption={selectedRecipes}
-					label="Link recipe"
-					withClearButton
-					options={recipeOptions}
-				/> -->
 				<MultiDropdown
 					placeholder="Search and link your recipes"
 					bind:selectedOptions={selectedRecipes}

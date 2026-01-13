@@ -4,13 +4,14 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { MealRequest, RecipeRequest } from '$lib/requests';
-	import { Plus, SquarePen, Trash, ChartNetwork } from '@lucide/svelte';
+	import { Plus, SquarePen, Trash, ChartNetwork, Import } from '@lucide/svelte';
 	import HamburgerDropdown, { type Options } from '../Common/HamburgerDropdown.svelte';
 	import type { MealPlan } from '../../../types/meal';
 	import Seo from '$lib/components/Common/SEO.svelte';
 	import { openCreateMealPlanModal, openDeleteMealPlanModal } from '$lib/state/modal.svelte';
 	import WeekPlannerV2 from './Utilities/WeekPlannerV2.svelte';
 	import AddMeal from '../Modals/AddMeal.svelte';
+	import { addToast } from '$lib/store/toast';
 
 	let mealPlansQuery = createQuery({
 		queryKey: queryKeys.getMealPlans,
@@ -38,7 +39,7 @@
 	// });
 
 	let recipeList = $derived($recipeQuery?.data?.data?.recipes);
-	let selectedPlan = $derived(mealsOptions[0] || []);
+	let selectedPlan = $derived(mealsOptions[0] || {});
 	let seoTitle = $derived(selectedPlan?.value || 'Meal planner');
 
 	function deleteMealPlanner() {
@@ -56,11 +57,20 @@
 		});
 	}
 
+	function _comingsoon() {
+		addToast('Coming soon', 'success');
+	}
+
 	const moreOptions: Options[] = $derived([
 		{
 			label: 'Create new plan',
 			icon: Plus,
 			action: createMealPlan
+		},
+		{
+			label: 'Import last week plan',
+			icon: Import,
+			action: _comingsoon
 		},
 		{
 			label: 'Edit plan',
@@ -79,6 +89,12 @@
 			action: deleteMealPlanner
 		}
 	]);
+
+	$effect(() => {
+		if (mealPlansList?.length === 0) {
+			openCreateMealPlanModal();
+		}
+	});
 </script>
 
 <Seo title={seoTitle} />

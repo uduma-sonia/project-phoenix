@@ -8,6 +8,7 @@
 	type ModalProps = {
 		onClose: () => void;
 		isOpen: boolean;
+		closeOverlayOnclick?: boolean;
 		children: Snippet;
 		maxWidth?: string;
 		height?: string;
@@ -26,6 +27,7 @@
 		label,
 		LabelComponent,
 		helperText,
+		closeOverlayOnclick = true,
 		labelProps = {}
 	}: ModalProps = $props();
 
@@ -33,9 +35,15 @@
 	let modalRef: HTMLDivElement = $state();
 	let previousActiveElement: HTMLElement | null = $state();
 
+	function _onClose() {
+		if (closeOverlayOnclick) {
+			onClose();
+		}
+	}
+
 	function handleKeydown(e: KeyboardEvent) {
 		if (e.key === 'Escape' && isOpen) {
-			onClose();
+			_onClose();
 		}
 	}
 
@@ -96,7 +104,7 @@
 	<div
 		class="fixed top-0 left-0 z-[999] w-full overflow-y-auto bg-[#0000009e]"
 		style="height: {innerHeight}px;"
-		onclick={onClose}
+		onclick={_onClose}
 		aria-hidden="true"
 	></div>
 
@@ -114,7 +122,7 @@
 				class={`slide_in_up no-scrollbar relative my-8 h-full w-screen overflow-x-hidden overflow-y-auto rounded-2xl border-1 bg-white  ${maxWidth}`}
 				style="min-height: {height}; max-height: {height}"
 				use:Helpers.clickOutside
-				onclick_outside={onClose}
+				onclick_outside={_onClose}
 				tabindex="-1"
 			>
 				<div
@@ -141,7 +149,7 @@
 					<div>
 						<button
 							class="shadow_button close_btn"
-							onclick={onClose}
+							onclick={_onClose}
 							aria-label="Close modal"
 							type="button"
 						>
