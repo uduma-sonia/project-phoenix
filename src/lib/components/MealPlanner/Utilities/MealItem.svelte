@@ -5,7 +5,7 @@
 
 	let { meal, mealData, handleMealItemUpdate } = $props();
 
-	let hasEaten = $state(mealData?.hasEaten);
+	let hasEaten = $derived(mealData?.hasEaten);
 
 	function getFirstRecipeImage(recipes: any) {
 		if (!recipes?.length) return '';

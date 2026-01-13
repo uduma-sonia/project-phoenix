@@ -42,11 +42,12 @@ export const selectedMealPlan = $state<{
 	data: null
 });
 
-export const selectedMeal = $state<{ data: Meal | null }>({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const selectedMeal = $state<{ data: any | null }>({
 	data: null
 });
 
-export function handleSelectMeal(meal: Meal) {
+export function handleSelectMeal(meal?: Meal | null) {
 	selectedMeal.data = meal;
 }
 
