@@ -170,7 +170,7 @@
 		const fileOne = imageOneEl?.files[0];
 		const fileTwo = imageTwoEl?.files[0];
 		const fileThree = imageThreeEl?.files[0];
-		const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
+		const maxSizeInBytes = 2 * 1024 * 1024; // 1MB
 		const reader = new FileReader();
 
 		switch (name) {

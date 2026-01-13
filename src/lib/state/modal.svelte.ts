@@ -1,3 +1,4 @@
+import type { Meal } from '../../types/meal';
 import type { TripActivity } from '../../types/trip';
 
 export const modalsState = $state({
@@ -20,7 +21,9 @@ export const modalsState = $state({
 
 		isOpenAddTxn: false,
 		isOpenTxnCategory: false,
-		isOpenTxnSettings: false
+		isOpenTxnSettings: false,
+
+		isOpenMealPlanner: false
 	}
 });
 
@@ -38,6 +41,15 @@ export const selectedMealPlan = $state<{
 }>({
 	data: null
 });
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const selectedMeal = $state<{ data: any | null }>({
+	data: null
+});
+
+export function handleSelectMeal(meal?: Meal | null) {
+	selectedMeal.data = meal;
+}
 
 export function selectActivity(activity: TripActivity) {
 	selectedActivity.data = activity;
@@ -188,4 +200,11 @@ export function openTxnSettingsModal() {
 }
 export function closeTxnSettingsModal() {
 	modalsState.data.isOpenTxnSettings = false;
+}
+
+export function openMealPlannerModal() {
+	modalsState.data.isOpenMealPlanner = true;
+}
+export function closeMealPlannerModal() {
+	modalsState.data.isOpenMealPlanner = false;
 }

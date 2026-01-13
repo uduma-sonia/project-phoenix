@@ -81,12 +81,12 @@
 		handleSelectBoard(boardDetails);
 	}
 
-	function getTotal() {
-		const pricesList = filteredItems?.map((item: { price: number }) => item.price);
-		const sum = Helpers.sumArray(pricesList);
-		return sum ? `${boardDetails?.currency}${sum.toLocaleString()}` : '';
-	}
-	let _total = $derived(getTotal());
+	let _total = $derived(
+		Helpers.getAmountAndCurrency(
+			Helpers.sumArray(filteredItems?.map((item: { price: number }) => item.price)),
+			user
+		)
+	);
 
 	async function handleItemAdd(boardId: string, value?: string) {
 		try {
@@ -271,12 +271,12 @@
 					{/if}
 
 					<div class="mt-6 space-y-2">
-						{#each sortByDone(filteredItems) as items, index (index)}
+						{#each sortByDone(filteredItems) as item, index (index)}
 							<ListItem
-								currency={boardDetails?.currency}
+								price={Helpers.getAmountAndCurrency(item?.price, user)}
 								{handleUpdate}
 								{canEditId}
-								data={items}
+								data={item}
 								{handleUpdateItem}
 								{handleEdit}
 								canEdit={_permission === Permissions.OWNER || _permission === Permissions.CAN_EDIT}

@@ -13,6 +13,8 @@
 
 	let username = $derived(user?.username);
 	let email = $derived(user?.email);
+	let firstName = $derived(user?.firstName);
+	let lastName = $derived(user?.lastName);
 	let isLoading = $state(false);
 	const queryClient = useQueryClient();
 
@@ -61,6 +63,22 @@
 	<div>
 		<Avatar src={user?.avatar} />
 		<div class="mt-7 mb-6 space-y-4">
+			<div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
+				<BasicInputField
+					label="First Name"
+					bind:value={firstName}
+					type="text"
+					id="firstName"
+					name="firstName"
+				/>
+				<BasicInputField
+					label="Last Name"
+					bind:value={lastName}
+					type="text"
+					id="lastName"
+					name="lastName"
+				/>
+			</div>
 			<BasicInputField
 				label="Username"
 				bind:value={username}

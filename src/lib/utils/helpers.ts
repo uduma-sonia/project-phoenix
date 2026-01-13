@@ -32,7 +32,7 @@ import {
 } from 'date-fns';
 import { Permissions, type BoardMember } from '../../types/shopping';
 import type { User } from '../../types/user';
-import { currencyLocales } from '$lib/constants/currency';
+import { currencies, currencyLocales } from '$lib/constants/currency';
 
 class Helpers {
 	static setCookie(name: string, value: string, minutes: number) {
@@ -463,6 +463,23 @@ class Helpers {
 		if (toFixed) return Number(percent.toFixed(0));
 
 		return Number(percent);
+	}
+
+	static getAmountAndCurrency(amount: number, user: User) {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const getCurrency: any = Helpers.transformObjectToList(currencies[0])?.find(
+			(item) => item.id === user?.currency
+		);
+
+		if (getCurrency?.id) {
+			return Helpers.currencyFormatter({
+				currency: getCurrency?.details?.code,
+				minimumFractionDigits: getCurrency?.details.rounding,
+				maximumFractionDigits: getCurrency?.details?.decimal_digits
+			}).format(amount);
+		}
+
+		return 0;
 	}
 }
 

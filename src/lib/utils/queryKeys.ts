@@ -66,7 +66,8 @@ const mealKeys = {
 	getMeals: (data: { mealPlanId: string; days: string }) => [
 		`/meal?${Helpers.formatQueryParams(data)}`
 	],
-	getMealPlans: [`/meal-plan`]
+	getMealPlans: [`/meal-plan`],
+	getUserUniqueMeals: [`/meal/unique`]
 };
 
 const transactionKeys = {

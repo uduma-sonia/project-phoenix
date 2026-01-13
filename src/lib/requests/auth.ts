@@ -1,6 +1,6 @@
 import Helpers from '$lib/utils/helpers';
 import type { ReqConfig, Service } from '../../types/axios';
-import type { User } from '../../types/user';
+import type { CreateUser } from '../../types/user';
 
 type Login = {
 	email: string;
@@ -15,7 +15,7 @@ class AuthService {
 		this.api = api;
 	}
 
-	async register(data: User, reqConfig?: ReqConfig) {
+	async register(data: CreateUser, reqConfig?: ReqConfig) {
 		return await this.api.post(`${this.prefix}/signup`, data, { ...reqConfig });
 	}
 
