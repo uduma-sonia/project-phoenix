@@ -1,9 +1,14 @@
 <script>
-	let { title = 'Laniva', description = 'Track Habit, Manage Shop, Manage Recipe, Plan Travel' } =
-		$props();
+	let {
+		title = '',
+		description = 'Budget tracking, shopping list, recipe manager, habit tracker'
+	} = $props();
 </script>
 
 <svelte:head>
-	<title>{title + ' | Laniva'}</title>
+	<!-- {#if title}
+	
+{/if} -->
+	<title>{title ? title + ' | Laniva' : 'Laniva'}</title>
 	<meta name="description" content={description} />
 </svelte:head>
