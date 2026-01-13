@@ -30,6 +30,17 @@
 <div>
 	<p class="mb-4 text-lg">Help</p>
 
+	<p class="font-lexend mb-4 flex items-center gap-1">
+		Email us:
+
+		<a
+			href="mailto:berylhive@gmail.com"
+			class="font-lexend block text-sm font-light underline-offset-2 hover:underline"
+		>
+			berylhive@gmail.com
+		</a>
+	</p>
+
 	<div>
 		<div class="mb-2 space-y-4">
 			<BasicInputField label="Subject" bind:value={subject} />

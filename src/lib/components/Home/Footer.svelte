@@ -32,7 +32,7 @@
 				>
 					Features
 				</a>
-				<a
+				<!-- <a
 					href="/#pricing"
 					class="font-lexend block text-sm font-light underline-offset-8 hover:underline"
 				>
@@ -43,7 +43,7 @@
 					class="font-lexend block text-sm font-light underline-offset-8 hover:underline"
 				>
 					Support
-				</a>
+				</a> -->
 			</div>
 		</div>
 
@@ -52,22 +52,16 @@
 
 			<div class="space-y-3">
 				<a
-					href="/signup"
+					href="mailto:berylhive@gmail.com"
 					class="font-lexend block text-sm font-light underline-offset-8 hover:underline"
 				>
 					Contact
 				</a>
 				<a
-					href="/privacy"
+					href="/privacy-policy"
 					class="font-lexend block text-sm font-light underline-offset-8 hover:underline"
 				>
 					Privacy
-				</a>
-				<a
-					href="/terms"
-					class="font-lexend block text-sm font-light underline-offset-8 hover:underline"
-				>
-					Terms
 				</a>
 			</div>
 		</div>
