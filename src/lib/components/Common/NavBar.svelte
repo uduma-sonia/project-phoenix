@@ -34,6 +34,7 @@
 <div class="mx-auto max-w-[800px] px-2 pt-2 md:hidden">
 	<a href="/expense" class="flex items-center gap-2">
 		<img src="/images/laniva_logo_rounded.png" class="aspect-square w-7" alt="laniva logo" />
+		<h1 class="font-dela-gothic-one text-sm">Laniva</h1>
 	</a>
 </div>
 
@@ -41,6 +42,7 @@
 	<div class="absolute top-1/2 left-4 hidden -translate-y-1/2 sm:block">
 		<a href="/expense" class="flex items-center gap-2">
 			<img src="/images/laniva_logo_rounded.png" class="aspect-square w-7" alt="laniva logo" />
+			<h1 class="font-dela-gothic-one text-sm">Laniva</h1>
 		</a>
 	</div>
 	<div class="flex h-full flex-nowrap items-center justify-center gap-5 px-4">
