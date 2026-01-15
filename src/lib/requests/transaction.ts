@@ -29,6 +29,14 @@ class TransactionService {
 		return await this.api.delete(`${this.prefix}/${id}`, { ...reqConfig });
 	}
 
+	async getTransactionAnalytics(
+		params: { startDate: string; endDate: string },
+		reqConfig?: ReqConfig
+	) {
+		return await this.api.get(`${this.prefix}/analytics?${Helpers.formatQueryParams(params)}`, {
+			...reqConfig
+		});
+	}
 	async createTransactionCategory(
 		data: { name: string; type: TransactionType; budgetAmount: number },
 		reqConfig?: ReqConfig

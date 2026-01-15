@@ -13,7 +13,6 @@
 	} from 'chart.js';
 	import { format } from 'date-fns';
 	import Helpers from '$lib/utils/helpers';
-	import ExpenseUtils from './utils';
 
 	Chart.register(
 		LineController,
@@ -27,22 +26,20 @@
 		Legend
 	);
 
-	let { transactions } = $props();
+	let { chartData } = $props();
 
 	let canvas: any = $state();
 	let chart: Chart | undefined = $state();
 
 	$effect(() => {
-		const data = ExpenseUtils.getDailyExpenseLineData(transactions);
-
 		chart = new Chart(canvas, {
 			type: 'line',
 			data: {
-				labels: data.map((d) => format(new Date(d.date), 'MMM d')),
+				labels: chartData?.map((d: { date: string }) => format(new Date(d.date), 'MMM d')),
 				datasets: [
 					{
 						label: 'Daily trend',
-						data: data.map((d) => d.amount),
+						data: chartData?.map((d: { amount: number }) => d.amount),
 						backgroundColor: '#1eb564',
 						borderWidth: 1,
 						borderColor: '#1eb564',

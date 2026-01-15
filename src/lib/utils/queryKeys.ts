@@ -74,7 +74,10 @@ const transactionKeys = {
 	getTransactions: (data: { startDate: string; endDate: string }) => [
 		`/transaction?${Helpers.formatQueryParams(data)}`
 	],
-	getTransactionCategories: [`/transaction-category`]
+	getTransactionCategories: [`/transaction-category`],
+	getTransactionAnalytics: (params: { startDate: string; endDate: string }) => [
+		`/transaction/analytics?${Helpers.formatQueryParams(params)}`
+	]
 };
 
 export const queryKeys = {

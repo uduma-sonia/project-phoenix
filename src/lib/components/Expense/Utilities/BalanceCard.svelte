@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Helpers from '$lib/utils/helpers';
-	import type { User } from '../../../../types/user';
 
 	let {
 		title,

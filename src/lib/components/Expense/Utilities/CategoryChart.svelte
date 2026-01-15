@@ -12,7 +12,6 @@
 		Filler
 	} from 'chart.js';
 	import Helpers from '$lib/utils/helpers';
-	import ExpenseUtils from './utils';
 
 	Chart.register(
 		LineController,
@@ -26,22 +25,20 @@
 		Legend
 	);
 
-	let { transactions, type, description, title } = $props();
+	let { chartData, description, title } = $props();
 
 	let canvas: any = $state();
 	let chart: Chart | any = $state();
 
 	$effect(() => {
-		const data = ExpenseUtils.getExpenseBarData(transactions, type);
-
 		chart = new Chart(canvas, {
 			type: 'line',
 			data: {
-				labels: data.map((d) => d.category),
+				labels: chartData?.map((d: { category: string }) => d.category),
 				datasets: [
 					{
 						label: title,
-						data: data.map((d) => d.amount),
+						data: chartData?.map((d: { amount: number }) => d.amount),
 						backgroundColor: '#1eb564',
 						borderWidth: 1,
 						borderColor: '#1eb564',

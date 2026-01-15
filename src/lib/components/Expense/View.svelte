@@ -59,9 +59,15 @@
 			queryFn: () => TransactionRequest.getTransactions({ startDate: start, endDate: end })
 		})
 	);
+	let txnAnalyticsQuery = $derived(
+		createQuery({
+			queryKey: queryKeys.getTransactionAnalytics({ startDate: start, endDate: end }),
+			queryFn: () => TransactionRequest.getTransactionAnalytics({ startDate: start, endDate: end })
+		})
+	);
 
+	let txnAnalytics = $derived($txnAnalyticsQuery?.data?.data?.analytics);
 	let txnList = $derived($txnQuery?.data?.data?.transactions);
-	let { totalIncome, totalExpense, balance } = $derived(ExpenseUtils.getTotals(txnList));
 
 	let txnCategoriesQuery = createQuery({
 		queryKey: queryKeys.getTransactionCategories,
@@ -69,8 +75,12 @@
 	});
 	let transactionCategoriesList = $derived($txnCategoriesQuery?.data?.data?.transactionCategories);
 	let breakdownList = $derived(ExpenseUtils.getBreakdownList(txnList, 'desc'));
-	let insightsStrings = $derived(ExpenseUtils.getInsights(txnList));
-	let budgetPercentage = $derived(Helpers.getPercentage(totalExpense, user?.budgetAmount));
+	let insightsStrings = $derived(
+		ExpenseUtils.getInsights(txnList, txnAnalytics?.totalIncome, txnAnalytics?.totalExpense)
+	);
+	let budgetPercentage = $derived(
+		Helpers.getPercentage(txnAnalytics?.totalExpense, user?.budgetAmount)
+	);
 
 	const moreOptions = [
 		{
@@ -161,17 +171,17 @@
 	<div
 		class="no-scrollbar flex w-full flex-nowrap items-center gap-3 overflow-x-auto px-3 py-3 md:gap-6"
 	>
-		<BalanceCard currency={getCurrency} title="Balance" value={balance} />
+		<BalanceCard currency={getCurrency} title="Balance" value={txnAnalytics?.balance} />
 		<BalanceCard
 			currency={getCurrency}
 			title="Income"
-			value={totalIncome}
+			value={txnAnalytics?.totalIncome || 0}
 			balanceClass="text-brand-green"
 		/>
 		<BalanceCard
 			currency={getCurrency}
 			title="Expense"
-			value={totalExpense}
+			value={txnAnalytics?.totalExpense || 0}
 			balanceClass="text-brand-error"
 		/>
 	</div>
@@ -209,7 +219,7 @@
 		<StatsSections {getCurrency} {txnList} {start} {end} />
 	</div>
 
-	<AnalyticsSection {txnList} />
+	<AnalyticsSection chartData={txnAnalytics} />
 	<CategoryBreakdown {getCurrency} {breakdownList} {transactionCategoriesList} />
 </div>
 

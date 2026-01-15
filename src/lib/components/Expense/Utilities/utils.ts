@@ -15,29 +15,6 @@ import {
 } from '../../../../types/transaction';
 
 class ExpenseUtils {
-	static getTotals(transactions: Transaction[]) {
-		if (!transactions)
-			return {
-				totalIncome: 0,
-				totalExpense: 0,
-				balance: 0
-			};
-
-		let income = 0;
-		let expense = 0;
-
-		for (const tx of transactions) {
-			if (tx.type === TransactionType.INCOME) income += tx.amount;
-			if (tx.type === TransactionType.EXPENSE) expense += tx.amount;
-		}
-
-		return {
-			totalIncome: income,
-			totalExpense: expense,
-			balance: income - expense
-		};
-	}
-
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	static sortTransactionsGroupByAmount(transactions: any[], sort: 'asc' | 'desc' = 'asc') {
 		return transactions.sort((a, b) =>
@@ -112,10 +89,9 @@ class ExpenseUtils {
 			);
 	}
 
-	static getInsights(transactions: Transaction[]) {
-		if (!transactions) return {};
+	static getInsights(transactions: Transaction[], totalIncome: number, totalExpense: number) {
+		if (!transactions && !totalIncome && !totalExpense) return {};
 
-		const { totalIncome, totalExpense } = this.getTotals(transactions);
 		const expensesByCategory = this.getExpenseByCategory(transactions);
 
 		const topCategory = Object.entries(expensesByCategory).sort((a, b) => b[1] - a[1])[0];
@@ -147,27 +123,6 @@ class ExpenseUtils {
 		return `${year}-${month}-${day}`;
 	}
 
-	static getDailyExpenseLineData(transactions: Transaction[]) {
-		if (!transactions) return [];
-
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const map: any = {};
-
-		transactions.forEach((tx) => {
-			if (tx.type !== 'EXPENSE') return;
-
-			const day = this.formatLocalDate(tx.date);
-			map[day] = (map[day] || 0) + tx.amount;
-		});
-
-		return Object.keys(map)
-			.sort()
-			.map((date) => ({
-				date,
-				amount: map[date]
-			}));
-	}
-
 	static getList(txnList: Transaction[], selectedView: { id: string }) {
 		if (txnList?.length) {
 			return txnList?.filter((item) => {
@@ -182,22 +137,6 @@ class ExpenseUtils {
 		}
 
 		return [];
-	}
-
-	static getExpenseBarData(transactions: Transaction[], type: TransactionType) {
-		if (!transactions) return [];
-
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const map: any = {};
-		transactions.forEach((tx) => {
-			if (tx.type !== type) return;
-			map[tx.categoryName] = (map[tx.categoryName] || 0) + tx.amount;
-		});
-
-		return Object.entries(map).map(([category, amount]) => ({
-			category,
-			amount
-		}));
 	}
 
 	static showBudgetWarning(
