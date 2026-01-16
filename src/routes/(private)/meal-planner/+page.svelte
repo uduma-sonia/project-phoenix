@@ -5,7 +5,7 @@
 	import DeleteMealPlan from '$lib/components/Modals/DeleteMealPlan.svelte';
 </script>
 
-<AppLayout withName={false}>
+<AppLayout>
 	<View />
 </AppLayout>
 
