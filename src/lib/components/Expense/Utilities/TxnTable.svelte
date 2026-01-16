@@ -61,6 +61,7 @@
 			queryClient.invalidateQueries({
 				queryKey: queryKeys.getTransactionAnalytics({ startDate: start, endDate: end })
 			});
+			currentPage = 1;
 		} catch (error: any) {
 			addToast(error?.message || 'An error occured', 'error');
 		}
@@ -71,42 +72,46 @@
 	});
 </script>
 
-<div class="mb-4 flex items-center justify-between gap-4">
-	<p class="text-lg font-medium md:text-xl">All Transactions</p>
+<div class="mt-6 px-3">
+	<div class="mb-4 flex items-center justify-between gap-4">
+		<p class="text-lg font-medium md:text-xl">All Transactions</p>
 
-	<div>
-		<div class="max-w-[140px] rounded-xl bg-white">
-			<Dropdown options={viewOptions} shouldSearch={false} bind:selectedOption={selectedView} />
+		<div>
+			<div class="max-w-[140px] rounded-xl bg-white">
+				<Dropdown options={viewOptions} shouldSearch={false} bind:selectedOption={selectedView} />
+			</div>
 		</div>
 	</div>
-</div>
-<div class="retro_wrapper">
-	<div class="retro_wrapper_inner_ejf">
-		<div class="no-scrollbar overflow-x-aut flex flex-col overflow-x-auto">
-			<LoaderError isLoading={txnLoading} error={isError} />
+	<div class="retro_wrapper">
+		<div class="retro_wrapper_inner_ejf">
+			<div class="no-scrollbar overflow-x-aut flex flex-col overflow-x-auto">
+				<LoaderError isLoading={txnLoading} error={isError} />
 
-			{#if !txnLoading && !isError}
-				{#if hasTxns}
-					{#each paginatedTransactions as txn, index (index)}
-						<TxnRowItem {getCurrency} {handleDelete} {txn} />
-					{/each}
+				{#if !txnLoading && !isError}
+					{#if hasTxns}
+						{#each paginatedTransactions as txn, index (index)}
+							<TxnRowItem {getCurrency} {handleDelete} {txn} />
+						{/each}
 
-					<div class="h-28">
-						<Pagination {totalPages} {nextPage} {prevPage} {currentPage} />
-					</div>
-				{:else if !isError}
-					{#if hasMount}
-						<EmptyState
-							buttonText="Add Transaction"
-							heading="No transaction recorded"
-							text="Start recording your transactions"
-							action={openAddTxnModal}
-						/>
-					{:else}
-						<LoaderError isLoading={true} />
+						<div class="absolute bottom-0 left-0 h-28 w-full">
+							<Pagination {totalPages} {nextPage} {prevPage} {currentPage} />
+						</div>
+
+						<div class="h-28"></div>
+					{:else if !isError}
+						{#if hasMount}
+							<EmptyState
+								buttonText="Add Transaction"
+								heading="No transaction recorded"
+								text="Start recording your transactions"
+								action={openAddTxnModal}
+							/>
+						{:else}
+							<LoaderError isLoading={true} />
+						{/if}
 					{/if}
 				{/if}
-			{/if}
+			</div>
 		</div>
 	</div>
 </div>

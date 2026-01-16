@@ -1,7 +1,7 @@
 <script lang="ts">
 	import FloatingButton from './FloatingButton.svelte';
 	import NameCard from './NameCard.svelte';
-	import NavBar from './NavBar.svelte';
+	import NavBar from './Layout/NavBar.svelte';
 	import MobileNav from './Layout/MobileNav.svelte';
 
 	type Props = {

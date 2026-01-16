@@ -37,6 +37,7 @@
 	import { BudgetCycle } from '../../../types/transaction';
 	import CategoryBreakdown from './Utilities/CategoryBreakdown.svelte';
 	import SetBudget from '../Modals/SetBudget.svelte';
+	import EditTransaction from '../Modals/EditTransaction.svelte';
 
 	let userQuery = useCurrentUser();
 	let user = $derived($userQuery?.data?.data?.user);
@@ -187,16 +188,14 @@
 		/>
 	</div>
 
-	<div class="gri mt-6 grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
-		<TxnTable
-			txnLoading={$txnQuery?.isLoading}
-			isError={$txnQuery?.isError}
-			{txnList}
-			{start}
-			{end}
-			{getCurrency}
-		/>
-	</div>
+	<TxnTable
+		txnLoading={$txnQuery?.isLoading}
+		isError={$txnQuery?.isError}
+		{txnList}
+		{start}
+		{end}
+		{getCurrency}
+	/>
 
 	<div class="mt-10 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
 		<div>
@@ -209,9 +208,11 @@
 			/>
 		</div>
 
-		<div class="py-8">
+		<div>
 			{#if breakdownList?.length > 2}
-				<BreakdownInsight {insightsStrings} />
+				<div class="py-8">
+					<BreakdownInsight {insightsStrings} />
+				</div>
 			{/if}
 		</div>
 	</div>
@@ -230,3 +231,4 @@
 <TxnCategoryModal {transactionCategoriesList} />
 <TxnSettingsModal />
 <SetBudget />
+<EditTransaction {transactionCategoriesList} {start} {end} />
