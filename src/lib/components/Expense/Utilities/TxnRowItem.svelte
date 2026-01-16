@@ -4,6 +4,7 @@
 	import { SquarePen, Trash2 } from '@lucide/svelte';
 	import { format } from 'date-fns';
 	import { TransactionType, type Transaction } from '../../../../types/transaction';
+	import { openEditTxnModal } from '$lib/state/modal.svelte';
 
 	let {
 		txn,
@@ -13,6 +14,10 @@
 
 	function _handleDelete() {
 		handleDelete(txn?._id);
+	}
+
+	function _handleUpdate() {
+		openEditTxnModal(txn);
 	}
 </script>
 
@@ -45,8 +50,6 @@
 				>
 					{#if txn.type === TransactionType.EXPENSE}
 						-
-					{:else}
-						+
 					{/if}{#if getCurrency?.id}
 						{Helpers.currencyFormatter({
 							currency: getCurrency?.details?.code,
@@ -62,7 +65,8 @@
 					options={[
 						{
 							label: 'Edit',
-							icon: SquarePen
+							icon: SquarePen,
+							action: _handleUpdate
 						},
 						{
 							label: 'Delete',

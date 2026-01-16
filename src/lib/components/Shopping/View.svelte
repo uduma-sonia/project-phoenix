@@ -10,6 +10,7 @@
 	import EmptyState from '../Common/EmptyState.svelte';
 	import { onMount } from 'svelte';
 	import ShoppingUtils from './Utilities/utils';
+	import { Plus } from '@lucide/svelte';
 
 	let searchQuery = $state('');
 
@@ -44,8 +45,16 @@
 
 	<div class="flex items-center justify-between gap-4 px-3">
 		<HabitSearch placeholder="Search list" bind:searchQuery />
+
 		<div>
-			<button class="shadow_button" onclick={openModal}> Standard list </button>
+			<button
+				class="shadow_button_outline shadow_button_thin shadow_button_with_icon"
+				onclick={openModal}
+			>
+				<Plus size="20px" />
+
+				Standard list
+			</button>
 		</div>
 	</div>
 

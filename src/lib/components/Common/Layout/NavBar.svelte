@@ -8,6 +8,11 @@
 			keyword: 'expense'
 		},
 		{
+			label: 'Meals',
+			route: '/meal-planner',
+			keyword: 'meal-planner'
+		},
+		{
 			label: 'Tracker',
 			route: '/tracker',
 			keyword: 'tracker'
@@ -50,9 +55,9 @@
 			{@const isActive = route == page.url.pathname || page.url.pathname.includes(keyword)}
 
 			<a
-				class="font-lexend block min-w-max text-sm font-normal sm:text-base"
+				class="font-lexend-deca block min-w-max text-sm font-normal underline-offset-2 hover:font-medium sm:text-sm"
 				href={route}
-				class:font-semibold={isActive}
+				class:font-medium={isActive}
 				class:underline={isActive}
 			>
 				{label}

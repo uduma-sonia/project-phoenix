@@ -1,6 +1,6 @@
 import Helpers from '$lib/utils/helpers';
 import type { ReqConfig, Service } from '../../types/axios';
-import type { Transaction, CreateTransaction, TransactionType } from '../../types/transaction';
+import type { CreateTransaction, TransactionType } from '../../types/transaction';
 
 class TransactionService {
 	private api;
@@ -21,7 +21,7 @@ class TransactionService {
 		});
 	}
 
-	async updateTransaction(id: string, data: Transaction, reqConfig?: ReqConfig) {
+	async updateTransaction(id: string, data: CreateTransaction, reqConfig?: ReqConfig) {
 		return await this.api.put(`${this.prefix}/${id}`, data, { ...reqConfig });
 	}
 

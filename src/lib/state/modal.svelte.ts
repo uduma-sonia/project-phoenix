@@ -2,6 +2,7 @@ import Helpers from '$lib/utils/helpers';
 import { SvelteDate } from 'svelte/reactivity';
 import type { Meal } from '../../types/meal';
 import type { TripActivity } from '../../types/trip';
+import type { Transaction } from '../../types/transaction';
 
 export const modalsState = $state({
 	data: {
@@ -26,7 +27,9 @@ export const modalsState = $state({
 		isOpenTxnSettings: false,
 
 		isOpenMealPlanner: false,
-		isOpenAddBudget: false
+		isOpenAddBudget: false,
+
+		isOpenEditTxn: false
 	}
 });
 
@@ -55,6 +58,11 @@ export const selectedTxnCategory = $state<{ data: any | null }>({
 	data: null
 });
 
+export const selectedTxnToEdit = $state<{ data: Transaction | null }>({
+	data: null
+});
+
+// FUNCTIONS
 export function handleSelectMeal(meal?: Meal | null) {
 	selectedMeal.data = meal;
 }
@@ -228,4 +236,13 @@ export function openAddBudgetModal(value: any) {
 export function closeAddBudgetModal() {
 	modalsState.data.isOpenAddBudget = false;
 	selectedTxnCategory.data = null;
+}
+
+export function openEditTxnModal(value: Transaction) {
+	modalsState.data.isOpenEditTxn = true;
+	selectedTxnToEdit.data = value;
+}
+export function closeEditTxnModal() {
+	modalsState.data.isOpenEditTxn = false;
+	selectedTxnToEdit.data = null;
 }

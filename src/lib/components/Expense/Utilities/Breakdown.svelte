@@ -4,7 +4,7 @@
 	import BreakdownRowItem from './BreakdownRowItem.svelte';
 	import EmptyState from '$lib/components/Common/EmptyState.svelte';
 
-	let { breakdownList, txnLoading, isError, user, getCurrency } = $props();
+	let { breakdownList, txnLoading, isError, getCurrency } = $props();
 
 	let hasTxns = $derived((breakdownList ?? []).length > 0);
 	let hasMount = $state(false);
@@ -30,7 +30,7 @@
 					<tbody>
 						{#if breakdownList}
 							{#each breakdownList as item, index (index)}
-								<BreakdownRowItem {getCurrency} {user} {item} />
+								<BreakdownRowItem {getCurrency} {item} />
 							{/each}
 						{/if}
 					</tbody>

@@ -37,6 +37,7 @@
 	import { BudgetCycle } from '../../../types/transaction';
 	import CategoryBreakdown from './Utilities/CategoryBreakdown.svelte';
 	import SetBudget from '../Modals/SetBudget.svelte';
+	import EditTransaction from '../Modals/EditTransaction.svelte';
 
 	let userQuery = useCurrentUser();
 	let user = $derived($userQuery?.data?.data?.user);
@@ -151,10 +152,10 @@
 			{prevWeek}
 		/>
 
-		<div class="mt-4 flex w-full items-center justify-end gap-4 md:mt-0 md:w-fit">
+		<div class="mt-4 flex w-full items-center justify-end gap-3 md:mt-0 md:w-fit">
 			<div>
 				<button
-					class="shadow_button shadow_button_thin shadow_button_with_icon"
+					class="shadow_button_outline shadow_button_thin shadow_button_with_icon"
 					onclick={openAddTxnModal}
 				>
 					<Plus size="20px" />
@@ -187,21 +188,18 @@
 		/>
 	</div>
 
-	<div class="gri mt-6 grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
-		<TxnTable
-			txnLoading={$txnQuery?.isLoading}
-			isError={$txnQuery?.isError}
-			{txnList}
-			{start}
-			{end}
-			{getCurrency}
-		/>
-	</div>
+	<TxnTable
+		txnLoading={$txnQuery?.isLoading}
+		isError={$txnQuery?.isError}
+		{txnList}
+		{start}
+		{end}
+		{getCurrency}
+	/>
 
 	<div class="mt-10 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
 		<div>
 			<Breakdown
-				{user}
 				{breakdownList}
 				txnLoading={$txnQuery?.isLoading}
 				isError={$txnQuery?.isError}
@@ -230,3 +228,4 @@
 <TxnCategoryModal {transactionCategoriesList} />
 <TxnSettingsModal />
 <SetBudget />
+<EditTransaction {transactionCategoriesList} {start} {end} />

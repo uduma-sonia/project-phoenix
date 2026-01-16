@@ -32,43 +32,43 @@
 	let canvas: any = $state();
 	let chart: Chart | undefined = $state();
 
-	$effect(() => {
-		const data = ExpenseUtils.getDailyExpenseLineData(transactions);
+	// $effect(() => {
+	// 	const data = ExpenseUtils.getDailyExpenseLineData(transactions);
 
-		chart = new Chart(canvas, {
-			type: 'bar',
-			data: {
-				labels: data.map((d) => format(new Date(d.date), 'MMM d')),
-				datasets: [
-					{
-						label: 'Daily Spending',
-						data: data.map((d) => d.amount),
-						backgroundColor: '#ff9a9a90',
-						borderWidth: 1,
-						borderColor: '#000000',
-						borderRadius: 8
-					}
-				]
-			},
-			options: {
-				responsive: true,
-				maintainAspectRatio: false,
-				scales: {
-					x: {
-						grid: { display: false }
-					},
-					y: {
-						beginAtZero: true,
-						ticks: {
-							callback: (value) => `${Helpers.convertNumber(Number(value))}`
-						}
-					}
-				}
-			}
-		});
+	// 	chart = new Chart(canvas, {
+	// 		type: 'bar',
+	// 		data: {
+	// 			labels: data.map((d) => format(new Date(d.date), 'MMM d')),
+	// 			datasets: [
+	// 				{
+	// 					label: 'Daily Spending',
+	// 					data: data.map((d) => d.amount),
+	// 					backgroundColor: '#ff9a9a90',
+	// 					borderWidth: 1,
+	// 					borderColor: '#000000',
+	// 					borderRadius: 8
+	// 				}
+	// 			]
+	// 		},
+	// 		options: {
+	// 			responsive: true,
+	// 			maintainAspectRatio: false,
+	// 			scales: {
+	// 				x: {
+	// 					grid: { display: false }
+	// 				},
+	// 				y: {
+	// 					beginAtZero: true,
+	// 					ticks: {
+	// 						callback: (value) => `${Helpers.convertNumber(Number(value))}`
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	});
 
-		return () => chart?.destroy();
-	});
+	// 	return () => chart?.destroy();
+	// });
 </script>
 
 <div class="mb-4 flex items-center justify-between gap-4">
