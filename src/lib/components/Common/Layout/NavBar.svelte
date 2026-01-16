@@ -50,7 +50,7 @@
 			<h1 class="font-dela-gothic-one text-sm">Laniva</h1>
 		</a>
 	</div>
-	<div class="flex h-full flex-nowrap items-center justify-center gap-5 px-4">
+	<div class="flex h-full flex-nowrap items-center justify-end gap-5 px-4">
 		{#each routesList as { route, label, keyword } (label)}
 			{@const isActive = route == page.url.pathname || page.url.pathname.includes(keyword)}
 
