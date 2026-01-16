@@ -21,7 +21,6 @@
 		type?: TransactionType;
 	} = $props();
 
-	let itemId = $state('');
 	let itemName = $derived(item?.name);
 	let itemAmount = $derived(item?.budgetAmount);
 

@@ -76,6 +76,9 @@
 			queryClient.invalidateQueries({
 				queryKey: queryKeys.getTransactions({ startDate: start, endDate: end })
 			});
+			queryClient.invalidateQueries({
+				queryKey: queryKeys.getTransactionAnalytics({ startDate: start, endDate: end })
+			});
 			amount = '';
 			selectedCategory = { value: '', id: '' };
 			description = '';

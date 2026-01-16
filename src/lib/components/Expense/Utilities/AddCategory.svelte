@@ -38,7 +38,7 @@
 			{#if isSubmitting}
 				<div class="spinner_white border-2 border-black"></div>
 			{:else}
-				Save
+				Add New
 			{/if}
 		</button>
 	</form>

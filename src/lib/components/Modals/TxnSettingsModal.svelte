@@ -1,5 +1,4 @@
 <script lang="ts">
-	// @ts-nochec
 	import { closeTxnSettingsModal, modalsState } from '$lib/state/modal.svelte';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import BasicButton from '../Common/Form/BasicButton.svelte';
@@ -14,6 +13,7 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import { budgetCycles } from '$lib/constants/transaction';
+	import { add } from 'date-fns';
 
 	const queryClient = useQueryClient();
 	let isLoading = $state(false);
@@ -43,6 +43,14 @@
 	let budgetAmount = $derived(user?.budgetAmount);
 
 	async function onSubmit() {
+		if (!budgetAmount) {
+			addToast('Add a budget amount first', 'error');
+			return;
+		}
+		if (!selectedCycle?.id) {
+			addToast('Select a  cycle', 'error');
+			return;
+		}
 		try {
 			isLoading = true;
 
@@ -84,6 +92,16 @@
 				/>
 			{/if}
 
+			<div class="mt-6">
+				<Dropdown
+					label="Cycle"
+					placeholder="Select cycle"
+					options={budgetCycles}
+					bind:selectedOption={selectedCycle}
+					shouldSearch={true}
+					withClearButton={true}
+				/>
+			</div>
 			<div class="my-6 flex items-center gap-2">
 				<button
 					class="button_active relative flex h-7 w-7 items-center justify-center rounded-md border-2 p-0"
@@ -100,15 +118,6 @@
 
 			{#if isBudgetMode}
 				<div class="space-y-6">
-					<Dropdown
-						label="Budget cycle"
-						placeholder="Select cycle"
-						options={budgetCycles}
-						bind:selectedOption={selectedCycle}
-						shouldSearch={true}
-						withClearButton={true}
-					/>
-
 					<BasicInputField
 						label="Budget Amount"
 						bind:value={budgetAmount}

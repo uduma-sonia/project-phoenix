@@ -25,7 +25,8 @@ export const modalsState = $state({
 		isOpenTxnCategory: false,
 		isOpenTxnSettings: false,
 
-		isOpenMealPlanner: false
+		isOpenMealPlanner: false,
+		isOpenAddBudget: false
 	}
 });
 
@@ -46,6 +47,11 @@ export const selectedMealPlan = $state<{
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const selectedMeal = $state<{ data: any | null }>({
+	data: null
+});
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const selectedTxnCategory = $state<{ data: any | null }>({
 	data: null
 });
 
@@ -150,7 +156,6 @@ export function closeInstallModal() {
 		'install_banner_seen_date',
 		JSON.stringify(Helpers.toISOString(new SvelteDate()))
 	);
-	// localStorage.setItem('install_banner_seen_date', '1');
 }
 
 export function openDeleteMealPlanModal(arg: { id: string; value: string }) {
@@ -213,4 +218,14 @@ export function openMealPlannerModal() {
 }
 export function closeMealPlannerModal() {
 	modalsState.data.isOpenMealPlanner = false;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function openAddBudgetModal(value: any) {
+	modalsState.data.isOpenAddBudget = true;
+	selectedTxnCategory.data = value;
+}
+export function closeAddBudgetModal() {
+	modalsState.data.isOpenAddBudget = false;
+	selectedTxnCategory.data = null;
 }

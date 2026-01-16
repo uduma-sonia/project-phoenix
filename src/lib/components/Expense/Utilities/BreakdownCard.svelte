@@ -1,7 +1,8 @@
 <script lang="ts">
 	import Helpers from '$lib/utils/helpers';
-	import { AlertTriangleIcon, Check } from '@lucide/svelte';
 	import ExpenseUtils from './utils';
+	import TextButton from '$lib/components/Common/Form/TextButton.svelte';
+	import { openAddBudgetModal } from '$lib/state/modal.svelte';
 
 	let { item, getCurrency, transactionCategoriesList } = $props();
 
@@ -14,26 +15,22 @@
 <div class="retro_wrapper">
 	<div class="retro_wrapper_inner_iwjd">
 		<div class="flex items-center justify-between">
-			<h5 class="font-lexend text-base font-light">{item?.categoryName}</h5>
+			<h5 class="font-lexend text-base font-normal">{item?.categoryName}</h5>
 
 			<div>
-				{#if usedPercentage > 70}
-					<div class="flex items-center gap-1">
-						<p class="font-lexend text-11 font-normal">You are over budget</p>
-
-						<div class="text-brand-error">
-							<AlertTriangleIcon size="12px" />
-						</div>
-					</div>
-				{:else}
-					<div class="bg-brand-green aspect-square w-fit rounded-full p-1">
-						<Check size="12px" color="#ffffff" />
-					</div>
-				{/if}
+				<div>
+					<p
+						class="font-lexend text-10 font-light"
+						class:text-brand-error={usedPercentage > 70}
+						class:text-brand-green={usedPercentage < 70}
+					>
+						{ExpenseUtils.budgetText(usedPercentage)}
+					</p>
+				</div>
 			</div>
 		</div>
 
-		<div class="mt-6">
+		<div class="mt-10">
 			<div class="font-lexend text-13 flex items-center justify-between gap-2 font-light">
 				<p>
 					{#if getCurrency?.id}
@@ -71,8 +68,15 @@
 			</div>
 		</div>
 
-		<div class="mt-6">
-			<p class="font-lexend text-right text-sm font-light">
+		<div class="mt-10 flex items-center justify-between">
+			<div>
+				<TextButton
+					className="set_budget"
+					action={() => openAddBudgetModal(budgetInfo)}
+					label="Budget"
+				/>
+			</div>
+			<p class="font-lexend text-right text-xs font-light">
 				{item?.count} transaction{Helpers.returnS(item?.count)}
 			</p>
 		</div>
@@ -80,6 +84,9 @@
 </div>
 
 <style>
+	:global(.set_budget) {
+		font-size: 14px;
+	}
 	.retro_wrapper_inner_iwjd {
 		position: relative;
 		z-index: 10;

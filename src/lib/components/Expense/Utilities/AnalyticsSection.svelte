@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { TransactionType } from '../../../../types/transaction';
 	import CategoryChart from './CategoryChart.svelte';
 	import DailySpendChart from './DailySpendChart.svelte';
 
-	let { txnList } = $props();
+	let { chartData } = $props();
 
 	let currentView = $state('daily');
 
@@ -42,21 +41,19 @@
 	</div>
 
 	{#if currentView === 'daily'}
-		<DailySpendChart transactions={txnList} />
+		<DailySpendChart chartData={chartData?.dailyExpenseLineData} />
 	{/if}
 
 	{#if currentView === 'expense'}
 		<CategoryChart
-			transactions={txnList}
-			type={TransactionType.EXPENSE}
+			chartData={chartData?.expenseGroupLineData}
 			title="Expenses by Category"
 			description="Breaks down where your money goes across different spending categories"
 		/>
 	{/if}
 	{#if currentView === 'income'}
 		<CategoryChart
-			transactions={txnList}
-			type={TransactionType.INCOME}
+			chartData={chartData?.expenseGroupLineData}
 			title="Income by Category"
 			description="Shows where your money comes from and how much each source contributes"
 		/>
