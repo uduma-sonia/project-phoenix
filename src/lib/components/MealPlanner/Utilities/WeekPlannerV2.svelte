@@ -11,9 +11,10 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import Ylabels from './Ylabels.svelte';
 	import { Play } from '@lucide/svelte';
-	import TextButton from '$lib/components/Common/Form/TextButton.svelte';
+	import Dropdown from '$lib/components/Common/Form/Dropdown.svelte';
+	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
 
-	let { selectedPlan, currentWeek = $bindable(new Date()) } = $props();
+	let { selectedPlan, currentWeek = $bindable(new Date()), mealsOptions, moreOptions } = $props();
 	const queryClient = useQueryClient();
 	let meal_items_container: any;
 
@@ -70,9 +71,21 @@
 {/snippet}
 
 <div>
-	<WeekScroller {currentWeek} {updateCurrentWeek} />
+	<div class="my-4 block justify-between px-3 md:flex">
+		<WeekScroller {currentWeek} {updateCurrentWeek} />
 
-	<div class="px-3">
+		<div class="mt-4 flex items-center gap-4 md:mt-0">
+			<div class="w-full rounded-xl bg-white">
+				<Dropdown options={mealsOptions} shouldSearch={false} bind:selectedOption={selectedPlan} />
+			</div>
+
+			<div>
+				<HamburgerDropdown variant="solid" options={moreOptions} />
+			</div>
+		</div>
+	</div>
+
+	<div class="px-3 pt-3">
 		<div
 			class="relative overflow-hidden rounded-lg border bg-[#cfc4e7] pt-[0px] pl-[70px] md:pl-[80px]"
 		>

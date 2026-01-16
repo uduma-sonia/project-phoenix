@@ -1,5 +1,4 @@
 <script lang="ts">
-	import TextButton from '$lib/components/Common/Form/TextButton.svelte';
 	import Helpers from '$lib/utils/helpers';
 	import { Play } from '@lucide/svelte';
 	import { addWeeks, format, subWeeks, startOfWeek, endOfWeek } from 'date-fns';
@@ -15,12 +14,12 @@
 	}
 </script>
 
-<div class="my-4 px-3">
+<div class="">
 	<div class="flex items-center gap-3 overflow-hidden pr-1">
 		<div>
-			<button class="shadow_button shadow_button_sm shadow_button_thin" onclick={prevWeek}>
+			<button class="shadow_button shadow_button_sm" onclick={prevWeek}>
 				<span class="block rotate-180">
-					<Play size="18px" />
+					<Play />
 				</span>
 			</button>
 		</div>
@@ -46,8 +45,8 @@
 		</div>
 
 		<div>
-			<button class="shadow_button shadow_button_sm shadow_button_thin" onclick={nextWeek}>
-				<Play size="18px" />
+			<button class="shadow_button shadow_button_sm" onclick={nextWeek}>
+				<Play />
 			</button>
 		</div>
 	</div>

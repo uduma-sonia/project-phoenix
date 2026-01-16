@@ -1,11 +1,9 @@
 <script lang="ts">
-	import Dropdown from '../Common/Form/Dropdown.svelte';
-	import BackComponent from '../Common/BackComponent.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { MealRequest, RecipeRequest } from '$lib/requests';
 	import { Plus, SquarePen, Trash, ChartNetwork, Import } from '@lucide/svelte';
-	import HamburgerDropdown, { type Options } from '../Common/HamburgerDropdown.svelte';
+	import { type Options } from '../Common/HamburgerDropdown.svelte';
 	import type { MealPlan } from '../../../types/meal';
 	import Seo from '$lib/components/Common/SEO.svelte';
 	import { openCreateMealPlanModal, openDeleteMealPlanModal } from '$lib/state/modal.svelte';
@@ -99,22 +97,10 @@
 
 <Seo title={seoTitle} />
 
-<div class="relative pb-24">
-	<div class="my-6 justify-between gap-3 space-y-3 px-3 md:flex md:space-y-0">
-		<BackComponent backLink="/recipe" title={selectedPlan?.value} />
+<div class="pb-24">
+	<p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">Keep track of your meals</p>
 
-		<div class="flex items-center gap-4">
-			<div class="rounded-xl bg-white">
-				<Dropdown options={mealsOptions} shouldSearch={false} bind:selectedOption={selectedPlan} />
-			</div>
-
-			<div>
-				<HamburgerDropdown variant="solid" options={moreOptions} />
-			</div>
-		</div>
-	</div>
-
-	<WeekPlannerV2 {currentWeek} {selectedPlan} />
+	<WeekPlannerV2 {moreOptions} {mealsOptions} {currentWeek} {selectedPlan} />
 </div>
 
 <AddMeal {recipeList} {selectedPlan} {currentWeek} />
