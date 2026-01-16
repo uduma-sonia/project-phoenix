@@ -2,12 +2,15 @@
 	import Helpers from '$lib/utils/helpers';
 	import { AlertTriangleIcon, Check } from '@lucide/svelte';
 	import ExpenseUtils from './utils';
+	import TextButton from '$lib/components/Common/Form/TextButton.svelte';
+	import { openAddBudgetModal } from '$lib/state/modal.svelte';
 
 	let { item, getCurrency, transactionCategoriesList } = $props();
 
 	let budgetInfo = $derived(
 		ExpenseUtils.getCategoryBudgetInfo(transactionCategoriesList, item?.categoryId)
 	);
+
 	let usedPercentage = $derived(Helpers.getPercentage(item?.totalAmount, budgetInfo?.budgetAmount));
 </script>
 
@@ -71,7 +74,10 @@
 			</div>
 		</div>
 
-		<div class="mt-6">
+		<div class="mt-6 flex items-center justify-between">
+			<div>
+				<TextButton action={() => openAddBudgetModal(budgetInfo)} label="Budget" />
+			</div>
 			<p class="font-lexend text-right text-sm font-light">
 				{item?.count} transaction{Helpers.returnS(item?.count)}
 			</p>

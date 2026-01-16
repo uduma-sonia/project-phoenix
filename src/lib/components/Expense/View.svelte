@@ -36,6 +36,7 @@
 	import { currencies } from '$lib/constants/currency';
 	import { BudgetCycle } from '../../../types/transaction';
 	import CategoryBreakdown from './Utilities/CategoryBreakdown.svelte';
+	import SetBudget from '../Modals/SetBudget.svelte';
 
 	let userQuery = useCurrentUser();
 	let user = $derived($userQuery?.data?.data?.user);
@@ -220,9 +221,12 @@
 	</div>
 
 	<AnalyticsSection chartData={txnAnalytics} />
-	<CategoryBreakdown {getCurrency} {breakdownList} {transactionCategoriesList} />
+	{#if user?.isBudgetMode}
+		<CategoryBreakdown {getCurrency} {breakdownList} {transactionCategoriesList} />
+	{/if}
 </div>
 
 <AddTxnModal {transactionCategoriesList} {start} {end} />
 <TxnCategoryModal {transactionCategoriesList} />
 <TxnSettingsModal />
+<SetBudget />
