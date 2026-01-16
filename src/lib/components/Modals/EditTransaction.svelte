@@ -85,11 +85,6 @@
 				queryClient.invalidateQueries({
 					queryKey: queryKeys.getTransactionAnalytics({ startDate: start, endDate: end })
 				});
-				// amount = '';
-				// selectedCategory = { value: '', id: '' };
-				// description = '';
-				// startDateValue = new Date();
-
 				closeEditTxnModal();
 			}
 		} catch (error: any) {
