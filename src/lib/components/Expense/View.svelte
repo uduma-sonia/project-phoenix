@@ -152,10 +152,10 @@
 			{prevWeek}
 		/>
 
-		<div class="mt-4 flex w-full items-center justify-end gap-4 md:mt-0 md:w-fit">
+		<div class="mt-4 flex w-full items-center justify-end gap-3 md:mt-0 md:w-fit">
 			<div>
 				<button
-					class="shadow_button shadow_button_thin shadow_button_with_icon"
+					class="shadow_button_outline shadow_button_thin shadow_button_with_icon"
 					onclick={openAddTxnModal}
 				>
 					<Plus size="20px" />

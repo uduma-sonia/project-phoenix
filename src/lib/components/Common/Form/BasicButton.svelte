@@ -28,6 +28,7 @@
 	class:shadow_button_with_icon={Boolean(LeftIcon)}
 	class:shadow_button={variant === 'primary'}
 	class:shadow_button_red={variant === 'error'}
+	class:shadow_button_outline={variant === 'outline'}
 	{type}
 	onclick={() => action?.()}
 	{...restProps}

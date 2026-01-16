@@ -101,91 +101,66 @@
 	label="Edit Transaction"
 >
 	<div class="p-4">
-		<div>
-			<div class="space-y-4">
-				<div>
-					<label for="habitName" class="mb-2">Type</label>
+		<div class="space-y-4">
+			<div class="w-1/2">
+				<label for="habitName" class="mb-2"> Date</label>
 
-					<div class="flex items-center gap-4">
-						<button
-							class:bg-brand-build={type === TransactionType.EXPENSE}
-							onclick={() => changeType(TransactionType.EXPENSE)}
-							class="button_active h-[35px] rounded-lg border px-4 text-sm"
-							type="button"
+				<div class="relative">
+					<button
+						class="button_active font-lexend h-[50px] w-full rounded-lg border px-4 text-left text-sm font-light sm:text-base"
+						type="button"
+						onclick={toggleStart}
+					>
+						{format(new Date(startDateValue), 'PPP')}
+					</button>
+
+					{#if isStartDateOpen}
+						<div
+							use:Helpers.clickOutside
+							onclick_outside={handleClickOutside}
+							class="absolute top-[54px] left-0 z-[9999] gap-4 overflow-hidden rounded-lg bg-white shadow-md"
 						>
-							Expense
-						</button>
-						<button
-							class:bg-brand-build={type === TransactionType.INCOME}
-							onclick={() => changeType(TransactionType.INCOME)}
-							class="button_active h-[35px] rounded-lg border px-4 text-sm"
-							type="button"
-						>
-							Income
-						</button>
-					</div>
-				</div>
-
-				<div class="w-1/2">
-					<label for="habitName" class="mb-2"> Date</label>
-
-					<div class="relative">
-						<button
-							class="button_active font-lexend h-[50px] w-full rounded-lg border px-4 text-left text-sm font-light sm:text-base"
-							type="button"
-							onclick={toggleStart}
-						>
-							{format(new Date(startDateValue), 'PPP')}
-						</button>
-
-						{#if isStartDateOpen}
-							<div
-								use:Helpers.clickOutside
-								onclick_outside={handleClickOutside}
-								class="absolute top-[54px] left-0 z-[9999] gap-4 overflow-hidden rounded-lg bg-white shadow-md"
-							>
-								<div class="w-[260px] rounded-lg border-2 p-1">
-									<DatePickerMini bind:selectedDate={startDateValue} />
-								</div>
+							<div class="w-[260px] rounded-lg border-2 p-1">
+								<DatePickerMini bind:selectedDate={startDateValue} />
 							</div>
-						{/if}
-					</div>
-				</div>
-
-				<div>
-					{#if txnCategoriesOptions?.length}
-						<Dropdown
-							label="Category"
-							options={txnCategoriesOptions}
-							bind:selectedOption={selectedCategory}
-							shouldSearch={true}
-							placeholder="Select category"
-							withClearButton
-						/>
+						</div>
 					{/if}
 				</div>
+			</div>
 
-				<div>
-					<BasicInputField
-						inputMode="numeric"
-						label="Amount"
-						type="number"
-						id="amount"
-						name="amount"
-						required
-						bind:value={amount}
+			<div>
+				{#if txnCategoriesOptions?.length}
+					<Dropdown
+						label="Category"
+						options={txnCategoriesOptions}
+						bind:selectedOption={selectedCategory}
+						shouldSearch={true}
+						placeholder="Select category"
+						withClearButton
 					/>
-				</div>
-				<div>
-					<BasicInputField
-						label="Description"
-						placeholder="Enter description"
-						type="text"
-						id="description"
-						name="description"
-						bind:value={description}
-					/>
-				</div>
+				{/if}
+			</div>
+
+			<div>
+				<BasicInputField
+					inputMode="numeric"
+					label="Amount"
+					type="number"
+					id="amount"
+					name="amount"
+					required
+					bind:value={amount}
+				/>
+			</div>
+			<div>
+				<BasicInputField
+					label="Description"
+					placeholder="Enter description"
+					type="text"
+					id="description"
+					name="description"
+					bind:value={description}
+				/>
 			</div>
 		</div>
 		<div class="fle mt-8 justify-end">
