@@ -200,7 +200,6 @@
 	<div class="mt-10 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
 		<div>
 			<Breakdown
-				{user}
 				{breakdownList}
 				txnLoading={$txnQuery?.isLoading}
 				isError={$txnQuery?.isError}
@@ -208,11 +207,9 @@
 			/>
 		</div>
 
-		<div>
+		<div class="py-8">
 			{#if breakdownList?.length > 2}
-				<div class="py-8">
-					<BreakdownInsight {insightsStrings} />
-				</div>
+				<BreakdownInsight {insightsStrings} />
 			{/if}
 		</div>
 	</div>
