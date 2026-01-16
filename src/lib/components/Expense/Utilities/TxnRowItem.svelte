@@ -50,8 +50,6 @@
 				>
 					{#if txn.type === TransactionType.EXPENSE}
 						-
-					{:else}
-						+
 					{/if}{#if getCurrency?.id}
 						{Helpers.currencyFormatter({
 							currency: getCurrency?.details?.code,
