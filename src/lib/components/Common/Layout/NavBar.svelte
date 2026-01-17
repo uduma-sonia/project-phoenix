@@ -55,7 +55,7 @@
 			{@const isActive = route == page.url.pathname || page.url.pathname.includes(keyword)}
 
 			<a
-				class="font-lexend-deca block min-w-max text-sm font-normal underline-offset-2 hover:font-medium sm:text-sm"
+				class="font-lexend-deca block min-w-max text-sm font-light underline-offset-2 hover:underline sm:text-sm"
 				href={route}
 				class:font-medium={isActive}
 				class:underline={isActive}
