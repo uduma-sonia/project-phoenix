@@ -39,7 +39,7 @@
 		</div>
 
 		<div class="flex items-center justify-center">
-			<div class="relative h-[400px] w-full max-w-[550px] lg:h-[600px] lg:w-[85%]">
+			<div class="relative h-[550px] w-full max-w-[550px] lg:h-[600px] lg:w-[85%]">
 				<Image
 					src="/images/recipe-ss-iphone15.png"
 					className="h-full mx-auto"

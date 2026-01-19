@@ -51,11 +51,11 @@
 		font-size: 14px;
 		font-weight: 500;
 		font-family: 'Montserrat Variable', sans-serif;
-		border: 2px solid black;
+		border: 1px solid black;
 	}
 
 	.toast_error {
-		background: rgba(199, 10, 36, 1) !important;
+		background: rgb(222, 24, 50) !important;
 		color: #ffffff;
 	}
 

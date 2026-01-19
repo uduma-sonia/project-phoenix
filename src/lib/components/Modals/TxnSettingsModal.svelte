@@ -41,6 +41,7 @@
 	let selectedCycle = $derived({ id: user?.budgetCycle, value: user?.budgetCycle });
 	let isBudgetMode = $derived(user?.isBudgetMode);
 	let budgetAmount = $derived(user?.budgetAmount);
+	let budgetAlertThreshold = $derived(user?.budgetAlertThreshold);
 
 	async function onSubmit() {
 		if (!budgetAmount) {
@@ -58,7 +59,8 @@
 				isBudgetMode,
 				currency: selectedCurrency.id,
 				budgetAmount: Number(budgetAmount),
-				budgetCycle: selectedCycle?.id
+				budgetCycle: selectedCycle?.id,
+				budgetAlertThreshold: Number(budgetAlertThreshold)
 			});
 
 			if (result) {
@@ -125,6 +127,14 @@
 						id="amount"
 						name="amount"
 						required={isBudgetMode}
+						inputMode="numeric"
+					/>
+					<BasicInputField
+						label="Alert threshold percentage (1 - 100)"
+						bind:value={budgetAlertThreshold}
+						type="number"
+						id="amount"
+						name="amount"
 						inputMode="numeric"
 					/>
 				</div>
