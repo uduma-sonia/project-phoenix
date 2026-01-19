@@ -3,7 +3,7 @@
 	import PricingCard from './PricingCard.svelte';
 </script>
 
-<div class="mx-auto max-w-7xl px-4 pt-36 md:pt-40">
+<div class="mx-auto max-w-[500px] pt-20 lg:max-w-full lg:pt-40">
 	<div class="mb-20 text-center" id="pricing">
 		<h3 class="font-crete text-2xl font-semibold md:text-3xl lg:text-4xl">
 			Simple, affordable pricing
@@ -23,7 +23,7 @@
 	<div class="mx-auto mt-16 mb-10 w-[160px]">
 		<a href="/signup">
 			<button class="shadow_button shadow_button_thi shadow_button_sm" type="button">
-				Start for free
+				Start For Free
 			</button>
 		</a>
 	</div>

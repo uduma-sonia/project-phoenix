@@ -57,7 +57,7 @@
 		<div class="flex items-center gap-4">
 			<div>
 				<a href="/signup">
-					<button class="shadow_button shadow_button_sm" type="button"> Start for free </button>
+					<button class="shadow_button shadow_button_sm" type="button"> Signup </button>
 				</a>
 			</div>
 		</div>
@@ -106,7 +106,7 @@
 				</div>
 				<div>
 					<a href="/signup">
-						<button class="shadow_button shadow_button_sm" type="button"> Start for free </button>
+						<button class="shadow_button shadow_button_sm" type="button"> Signup </button>
 					</a>
 				</div>
 			</div>

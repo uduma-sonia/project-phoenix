@@ -4,7 +4,16 @@
 	let { subtitle, title, imgSrc } = $props();
 </script>
 
-<div class="mx-auto w-fit">
+<div class="p-5">
+	<p class="font-lexend-deca text-center text-xs font-light">{subtitle}</p>
+	<p class="font-lexend-deca mt-1 px-10 text-center text-xl font-normal">{title}</p>
+
+	<div class="mt-8 flex flex-1 items-center justify-center">
+		<Image src={imgSrc} className="w-[110px]" />
+	</div>
+</div>
+
+<!-- <div class="mx-auto w-fit">
 	<div class="retro_wrapper retro_wrapper_uwd">
 		<div class="retro_wrapper_inner flex flex-col justify-between gap-2 p-4">
 			<div>
@@ -17,9 +26,9 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 
-<style>
+<!-- <style>
 	.retro_wrapper_uwd {
 		height: 330px;
 		width: 360px;
@@ -45,4 +54,4 @@
 		height: 330px;
 		width: 360px;
 	}
-</style>
+</style> -->

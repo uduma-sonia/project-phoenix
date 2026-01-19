@@ -1,25 +1,14 @@
 <script lang="ts">
+	import BasicButton from '$lib/components/Common/Form/BasicButton.svelte';
 	import Image from '../../Common/Image.svelte';
 </script>
 
-<div class="font-lexend mx-auto max-w-[500px] items-center gap-8 lg:flex lg:max-w-full">
-	<div class="mb-16 w-full lg:mb-0 lg:w-1/2">
-		<div>
-			<h3 class="font-crete text-2xl font-semibold md:text-3xl lg:text-4xl">
-				A simple way to track <br /> your personal finance
-			</h3>
-
-			<p class="font-lexend mt-5 max-w-[450px] text-sm font-light lg:text-base">
-				Laniva provides a simple interface to log and track your transactions, set budgeting limits
-				and cycles. Get a clear visualization of where your money is going to and who is spending
-				it.
-			</p>
-		</div>
-	</div>
-
-	<div class="w-full lg:w-1/2">
+<div
+	class="font-lexend mx-auto flex max-w-[500px] flex-col-reverse items-center gap-8 lg:max-w-full lg:flex-row lg:gap-14"
+>
+	<div class="mt-10 w-full lg:mb-0 lg:w-1/2">
 		<div
-			class="feature_img_wrapper mx-auto h-[350px] w-full md:h-[500px] md:max-w-4xl lg:h-[550px]"
+			class="feature_img_wrapper mx-auto h-[300px] w-full md:h-[500px] md:max-w-4xl lg:h-[550px]"
 		>
 			<div class="feature_img_inner bg-brand-light h-full overflow-hidden rounded-3xl border-2 p-4">
 				<Image
@@ -27,13 +16,26 @@
 					alt={'Expense tracker dashboard showing transactions'}
 				/>
 			</div>
+		</div>
+	</div>
 
-			<div class="absolute -bottom-6 -left-3 z-50 lg:-left-40">
-				<div
-					class="bg-brand-light max-w-[270px] overflow-hidden rounded-lg border-2 p-1.5 shadow-xl md:max-w-[400px]"
-				>
-					<Image src="/images/balance_strip.jpg" className="w-full h-full object-cover" />
-				</div>
+	<div class="w-full lg:w-1/2">
+		<div>
+			<h3
+				class="font-crete text-center text-2xl font-semibold md:text-3xl lg:text-right lg:text-4xl"
+			>
+				A simple way to track <br /> your personal finance
+			</h3>
+			<p class="font-lexend mt-6 text-center text-sm font-light lg:text-right lg:text-base">
+				Laniva provides a simple interface to log and track your transactions, set budgeting limits
+				and cycles. Get a clear visualization of where your money is going to and who is spending
+				it.
+			</p>
+
+			<div class="mt-7 flex justify-center lg:justify-end">
+				<a href="/signup">
+					<BasicButton label="Start For Free" />
+				</a>
 			</div>
 		</div>
 	</div>
