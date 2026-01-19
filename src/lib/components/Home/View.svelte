@@ -7,7 +7,7 @@
 	// import Why from './Why.svelte';
 </script>
 
-<div class="overflow-x-hidden pb-40">
+<div class="overflow-x-hidden">
 	<Navbar />
 	<Hero />
 	<Features />

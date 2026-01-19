@@ -184,13 +184,12 @@ export const plansList = [
 		interval: '',
 		discount: '',
 		offerings: [
-			'Unlimited habit tracker with analytics',
 			'Expense tracker with charts and insights',
-			// 'Mood board',
-			'Shopping list tracker',
-			'Recipe manager',
+			'Shopping lists with real-time collaboration',
+			'Recipe manager with ingredient scaling',
+			'Meal planner with recipe linking',
 			'Shared recipes and shopping lists',
-			'Meal planner'
+			'Unlimited habit tracker with analytics',
 		],
 		isFree: true
 	}
