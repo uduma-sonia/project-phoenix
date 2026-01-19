@@ -63,7 +63,7 @@
 	onClose={closeAddToListModal}
 	label={showCreateList ? 'Create list' : `Add to list`}
 	maxWidth="max-w-[400px]"
-	helperText={showCreateList ? '' : 'Select board to add this list to'}
+	helperText={showCreateList ? '' : 'Select the shopping list the selected items to'}
 >
 	<div class="p-4">
 		{#if showCreateList}

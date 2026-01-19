@@ -15,17 +15,21 @@
 <div class="mx-auto max-w-7xl px-4">
 	<div class="grid grid-cols-1 gap-4 lg:h-[700px] lg:grid-cols-2">
 		<div class="flex h-[400px] items-center lg:h-full">
-			<div>
-				<h1 class="font-lexend text-4xl font-bold sm:text-5xl lg:text-[60px]">
+			<div class="w-full">
+				<h1
+					class="font-crete text-center text-4xl font-bold sm:text-5xl lg:text-left lg:text-[60px]"
+				>
 					All-in-one <br /> life organizer
 				</h1>
 
-				<p class="font-lexend my-6 max-w-lg text-sm font-light md:my-8 md:text-base">
+				<p
+					class="font-lexend mx-auto my-6 max-w-lg text-center text-sm font-light md:my-8 md:text-base lg:mx-0 lg:text-left"
+				>
 					Laniva is a small ecosystem of connected tools that helps personal productivity and
-					organization with a simple workspace without feeling like work software
+					organization with a simple workspace without feeling like work software.
 				</p>
 
-				<div class="w-fit">
+				<div class="mx-auto w-fit lg:mx-0">
 					<a href="/signup">
 						<BasicButton label="Start for free" />
 					</a>

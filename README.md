@@ -10,3 +10,4 @@
 - change the handleclickoutside method
 - generate public shopping list link
 - dynamic percentage limit for budgets
+- generate shopping list from meal planner
