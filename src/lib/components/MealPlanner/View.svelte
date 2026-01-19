@@ -99,8 +99,6 @@
 <Seo title={seoTitle} />
 
 <div class="pb-24">
-	<!-- <p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">Keep track of your meals</p> -->
-
 	<p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">
 		What are you eating this {Helpers.getTimeOfDay()}?
 	</p>

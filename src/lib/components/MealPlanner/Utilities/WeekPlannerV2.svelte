@@ -3,7 +3,7 @@
 	import MealsUtils from './utils';
 	import WeekScroller from './WeekScroller.svelte';
 	import { MealRequest } from '$lib/requests';
-	import { eachDayOfInterval, endOfWeek, startOfWeek } from 'date-fns';
+	import { eachDayOfInterval, endOfWeek, format, startOfWeek } from 'date-fns';
 	import type { Meal } from '../../../../types/meal';
 	import { addToast } from '$lib/store/toast';
 	import fetchMealsList from '$lib/hooks/fetchMealsList';
@@ -62,11 +62,18 @@
 	};
 </script>
 
-{#snippet dayOfWeek(title: string)}
+{#snippet dayOfWeek(title: string, sub: string)}
 	<div
 		class="font-lexend flex h-10 w-[150px] min-w-[150px] items-center justify-center border border-t-0 border-r-0 bg-[#cfc4e7] px-4 text-center text-sm font-normal"
 	>
-		{title}
+		<div class="flex flex-col">
+			<span>
+				{title}
+			</span>
+			<span class="text-13 font-light">
+				{sub}
+			</span>
+		</div>
 	</div>
 {/snippet}
 
@@ -97,13 +104,9 @@
 					class="meal_items_container grid h-full grid-cols-7 overflow-x-auto border"
 					style="grid-template-columns: repeat(7, minmax(150px, 1fr));"
 				>
-					{@render dayOfWeek('Sun')}
-					{@render dayOfWeek('Mon')}
-					{@render dayOfWeek('Tue')}
-					{@render dayOfWeek('Wed')}
-					{@render dayOfWeek('Thu')}
-					{@render dayOfWeek('Fri')}
-					{@render dayOfWeek('Sat')}
+					{#each weekDates as item, index (index)}
+						{@render dayOfWeek(format(new Date(item), 'iii'), format(new Date(item), 'dd'))}
+					{/each}
 
 					{#each MealsUtils.mapMealsToWeek(weekDates) as meal, index (index)}
 						{@const mealData = MealsUtils.getMeal(meal, mealsList)}

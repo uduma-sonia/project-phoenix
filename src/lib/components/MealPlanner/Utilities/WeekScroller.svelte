@@ -27,13 +27,13 @@
 		<div>
 			<div class="flex items-center gap-3 text-sm md:text-base">
 				<p class="font-lexend font-light">
-					{format(startOfWeek(currentWeek), 'P')}
+					{format(startOfWeek(currentWeek), 'PP')}
 				</p>
 
 				<p>-</p>
 
 				<p class="font-lexend font-light">
-					{format(endOfWeek(currentWeek), 'P')}
+					{format(endOfWeek(currentWeek), 'PP')}
 				</p>
 			</div>
 
