@@ -58,7 +58,7 @@
 	</div>
 
 	<div class="mt-20">
-		<div class="mx-auto flex w-fit justify-center gap-4 md:pl-32">
+		<div class="mx-auto flex w-fit justify-center gap-4 pl-8 md:pl-32">
 			{@render pill('Budget')}
 			{@render pill('Meals', 'meal_pill')}
 			{@render pill('Shopping', 'grocery_pill')}

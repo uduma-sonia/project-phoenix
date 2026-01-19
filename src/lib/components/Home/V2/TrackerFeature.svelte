@@ -10,7 +10,7 @@
 	];
 </script>
 
-<div class="pt-20 lg:pt-40">
+<div class="mx-auto max-w-[500px] pt-20 lg:max-w-full lg:pt-40">
 	<div class="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-14">
 		<div class="">
 			<h3 class="font-crete text-left text-2xl font-semibold md:text-3xl lg:text-4xl">

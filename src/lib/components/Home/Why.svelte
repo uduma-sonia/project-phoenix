@@ -2,50 +2,34 @@
 	import MoreItem from './MoreItem.svelte';
 </script>
 
-<div class="mx-auto max-w-7xl px-4 pt-36 pb-[20px] md:pt-[200px] lg:pb-[100px]">
-	<div class="mb-10 text-center md:mb-40" id="features">
-		<!-- <h2 class="font-crete feature_heading text-center font-bold tracking-tight">
-			Simple Organization.
-			<br /> <span>Easy Living</span>
-		</h2> -->
-
+<div class="mx-auto max-w-[500px] pt-20 lg:max-w-full lg:pt-40">
+	<div class="mb-12 text-center" id="features">
 		<h3 class="font-crete text-2xl font-semibold md:text-3xl lg:text-4xl">
-			Simple Organization.
-			<br /> <span>Easy Living</span>
+			Get started in seconds, access from anywhere
 		</h3>
-		<!-- 
-		<p class="font-lexend mx-auto mt-4 max-w-[600px] font-light">
-			<b class="font-semibold">Laniva</b> keeps you on track without feeling like work software.
-		</p> -->
 	</div>
 
-	<div class="grid grid-cols-1 gap-10 lg:grid-cols-3">
+	<div class="grid grid-cols-1 gap-6 md:gap-10 lg:grid-cols-3">
 		<div>
 			<MoreItem
 				subtitle="EASY TO START"
-				title="Quick signup, instant start"
+				title="Quick signup, instant access"
 				imgSrc="/images/undraw_authentication.svg"
 			/>
 		</div>
 		<div>
 			<MoreItem
 				subtitle="EASY INSTALLATION"
-				title="Skip the app store entirely"
+				title="Skip the app store, install in seconds"
 				imgSrc="/images/undraw_app-installation.svg"
 			/>
 		</div>
 		<div>
 			<MoreItem
 				subtitle="EASY ACCESS"
-				title="Access anywhere on any device"
+				title="Access from any device, anywhere"
 				imgSrc="/images/undraw_in-sync.svg"
 			/>
 		</div>
 	</div>
 </div>
-
-<style>
-	.feature_heading {
-		font-size: clamp(1.8rem, 1.8vw + 1rem, 3rem);
-	}
-</style>
