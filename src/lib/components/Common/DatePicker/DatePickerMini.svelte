@@ -102,7 +102,7 @@
 	}
 
 	.date-picker-header p {
-		font-size: 14px;
+		font-size: 16px;
 		font-weight: 500;
 	}
 

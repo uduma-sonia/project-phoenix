@@ -53,7 +53,7 @@
 	{/if}
 	{#if currentView === 'income'}
 		<CategoryChart
-			chartData={chartData?.incomeGroupLineData}
+			chartData={chartData?.expenseGroupLineData}
 			title="Income by Category"
 			description="Shows where your money comes from and how much each source contributes"
 		/>

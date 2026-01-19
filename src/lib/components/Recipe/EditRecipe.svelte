@@ -337,7 +337,6 @@
 
 	async function handleImageUpload() {
 		const files = [imageOneEl?.files[0], imageTwoEl?.files[0], imageThreeEl?.files[0]];
-		isSubmitting = true;
 
 		try {
 			const results = await Promise.all(
@@ -366,8 +365,6 @@
 		} catch (error) {
 			console.error(error);
 			addToast('Image upload failed', 'error');
-		} finally {
-			isSubmitting = false;
 		}
 	}
 

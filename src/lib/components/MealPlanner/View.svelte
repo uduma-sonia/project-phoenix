@@ -10,7 +10,6 @@
 	import WeekPlannerV2 from './Utilities/WeekPlannerV2.svelte';
 	import AddMeal from '../Modals/AddMeal.svelte';
 	import { addToast } from '$lib/store/toast';
-	import Helpers from '$lib/utils/helpers';
 
 	let mealPlansQuery = createQuery({
 		queryKey: queryKeys.getMealPlans,
@@ -99,11 +98,7 @@
 <Seo title={seoTitle} />
 
 <div class="pb-24">
-	<!-- <p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">Keep track of your meals</p> -->
-
-	<p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">
-		What are you eating this {Helpers.getTimeOfDay()}?
-	</p>
+	<p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">Keep track of your meals</p>
 
 	<WeekPlannerV2 {moreOptions} {mealsOptions} {currentWeek} {selectedPlan} />
 </div>

@@ -10,6 +10,7 @@
 	import useCurrentUser from '$lib/hooks/useCurrentUser';
 	import EmptyState from '../Common/EmptyState.svelte';
 	import { onMount } from 'svelte';
+	import Helpers from '$lib/utils/helpers';
 
 	let searchQuery = $state('');
 	let currentTab = $state('All');
@@ -43,13 +44,21 @@
 
 <div class="pb-24">
 	<p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">
-		Manage and organize your recipes
+		What are you eating this {Helpers.getTimeOfDay()}?
 	</p>
 
 	<GroupScroller {handleChangeTab} {currentTab} />
 
 	<div class="relative z-30 mt-5 flex items-center justify-between gap-3 px-3">
 		<HabitSearch bind:searchQuery placeholder="Search recipe" />
+
+		<div>
+			<a href="/meal-planner">
+				<button class="shadow_button shadow_button_thin shadow_button_with_icon">
+					Meal planner
+				</button>
+			</a>
+		</div>
 	</div>
 
 	<LoaderError {isLoading} error={isError} />
