@@ -5,12 +5,12 @@
 
 <div class="mx-auto max-w-7xl px-4 pt-36 md:pt-40">
 	<div class="mb-20 text-center" id="pricing">
-		<h2 class="font-lexend feature_heading mb-5 text-center text-7xl font-bold tracking-tight">
+		<h3 class="font-crete text-2xl font-semibold md:text-3xl lg:text-4xl">
 			Simple, affordable pricing
-		</h2>
+		</h3>
 
 		<p class="font-lexend mx-auto mt-4 max-w-[600px] font-light">
-			No credit card required, no commitments.
+			<span class="">No</span> credit card required, no commitments.
 		</p>
 	</div>
 
@@ -28,9 +28,3 @@
 		</a>
 	</div>
 </div>
-
-<style>
-	.feature_heading {
-		font-size: clamp(1.8rem, 1.8vw + 1rem, 3rem);
-	}
-</style>

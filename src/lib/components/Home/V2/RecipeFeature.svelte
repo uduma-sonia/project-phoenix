@@ -17,21 +17,21 @@
 	<div class="grid grid-cols-1 gap-10 lg:grid-cols-3 lg:gap-14">
 		<div>
 			<RecipeIllustrationCard
-				title="<span class='text-[#db7760] underline underline-offset-3'>Create</span> your recipe"
+				title="<span class='text-[#db7760]'>Create</span> your recipe"
 				subtitle="Start by saving your favorite recipes with ingredients and instructions"
 				imgSrc="/images/undraw_authentication.svg"
 			/>
 		</div>
-		<div class="lg:pt-6">
+		<div class="lg:pt-8">
 			<RecipeIllustrationCard
-				title="<span class='text-[#1eb564] underline underline-offset-3'>Plan</span> your meals ahead"
+				title="<span class='text-[#1eb564]'>Plan</span> your meals ahead"
 				subtitle="Then organize your weekly meal plan and schedule what to cook"
 				imgSrc="/images/undraw_authentication.svg"
 			/>
 		</div>
-		<div class="lg:pt-12">
+		<div class="lg:pt-16">
 			<RecipeIllustrationCard
-				title="Link recipes and <span class='text-[#0A97B0] underline underline-offset-3'>generate</span> shopping lists"
+				title="Link recipes and <span class='text-[#0A97B0]'>generate</span> shopping lists"
 				subtitle="Finally, link recipes to meals and generate your shopping list"
 				imgSrc="/images/undraw_authentication.svg"
 			/>
