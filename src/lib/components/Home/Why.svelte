@@ -3,15 +3,20 @@
 </script>
 
 <div class="mx-auto max-w-7xl px-4 pt-36 pb-[20px] md:pt-[200px] lg:pb-[100px]">
-	<div class="mb-14 text-center md:mb-40" id="features">
-		<h2 class="font-lexend feature_heading mb-5 text-center font-bold tracking-tight">
+	<div class="mb-10 text-center md:mb-40" id="features">
+		<!-- <h2 class="font-crete feature_heading text-center font-bold tracking-tight">
 			Simple Organization.
 			<br /> <span>Easy Living</span>
-		</h2>
+		</h2> -->
 
+		<h3 class="font-crete text-2xl font-semibold md:text-3xl lg:text-4xl">
+			Simple Organization.
+			<br /> <span>Easy Living</span>
+		</h3>
+		<!-- 
 		<p class="font-lexend mx-auto mt-4 max-w-[600px] font-light">
 			<b class="font-semibold">Laniva</b> keeps you on track without feeling like work software.
-		</p>
+		</p> -->
 	</div>
 
 	<div class="grid grid-cols-1 gap-10 lg:grid-cols-3">
