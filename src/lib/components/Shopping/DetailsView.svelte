@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Check, List, Plus, SquarePen, Trash } from '@lucide/svelte';
+	import { Check, Copy, List, Plus, SquarePen, Trash } from '@lucide/svelte';
 	import ListItem from './Utilities/ListItem.svelte';
 	import Search from './Utilities/Search.svelte';
 	import InviteModal from './InviteModal.svelte';
@@ -164,11 +164,20 @@
 		}
 	}
 
+	function copyLink() {
+		Helpers.copyToClipboard(`${window.location.origin}/open/shopping/${boardId}`, 'Link copied');
+	}
+
 	const moreOptions = $derived([
 		{
 			label: 'Edit',
 			icon: SquarePen,
 			link: `/shopping/${boardDetails?._id}/edit`
+		},
+		{
+			label: 'Copy public link',
+			icon: Copy,
+			action: copyLink
 		},
 		{
 			label: 'Standard list',

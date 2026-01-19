@@ -34,6 +34,7 @@ const shoppingKeys = {
 	],
 	getStandardItems: [`/shopping-items/standard`],
 	getBoard: (boardId: string) => [`/shopping-board/${boardId}`],
+	getOpenBoard: (boardId: string) => [`/shopping-board/open/${boardId}`],
 	getBoardMembers: (boardId: string) => [`/shopping-member/${boardId}`]
 };
 

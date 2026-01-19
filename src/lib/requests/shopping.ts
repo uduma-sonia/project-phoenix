@@ -33,6 +33,10 @@ class ShoppingService {
 		return await this.api.get(`${this.boardPrefix}/${boardId}`, { ...reqConfig });
 	}
 
+	async getOpenBoard(boardId: string, reqConfig?: ReqConfig) {
+		return await this.api.get(`${this.boardPrefix}/open/${boardId}`, { ...reqConfig });
+	}
+
 	async shoppingDone(boardId: string, reqConfig?: ReqConfig) {
 		return await this.api.put(`${this.boardPrefix}/done/${boardId}`, { ...reqConfig });
 	}
