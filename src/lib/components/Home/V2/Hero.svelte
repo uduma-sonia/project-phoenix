@@ -40,7 +40,11 @@
 
 		<div class="flex items-center justify-center">
 			<div class="relative h-[400px] w-full max-w-[550px] lg:h-[600px] lg:w-[85%]">
-				<Image src="/images/recipe-ss-iphone15.png" className="h-full mx-auto" />
+				<Image
+					src="/images/recipe-ss-iphone15.png"
+					className="h-full mx-auto"
+					fetchpriority="high"
+				/>
 
 				<div class="absolute top-[70%] right-0 z-50 hidden -translate-y-1/2 lg:block">
 					<div
@@ -49,14 +53,6 @@
 						<Image src="/images/standard_list.jpg" className="w-full h-full object-cover" />
 					</div>
 				</div>
-
-				<!-- <div class="absolute -bottom-[100px] left-1/2 z-50 -translate-x-1/2 lg:hidden">
-					<div
-						class="aspect-square w-[150px] overflow-hidden rounded-2xl border-2 bg-white p-1.5 shadow-xl md:w-[200px]"
-					>
-						<Image src="/images/standard_list.jpg" className="w-full h-full object-cover" />
-					</div>
-				</div> -->
 			</div>
 		</div>
 	</div>
@@ -65,7 +61,7 @@
 		<div class="mx-auto flex w-fit justify-center gap-4 md:pl-32">
 			{@render pill('Budget')}
 			{@render pill('Meals', 'meal_pill')}
-			{@render pill('Groceries', 'grocery_pill')}
+			{@render pill('Shopping', 'grocery_pill')}
 			{@render pill('Recipe', 'recipe_pill')}
 			{@render pill('Habit', 'habit_pill')}
 		</div>

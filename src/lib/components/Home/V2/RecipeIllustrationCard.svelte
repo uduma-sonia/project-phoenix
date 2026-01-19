@@ -6,11 +6,11 @@
 	<div class="retro_wrapper retro_wrapper_uwd">
 		<div class="retro_wrapper_inner flex flex-col justify-between gap-2 p-4">
 			<div>
-				<p class="font-lexend mb-5 text-left text-xl font-normal">
+				<p class="font-lexend mb-4 text-left text-xl font-normal">
 					{@html title}
 				</p>
 
-				<p class="font-lexend text-left text-sm font-light">{subtitle}</p>
+				<p class="font-lexend text-left text-sm font-light">{@html subtitle}</p>
 			</div>
 
 			<!-- <div class="flex flex-1 items-center justify-center">

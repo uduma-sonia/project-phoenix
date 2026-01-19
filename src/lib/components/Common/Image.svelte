@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	let {
-		src,
-		className,
-		alt = '',
-		fadeIn = true
-	}: { src: string; className?: string; alt?: string; fadeIn?: boolean } = $props();
+	type Props = {
+		src: string;
+		className?: string;
+		alt?: string;
+		fadeIn?: boolean;
+		fetchpriority?: 'high' | 'low' | 'auto';
+	};
+
+	let { src, className, alt = '', fadeIn = true, fetchpriority }: Props = $props();
 
 	let hasLoaded = $state(false);
 	let hasError = $state(false);
@@ -26,7 +29,14 @@
 </script>
 
 {#if hasLoaded}
-	<img {src} {alt} class={className} class:fade_in={fadeIn} class:opacity_0={fadeIn} />
+	<img
+		{fetchpriority}
+		{src}
+		{alt}
+		class={className}
+		class:fade_in={fadeIn}
+		class:opacity_0={fadeIn}
+	/>
 {/if}
 
 {#if !hasLoaded && hasError}

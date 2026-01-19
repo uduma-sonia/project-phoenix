@@ -13,7 +13,7 @@
 		<div class="mx-auto mt-12 mb-8 w-[160px]">
 			<a href="/signup">
 				<button class="shadow_button shadow_button_thi shadow_button_sm" type="button">
-					Start for free
+					Start For Free
 				</button>
 			</a>
 		</div>
