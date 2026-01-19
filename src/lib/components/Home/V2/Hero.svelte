@@ -21,12 +21,14 @@
 				</h1>
 
 				<p class="font-lexend my-6 max-w-lg text-sm font-light md:my-8 md:text-base">
-					Laniva is a small ecosystem of tools that helps personal productivity and organization
-					with a simple workspace without feeling like work software
+					Laniva is a small ecosystem of connected tools that helps personal productivity and
+					organization with a simple workspace without feeling like work software
 				</p>
 
 				<div class="w-fit">
-					<BasicButton label="Start for free" />
+					<a href="/signup">
+						<BasicButton label="Start for free" />
+					</a>
 				</div>
 			</div>
 		</div>

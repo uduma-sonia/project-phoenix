@@ -171,11 +171,11 @@ class ExpenseUtils {
 
 	static budgetText(percentage: number) {
 		if (percentage > 70 && percentage < 100) {
-			return 'You are almost over the budget limit';
+			return 'Over budget limit';
 		} else if (percentage > 100) {
-			return `You are over the budget limit - ${percentage}%`;
+			return `Over budget limit`;
 		} else {
-			return 'You are on track';
+			return 'On track';
 		}
 	}
 }

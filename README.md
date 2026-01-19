@@ -8,3 +8,5 @@
 - add button to remove image when creating or editing recipe
 - import last week meals
 - change the handleclickoutside method
+- generate public shopping list link
+- dynamic percentage limit for budgets
