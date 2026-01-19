@@ -13,7 +13,6 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import { budgetCycles } from '$lib/constants/transaction';
-	import { add } from 'date-fns';
 
 	const queryClient = useQueryClient();
 	let isLoading = $state(false);
@@ -41,15 +40,22 @@
 	let selectedCycle = $derived({ id: user?.budgetCycle, value: user?.budgetCycle });
 	let isBudgetMode = $derived(user?.isBudgetMode);
 	let budgetAmount = $derived(user?.budgetAmount);
+	let budgetAlertThreshold = $derived(user?.budgetAlertThreshold || 70);
 
 	async function onSubmit() {
-		if (!budgetAmount) {
-			addToast('Add a budget amount first', 'error');
-			return;
-		}
-		if (!selectedCycle?.id) {
-			addToast('Select a  cycle', 'error');
-			return;
+		if (isBudgetMode) {
+			if (!budgetAmount) {
+				addToast('Budget amount required', 'error');
+				return;
+			}
+			if (!budgetAmount) {
+				addToast('Alert threshold required', 'error');
+				return;
+			}
+			if (!selectedCycle?.id) {
+				addToast('Select a  cycle', 'error');
+				return;
+			}
 		}
 		try {
 			isLoading = true;
@@ -58,7 +64,8 @@
 				isBudgetMode,
 				currency: selectedCurrency.id,
 				budgetAmount: Number(budgetAmount),
-				budgetCycle: selectedCycle?.id
+				budgetCycle: selectedCycle?.id,
+				budgetAlertThreshold: Number(budgetAlertThreshold)
 			});
 
 			if (result) {
@@ -125,6 +132,14 @@
 						id="amount"
 						name="amount"
 						required={isBudgetMode}
+						inputMode="numeric"
+					/>
+					<BasicInputField
+						label="Alert threshold percentage"
+						bind:value={budgetAlertThreshold}
+						type="number"
+						id="amount"
+						name="amount"
 						inputMode="numeric"
 					/>
 				</div>

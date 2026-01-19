@@ -4,7 +4,7 @@
 	import { openAddBudgetModal } from '$lib/state/modal.svelte';
 	import { CircleCheck, TriangleAlert } from '@lucide/svelte';
 
-	let { item, getCurrency, transactionCategoriesList } = $props();
+	let { item, getCurrency, transactionCategoriesList, budgetAlertThreshold } = $props();
 
 	let budgetInfo = $derived(
 		ExpenseUtils.getCategoryBudgetInfo(transactionCategoriesList, item?.categoryId)
@@ -21,12 +21,12 @@
 				<div>
 					<p
 						class="font-lexend text-10 flex items-center gap-1 font-light"
-						class:text-brand-error={usedPercentage > 70}
-						class:text-brand-green={usedPercentage < 70}
+						class:text-brand-error={usedPercentage > budgetAlertThreshold}
+						class:text-brand-green={usedPercentage < budgetAlertThreshold}
 					>
-						{ExpenseUtils.budgetText(usedPercentage)}
+						{ExpenseUtils.budgetText(usedPercentage, budgetAlertThreshold)}
 
-						{#if usedPercentage > 70}
+						{#if usedPercentage > budgetAlertThreshold}
 							<TriangleAlert size="14px" />
 						{:else}
 							<CircleCheck size="14px" />
@@ -40,8 +40,8 @@
 					<div
 						class="absolute top-0 z-20 h-full rounded-2xl"
 						style="width: {usedPercentage}%;"
-						class:green_jdc={usedPercentage <= 70}
-						class:red_kjd={usedPercentage > 70}
+						class:green_jdc={usedPercentage <= budgetAlertThreshold}
+						class:red_kjd={usedPercentage > budgetAlertThreshold}
 					></div>
 
 					<div

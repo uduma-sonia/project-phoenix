@@ -9,6 +9,9 @@
 	import fetchBoardMembers from '$lib/hooks/fetchBoardMembers';
 	import fetchUsersByEmail from '$lib/hooks/fetchUsersByEmail';
 	import { Permissions } from '../../../types/shopping';
+	import { Copy } from '@lucide/svelte';
+	import TextButton from '../Common/Form/TextButton.svelte';
+	import Helpers from '$lib/utils/helpers';
 
 	let { onClose, isOpen, user, _permission, ownerDetails } = $props();
 	const queryClient = useQueryClient();
@@ -74,17 +77,21 @@
 			addToast(error?.message || 'An error occured', 'error');
 		}
 	}
+
+	function copyLink() {
+		Helpers.copyToClipboard(`${window.location.origin}/open/shopping/${boardId}`, 'Link copied');
+	}
 </script>
 
 <ModalWrapper
 	{onClose}
 	{isOpen}
 	label="Members"
-	helperText="Only users that have an account will show on the list"
+	helperText="Invite others to collaborate on this list with you. Only users that have an account wil appear"
 >
 	<div class="p-4">
 		{#if _permission === Permissions.OWNER || _permission === Permissions.CAN_EDIT}
-			<div class="mb-8 flex items-center gap-3">
+			<div class="mb-5 flex items-center gap-3">
 				<div class="flex-1">
 					<input
 						bind:value={email}
@@ -99,6 +106,9 @@
 				<div class="w-fit">
 					<button class="shadow_button shadow_button_thin" onclick={inviteMember}> Invite </button>
 				</div>
+			</div>
+			<div class="mb-5">
+				<TextButton className="share_link" label="Copy public link" action={copyLink} />
 			</div>
 		{/if}
 
@@ -122,3 +132,9 @@
 		</div>
 	</div>
 </ModalWrapper>
+
+<style>
+	:global(.share_link) {
+		font-size: 14px;
+	}
+</style>

@@ -18,6 +18,7 @@ export interface UpdateUser {
 	isBudgetMode?: boolean;
 	budgetAmount?: number;
 	budgetCycle?: BudgetCycle;
+	budgetAlertThreshold?: number;
 }
 
 export interface User {

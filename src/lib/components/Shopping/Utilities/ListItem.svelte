@@ -2,7 +2,16 @@
 	import { Check, Pencil } from '@lucide/svelte';
 	import EditItem from './EditItem.svelte';
 
-	let { data, handleUpdateItem, price, canEditId, handleEdit, handleUpdate, canEdit } = $props();
+	let {
+		data,
+		handleUpdateItem,
+		price,
+		canEditId,
+		handleEdit,
+		handleUpdate,
+		canEdit,
+		isOpenLink = false
+	} = $props();
 
 	let qty = $derived(data?.quantity > 0 ? data?.quantity : '');
 
@@ -12,9 +21,7 @@
 		}
 	}
 	function checkItem() {
-		if (canEdit) {
-			handleUpdateItem(data?._id, !data?.done);
-		}
+		handleUpdateItem(data?._id, !data?.done);
 	}
 </script>
 
@@ -24,9 +31,11 @@
 			<EditItem {data} {handleEdit} {handleUpdate} />
 		{:else}
 			<div class="relative flex items-center gap-4">
-				<div class="edit_icon absolute top-2 right-2 lg:hidden">
-					<Pencil size="14px" />
-				</div>
+				{#if canEdit}
+					<div class="edit_icon absolute top-2 right-2 lg:hidden">
+						<Pencil size="14px" />
+					</div>
+				{/if}
 
 				<div class="pl-3">
 					<button

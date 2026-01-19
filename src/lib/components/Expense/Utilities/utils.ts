@@ -142,14 +142,15 @@ class ExpenseUtils {
 	static showBudgetWarning(
 		budgetPercentage: number,
 		budgetCycle: BudgetCycle,
-		currentMonth: string | number | Date
+		currentMonth: string | number | Date,
+		budgetAlertThreshold: number
 	) {
 		const _isSameMonth = isSameMonth(formatISO(new Date()), currentMonth);
 		const _isSameWeek = isSameWeek(formatISO(new Date()), currentMonth);
 		const _isSameQuarter = isSameQuarter(formatISO(new Date()), currentMonth);
 		const _isSameYear = isSameYear(formatISO(new Date()), currentMonth);
 
-		if (budgetPercentage > 70) {
+		if (budgetPercentage > budgetAlertThreshold) {
 			if (budgetCycle === BudgetCycle.WEEKLY) {
 				return _isSameWeek;
 			} else if (budgetCycle === BudgetCycle.QUARTERLY) {
@@ -169,8 +170,8 @@ class ExpenseUtils {
 		return getBudgetInfo;
 	}
 
-	static budgetText(percentage: number) {
-		if (percentage > 70 && percentage < 100) {
+	static budgetText(percentage: number, budgetAlertThreshold: number) {
+		if (percentage > budgetAlertThreshold && percentage < 100) {
 			return 'Over budget limit';
 		} else if (percentage > 100) {
 			return `Over budget limit`;

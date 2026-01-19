@@ -3,7 +3,7 @@
 	import { TriangleAlert } from '@lucide/svelte';
 	import { BudgetCycle } from '../../../../types/transaction';
 
-	let { budgetPercentage, userBudget, goalPeriod } = $props();
+	let { budgetPercentage, userBudget, goalPeriod, budgetAlertThreshold } = $props();
 
 	const getTextFromPeriod = () => {
 		if (goalPeriod === BudgetCycle.MONTHLY) {
@@ -20,7 +20,7 @@
 		}
 	};
 	const getPrefixText = () => {
-		if (budgetPercentage > 70 && budgetPercentage < 100) {
+		if (budgetPercentage > budgetAlertThreshold && budgetPercentage < 100) {
 			return "You're approaching your main budget limit for";
 		} else {
 			return 'You have passed your main budget limit for';
