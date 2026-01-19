@@ -41,6 +41,7 @@
 
 	let userQuery = useCurrentUser();
 	let user = $derived($userQuery?.data?.data?.user);
+	let budgetAlertThreshold = $derived(user?.budgetAlertThreshold);
 
 	let currentMonth = $state(new Date());
 	let { start, end } = $derived(
@@ -115,7 +116,12 @@
 
 	let showBudgetWarning = $derived(
 		user?.isBudgetMode &&
-			ExpenseUtils.showBudgetWarning(budgetPercentage, user?.budgetCycle, currentMonth)
+			ExpenseUtils.showBudgetWarning(
+				budgetPercentage,
+				user?.budgetCycle,
+				currentMonth,
+				budgetAlertThreshold
+			)
 	);
 
 	let getCurrency: any = $derived(
@@ -131,6 +137,7 @@
 	{#if showBudgetWarning}
 		<div class="hidde md:bloc">
 			<BudgetWarning
+				{budgetAlertThreshold}
 				{budgetPercentage}
 				userBudget={Helpers.currencyFormatter({
 					currency: getCurrency?.details?.code,
@@ -220,7 +227,12 @@
 
 	<AnalyticsSection chartData={txnAnalytics} />
 	{#if user?.isBudgetMode}
-		<CategoryBreakdown {getCurrency} {breakdownList} {transactionCategoriesList} />
+		<CategoryBreakdown
+			{budgetAlertThreshold}
+			{getCurrency}
+			{breakdownList}
+			{transactionCategoriesList}
+		/>
 	{/if}
 </div>
 
