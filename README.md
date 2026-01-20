@@ -9,6 +9,6 @@
 - import last week meals
 - change the handleclickoutside method
 - generate public shopping list link
-- dynamic percentage limit for budgets
 - generate shopping list from meal planner
 - Add tooltips
+- allow users set their beginning of the week

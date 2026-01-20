@@ -1,8 +1,11 @@
 <script lang="ts">
 	import { Heart } from '@lucide/svelte';
 	import type { RecipeResponse } from '../../../../types/recipe';
+	import Image from '$lib/components/Common/Image.svelte';
 
 	let { recipe }: { recipe: RecipeResponse } = $props();
+
+	let recipeImage = $derived(recipe?.images ? recipe?.images[0] : '');
 </script>
 
 <a
@@ -15,10 +18,25 @@
 
 	<div class="card_wrapper bg-brand-recipe rounded-lg rounded-tl-none">
 		<div
-			class="bg-brand-recipe relative z-10 h-32 w-full max-w-[350px] rounded-lg rounded-tl-none border-2"
+			class="bg-brand-recipe relative z-10 h-[220px] w-full max-w-[350px] rounded-lg rounded-tl-none border-2"
 		>
-			<div class="flex h-full items-center p-3">
-				<p class="font-lexend font-light">{recipe?.name}</p>
+			{#if recipeImage}
+				<div class="h-[160px] overflow-hidden rounded-t-lg">
+					<Image src={recipeImage} className="h-full w-full object-cover" />
+				</div>
+			{/if}
+			{#if !recipeImage}
+				<div
+					class="text-10 flex h-[160px] items-center justify-center overflow-hidden rounded-t-lg"
+				>
+					<p>No image available</p>
+				</div>
+			{/if}
+
+			<div class="h-[60px] p-2">
+				<p class="font-lexend line-clamp-2 text-sm font-light">
+					{recipe?.name}
+				</p>
 			</div>
 		</div>
 	</div>

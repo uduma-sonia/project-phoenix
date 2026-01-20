@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { Sprout, ShoppingCart, ChefHat, Plane, WalletMinimal, Utensils } from '@lucide/svelte';
+	import { Sprout, ShoppingCart, ChefHat, WalletMinimal, Utensils } from '@lucide/svelte';
 
 	const routeLinks = [
 		{
@@ -16,10 +16,10 @@
 			icon: Utensils
 		},
 		{
-			label: 'Tracker',
-			route: '/tracker',
-			keyword: 'tracker',
-			icon: Sprout
+			label: 'Recipe',
+			route: '/recipe',
+			keyword: 'recipe',
+			icon: ChefHat
 		},
 		{
 			label: 'Shopping',
@@ -28,10 +28,10 @@
 			icon: ShoppingCart
 		},
 		{
-			label: 'Recipe',
-			route: '/recipe',
-			keyword: 'recipe',
-			icon: ChefHat
+			label: 'Tracker',
+			route: '/tracker',
+			keyword: 'tracker',
+			icon: Sprout
 		}
 	];
 </script>
