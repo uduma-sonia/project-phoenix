@@ -1,3 +1,23 @@
+# Laniva
+
+A small ecosystem of connected tools that combines expense tracking, shopping lists, meal planning, recipe management and habit tracking, into a single, simple workspace.
+
+## Features
+
+- **Expense Tracker** - Track income and expenses with visual charts and categorization
+- **Shopping Lists** - Create collaborative lists with real-time sync
+- **Meal Planner** - Plan meals ahead and link recipes
+- **Recipe Manager** - Organize recipes, scale ingredients, and generate shopping lists
+- **Habit Tracker** - Build streaks and visualize progress with minimal setup
+
+## Tech Stack
+
+- [SvelteKit](https://kit.svelte.dev/) - Web framework
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [Vite](https://vitejs.dev/) - Build tool
+- [Netlify](https://www.netlify.com/) - Deployment
+
 ## Backlogs
 
 - Cook mode
