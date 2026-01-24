@@ -283,7 +283,7 @@
 				yield: yieldValue,
 				difficulty: selectedDifficulty.id,
 				groups: $state.snapshot(selectedGroupList),
-				images: [imageOneUrl, imageTwoUrl, imageThreeUrl].filter((item) => item),
+				images: [imageOneUrl, imageTwoUrl].filter((item) => item),
 				isPrivate: isPrivate,
 				ingredients: $state.snapshot(filterIngredients(ingredients)),
 				directions: $state.snapshot(filterDirections(directions)),
@@ -550,7 +550,7 @@
 									</div>
 								</div>
 							</button>
-							<button
+							<!-- <button
 								class="relative h-[120px] w-full rounded-lg border"
 								type="button"
 								onclick={() => handleBrowseClick('#image_three')}
@@ -570,7 +570,7 @@
 										<Plus size="20px" />
 									</div>
 								</div>
-							</button>
+							</button> -->
 						</div>
 					</div>
 
