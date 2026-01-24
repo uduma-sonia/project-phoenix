@@ -32,3 +32,4 @@ A small ecosystem of connected tools that combines expense tracking, shopping li
 - generate shopping list from meal planner
 - Add tooltips
 - allow users set their beginning of the week
+- Add a section to copy a user's recipe profile
