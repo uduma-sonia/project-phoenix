@@ -45,7 +45,7 @@
 					} else {
 						install_banner_seen = false;
 					}
-				}, 2000);
+				}, 20000);
 			}
 		}
 	}
