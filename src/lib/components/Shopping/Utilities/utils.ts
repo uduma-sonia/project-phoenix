@@ -11,6 +11,27 @@ class ShoppingUtils {
 		// 	return new Date(b.updatedAt) - new Date(a.updatedAt);
 		// });
 	}
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	static filterShoppinglist(list: any[], currentTab: string) {
+		if (!list?.length) return [];
+
+		const result = list?.filter((item) => {
+			if (currentTab === 'All') {
+				return item;
+			} else if (currentTab === 'Owner') {
+				return item?.isOwner;
+			} else if (currentTab === 'Invited') {
+				return !item.isOwner;
+			} else if (currentTab === 'Done') {
+				return item.status === 'DONE';
+			} else {
+				return item;
+			}
+		});
+
+		return this.sortByDone(result);
+	}
 }
 
 export default ShoppingUtils;

@@ -5,12 +5,11 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { ShoppingRequest } from '$lib/requests';
-	import HabitSearch from '../Habit/Utilities/HabitSearch.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
 	import EmptyState from '../Common/EmptyState.svelte';
 	import { onMount } from 'svelte';
 	import ShoppingUtils from './Utilities/utils';
-	import { Plus } from '@lucide/svelte';
+	import GroupScroller from './Utilities/GroupScroller.svelte';
 
 	let searchQuery = $state('');
 
@@ -24,6 +23,12 @@
 			item.name.toUpperCase().includes(searchQuery?.toUpperCase())
 		)
 	);
+
+	let currentTab = $state('');
+
+	function handleChangeTab(tab: string) {
+		currentTab = tab;
+	}
 
 	let isLoading = $derived($boardsQuery?.isLoading);
 	let isError = $derived($boardsQuery?.isError);
@@ -43,27 +48,14 @@
 		Create a shopping list so you never forget the essentials
 	</p>
 
-	<div class="flex items-center justify-between gap-4 px-3">
-		<HabitSearch placeholder="Search list" bind:searchQuery />
-
-		<div>
-			<button
-				class="shadow_button_outline shadow_button_thin shadow_button_with_icon"
-				onclick={openModal}
-			>
-				<Plus size="20px" />
-
-				Standard list
-			</button>
-		</div>
-	</div>
+	<GroupScroller {openModal} {handleChangeTab} />
 
 	<LoaderError {isLoading} error={isError} />
 
 	{#if !isLoading && !isError}
 		{#if hasBoards}
 			<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-4">
-				{#each ShoppingUtils.sortByDone(boardsList) as board, index (index)}
+				{#each ShoppingUtils.filterShoppinglist(boardsList, currentTab) as board, index (index)}
 					<ShoppingCard {board} />
 				{/each}
 			</div>

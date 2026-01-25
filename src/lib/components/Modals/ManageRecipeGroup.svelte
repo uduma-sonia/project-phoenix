@@ -42,10 +42,13 @@
 		try {
 			isLoading = true;
 			const payload = {
-				name: groupName
+				name: name
 			};
 
 			await RecipeRequest.updateRecipGroup(id, payload);
+			queryClient.invalidateQueries({
+				queryKey: queryKeys.getRecipeGroups
+			});
 		} catch (error: any) {
 			addToast(error?.message || 'An error occured', 'error');
 		} finally {

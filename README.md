@@ -29,9 +29,6 @@ A small ecosystem of connected tools that combines expense tracking, shopping li
 - change the handleclickoutside method
 - generate public shopping list link
 - generate shopping list from meal planner
-- Add tooltips
 - allow users set their beginning of the week
-- Add a section to copy a user's recipe profile
-- add created date to recipe details
-- manage recipe category
 - upgrade button and input component to accept size and variants to work together efficiently
+- make shopping list name editable
