@@ -78,6 +78,10 @@
 			{#if helperText}
 				<span class="text-[10px] font-light"> - {helperText} </span>
 			{/if}
+
+			{#if required}
+				<span class="text-brand-error"> * </span>
+			{/if}
 		</label>
 	{/if}
 

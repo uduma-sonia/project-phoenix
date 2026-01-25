@@ -3,7 +3,7 @@
 	import MealsUtils from './utils';
 	import WeekScroller from './WeekScroller.svelte';
 	import { MealRequest } from '$lib/requests';
-	import { eachDayOfInterval, endOfWeek, format, startOfWeek } from 'date-fns';
+	import { eachDayOfInterval, endOfWeek, format, isSameDay, startOfWeek } from 'date-fns';
 	import type { Meal } from '../../../../types/meal';
 	import { addToast } from '$lib/store/toast';
 	import fetchMealsList from '$lib/hooks/fetchMealsList';
@@ -13,6 +13,7 @@
 	import { Play } from '@lucide/svelte';
 	import Dropdown from '$lib/components/Common/Form/Dropdown.svelte';
 	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
+	import { onMount } from 'svelte';
 
 	let { selectedPlan, currentWeek = $bindable(new Date()), mealsOptions, moreOptions } = $props();
 	const queryClient = useQueryClient();
@@ -60,13 +61,21 @@
 	const handleScrollRight = () => {
 		meal_items_container.scrollLeft += 300;
 	};
+
+	onMount(() => {
+		setTimeout(() => {
+			const todayEl = document.getElementById('today-button');
+			todayEl?.scrollIntoView({ behavior: 'instant', inline: 'center' });
+		}, 0);
+	});
 </script>
 
-{#snippet dayOfWeek(title: string, sub: string)}
+{#snippet dayOfWeek(title: string, sub: string, isToday: boolean)}
 	<div
 		class="font-lexend flex h-10 w-[150px] min-w-[150px] items-center justify-center border border-t-0 border-r-0 bg-[#cfc4e7] px-4 text-center text-sm font-normal"
+		id={isToday ? 'today-button' : undefined}
 	>
-		<div class="flex flex-col">
+		<div class="flex flex-col" class:border-2={isToday} class:border-brand-error={isToday}>
 			<span>
 				{title}
 			</span>
@@ -94,7 +103,7 @@
 
 	<div class="px-3 pt-3">
 		<div
-			class="relative overflow-hidden rounded-lg border bg-[#cfc4e7] pt-[0px] pl-[70px] md:pl-[80px]"
+			class="relative overflow-hidden rounded-lg border bg-[#cfc4e7] pt-[0px] pl-[70px] md:pl-[75px]"
 		>
 			<Ylabels {weekDates} />
 
@@ -105,7 +114,13 @@
 					style="grid-template-columns: repeat(7, minmax(150px, 1fr));"
 				>
 					{#each weekDates as item, index (index)}
-						{@render dayOfWeek(format(new Date(item), 'iii'), format(new Date(item), 'dd'))}
+						{@const isToday = isSameDay(new Date(item), new Date())}
+
+						{@render dayOfWeek(
+							format(new Date(item), 'iii'),
+							format(new Date(item), 'dd'),
+							isToday
+						)}
 					{/each}
 
 					{#each MealsUtils.mapMealsToWeek(weekDates) as meal, index (index)}

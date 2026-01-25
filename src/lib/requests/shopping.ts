@@ -74,6 +74,17 @@ class ShoppingService {
 		return await this.api.delete(`${this.itemPrefix}/${itemId}`, { ...reqConfig });
 	}
 
+	// OPEN
+	async getOpenBoardItems(boardId: string, reqConfig?: ReqConfig) {
+		return await this.api.get(`/open${this.itemPrefix}/all/${boardId}`, {
+			...reqConfig
+		});
+	}
+
+	async updateOpenItem(itemId: string, data: BoardItem, reqConfig?: ReqConfig) {
+		return await this.api.put(`/open${this.itemPrefix}/${itemId}`, data, { ...reqConfig });
+	}
+
 	// MEMBERS
 	async addMember(data: BoardMember, reqConfig?: ReqConfig) {
 		return await this.api.post(`${this.memberPrefix}`, data, { ...reqConfig });

@@ -1,32 +1,46 @@
 <script lang="ts">
+	import { X } from '@lucide/svelte';
 	import { removeToast, toasts } from '../../store/toast';
 </script>
 
 <div class="toast-container">
 	<div class="flex flex-col gap-2 px-4">
 		{#each $toasts as toast (toast.id)}
-			<button
-				class="toast slide_down flex items-center gap-1"
-				class:toast_error={toast.type === 'error'}
-				onclick={() => {
-					removeToast(toast.id);
-				}}
-			>
-				<span>
-					{toast.message}
+			<div class="slide_down relative">
+				<button
+					class="toast relative flex items-center gap-1"
+					class:toast_error={toast.type === 'error'}
+					onclick={() => {
+						removeToast(toast.id);
+					}}
+				>
+					<span>
+						{toast.message}
 
-					{#if toast.link}
-						<span>
-							<a href={toast.link} class="underline underline-offset-2">{toast.linkName}</a>
-						</span>
+						{#if toast.link}
+							<span>
+								<a href={toast.link} class="underline underline-offset-2">{toast.linkName}</a>
+							</span>
+						{/if}
+					</span>
+					{#if toast?.imgLink}
+						<div>
+							<img src={toast.imgLink} alt="confetti" class="h-5" />
+						</div>
 					{/if}
-				</span>
-				{#if toast?.imgLink}
-					<div>
-						<img src={toast.imgLink} alt="confetti" class="h-5" />
-					</div>
-				{/if}
-			</button>
+				</button>
+
+				<div class="absolute -top-2 -left-2">
+					<button
+						class="flex h-5 w-5 items-center justify-center rounded-full border-2 bg-white"
+						onclick={() => {
+							removeToast(toast.id);
+						}}
+					>
+						<X />
+					</button>
+				</div>
+			</div>
 		{/each}
 	</div>
 </div>

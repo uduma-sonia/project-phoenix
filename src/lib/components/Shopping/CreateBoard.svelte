@@ -39,7 +39,7 @@
 </script>
 
 <div>
-	<div class="mx-auto w-full md:max-w-[600px]">
+	<div class="mx-auto w-full px-4 pt-3 md:max-w-[600px] md:px-0">
 		<BackComponent backLink="/shopping" />
 	</div>
 

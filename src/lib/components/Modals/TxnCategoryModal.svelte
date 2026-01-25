@@ -61,10 +61,6 @@
 			};
 
 			const result = await TransactionRequest.updateTransactionCategory(itemId, payload);
-
-			if (result) {
-				queryClient.invalidateQueries({ queryKey: queryKeys.getTransactionCategories });
-			}
 		} catch (error: any) {
 			addToast(error?.message || 'An error occured', 'error');
 		}

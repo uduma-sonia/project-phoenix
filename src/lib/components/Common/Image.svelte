@@ -28,7 +28,7 @@
 	});
 </script>
 
-{#if hasLoaded}
+{#if hasLoaded && !hasError}
 	<img
 		{fetchpriority}
 		{src}
@@ -39,8 +39,14 @@
 	/>
 {/if}
 
-{#if !hasLoaded && hasError}
-	<p class="font-lexend text-xs font-light text-white">This image cannot be loaded</p>
+{#if hasError}
+	<p class="font-lexend text-center text-xs font-light text-black">This image cannot be loaded</p>
+{/if}
+
+{#if !hasLoaded && !hasError}
+	<div class="flex h-full w-full items-center justify-center">
+		<span class="spinner_white border-2 border-black"></span>
+	</div>
 {/if}
 
 <style>

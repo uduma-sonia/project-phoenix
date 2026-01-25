@@ -13,9 +13,9 @@
 			keyword: 'meal-planner'
 		},
 		{
-			label: 'Tracker',
-			route: '/tracker',
-			keyword: 'tracker'
+			label: 'Recipe',
+			route: '/recipe',
+			keyword: 'recipe'
 		},
 		{
 			label: 'Shopping',
@@ -23,16 +23,10 @@
 			keyword: 'shopping'
 		},
 		{
-			label: 'Recipe',
-			route: '/recipe',
-			keyword: 'recipe'
+			label: 'Tracker',
+			route: '/tracker',
+			keyword: 'tracker'
 		}
-
-		// {
-		// 	label: 'Travel Planner',
-		// 	route: '/travel',
-		// 	keyword: 'travel'
-		// }
 	];
 </script>
 

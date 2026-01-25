@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Check, Pencil } from '@lucide/svelte';
 	import EditItem from './EditItem.svelte';
+	import type { ListItemProps } from '../../../../types/shopping';
 
 	let {
 		data,
@@ -9,19 +10,18 @@
 		canEditId,
 		handleEdit,
 		handleUpdate,
-		canEdit,
-		isOpenLink = false
-	} = $props();
+		canEdit
+	}: ListItemProps = $props();
 
-	let qty = $derived(data?.quantity > 0 ? data?.quantity : '');
+	let qty = $derived(data?.quantity ? (data?.quantity > 0 ? data?.quantity : '') : '');
 
 	function editItem() {
 		if (canEdit) {
-			handleEdit(data?._id);
+			handleEdit?.(data?._id);
 		}
 	}
 	function checkItem() {
-		handleUpdateItem(data?._id, !data?.done);
+		handleUpdateItem?.(data?._id, !data?.done);
 	}
 </script>
 
@@ -56,7 +56,7 @@
 					<div class="flex">
 						<p class:line-through={data?.done}>{qty} {data?.name} <small>{data?.unit}</small></p>
 					</div>
-					{#if data?.price > 0}
+					{#if data?.price && data?.price > 0}
 						<p class="text-sm" class:line-through={data?.done}>
 							{price}
 						</p>

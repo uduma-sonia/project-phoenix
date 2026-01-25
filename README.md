@@ -25,11 +25,11 @@ A small ecosystem of connected tools that combines expense tracking, shopping li
 - Add service worker for offline capabilities
 - Add some text formatting options to text area component
 - Bi weekly budgeting
-- add button to remove image when creating or editing recipe
 - import last week meals
 - change the handleclickoutside method
 - generate public shopping list link
 - generate shopping list from meal planner
-- Add tooltips
 - allow users set their beginning of the week
-- Add a section to copy a user's recipe profile
+- upgrade button and input component to accept size and variants to work together efficiently
+- make shopping list name editable
+- add drag and drop to recipe form

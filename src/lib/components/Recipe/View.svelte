@@ -10,6 +10,7 @@
 	import useCurrentUser from '$lib/hooks/useCurrentUser';
 	import EmptyState from '../Common/EmptyState.svelte';
 	import { onMount } from 'svelte';
+	import ManageRecipeGroup from '../Modals/ManageRecipeGroup.svelte';
 
 	let searchQuery = $state('');
 	let currentTab = $state('All');
@@ -26,6 +27,13 @@
 	let filteredRecipeList = $derived(
 		RecipeUtils.getlist(recipeList, currentTab, user?._id, searchQuery)
 	);
+
+	const groupQuery = createQuery({
+		queryKey: queryKeys.getRecipeGroups,
+		queryFn: () => RecipeRequest.getRecipeGroups()
+	});
+
+	let groupList = $derived($groupQuery?.data?.data?.recipeGroups);
 
 	let isLoading = $derived($recipeQuery?.isLoading);
 	let isError = $derived($recipeQuery?.isError);
@@ -46,7 +54,7 @@
 		Manage and organize your recipes
 	</p>
 
-	<GroupScroller {handleChangeTab} {currentTab} />
+	<GroupScroller {groupList} {handleChangeTab} {currentTab} {user} />
 
 	<div class="relative z-30 mt-5 flex items-center justify-between gap-3 px-3">
 		<HabitSearch bind:searchQuery placeholder="Search recipe" />
@@ -68,7 +76,7 @@
 				<EmptyState
 					buttonText="Add Recipe"
 					heading="No recipes saved"
-					text="Save your favorite recipes in one place. Cooking inspiration starts here"
+					text=" Cooking inspiration starts here. Save your favorite recipes in one place."
 					link="/recipe/create"
 				/>
 			{:else}
@@ -77,3 +85,5 @@
 		{/if}
 	{/if}
 </div>
+
+<ManageRecipeGroup {groupList} />

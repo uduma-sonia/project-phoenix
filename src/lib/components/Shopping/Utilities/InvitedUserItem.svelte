@@ -37,8 +37,6 @@
 
 	// FIX
 	const isViewer = membersList?.find((item: any) => item.memberId === member.email);
-
-	// $effect(() => console.log(membersList, member));
 </script>
 
 <div class="flex items-center justify-between gap-3">

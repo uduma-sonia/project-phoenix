@@ -17,7 +17,7 @@
 		try {
 			isLoading = true;
 			await ShoppingRequest.deleteBoard(id);
-			addToast('Board deleted', 'success');
+			addToast('List deleted', 'success');
 			queryClient.invalidateQueries({ queryKey: queryKeys.getInvitedBoards });
 			closeBoardDeleteModal();
 			goto('/shopping');
@@ -32,10 +32,10 @@
 <ModalWrapper
 	isOpen={modalsState.data.isOpenBoardDeleteModal}
 	onClose={closeBoardDeleteModal}
-	label={`Delete board`}
+	label={`Delete list`}
 >
 	<div class="p-4">
-		<p class="font-lexend text-center">Do you want to delete this board?</p>
+		<p class="font-lexend text-center">Do you want to delete this shopping list?</p>
 
 		<p class="font-lexend text-center text-sm font-light">{selectedBoard?.data?.name}</p>
 

@@ -15,7 +15,7 @@
 			Sorry, this recipe has been locked by the owner
 		</p>
 
-		<a href={`/recipe/user/${recipe?.ownerId}`}>
+		<a href={`/recipe/user/${recipe?.ownerId}?s=${recipe?.slug}&o=${recipe?.ownerId}`}>
 			<BasicButton label="View other recipes" />
 		</a>
 	</div>

@@ -64,9 +64,11 @@
 		transform: translateX(-50%);
 	}
 
-	.tooltip:hover .tooltiptext {
-		visibility: visible;
-		transition-delay: 300ms;
+	@media not all and (pointer: coarse) {
+		.tooltip:hover .tooltiptext {
+			visibility: visible;
+			transition-delay: 300ms;
+		}
 	}
 
 	.tooltiptext {

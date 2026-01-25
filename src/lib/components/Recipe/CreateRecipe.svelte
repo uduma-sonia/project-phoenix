@@ -170,7 +170,7 @@
 		const fileOne = imageOneEl?.files[0];
 		const fileTwo = imageTwoEl?.files[0];
 		const fileThree = imageThreeEl?.files[0];
-		const maxSizeInBytes = 2 * 1024 * 1024; // 1MB
+		const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
 		const reader = new FileReader();
 
 		switch (name) {
@@ -191,7 +191,7 @@
 			case 'recipe-image-two':
 				if (fileTwo) {
 					if (fileTwo.size > maxSizeInBytes) {
-						addToast('File size exceeds the limit (2MB)', 'error');
+						addToast('File size exceeds the limit (1MB)', 'error');
 						return;
 					}
 
@@ -206,7 +206,7 @@
 			default:
 				if (fileThree) {
 					if (fileThree.size > maxSizeInBytes) {
-						addToast('File size exceeds the limit (2MB)', 'error');
+						addToast('File size exceeds the limit (1MB)', 'error');
 						return;
 					}
 
@@ -259,6 +259,17 @@
 			selectedGroupList = filtered;
 		} else {
 			selectedGroupList = [...selectedGroupList, { id: group._id, name: group.name }];
+		}
+	}
+
+	function removeImage(img: string) {
+		if (img === 'image_one') {
+			imageOneUrl = '';
+			imageOneEl = null;
+		}
+		if (img === 'image_two') {
+			imageTwoUrl = '';
+			imageTwoEl = null;
 		}
 	}
 
@@ -340,8 +351,8 @@
 				imageOneUrl = `${BUNNY_STORAGE_BASE}/recipe/${Helpers.createSlug(user.username)}_${fileOne.name}`;
 			if (results[1])
 				imageTwoUrl = `${BUNNY_STORAGE_BASE}/recipe/${Helpers.createSlug(user.username)}_${fileTwo.name}`;
-			if (results[2])
-				imageThreeUrl = `${BUNNY_STORAGE_BASE}/recipe/${Helpers.createSlug(user.username)}_${fileThree.name}`;
+			// if (results[2])
+			// 	imageThreeUrl = `${BUNNY_STORAGE_BASE}/recipe/${Helpers.createSlug(user.username)}_${fileThree.name}`;
 
 			await handleSubmit();
 		} catch (error) {
@@ -382,7 +393,7 @@
 	bind:this={imageTwoEl}
 	onchange={() => handleFileChange('recipe-image-two')}
 />
-<input
+<!-- <input
 	type="file"
 	id="image_three"
 	name="image_three"
@@ -390,10 +401,10 @@
 	class="invisible absolute bottom-0 left-0"
 	bind:this={imageThreeEl}
 	onchange={() => handleFileChange('recipe-image-three')}
-/>
+/> -->
 
 <div id="createRecipe">
-	<div class="mx-auto w-full md:max-w-[600px]">
+	<div class="mx-auto w-full px-4 pt-3 md:max-w-[600px] md:px-0">
 		<BackComponent backLink="/recipe" />
 	</div>
 
@@ -407,7 +418,7 @@
 				<hr />
 
 				<div class="mb-10 pt-5">
-					<BasicInputField id="recipeName" label="Recipe Name" bind:value={recipeName} />
+					<BasicInputField id="recipeName" label="Recipe Name" bind:value={recipeName} required />
 
 					<div class="mt-4">
 						<TextArea
@@ -507,49 +518,76 @@
 						<p class="font-suez mb-4 text-lg">Images</p>
 
 						<div class="grid grid-cols-2 gap-4 md:grid-cols-3">
-							<button
-								class="relative h-[120px] w-full rounded-lg border"
-								type="button"
-								onclick={() => handleBrowseClick('#image_one')}
-							>
+							<div class="relative">
+								<button
+									class="relative h-[120px] w-full rounded-lg border"
+									type="button"
+									onclick={() => handleBrowseClick('#image_one')}
+								>
+									{#if imageOneUrl}
+										<img
+											src={imageOneUrl}
+											class="h-full max-h-full w-full max-w-full rounded-lg object-cover"
+											alt="Recipe shot"
+										/>
+									{/if}
+
+									{#if !imageOneUrl}
+										<div
+											class="absolute top-[45%] left-1/2 z-40 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1"
+										>
+											<div>
+												<Plus size="24px" />
+											</div>
+										</div>
+									{/if}
+								</button>
+
 								{#if imageOneUrl}
-									<img
-										src={imageOneUrl}
-										class="h-full max-h-full w-full max-w-full rounded-lg object-cover"
-										alt="Recipe shot"
-									/>
+									<button
+										onclick={() => removeImage('image_two')}
+										class="text-brand-error font-lexend absolute -bottom-7 left-1/2 -translate-x-1/2 text-sm font-medium"
+									>
+										<X />
+									</button>
 								{/if}
+							</div>
 
-								<div
-									class="absolute top-[45%] left-1/2 z-40 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1"
+							<div class="relative">
+								<button
+									class="relative h-[120px] w-full rounded-lg border"
+									type="button"
+									onclick={() => handleBrowseClick('#image_two')}
 								>
-									<div>
-										<Plus size="24px" />
-									</div>
-								</div>
-							</button>
+									{#if imageTwoUrl}
+										<img
+											src={imageTwoUrl}
+											class="h-full max-h-full w-full max-w-full rounded-lg object-cover"
+											alt="Recipe shot"
+										/>
+									{/if}
 
-							<button
-								class="relative h-[120px] w-full rounded-lg border"
-								type="button"
-								onclick={() => handleBrowseClick('#image_two')}
-							>
+									{#if !imageTwoUrl}
+										<div
+											class="absolute top-[45%] left-1/2 z-40 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1"
+										>
+											<div>
+												<Plus size="20px" />
+											</div>
+										</div>
+									{/if}
+								</button>
+
 								{#if imageTwoUrl}
-									<img
-										src={imageTwoUrl}
-										class="h-full max-h-full w-full max-w-full rounded-lg object-cover"
-										alt="Recipe shot"
-									/>
+									<button
+										onclick={() => removeImage('image_two')}
+										class="text-brand-error font-lexend absolute -bottom-7 left-1/2 -translate-x-1/2 text-sm font-medium"
+									>
+										<X />
+									</button>
 								{/if}
+							</div>
 
-								<div
-									class="absolute top-[45%] left-1/2 z-40 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1"
-								>
-									<div>
-										<Plus size="20px" />
-									</div>
-								</div>
-							</button>
 							<!-- <button
 								class="relative h-[120px] w-full rounded-lg border"
 								type="button"
@@ -574,19 +612,19 @@
 						</div>
 					</div>
 
-					<div class="mt-10">
+					<div class="mt-12">
 						<p class="font-suez mb-4 text-lg">Ingredients</p>
 
 						<div class="space-y-6">
 							{#each ingredients as ingredient, index (index)}
 								<div class="flex items-start gap-2">
-									<div class="pt-1">
+									<!-- <div class="pt-1">
 										<button class="grid grid-cols-2 gap-1">
 											{#each [...new Array(4)] as _, index}
 												<span class="block h-1.5 w-1.5 rounded-lg bg-gray-800"> </span>
 											{/each}
 										</button>
-									</div>
+									</div> -->
 									<div class="flex-1 space-y-2">
 										<BasicInputField
 											placeholder="Ingredient name"
@@ -600,7 +638,7 @@
 												id={`ingredient-amount-${index}`}
 											/>
 											<BasicInputField
-												placeholder="Unit, eg., cup, teaspoon"
+												placeholder="cup, teaspoon, tablespoon"
 												bind:value={ingredient.unit}
 												id={`ingredient-unit-${index}`}
 											/>
@@ -822,7 +860,7 @@
 									<Check size="22px" />
 								{/if}
 							</button>
-							<p class="font-lexend text-sm font-light">Hide from others</p>
+							<p class="font-lexend text-sm font-light">Private</p>
 						</div>
 					</div>
 

@@ -20,7 +20,7 @@
 </script>
 
 <button
-	class="text-brand-green font-lexend flex items-center hover:underline hover:underline-offset-4 {className} "
+	class="text-brand-green font-lexend flex items-center hover:underline hover:underline-offset-2 {className}"
 	{type}
 	onclick={() => action?.()}
 	{...restProps}

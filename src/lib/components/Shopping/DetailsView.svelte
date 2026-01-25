@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Check, Copy, List, Plus, SquarePen, Trash } from '@lucide/svelte';
+	import { Check, Copy, List, SquarePen, Trash } from '@lucide/svelte';
 	import ListItem from './Utilities/ListItem.svelte';
 	import Search from './Utilities/Search.svelte';
 	import InviteModal from './InviteModal.svelte';
@@ -13,7 +13,7 @@
 	import { addToast } from '$lib/store/toast';
 	import { ShoppingRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import { useQueryClient } from '@tanstack/svelte-query';
+	import { createQuery, useQueryClient } from '@tanstack/svelte-query';
 	import { page } from '$app/state';
 	import StandardListItem from './Utilities/StandardListItem.svelte';
 	import Seo from '../Common/SEO.svelte';
@@ -22,16 +22,20 @@
 	import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
 	import { handleSelectBoard } from '$lib/state/shopping.svelte';
 	import Helpers from '$lib/utils/helpers';
-	import fetchBoardMembers from '$lib/hooks/fetchBoardMembers';
+
 	import { Permissions } from '../../../types/shopping';
 	import fetchSingleUser from '$lib/hooks/fetchSingleUser';
 
-	let { boardItemsQuery, boardQuery, user, standardItemsQuery } = $props();
+	let { boardQuery, user, standardItemsQuery, _permission } = $props();
 
 	let boardId = page.params.id;
 
+	let boardItemsQuery = createQuery({
+		queryKey: queryKeys.getBoardItems(boardId, ''),
+		queryFn: () => ShoppingRequest.getBoardItems(boardId, '')
+	});
+
 	let queryClient = useQueryClient();
-	let membersQuery = fetchBoardMembers(boardId);
 
 	let itemName = $state('');
 	let isLoading = $state(false);
@@ -43,9 +47,6 @@
 	let itemsList = $derived($boardItemsQuery?.data?.data?.shoppingItems);
 	let boardDetails = $derived($boardQuery?.data?.data?.board);
 	let standardList = $derived($standardItemsQuery?.data?.data?.shoppingItems);
-	let _permission = $derived(
-		Helpers.getPermission($membersQuery?.data?.data?.members?.members, user, boardDetails?.ownerId)
-	);
 
 	let ownerQuery = $derived(fetchSingleUser(boardDetails?.ownerId));
 	let ownerDetails = $derived($ownerQuery?.data?.data?.user);
@@ -325,5 +326,6 @@
 		onClose={closeModal}
 		isOpen={modalsState.data.isOpen}
 		{user}
+		title={boardDetails?.name}
 	/>
 {/if}
