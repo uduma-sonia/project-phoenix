@@ -9,11 +9,10 @@
 	import fetchBoardMembers from '$lib/hooks/fetchBoardMembers';
 	import fetchUsersByEmail from '$lib/hooks/fetchUsersByEmail';
 	import { Permissions } from '../../../types/shopping';
-	import { Copy } from '@lucide/svelte';
 	import TextButton from '../Common/Form/TextButton.svelte';
 	import Helpers from '$lib/utils/helpers';
 
-	let { onClose, isOpen, user, _permission, ownerDetails } = $props();
+	let { onClose, isOpen, user, _permission, ownerDetails, title } = $props();
 	const queryClient = useQueryClient();
 
 	let boardId = page.params.id as string;
@@ -79,7 +78,10 @@
 	}
 
 	function copyLink() {
-		Helpers.copyToClipboard(`${window.location.origin}/open/shopping/${boardId}`, 'Link copied');
+		Helpers.copyToClipboard(
+			`${window.location.origin}/open/shopping/${boardId}?q=${encodeURIComponent(title)}&c=${user?.currency}&id=${user?._id}`,
+			'Link copied'
+		);
 	}
 </script>
 
@@ -111,6 +113,9 @@
 			</div>
 			<div class="mb-5">
 				<TextButton className="share_link" label="Copy public link" action={copyLink} />
+				<p class="font-lexend text-11 font-extralight">
+					This is a limited link that only lets you tick off items on the list
+				</p>
 			</div>
 		{/if}
 

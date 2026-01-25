@@ -399,6 +399,8 @@ class Helpers {
 				} else {
 					return Permissions.UNAUTHORIZED;
 				}
+			} else {
+				return Permissions.UNAUTHORIZED;
 			}
 		}
 	}
@@ -465,10 +467,10 @@ class Helpers {
 		return Number(percent);
 	}
 
-	static getAmountAndCurrency(amount: number, user: User) {
+	static getAmountAndCurrency(amount: number, user?: User | null, currency?: string) {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const getCurrency: any = Helpers.transformObjectToList(currencies[0])?.find(
-			(item) => item.id === user?.currency
+			(item) => item.id === (currency || user?.currency)
 		);
 
 		if (getCurrency?.id) {

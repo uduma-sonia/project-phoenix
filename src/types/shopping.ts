@@ -25,7 +25,7 @@ export type BoardItem = {
 	done?: boolean;
 	boardId?: string;
 	price?: number;
-	ownerId: string;
+	ownerId?: string;
 };
 
 export type BoardMember = {
@@ -33,4 +33,27 @@ export type BoardMember = {
 	ownerId: string;
 	memberId: string;
 	permissions: string;
+};
+
+type Item = {
+	_id: string;
+	name: string;
+	unit?: string;
+	quantity?: number;
+	price?: number;
+	done?: boolean;
+};
+
+export type ListItemProps = {
+	data: Item;
+
+	price: string | number;
+
+	canEdit?: boolean;
+	canEditId?: string | null;
+
+	handleEdit?: (id: string) => void;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	handleUpdate?: (itemId: string, payload: any) => void;
+	handleUpdateItem?: (id: string, done: boolean) => void;
 };
