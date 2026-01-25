@@ -32,4 +32,4 @@ A small ecosystem of connected tools that combines expense tracking, shopping li
 - allow users set their beginning of the week
 - upgrade button and input component to accept size and variants to work together efficiently
 - make shopping list name editable
-- hide private recipes properly
+- add drag and drop to recipe form
