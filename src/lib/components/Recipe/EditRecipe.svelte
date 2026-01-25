@@ -394,8 +394,6 @@
 	}
 
 	let backLink = $derived(`/recipe/${recipe?.slug}?owner=${recipe?.ownerId}`);
-
-	// http://localhost:5173/recipe/fluffy-pancakesw?owner=695fabbeeb2a966b54e0cc53
 </script>
 
 <input

@@ -30,7 +30,7 @@ export function addToast(
 
 	setTimeout(() => {
 		toasts.update((all: any) => all.filter((toast: any) => toast.id !== id));
-	}, 10000);
+	}, 5000);
 }
 
 export function removeToast(id: string) {

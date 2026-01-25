@@ -80,7 +80,6 @@
 				await RecipeRequest.unsaveRecipe(recipe._id);
 				addToast('Recipe unsaved', 'success');
 			} else {
-				console.log(recipe?._id);
 				await RecipeRequest.saveRecipe(recipe?._id);
 				addToast('Recipe saved', 'success');
 			}
@@ -103,6 +102,15 @@
 
 	function changeMultiplier(params: number) {
 		viewedMultiplier = params;
+	}
+
+	function openListModal() {
+		if (!isLoggedIn) {
+			addToast('Login first to add to shopping list', 'success');
+			goto('/login');
+		} else {
+			openAddToListModal();
+		}
 	}
 </script>
 
@@ -136,7 +144,7 @@
 			{/if}
 
 			<div class="mt-4">
-				<AuthorItem {recipe} />
+				<AuthorItem {recipe} {isOwner} />
 
 				<div class="image_wrapper mt-4 h-[230px]">
 					<button
@@ -207,7 +215,7 @@
 {#if selectedRecipeList?.data && selectedRecipeList?.data?.length > 0}
 	<div class="slide_in_up fixed bottom-20 left-1/2 -translate-x-1/2 md:bottom-5">
 		<Tooltip position="top" text="Add to shopping list">
-			<button class="create_button_sm shadow_button" onclick={openAddToListModal}>
+			<button class="create_button_sm shadow_button" onclick={openListModal}>
 				<ShoppingCart />
 			</button>
 		</Tooltip>

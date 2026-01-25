@@ -35,15 +35,13 @@
 
 		{#if !isOwner}
 			<div>
-				<Tooltip text="Save recipe" position="bottom">
-					<button class="shadow_button shadow_button_sm shadow_button_thin" onclick={saveRecipe}>
-						{#if isSaving}
-							<div class="spinner_white border-2 border-black"></div>
-						{:else}
-							<Heart size="18px" fill={hasSavedRecipe() ? 'fill' : 'transparent'} />
-						{/if}
-					</button>
-				</Tooltip>
+				<button class="shadow_button shadow_button_sm shadow_button_thin" onclick={saveRecipe}>
+					{#if isSaving}
+						<div class="spinner_white border-2 border-black"></div>
+					{:else}
+						<Heart size="18px" fill={hasSavedRecipe() ? 'fill' : 'transparent'} />
+					{/if}
+				</button>
 			</div>
 		{/if}
 	</div>
