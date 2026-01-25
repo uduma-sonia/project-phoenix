@@ -33,3 +33,5 @@ A small ecosystem of connected tools that combines expense tracking, shopping li
 - Add tooltips
 - allow users set their beginning of the week
 - Add a section to copy a user's recipe profile
+- add created date to recipe details
+- manage recipe category

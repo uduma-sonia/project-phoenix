@@ -68,7 +68,7 @@
 				<EmptyState
 					buttonText="Add Recipe"
 					heading="No recipes saved"
-					text="Save your favorite recipes in one place. Cooking inspiration starts here"
+					text=" Cooking inspiration starts here. Save your favorite recipes in one place."
 					link="/recipe/create"
 				/>
 			{:else}

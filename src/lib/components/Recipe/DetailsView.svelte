@@ -126,7 +126,7 @@
 									<LockKeyhole size="16px" />
 								</Tooltip>
 							{:else}
-								<Tooltip text="Private recipe" position="bottom">
+								<Tooltip text="Public recipe" position="bottom">
 									<LockKeyholeOpen size="16px" />
 								</Tooltip>
 							{/if}

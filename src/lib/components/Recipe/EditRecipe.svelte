@@ -279,6 +279,17 @@
 		}
 	}
 
+	function removeImage(img: string) {
+		if (img === 'image_one') {
+			imageOneUrl = '';
+			imageOneEl = null;
+		}
+		if (img === 'image_two') {
+			imageTwoUrl = '';
+			imageTwoEl = null;
+		}
+	}
+
 	async function handleSubmit() {
 		try {
 			isSubmitting = true;
@@ -381,6 +392,10 @@
 
 		handleImageUpload();
 	}
+
+	let backLink = $derived(`/recipe/${recipe?.slug}?owner=${recipe?.ownerId}`);
+
+	// http://localhost:5173/recipe/fluffy-pancakesw?owner=695fabbeeb2a966b54e0cc53
 </script>
 
 <input
@@ -401,7 +416,7 @@
 	bind:this={imageTwoEl}
 	onchange={() => handleFileChange('recipe-image-two')}
 />
-<input
+<!-- <input
 	type="file"
 	id="image_three"
 	name="image_three"
@@ -409,11 +424,11 @@
 	class="invisible absolute bottom-0 left-0"
 	bind:this={imageThreeEl}
 	onchange={() => handleFileChange('recipe-image-three')}
-/>
+/> -->
 
 <div id="editRecipe">
-	<div class="mx-auto w-full md:max-w-[600px]">
-		<BackComponent backLink="/recipe" />
+	<div class="mx-auto w-full px-4 pt-3 md:max-w-[600px] md:px-0">
+		<BackComponent {backLink} />
 	</div>
 
 	<div class="mt-4 flex items-center justify-center px-4 pb-52">
@@ -526,49 +541,75 @@
 						<p class="font-suez mb-4 text-lg">Images</p>
 
 						<div class="grid grid-cols-2 gap-4 md:grid-cols-3">
-							<button
-								class="relative h-[120px] w-full rounded-lg border"
-								type="button"
-								onclick={() => handleBrowseClick('#image_one')}
-							>
+							<div class="relative">
+								<button
+									class="relative h-[120px] w-full rounded-lg border"
+									type="button"
+									onclick={() => handleBrowseClick('#image_one')}
+								>
+									{#if imageOneUrl}
+										<img
+											src={imageOneUrl}
+											class="h-full max-h-full w-full max-w-full rounded-lg object-cover"
+											alt="Recipe shot"
+										/>
+									{/if}
+
+									{#if !imageOneUrl}
+										<div
+											class="absolute top-[45%] left-1/2 z-40 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1"
+										>
+											<div>
+												<Plus size="24px" />
+											</div>
+										</div>
+									{/if}
+								</button>
+
 								{#if imageOneUrl}
-									<img
-										src={imageOneUrl}
-										class="h-full max-h-full w-full max-w-full rounded-lg object-cover"
-										alt="Recipe shot"
-									/>
+									<button
+										onclick={() => removeImage('image_two')}
+										class="text-brand-error font-lexend absolute -bottom-7 left-1/2 -translate-x-1/2 text-sm font-medium"
+									>
+										<X />
+									</button>
 								{/if}
+							</div>
 
-								<div
-									class="absolute top-[45%] left-1/2 z-40 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1"
+							<div class="relative">
+								<button
+									class="relative h-[120px] w-full rounded-lg border"
+									type="button"
+									onclick={() => handleBrowseClick('#image_two')}
 								>
-									<div>
-										<Plus size="24px" />
-									</div>
-								</div>
-							</button>
+									{#if imageTwoUrl}
+										<img
+											src={imageTwoUrl}
+											class="h-full max-h-full w-full max-w-full rounded-lg object-cover"
+											alt="Recipe shot"
+										/>
+									{/if}
 
-							<button
-								class="relative h-[120px] w-full rounded-lg border"
-								type="button"
-								onclick={() => handleBrowseClick('#image_two')}
-							>
+									{#if !imageTwoUrl}
+										<div
+											class="absolute top-[45%] left-1/2 z-40 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1"
+										>
+											<div>
+												<Plus size="20px" />
+											</div>
+										</div>
+									{/if}
+								</button>
+
 								{#if imageTwoUrl}
-									<img
-										src={imageTwoUrl}
-										class="h-full max-h-full w-full max-w-full rounded-lg object-cover"
-										alt="Recipe shot"
-									/>
+									<button
+										onclick={() => removeImage('image_two')}
+										class="text-brand-error font-lexend absolute -bottom-7 left-1/2 -translate-x-1/2 text-sm font-medium"
+									>
+										<X />
+									</button>
 								{/if}
-
-								<div
-									class="absolute top-[45%] left-1/2 z-40 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1"
-								>
-									<div>
-										<Plus size="20px" />
-									</div>
-								</div>
-							</button>
+							</div>
 							<!-- <button
 								class="relative h-[120px] w-full rounded-lg border"
 								type="button"
@@ -599,13 +640,13 @@
 						<div class="space-y-6">
 							{#each ingredients as ingredient, index (index)}
 								<div class="flex items-start gap-2">
-									<div class="pt-1">
+									<!-- <div class="pt-1">
 										<button class="grid grid-cols-2 gap-1">
 											{#each [...new Array(4)] as _, index}
 												<span class="block h-1.5 w-1.5 rounded-lg bg-gray-800"> </span>
 											{/each}
 										</button>
-									</div>
+									</div> -->
 									<div class="flex-1 space-y-2">
 										<BasicInputField
 											placeholder="Ingredient name"
@@ -840,7 +881,7 @@
 									<Check size="22px" />
 								{/if}
 							</button>
-							<p class="font-lexend text-sm font-light">Hide from others</p>
+							<p class="font-lexend text-sm font-light">Private</p>
 						</div>
 					</div>
 
