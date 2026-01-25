@@ -17,7 +17,8 @@
 			queries: {
 				retry: 1,
 				refetchOnWindowFocus: true,
-				enabled: browser
+				enabled: browser,
+				refetchInterval: 300000 // <- miliseconds = 5 minutes
 			}
 		}
 	});

@@ -1,60 +1,46 @@
 <script lang="ts">
-	import { Copy, Heart, Plus } from '@lucide/svelte';
-	import NewGroup from './NewGroup.svelte';
+	import { Cog, Copy, Heart, Plus } from '@lucide/svelte';
+	// import NewGroup from './NewGroup.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { RecipeRequest } from '$lib/requests';
 	import TabButton from '$lib/components/Common/TabButton.svelte';
-	import Tooltip from '$lib/components/Common/Tooltip.svelte';
+	// import Tooltip from '$lib/components/Common/Tooltip.svelte';
 	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
+	import Helpers from '$lib/utils/helpers';
+	import { openRecipeGroupModal } from '$lib/state/modal.svelte';
 
-	let { currentTab = $bindable(), handleChangeTab } = $props();
+	let { currentTab = $bindable(), handleChangeTab, user, groupList } = $props();
 
 	let addNewGroup = $state(false);
-
-	const groupQuery = createQuery({
-		queryKey: queryKeys.getRecipeGroups,
-		queryFn: () => RecipeRequest.getRecipeGroups()
-	});
-
-	let groupList = $derived($groupQuery?.data?.data?.recipeGroups);
 
 	function changeTab(arg: string) {
 		currentTab = arg;
 		handleChangeTab(arg);
 	}
 
-	function toggleView() {
-		addNewGroup = !addNewGroup;
+	function _openRecipeGroupModal() {
+		openRecipeGroupModal();
+	}
+
+	function _copyProfile() {
+		Helpers.copyToClipboard(
+			`${window?.location?.origin}/recipe/user/${user?._id}`,
+			'Recipe profile link copied!'
+		);
 	}
 
 	const moreOptions = $derived([
 		{
 			label: 'Manage categories',
-			icon: Plus
-			// action: createMealPlan
+			icon: Cog,
+			action: _openRecipeGroupModal
 		},
 		{
 			label: 'Copy recipe profile link',
-			icon: Copy
-			// action: _comingsoon
+			icon: Copy,
+			action: _copyProfile
 		}
-		// {
-		// 	label: 'Edit plan',
-		// 	icon: SquarePen,
-		// 	action: updateMealPlan
-		// },
-		// {
-		// 	label: 'Insight',
-		// 	icon: ChartNetwork,
-		// 	link: `/meal-planner/insight?plan=${selectedPlan?.value}`
-		// },
-		// {
-		// 	label: 'Delete plan',
-		// 	icon: Trash,
-		// 	iconColor: 'red',
-		// 	action: deleteMealPlanner
-		// }
 	]);
 </script>
 

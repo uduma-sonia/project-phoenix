@@ -34,3 +34,4 @@ A small ecosystem of connected tools that combines expense tracking, shopping li
 - Add a section to copy a user's recipe profile
 - add created date to recipe details
 - manage recipe category
+- upgrade button and input component to accept size and variants to work together efficiently

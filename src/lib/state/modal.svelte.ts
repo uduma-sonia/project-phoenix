@@ -29,7 +29,8 @@ export const modalsState = $state({
 		isOpenMealPlanner: false,
 		isOpenAddBudget: false,
 
-		isOpenEditTxn: false
+		isOpenEditTxn: false,
+		isOpenRecipeGroup: false
 	}
 });
 
@@ -245,4 +246,11 @@ export function openEditTxnModal(value: Transaction) {
 export function closeEditTxnModal() {
 	modalsState.data.isOpenEditTxn = false;
 	selectedTxnToEdit.data = null;
+}
+
+export function openRecipeGroupModal() {
+	modalsState.data.isOpenRecipeGroup = true;
+}
+export function closeRecipeGroupModal() {
+	modalsState.data.isOpenRecipeGroup = false;
 }
