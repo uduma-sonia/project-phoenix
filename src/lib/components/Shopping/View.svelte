@@ -48,7 +48,7 @@
 		Create a shopping list so you never forget the essentials
 	</p>
 
-	<GroupScroller {openModal} {handleChangeTab} />
+	<GroupScroller {openModal} {handleChangeTab} {currentTab} />
 
 	<LoaderError {isLoading} error={isError} />
 
