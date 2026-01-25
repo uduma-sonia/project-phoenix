@@ -87,7 +87,9 @@
 	{onClose}
 	{isOpen}
 	label="Members"
-	helperText="Invite others to collaborate on this list with you. Only users that have an account wil appear"
+	helperText={_permission === Permissions.OWNER || _permission === Permissions.CAN_EDIT
+		? 'Invite others to collaborate on this list with you. Only users that have an account wil appear'
+		: ''}
 >
 	<div class="p-4">
 		{#if _permission === Permissions.OWNER || _permission === Permissions.CAN_EDIT}

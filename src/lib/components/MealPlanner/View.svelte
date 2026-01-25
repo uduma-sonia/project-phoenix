@@ -79,7 +79,8 @@
 		{
 			label: 'Insight',
 			icon: ChartNetwork,
-			link: `/meal-planner/insight?plan=${selectedPlan?.value}`
+			// link: `/meal-planner/insight?plan=${selectedPlan?.value}`
+			action: _comingsoon
 		},
 		{
 			label: 'Delete plan',
