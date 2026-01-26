@@ -1,7 +1,7 @@
 <script lang="ts">
 	import StandardListModal from './StandardListModal.svelte';
 	import ShoppingCard from './Utilities/ShoppingCard.svelte';
-	import { closeModal, modalsState, openModal } from '$lib/state/modal.svelte';
+	import { closeModal, modalsState } from '$lib/state/modal.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { ShoppingRequest } from '$lib/requests';
@@ -48,7 +48,7 @@
 		Create a shopping list so you never forget the essentials
 	</p>
 
-	<GroupScroller {openModal} {handleChangeTab} {currentTab} />
+	<GroupScroller {handleChangeTab} {currentTab} />
 
 	<LoaderError {isLoading} error={isError} />
 

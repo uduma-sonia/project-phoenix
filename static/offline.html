@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<title>You are offline</title>
+
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			html,
+			body {
+				font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+				background: #f5ecd5;
+			}
+
+			h1 {
+				font-style: normal;
+				font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+				color: #101010;
+				font-size: 28px;
+				margin-top: 20px;
+			}
+
+			p {
+				font-weight: 500;
+				font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+			}
+
+			button {
+				display: block;
+			}
+
+			.wrapper {
+				height: 100vh;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			.no_wifi {
+				font-size: 35px;
+				font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+			}
+
+			.reload {
+				font-size: 30px;
+				font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+			}
+
+			.wrapper_inner {
+				max-width: 400px;
+			}
+
+			.shadow_button {
+				font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+				font-optical-sizing: auto;
+				font-weight: 500;
+				font-style: normal;
+				background: #a0c878;
+				font-size: 20px;
+				border: 2px solid black;
+				height: 50px;
+				padding-left: 20px;
+				padding-right: 20px;
+				box-shadow: 2px 2px black;
+				transition-property: transform, box-shadow, outline-offset;
+				transition: 100ms ease-in;
+				width: 100%;
+				border-radius: 8px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				gap: 6px;
+				cursor: pointer;
+			}
+
+			.btn_wrapper {
+				margin-top: 40px;
+			}
+
+			.desc_text {
+				margin-top: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="wrapper">
+			<div class="wrapper_inner">
+				<p class="no_wifi">ᯤ❌</p>
+				<h1>You are offline</h1>
+
+				<div class="desc_text">
+					<p>
+						It looks like you're not connected to the internet. <br />
+						Please check your connection and try again.
+					</p>
+					<!-- <p>Click the button below to try reloading.</p> -->
+				</div>
+
+				<div class="btn_wrapper">
+					<button type="button" class="shadow_button">
+						<span class="reload">⟲</span>
+
+						Reload
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Inline the page's JavaScript file. -->
+		<script>
+			// Manual reload feature.
+			document.querySelector('button').addEventListener('click', () => {
+				window.location.reload();
+			});
+
+			// Listen to changes in the network state, reload when online.
+			// This handles the case when the device is completely offline.
+			window.addEventListener('online', () => {
+				window.location.reload();
+			});
+
+			// Check if the server is responding and reload the page if it is.
+			// This handles the case when the device is online, but the server
+			// is offline or misbehaving.
+			async function checkNetworkAndReload() {
+				try {
+					const response = await fetch('.');
+					// Verify we get a valid response from the server
+					if (response.status >= 200 && response.status < 500) {
+						window.location.reload();
+						return;
+					}
+				} catch {
+					// Unable to connect to the server, ignore.
+				}
+				window.setTimeout(checkNetworkAndReload, 3500);
+			}
+
+			checkNetworkAndReload();
+		</script>
+	</body>
+</html>
