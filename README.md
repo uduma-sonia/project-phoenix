@@ -33,3 +33,4 @@ A small ecosystem of connected tools that combines expense tracking, shopping li
 - upgrade button and input component to accept size and variants to work together efficiently
 - make shopping list name editable
 - add drag and drop to recipe form
+- 404 page

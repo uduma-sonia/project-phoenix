@@ -2,7 +2,7 @@
 	import TabButton from '$lib/components/Common/TabButton.svelte';
 	import { CircleCheck, Plus } from '@lucide/svelte';
 
-	let { currentTab = $bindable(), handleChangeTab, openModal } = $props();
+	let { currentTab = $bindable(), handleChangeTab } = $props();
 
 	function changeTab(arg: string) {
 		handleChangeTab(arg);
