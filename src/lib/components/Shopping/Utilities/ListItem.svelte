@@ -32,7 +32,7 @@
 		{:else}
 			<div class="relative flex items-center gap-4">
 				{#if canEdit}
-					<div class="edit_icon absolute top-2 right-2 lg:hidden">
+					<div class="edit_icon absolute top-2 right-2">
 						<Pencil size="14px" />
 					</div>
 				{/if}

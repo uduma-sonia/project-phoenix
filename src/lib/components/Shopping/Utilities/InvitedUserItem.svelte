@@ -2,7 +2,7 @@
 	import Avatar from '$lib/components/Common/Avatar.svelte';
 	import { Check } from '@lucide/svelte';
 	import { Permissions } from '../../../../types/shopping';
-	import Helpers from '$lib/utils/helpers';
+	import ShoppingUtils from './utils';
 
 	let {
 		member,
@@ -26,7 +26,7 @@
 		_permission === Permissions.OWNER || _permission === Permissions.CAN_EDIT
 	);
 
-	let memberPermission = $state(Helpers.getPermission(membersList, member));
+	let memberPermission = $state(ShoppingUtils.getPermission(membersList, member));
 
 	function _updatePermission() {
 		const _permission =

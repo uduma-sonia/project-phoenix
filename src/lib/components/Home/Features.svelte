@@ -4,7 +4,7 @@
 </script>
 
 <div class="mx-auto max-w-7xl px-4 pt-44 lg:pt-60">
-	<div class="mb-14 text-center md:mb-40" id="features">
+	<div class="mb-14 text-center md:mb-40">
 		<h2 class="font-lexend feature_heading mb-5 text-center font-bold tracking-tight">
 			Manage Your Activities
 			<br /> <span class="text-brand-quit">in One Place</span>

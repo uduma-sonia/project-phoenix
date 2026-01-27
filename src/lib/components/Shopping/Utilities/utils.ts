@@ -1,4 +1,5 @@
-import { ShoppingStatus } from '../../../../types/shopping';
+import { ShoppingStatus, type BoardMember, Permissions } from '../../../../types/shopping';
+import type { User } from '../../../../types/user';
 
 class ShoppingUtils {
 	static sortByDone(items: { status: ShoppingStatus }[]) {
@@ -27,6 +28,37 @@ class ShoppingUtils {
 		});
 
 		return this.sortByDone(result);
+	}
+
+	static getPermission(membersList: BoardMember[], user: User, ownerId?: string) {
+		const memberIdList = membersList?.map((item: { memberId: string }) => item.memberId);
+
+		if (user?._id) {
+			if (ownerId === user?._id) {
+				return Permissions.OWNER;
+			}
+
+			if (memberIdList) {
+				if (user?.email) {
+					if (memberIdList.includes(user.email)) {
+						const getMember = membersList.find(
+							(item: { memberId: string }) => item.memberId === user?.email
+						);
+
+						if (getMember?.permissions === Permissions.CAN_EDIT) {
+							return Permissions.CAN_EDIT;
+						} else {
+							return Permissions.READ_ONLY;
+						}
+					}
+				} else {
+					return Permissions.UNAUTHORIZED;
+				}
+			} else {
+				console.log('ekdc');
+				return Permissions.UNAUTHORIZED;
+			}
+		}
 	}
 }
 

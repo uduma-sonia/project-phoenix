@@ -7,6 +7,7 @@
 	import { addToast } from '$lib/store/toast';
 	import InvitedUserItem from '../Shopping/Utilities/InvitedUserItem.svelte';
 	import Helpers from '$lib/utils/helpers';
+	import ShoppingUtils from '../Shopping/Utilities/utils';
 
 	let { onClose, isOpen, user, trip } = $props();
 	const queryClient = useQueryClient();
@@ -35,7 +36,11 @@
 	);
 
 	let _permission = $derived(
-		Helpers.getPermission($membersQuery?.data?.data?.travelMembers?.members, user, trip?.ownerId)
+		ShoppingUtils.getPermission(
+			$membersQuery?.data?.data?.travelMembers?.members,
+			user,
+			trip?.ownerId
+		)
 	);
 
 	let usersList = $derived($usersQuery?.data?.data?.users);

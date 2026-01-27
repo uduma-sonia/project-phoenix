@@ -30,7 +30,6 @@ import {
 	subWeeks,
 	addWeeks
 } from 'date-fns';
-import { Permissions, type BoardMember } from '../../types/shopping';
 import type { User } from '../../types/user';
 import { currencies, currencyLocales } from '$lib/constants/currency';
 
@@ -375,36 +374,6 @@ class Helpers {
 		return numbers.reduce((sum, num) => sum + num, 0);
 	}
 
-	static getPermission(membersList: BoardMember[], user: User, ownerId?: string) {
-		const memberIdList = membersList?.map((item: { memberId: string }) => item.memberId);
-
-		if (user?._id) {
-			if (ownerId === user?._id) {
-				return Permissions.OWNER;
-			}
-
-			if (memberIdList) {
-				if (user?.email) {
-					if (memberIdList.includes(user.email)) {
-						const getMember = membersList.find(
-							(item: { memberId: string }) => item.memberId === user?.email
-						);
-
-						if (getMember?.permissions === Permissions.CAN_EDIT) {
-							return Permissions.CAN_EDIT;
-						} else {
-							return Permissions.READ_ONLY;
-						}
-					}
-				} else {
-					return Permissions.UNAUTHORIZED;
-				}
-			} else {
-				return Permissions.UNAUTHORIZED;
-			}
-		}
-	}
-
 	static getTimeOfDay(date: Date = new Date()): 'morning' | 'afternoon' | 'evening' {
 		const hour = getHours(date);
 		if (hour >= 5 && hour < 12) return 'morning';
@@ -482,6 +451,24 @@ class Helpers {
 		}
 
 		return 0;
+	}
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	static clickOutsidev2(node: any, callback: () => void) {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const handleClick = (event: any) => {
+			if (node && !node.contains(event.target) && !event.defaultPrevented) {
+				callback();
+			}
+		};
+
+		document.addEventListener('click', handleClick, true);
+
+		return {
+			destroy() {
+				document.removeEventListener('click', handleClick, true);
+			}
+		};
 	}
 }
 

@@ -1,5 +1,4 @@
 <script lang="ts">
-	// @ts-nocheck
 	import { page } from '$app/state';
 	import InputField from '$lib/components/Common/Form/InputField.svelte';
 	import { ShoppingRequest } from '$lib/requests';
@@ -49,7 +48,7 @@
 	}
 </script>
 
-<div class="p-3" use:Helpers.clickOutside onclick_outside={handleClickOutside}>
+<div class="p-3" use:Helpers.clickOutsidev2={handleClickOutside}>
 	<InputField bind:value={itemName} label="Name" />
 	<InputField bind:value={quantity} label="Quantity" type="number" />
 	<InputField bind:value={unit} label="Units eg. cartons, packets" />
