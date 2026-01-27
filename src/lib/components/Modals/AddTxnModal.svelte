@@ -1,18 +1,15 @@
 <script lang="ts">
-	// @ts-nocheck
 	import { closeAddTxnModal, modalsState } from '$lib/state/modal.svelte';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import BasicButton from '../Common/Form/BasicButton.svelte';
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import Dropdown from '../Common/Form/Dropdown.svelte';
-	import Helpers from '$lib/utils/helpers';
-	import { format } from 'date-fns';
-	import DatePickerMini from '../Common/DatePicker/DatePickerMini.svelte';
 	import { TransactionType, type TransactionCategory } from '../../../types/transaction';
 	import { addToast } from '$lib/store/toast';
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TransactionRequest } from '$lib/requests';
+	import DatePickerDropdown from '../Common/Form/DatePickerDropdown.svelte';
 
 	let { transactionCategoriesList, start, end } = $props();
 	const queryClient = useQueryClient();
@@ -20,17 +17,8 @@
 	let isSubmitting = $state(false);
 	let type = $state(TransactionType.EXPENSE);
 	let startDateValue = $state(new Date());
-	let isStartDateOpen = $state(false);
 	let amount = $state('');
 	let description = $state('');
-
-	function toggleStart() {
-		isStartDateOpen = !isStartDateOpen;
-	}
-
-	function handleClickOutside() {
-		isStartDateOpen = false;
-	}
 
 	function changeType(val: TransactionType) {
 		type = val;
@@ -125,29 +113,7 @@
 				</div>
 
 				<div class="w-1/2">
-					<label for="habitName" class="mb-2"> Date</label>
-
-					<div class="relative">
-						<button
-							class="button_active font-lexend h-[50px] w-full rounded-lg border px-4 text-left text-sm font-light sm:text-base"
-							type="button"
-							onclick={toggleStart}
-						>
-							{format(new Date(startDateValue), 'PPP')}
-						</button>
-
-						{#if isStartDateOpen}
-							<div
-								use:Helpers.clickOutside
-								onclick_outside={handleClickOutside}
-								class="absolute top-[54px] left-0 z-[9999] gap-4 overflow-hidden rounded-lg bg-white shadow-md"
-							>
-								<div class="w-[260px] rounded-lg border-2 p-1">
-									<DatePickerMini bind:selectedDate={startDateValue} />
-								</div>
-							</div>
-						{/if}
-					</div>
+					<DatePickerDropdown bind:dateValue={startDateValue} label="Transaction Date" />
 				</div>
 
 				<div>

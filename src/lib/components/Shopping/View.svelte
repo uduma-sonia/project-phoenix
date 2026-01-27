@@ -24,7 +24,7 @@
 		)
 	);
 
-	let currentTab = $state('');
+	let currentTab = $state('All');
 
 	function handleChangeTab(tab: string) {
 		currentTab = tab;

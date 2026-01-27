@@ -1,6 +1,5 @@
 <script lang="ts">
-	// @ts-nocheck
-	import { ChevronDown, ChevronUp, X } from '@lucide/svelte';
+	import { ChevronDown, ChevronUp } from '@lucide/svelte';
 	import Helpers from '$lib/utils/helpers';
 	import BasicInputField from './BasicInputField.svelte';
 
@@ -136,8 +135,7 @@
 
 	{#if isDropDownOpen}
 		<div
-			use:Helpers.clickOutside
-			onclick_outside={handleClickOutside}
+			use:Helpers.clickOutsidev2={handleClickOutside}
 			role="listbox"
 			tabindex="-1"
 			class="absolute top-full z-50 max-h-60 w-full overflow-y-auto rounded-xl rounded-t-none border-2 border-t-0 border-black bg-white shadow-2xl"

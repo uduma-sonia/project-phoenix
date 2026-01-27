@@ -1,10 +1,7 @@
 <script lang="ts">
-	// @ts-nocheck
 	import { daysOfWeek, iconsList } from '$lib/constants/tracker';
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';
-	import { format } from 'date-fns';
-	import DatePickerMini from '../Common/DatePicker/DatePickerMini.svelte';
 	import { TrackerRequest } from '$lib/requests';
 	import { Check } from '@lucide/svelte';
 	import { goto } from '$app/navigation';
@@ -18,6 +15,7 @@
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import TextArea from '../Common/Form/TextArea.svelte';
 	import BasicButton from '../Common/Form/BasicButton.svelte';
+	import DatePicker from '../Common/Form/DatePickerDropdown.svelte';
 
 	let { user, tracker }: { tracker: Habit; user: User } = $props();
 
@@ -33,22 +31,8 @@
 	let selectedDays: number[] = $state(tracker?.selectedDays);
 	let startDateValue = $state(tracker?.startDate);
 	let endDateValue = $state(tracker?.endDate);
-	let isStartDateOpen = $state(false);
-	let isEndDateOpen = $state(false);
 	let isIndefinite = $state(true);
 	let selectedIcon = $state(tracker?.icon);
-
-	function toggleStart() {
-		isStartDateOpen = !isStartDateOpen;
-	}
-	function toggleEnd() {
-		isEndDateOpen = !isEndDateOpen;
-	}
-
-	function handleClickOutside() {
-		isStartDateOpen = false;
-		isEndDateOpen = false;
-	}
 
 	function changeType(arg: string) {
 		type = arg;
@@ -72,7 +56,12 @@
 	}
 
 	function isBuild(arg: string | number[], type: string) {
-		return type === 'BUILD' ? arg : '';
+		const result = '' + (type === 'BUILD' ? arg : '');
+		return result;
+	}
+	function isBuild2(arg: number[], type: string) {
+		const result = type === 'BUILD' ? arg : [];
+		return result;
 	}
 
 	async function handleSubmit(e: any) {
@@ -90,12 +79,12 @@
 				unitMeasurement: isBuild(unitMeasurement, type) as string,
 				goalValue: isBuild(goalValue, type) as string,
 				isIndefinite: isIndefinite ? true : false,
-				selectedDays: isBuild(
+				selectedDays: isBuild2(
 					selectedDays?.map((item) => item),
 					type
-				) as number[],
+				),
 				isActive: true,
-				ownerId: user?._id,
+				ownerId: user?._id || '',
 				description,
 				icon: selectedIcon
 			};
@@ -237,58 +226,12 @@
 
 					<div class="flex items-center gap-4">
 						<div class="w-1/2">
-							<label for="habitName" class="mb-2"> Start date</label>
-
-							<div class="relative">
-								<button
-									class="button_active font-lexend h-[50px] w-full rounded-lg border px-4 text-left text-sm font-light sm:text-base"
-									type="button"
-									onclick={toggleStart}
-								>
-									{#if startDateValue}
-										{format(new Date(startDateValue), 'PPP')}
-									{/if}
-								</button>
-
-								{#if isStartDateOpen}
-									<div
-										use:Helpers.clickOutside
-										onclick_outside={handleClickOutside}
-										class="absolute top-[54px] left-0 z-[9999] gap-4 overflow-hidden rounded-lg bg-white shadow-md"
-									>
-										<div class="w-[260px] rounded-lg border-2 p-1">
-											<DatePickerMini bind:selectedDate={startDateValue} />
-										</div>
-									</div>
-								{/if}
-							</div>
+							<DatePicker bind:dateValue={startDateValue} label="Start date" />
 						</div>
 
 						{#if !isIndefinite}
 							<div class="w-1/2">
-								<label for="habitName" class="mb-2"> End date</label>
-
-								<div class="relative">
-									<button
-										class="button_active font-lexend h-[50px] w-full rounded-lg border px-4 text-left text-sm font-light sm:text-base"
-										type="button"
-										onclick={toggleEnd}
-									>
-										{format(new Date(endDateValue), 'PPP')}
-									</button>
-
-									{#if isEndDateOpen}
-										<div
-											use:Helpers.clickOutside
-											onclick_outside={handleClickOutside}
-											class="absolute top-[54px] right-0 z-[9999] gap-4 overflow-hidden rounded-lg bg-white shadow-md"
-										>
-											<div class="w-[260px] rounded-lg border-2 p-1">
-												<DatePickerMini bind:selectedDate={endDateValue} />
-											</div>
-										</div>
-									{/if}
-								</div>
+								<DatePicker bind:dateValue={endDateValue} label="End date" />
 							</div>
 						{/if}
 

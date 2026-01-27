@@ -1,10 +1,8 @@
 <script lang="ts">
-	// @ts-nocheck
 	import { daysOfWeek, iconsList } from '$lib/constants/tracker';
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';
-	import { format, addDays } from 'date-fns';
-	import DatePickerMini from '../Common/DatePicker/DatePickerMini.svelte';
+	import { addDays } from 'date-fns';
 	import { TrackerRequest } from '$lib/requests';
 	import { Check } from '@lucide/svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
@@ -15,6 +13,7 @@
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import TextArea from '../Common/Form/TextArea.svelte';
 	import BasicButton from '../Common/Form/BasicButton.svelte';
+	import DatePickerDropdown from '../Common/Form/DatePickerDropdown.svelte';
 
 	let { user } = $props();
 
@@ -28,22 +27,8 @@
 	let selectedDays: number[] = $state([0, 1, 2, 3, 4, 5, 6]);
 	let startDateValue = $state(new Date());
 	let endDateValue = $state(addDays(new Date(), 30));
-	let isStartDateOpen = $state(false);
-	let isEndDateOpen = $state(false);
 	let isIndefinite = $state(true);
 	let selectedIcon = $state('');
-
-	function toggleStart() {
-		isStartDateOpen = !isStartDateOpen;
-	}
-	function toggleEnd() {
-		isEndDateOpen = !isEndDateOpen;
-	}
-
-	function handleClickOutside() {
-		isStartDateOpen = false;
-		isEndDateOpen = false;
-	}
 
 	function changeType(arg: string) {
 		type = arg;
@@ -67,7 +52,12 @@
 	}
 
 	function isBuild(arg: string | number[], type: string) {
-		return type === 'BUILD' ? arg : '';
+		const result = '' + (type === 'BUILD' ? arg : '');
+		return result;
+	}
+	function isBuild2(arg: number[], type: string) {
+		const result = type === 'BUILD' ? arg : [];
+		return result;
 	}
 
 	async function updateHistory(id: string) {
@@ -98,7 +88,7 @@
 				unitMeasurement: isBuild(unitMeasurement, type),
 				goalValue: isBuild(goalValue, type),
 				isIndefinite: isIndefinite ? true : false,
-				selectedDays: isBuild(
+				selectedDays: isBuild2(
 					selectedDays?.map((item) => item),
 					type
 				),
@@ -247,56 +237,12 @@
 
 					<div class="flex items-center gap-4">
 						<div class="w-1/2">
-							<label for="habitName" class="mb-2"> Start date</label>
-
-							<div class="relative">
-								<button
-									class="button_active font-lexend h-[50px] w-full rounded-lg border px-4 text-left text-sm font-light sm:text-base"
-									type="button"
-									onclick={toggleStart}
-								>
-									{format(new Date(startDateValue), 'PPP')}
-								</button>
-
-								{#if isStartDateOpen}
-									<div
-										use:Helpers.clickOutside
-										onclick_outside={handleClickOutside}
-										class="absolute top-[54px] left-0 z-[9999] gap-4 overflow-hidden rounded-lg bg-white shadow-md"
-									>
-										<div class="w-[260px] rounded-lg border-2 p-1">
-											<DatePickerMini bind:selectedDate={startDateValue} />
-										</div>
-									</div>
-								{/if}
-							</div>
+							<DatePickerDropdown bind:dateValue={startDateValue} label="Start date" />
 						</div>
 
 						{#if !isIndefinite}
 							<div class="w-1/2">
-								<label for="habitName" class="mb-2"> End date</label>
-
-								<div class="relative">
-									<button
-										class="button_active font-lexend h-[50px] w-full rounded-lg border px-4 text-left text-sm font-light sm:text-base"
-										type="button"
-										onclick={toggleEnd}
-									>
-										{format(new Date(endDateValue), 'PPP')}
-									</button>
-
-									{#if isEndDateOpen}
-										<div
-											use:Helpers.clickOutside
-											onclick_outside={handleClickOutside}
-											class="absolute top-[54px] right-0 z-[9999] gap-4 overflow-hidden rounded-lg bg-white shadow-md"
-										>
-											<div class="w-[260px] rounded-lg border-2 p-1">
-												<DatePickerMini bind:selectedDate={endDateValue} />
-											</div>
-										</div>
-									{/if}
-								</div>
+								<DatePickerDropdown bind:dateValue={endDateValue} label="End date" />
 							</div>
 						{/if}
 

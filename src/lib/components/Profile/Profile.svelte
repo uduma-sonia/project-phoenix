@@ -24,11 +24,11 @@
 	}
 
 	async function handleLogout() {
+		queryClient.clear();
 		Helpers.deleteCookie(AUTH_TOKEN);
 		sessionStorage.removeItem(PAGE_REDIRECTED_FROM_KEY);
 		closeProfile();
 		goto('/login');
-		queryClient.clear();
 	}
 </script>
 
