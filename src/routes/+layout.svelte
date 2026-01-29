@@ -64,12 +64,11 @@
 
 <ToastContainer />
 <OnlineDetector />
+<InstallInstruction />
 
 {#if !hasBeenInstalled && !install_banner_seen}
 	<DownloadWidget {closeDownloadWidget} />
 {/if}
-
-<InstallInstruction />
 
 <QueryClientProvider client={queryClient}>
 	<main>
