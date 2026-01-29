@@ -21,11 +21,11 @@ A small ecosystem of connected tools that combines expense tracking, shopping li
 ## Backlogs
 
 - Cook mode
+- Fix close button in budget limit alert
 - Advanced search - search ingredients
 - Add some text formatting options to text area component
 - Bi weekly budgeting
 - import last week meals
-- change the handleclickoutside method
 - generate public shopping list link
 - generate shopping list from meal planner
 - allow users set their beginning of the week
@@ -36,3 +36,7 @@ A small ecosystem of connected tools that combines expense tracking, shopping li
 - add start date and end date to tracker details modal
 - remove the create list page, place it in a modal
 - lock shopping list from unauthorised users
+- Online detector - https://svelte.dev/playground/1e5fc30d89fc4a89940aa454c21a8e03?version=5.2.0
+
+<!-- https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/How_to/Share_data_between_apps -->
+<!-- {isIOS ? <BsBoxArrowUp /> : <GiHamburgerMenu />} -->

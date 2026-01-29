@@ -9,6 +9,7 @@
 	import { differenceInDays } from 'date-fns';
 	import '../app.css';
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
+	import OnlineDetector from '$lib/components/Common/OnlineDetector.svelte';
 
 	let { children } = $props();
 
@@ -62,6 +63,7 @@
 </script>
 
 <ToastContainer />
+<OnlineDetector />
 
 {#if !hasBeenInstalled && !install_banner_seen}
 	<DownloadWidget {closeDownloadWidget} />
