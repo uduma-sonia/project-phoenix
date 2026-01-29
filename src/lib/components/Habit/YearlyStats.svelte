@@ -7,6 +7,7 @@
 	import { format, formatISO } from 'date-fns';
 	import StatItem from './Utilities/StatItem.svelte';
 	import TrackerUtils from './Utilities/utils';
+	import MetaDetails from './Utilities/MetaDetails.svelte';
 
 	let { details } = $props();
 
@@ -74,13 +75,7 @@
 				/>
 			</div>
 
-			<br />
-			<br />
-			<div>
-				<p class="font-lexend text-sm font-light">
-					{details.description}
-				</p>
-			</div>
+			<MetaDetails {details} />
 		</div>
 	</div>
 </div>

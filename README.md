@@ -36,7 +36,5 @@ A small ecosystem of connected tools that combines expense tracking, shopping li
 - add start date and end date to tracker details modal
 - remove the create list page, place it in a modal
 - lock shopping list from unauthorised users
-- Online detector - https://svelte.dev/playground/1e5fc30d89fc4a89940aa454c21a8e03?version=5.2.0
 
 <!-- https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/How_to/Share_data_between_apps -->
-<!-- {isIOS ? <BsBoxArrowUp /> : <GiHamburgerMenu />} -->
