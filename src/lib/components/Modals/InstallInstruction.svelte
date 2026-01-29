@@ -65,7 +65,7 @@
 					</defs>
 				</svg>
 
-				in the broswer menu
+				in the browser menu
 			</p>
 
 			<div class="font-lexend mb-3 flex items-center gap-2 text-xs text-black">

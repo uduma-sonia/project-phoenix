@@ -8,6 +8,7 @@
 	import { format, formatISO } from 'date-fns';
 	import TrackerUtils from './Utilities/utils';
 	import Helpers from '$lib/utils/helpers';
+	import MetaDetails from './Utilities/MetaDetails.svelte';
 
 	let { details } = $props();
 
@@ -98,13 +99,7 @@
 				/>
 			</div>
 
-			<br />
-			<br />
-			<div>
-				<p class="font-lexend text-sm font-light">
-					{details.description}
-				</p>
-			</div>
+			<MetaDetails {details} />
 		</div>
 	</div>
 </div>
