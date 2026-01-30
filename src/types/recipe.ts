@@ -92,6 +92,7 @@ export type Recipe = {
 	directions?: Directions[];
 	nutrition?: Nutrition;
 	sections?: RecipeSection[];
+	_id?: string;
 };
 
 export interface RecipeResponse extends Recipe {
@@ -102,4 +103,52 @@ export interface RecipeResponse extends Recipe {
 	createdAt: Date;
 	updatedAt: Date;
 	isSaved: boolean;
+}
+
+export type ObjectId = string;
+export type ISODateString = string;
+
+export type DayOfWeek =
+	| 'monday'
+	| 'tuesday'
+	| 'wednesday'
+	| 'thursday'
+	| 'friday'
+	| 'saturday'
+	| 'sunday';
+
+export type TimeOfDay = 'breakfast' | 'lunch' | 'dinner' | 'snack';
+
+export type Difficulty = 'Easy' | 'Medium' | 'Hard';
+
+export interface MealEntry {
+	_id: ObjectId;
+	ownerId: ObjectId;
+	day: DayOfWeek;
+	timeOfDay: TimeOfDay;
+	name: string;
+	recipeIds: ObjectId[];
+	hasEaten: boolean;
+	mealPlanId: ObjectId;
+	date: ISODateString;
+	createdAt: ISODateString;
+	updatedAt: ISODateString;
+	__v: number;
+	recipeIdsObj: ObjectId[];
+	recipeDetails: Recipe[];
+}
+
+export interface Time {
+	hour: number;
+	minutes: number;
+}
+
+export interface Direction {
+	_id: ObjectId;
+	name: string;
+}
+
+export interface SectionListItem {
+	_id: ObjectId;
+	value: string;
 }
