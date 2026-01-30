@@ -6,10 +6,18 @@
 		className?: string;
 		alt?: string;
 		fadeIn?: boolean;
+		withLoadingAnimation?: boolean;
 		fetchpriority?: 'high' | 'low' | 'auto';
 	};
 
-	let { src, className, alt = '', fadeIn = true, fetchpriority }: Props = $props();
+	let {
+		src,
+		className,
+		alt = '',
+		fadeIn = true,
+		fetchpriority,
+		withLoadingAnimation = false
+	}: Props = $props();
 
 	let hasLoaded = $state(false);
 	let hasError = $state(false);
@@ -39,14 +47,16 @@
 	/>
 {/if}
 
-{#if hasError}
+{#if !hasLoaded && hasError}
 	<p class="font-lexend text-center text-xs font-light text-black">This image cannot be loaded</p>
 {/if}
 
-{#if !hasLoaded && !hasError}
-	<div class="flex h-full w-full items-center justify-center">
-		<span class="spinner_white border-2 border-black"></span>
-	</div>
+{#if withLoadingAnimation}
+	{#if !hasLoaded && !hasError}
+		<div class="flex h-full w-full items-center justify-center">
+			<span class="spinner_white border-2 border-black"></span>
+		</div>
+	{/if}
 {/if}
 
 <style>
