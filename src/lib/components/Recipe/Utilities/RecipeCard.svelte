@@ -22,7 +22,11 @@
 		>
 			{#if recipeImage}
 				<div class="h-[160px] overflow-hidden rounded-t-lg">
-					<Image src={recipeImage} className="h-full w-full object-cover" />
+					<Image
+						withLoadingAnimation={true}
+						src={recipeImage}
+						className="h-full w-full object-cover"
+					/>
 				</div>
 			{/if}
 			{#if !recipeImage}

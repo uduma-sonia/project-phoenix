@@ -1,4 +1,4 @@
-<div class="mx-auto max-w-7xl px-4 pt-36 pb-10 md:pt-40">
+<section class="mx-auto max-w-7xl px-4 pt-36 pb-10 md:pt-40">
 	<div class="items-start gap-10 md:flex">
 		<div class="max-w-[400px] flex-1">
 			<a href="/" class="flex items-center gap-2">
@@ -70,4 +70,4 @@
 	<div class="mt-20 flex justify-center">
 		<p class="text-10 font-lexend font-light">Copyright © 2025 Laniva. All rights reserved.</p>
 	</div>
-</div>
+</section>

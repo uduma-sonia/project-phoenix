@@ -3,7 +3,7 @@
 	import PricingCard from './PricingCard.svelte';
 </script>
 
-<div class="mx-auto max-w-[500px] pt-20 lg:max-w-full lg:pt-40">
+<section class="mx-auto max-w-[500px] pt-20 lg:max-w-full lg:pt-40">
 	<div class="mb-20 text-center" id="pricing">
 		<h3 class="font-crete text-2xl font-semibold md:text-3xl lg:text-4xl">
 			Simple, affordable pricing
@@ -27,4 +27,4 @@
 			</button>
 		</a>
 	</div>
-</div>
+</section>

@@ -7,7 +7,8 @@
 		closeModal,
 		modalsState,
 		openBoardDeleteModal,
-		openModal
+		openModal,
+		openUpdateListModal
 	} from '$lib/state/modal.svelte';
 	import BackComponent from '../Common/BackComponent.svelte';
 	import { addToast } from '$lib/store/toast';
@@ -24,10 +25,9 @@
 	import Helpers from '$lib/utils/helpers';
 	import { Permissions } from '../../../types/shopping';
 	import fetchSingleUser from '$lib/hooks/fetchSingleUser';
+	import UpdateList from '../Modals/UpdateList.svelte';
 
 	let { boardQuery, user, standardItemsQuery, _permission } = $props();
-
-	$effect(() => console.log(_permission));
 
 	let boardId = page.params.id;
 
@@ -174,17 +174,12 @@
 		{
 			label: 'Edit',
 			icon: SquarePen,
-			link: `/shopping/${boardDetails?._id}/edit`
+			action: openUpdateListModal
 		},
 		{
 			label: 'Copy public link',
 			icon: Copy,
 			action: copyLink
-		},
-		{
-			label: 'Standard list',
-			icon: List,
-			action: toggleShowStandardList
 		},
 		{
 			label: 'Shopping done',
@@ -330,3 +325,5 @@
 		title={boardDetails?.name}
 	/>
 {/if}
+
+<UpdateList {boardDetails} />

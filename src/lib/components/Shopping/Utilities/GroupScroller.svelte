@@ -1,5 +1,6 @@
 <script lang="ts">
 	import TabButton from '$lib/components/Common/TabButton.svelte';
+	import { openCreateListModal } from '$lib/state/modal.svelte';
 	import { CircleCheck, Plus } from '@lucide/svelte';
 
 	let { currentTab = $bindable(), handleChangeTab } = $props();
@@ -19,13 +20,14 @@
 		</div>
 
 		<div>
-			<a href="/shopping/create">
-				<button class="shadow_button_outline shadow_button_thin shadow_button_with_icon">
-					<Plus size="20px" />
+			<button
+				onclick={openCreateListModal}
+				class="shadow_button_outline shadow_button_thin shadow_button_with_icon"
+			>
+				<Plus size="20px" />
 
-					list
-				</button>
-			</a>
+				list
+			</button>
 		</div>
 	</div>
 </div>
