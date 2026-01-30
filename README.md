@@ -33,6 +33,5 @@ A small ecosystem of connected tools that combines expense tracking, shopping li
 - add drag and drop to recipe form
 - 404 page
 - remove the create list page, place it in a modal
-- lock shopping list from unauthorised users
 
 <!-- https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/How_to/Share_data_between_apps -->

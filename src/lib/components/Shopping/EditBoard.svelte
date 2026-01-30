@@ -60,13 +60,6 @@
 						required
 						label="Name"
 					/>
-					<!-- <BasicInputField
-						type="text"
-						id="currency"
-						name="currency"
-						bind:value={currency}
-						label="Currency"
-					/> -->
 				</div>
 
 				<div>

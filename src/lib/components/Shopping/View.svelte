@@ -10,10 +10,15 @@
 	import { onMount } from 'svelte';
 	import ShoppingUtils from './Utilities/utils';
 	import GroupScroller from './Utilities/GroupScroller.svelte';
+	import CreateList from '../Modals/CreateList.svelte';
+	import useCurrentUser from '$lib/hooks/useCurrentUser';
 
 	let searchQuery = $state('');
 
-	const boardsQuery = createQuery({
+	let userQuery = useCurrentUser();
+	let user = $derived($userQuery?.data?.data?.user);
+
+	let boardsQuery = createQuery({
 		queryKey: queryKeys.getInvitedBoards,
 		queryFn: () => ShoppingRequest.getInvitedBoards()
 	});
@@ -75,3 +80,4 @@
 </div>
 
 <StandardListModal onClose={closeModal} isOpen={modalsState.data.isOpen} />
+<CreateList {user} />

@@ -41,7 +41,8 @@
 >
 	<div class="grid h-full grid-cols-5">
 		{#each routeLinks as route, index (index)}
-			{@const isActive = page.url.pathname.startsWith(route.route)}
+			{@const isActive =
+				page.url.pathname.startsWith(route.route) || page.url.pathname.includes(route.keyword)}
 			<a
 				href={route.route}
 				class="relative flex flex-col items-center justify-center gap-1 opacity-50"

@@ -30,7 +30,9 @@ export const modalsState = $state({
 		isOpenAddBudget: false,
 
 		isOpenEditTxn: false,
-		isOpenRecipeGroup: false
+		isOpenRecipeGroup: false,
+		isOpenCreateList: false,
+		isOpenUpdateList: false
 	}
 });
 
@@ -253,4 +255,18 @@ export function openRecipeGroupModal() {
 }
 export function closeRecipeGroupModal() {
 	modalsState.data.isOpenRecipeGroup = false;
+}
+
+export function openCreateListModal() {
+	modalsState.data.isOpenCreateList = true;
+}
+export function closeCreateListModal() {
+	modalsState.data.isOpenCreateList = false;
+}
+
+export function openUpdateListModal() {
+	modalsState.data.isOpenUpdateList = true;
+}
+export function closeUpdateListModal() {
+	modalsState.data.isOpenUpdateList = false;
 }

@@ -13,7 +13,7 @@
 
 	let isSubmitting = $state(false);
 	let boardName = $state('');
-	let currency = $state('');
+	// let currency = $state('');
 
 	async function handleSubmit(e: any) {
 		e.preventDefault();
@@ -24,14 +24,14 @@
 			const payload = {
 				name: boardName,
 				ownerId: user?._id,
-				status: ShoppingStatus.PENDING,
-				currency: currency
+				status: ShoppingStatus.PENDING
+				// currency: currency
 			};
 
 			const result = await ShoppingRequest.createBoard(payload);
 
 			if (result) {
-				addToast('Board created', 'success', { imgLink: '/images/confetti.svg' });
+				addToast('List created', 'success', { imgLink: '/images/confetti.svg' });
 				queryClient.invalidateQueries({
 					queryKey: queryKeys.getInvitedBoards
 				});
@@ -56,13 +56,13 @@
 			label="Name"
 			placeholder="eg., General shopping, Skincare list, etc"
 		/>
-		<BasicInputField
+		<!-- <BasicInputField
 			type="text"
 			id="currency"
 			name="currency"
 			bind:value={currency}
 			label="Currency"
-		/>
+		/> -->
 	</div>
 
 	<div class="flex items-center justify-between gap-4">
