@@ -22,7 +22,7 @@ A small ecosystem of connected tools that combines expense tracking, shopping li
 
 - Cook mode
 - Fix close button in budget limit alert
-- Advanced search - search ingredients
+- Advanced search - search ingredients https://stackoverflow.com/questions/56134862/searching-through-multiple-properties-in-an-object-using-only-one-input-aka-glob https://stackoverflow.com/questions/54143107/string-search-with-all-fields-of-array-of-objects
 - Add some text formatting options to text area component
 - Bi weekly budgeting
 - import last week meals
@@ -31,7 +31,5 @@ A small ecosystem of connected tools that combines expense tracking, shopping li
 - upgrade button and input component to accept size and variants to work together efficiently
 - make shopping list name editable
 - add drag and drop to recipe form
-- 404 page
-- remove the create list page, place it in a modal
 
 <!-- https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/How_to/Share_data_between_apps -->

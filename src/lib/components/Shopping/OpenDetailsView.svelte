@@ -8,6 +8,7 @@
 	import Seo from '../Common/SEO.svelte';
 	import LoaderError from '../Common/LoaderError.svelte';
 	import Helpers from '$lib/utils/helpers';
+	import BackComponent from '../Common/BackComponent.svelte';
 
 	let { boardItemsQuery } = $props();
 
@@ -58,8 +59,10 @@
 <Seo title={decodeURIComponent(listName)} />
 
 <div class="px-3 pb-20">
-	<div>
-		<p class="mt-6 text-center text-xl">
+	<div class="mt-4">
+		<BackComponent backLink="/shopping" />
+
+		<p class=" text-center text-xl">
 			{decodeURIComponent(listName)}
 		</p>
 	</div>
