@@ -2,7 +2,7 @@
 	import MoreItem from './MoreItem.svelte';
 </script>
 
-<div class="mx-auto max-w-[500px] pt-20 lg:max-w-full lg:pt-40">
+<section class="mx-auto max-w-[500px] pt-20 lg:max-w-full lg:pt-40">
 	<div class="mb-12 text-center">
 		<h3 class="font-crete text-2xl font-semibold md:text-3xl lg:text-4xl">
 			Get started in seconds, access from anywhere
@@ -32,4 +32,4 @@
 			/>
 		</div>
 	</div>
-</div>
+</section>

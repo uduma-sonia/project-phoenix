@@ -70,17 +70,13 @@
 
 			{#if _total}
 				<div class="mt-4 flex items-center justify-between px-1">
-					<p class="font-lexend font-medium">Total amount</p>
+					<p class="font-lexend text-right font-light">
+						{_total}
+					</p>
 
-					<div class="flex items-center gap-2">
-						<p class="font-lexend text-right font-light">
-							{_total}
-						</p>
-
-						<p class="font-lexend text-sm font-extralight">
-							{completedLength?.length || 0} / {filteredItems?.length || '0'}
-						</p>
-					</div>
+					<p class="font-lexend text-sm font-light">
+						{completedLength?.length || 0} / {filteredItems?.length || '0'}
+					</p>
 				</div>
 			{/if}
 

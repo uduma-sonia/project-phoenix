@@ -9,6 +9,8 @@
 	import { ShoppingRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { createQuery } from '@tanstack/svelte-query';
+	import { Permissions } from '../../../../types/shopping';
+	import LockedList from '$lib/components/Shopping/Utilities/LockedList.svelte';
 
 	let boardId = page.params.id;
 
@@ -38,7 +40,11 @@
 </script>
 
 <AppLayout withName={false}>
-	<DetailsView {boardQuery} {user} {standardItemsQuery} {_permission} />
+	{#if _permission === Permissions.UNAUTHORIZED}
+		<LockedList />
+	{:else}
+		<DetailsView {boardQuery} {user} {standardItemsQuery} {_permission} />
+	{/if}
 </AppLayout>
 
 <DeleteBoardModal />

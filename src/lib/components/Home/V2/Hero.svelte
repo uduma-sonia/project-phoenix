@@ -13,7 +13,7 @@
 	</div>
 {/snippet}
 
-<div class="mx-auto max-w-7xl px-4">
+<section class="mx-auto max-w-7xl px-4">
 	<div class="grid grid-cols-1 gap-4 lg:h-[700px] lg:grid-cols-2">
 		<div class="flex h-[400px] items-center lg:h-full">
 			<div class="w-full">
@@ -66,7 +66,7 @@
 			{@render pill('Habit', 'habit_pill')}
 		</div>
 	</div>
-</div>
+</section>
 
 <style>
 	:global(.meal_pill) {
