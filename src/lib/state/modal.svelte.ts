@@ -32,7 +32,8 @@ export const modalsState = $state({
 		isOpenEditTxn: false,
 		isOpenRecipeGroup: false,
 		isOpenCreateList: false,
-		isOpenUpdateList: false
+		isOpenUpdateList: false,
+		isOpenGeneratedShoppingList: false
 	}
 });
 
@@ -269,4 +270,11 @@ export function openUpdateListModal() {
 }
 export function closeUpdateListModal() {
 	modalsState.data.isOpenUpdateList = false;
+}
+
+export function openGeneratedShoppingListModal() {
+	modalsState.data.isOpenGeneratedShoppingList = true;
+}
+export function closeGeneratedShoppingListtModal() {
+	modalsState.data.isOpenGeneratedShoppingList = false;
 }

@@ -47,7 +47,7 @@
 
 				await ShoppingRequest.createMultipleItems({ items: payload });
 
-				addToast(`Items saved to`, 'success', { link: `/shopping/${id}`, linkName: listName });
+				addToast(`Shopping list saved`, 'success', { link: `/shopping/${id}`, linkName: listName });
 				closeAddToListModal();
 			} catch (error: any) {
 				addToast(error?.message || 'An error occured', 'error');
@@ -63,7 +63,7 @@
 	onClose={closeAddToListModal}
 	label={showCreateList ? 'Create list' : `Add to list`}
 	maxWidth="max-w-[400px]"
-	helperText={showCreateList ? '' : 'Select the shopping list the selected items to'}
+	helperText={showCreateList ? '' : 'Select the shopping list to add the items to'}
 >
 	<div class="p-4">
 		{#if showCreateList}

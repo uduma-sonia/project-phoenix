@@ -13,10 +13,14 @@
 	import { Play } from '@lucide/svelte';
 	import Dropdown from '$lib/components/Common/Form/Dropdown.svelte';
 	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
-	import { onMount } from 'svelte';
+	import GeneratedShoppingList from '../GeneratedShoppingList.svelte';
+	import useCurrentUser from '$lib/hooks/useCurrentUser';
 
 	let { selectedPlan, currentWeek = $bindable(new Date()), mealsOptions, moreOptions } = $props();
+
 	const queryClient = useQueryClient();
+
+	let userQuery = useCurrentUser();
 	let meal_items_container: any;
 
 	const weekDates = $derived(
@@ -27,6 +31,7 @@
 	);
 	let mealsQuery = $derived(fetchMealsList(selectedPlan?.id, currentWeek));
 	let mealsList = $derived($mealsQuery?.data?.data?.meals);
+	let user = $derived($userQuery?.data?.data?.user);
 
 	function updateCurrentWeek(value: any) {
 		currentWeek = value;
@@ -62,12 +67,12 @@
 		meal_items_container.scrollLeft += 300;
 	};
 
-	onMount(() => {
-		setTimeout(() => {
-			const todayEl = document.getElementById('today-button');
-			todayEl?.scrollIntoView({ behavior: 'instant', inline: 'center' });
-		}, 0);
-	});
+	// onMount(() => {
+	// 	setTimeout(() => {
+	// 		const todayEl = document.getElementById('today-button');
+	// 		todayEl?.scrollIntoView({ behavior: 'instant', inline: 'center' });
+	// 	}, 0);
+	// });
 </script>
 
 {#snippet dayOfWeek(title: string, sub: string, isToday: boolean)}
@@ -160,6 +165,8 @@
 		</div>
 	</div>
 </div>
+
+<GeneratedShoppingList {mealsList} {user} />
 
 <style>
 	.meal_items_container {

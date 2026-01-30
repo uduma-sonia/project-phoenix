@@ -2,11 +2,15 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { MealRequest, RecipeRequest } from '$lib/requests';
-	import { Plus, SquarePen, Trash, ChartNetwork, Import } from '@lucide/svelte';
+	import { Plus, SquarePen, Trash, ChartNetwork, Import, ListRestart } from '@lucide/svelte';
 	import { type Options } from '../Common/HamburgerDropdown.svelte';
 	import type { MealPlan } from '../../../types/meal';
 	import Seo from '$lib/components/Common/SEO.svelte';
-	import { openCreateMealPlanModal, openDeleteMealPlanModal } from '$lib/state/modal.svelte';
+	import {
+		openCreateMealPlanModal,
+		openDeleteMealPlanModal,
+		openGeneratedShoppingListModal
+	} from '$lib/state/modal.svelte';
 	import WeekPlannerV2 from './Utilities/WeekPlannerV2.svelte';
 	import AddMeal from '../Modals/AddMeal.svelte';
 	import { addToast } from '$lib/store/toast';
@@ -72,6 +76,11 @@
 			action: _comingsoon
 		},
 		{
+			label: 'Generate shopping list',
+			icon: ListRestart,
+			action: openGeneratedShoppingListModal
+		},
+		{
 			label: 'Edit plan',
 			icon: SquarePen,
 			action: updateMealPlan
@@ -79,7 +88,6 @@
 		{
 			label: 'Insight',
 			icon: ChartNetwork,
-			// link: `/meal-planner/insight?plan=${selectedPlan?.value}`
 			action: _comingsoon
 		},
 		{
