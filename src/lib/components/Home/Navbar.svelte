@@ -56,6 +56,11 @@
 
 		<div class="flex items-center gap-4">
 			<div>
+				<a href="/login">
+					<button class="shadow_button_outline shadow_button_sm" type="button"> Log in </button>
+				</a>
+			</div>
+			<div>
 				<a href="/signup">
 					<button class="shadow_button shadow_button_sm" type="button"> Signup </button>
 				</a>
