@@ -55,7 +55,6 @@ class ShoppingUtils {
 					return Permissions.UNAUTHORIZED;
 				}
 			} else {
-				console.log('ekdc');
 				return Permissions.UNAUTHORIZED;
 			}
 		}

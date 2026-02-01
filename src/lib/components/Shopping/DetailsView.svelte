@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Check, Copy, List, SquarePen, Trash } from '@lucide/svelte';
+	import { Check, Copy, SquarePen, Trash } from '@lucide/svelte';
 	import ListItem from './Utilities/ListItem.svelte';
 	import Search from './Utilities/Search.svelte';
 	import InviteModal from './InviteModal.svelte';
@@ -230,8 +230,6 @@
 
 	<div class="mt-1 grid grid-cols-1 gap-10 px-3 md:grid-cols-2">
 		<div>
-			<LoaderError isLoading={$boardItemsQuery?.isLoading} error={$boardItemsQuery?.isError} />
-
 			{#if _total}
 				<div class="mt-4 flex items-center justify-between px-1">
 					<p class="font-lexend font-medium">Total amount</p>
@@ -241,6 +239,8 @@
 					</p>
 				</div>
 			{/if}
+
+			<LoaderError isLoading={$boardItemsQuery?.isLoading} error={$boardItemsQuery?.isError} />
 
 			{#if !$boardItemsQuery?.isLoading}
 				<div>

@@ -49,7 +49,7 @@
 	});
 </script>
 
-<div class="pb-24">
+<div class="pb-44">
 	<p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">
 		Manage and organize your recipes
 	</p>
@@ -64,7 +64,7 @@
 
 	{#if !isLoading && !isError}
 		{#if hasRecipes}
-			<div class="mt-14 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:grid-cols-3">
+			<div class="mt-8 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:mt-14 md:grid-cols-3">
 				{#if !$recipeQuery?.isLoading && filteredRecipeList?.length > 0}
 					{#each filteredRecipeList as recipe, index (index)}
 						<RecipeCard {recipe} />

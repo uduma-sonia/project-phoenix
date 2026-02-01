@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ShoppingRequest } from '$lib/requests';
-	import { closeCreateListModal, closeUpdateListModal, modalsState } from '$lib/state/modal.svelte';
+	import { closeUpdateListModal, modalsState } from '$lib/state/modal.svelte';
 	import { addToast } from '$lib/store/toast';
 	import BasicButton from '../Common/Form/BasicButton.svelte';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
@@ -63,7 +63,7 @@
 			</div>
 
 			<div class="mt-8 flex items-center justify-end gap-5">
-				<BasicButton label="Cancel" variant="error" action={closeCreateListModal} />
+				<BasicButton label="Cancel" variant="error" action={closeUpdateListModal} />
 				<BasicButton label="Update" isLoading={isSubmitting} variant="primary" type="submit" />
 			</div>
 		</form>

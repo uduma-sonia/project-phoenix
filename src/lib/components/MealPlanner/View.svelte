@@ -107,7 +107,7 @@
 
 <Seo title={seoTitle} />
 
-<div class="pb-24">
+<div class="pb-44">
 	<p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">
 		What are you eating this {Helpers.getTimeOfDay()}?
 	</p>

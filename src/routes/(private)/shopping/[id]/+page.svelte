@@ -11,17 +11,16 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import { Permissions } from '../../../../types/shopping';
 	import LockedList from '$lib/components/Shopping/Utilities/LockedList.svelte';
+	import LoaderError from '$lib/components/Common/LoaderError.svelte';
 
 	let boardId = page.params.id;
 
 	let userQuery = useCurrentUser();
-
+	let membersQuery = fetchBoardMembers(boardId);
 	let boardQuery = createQuery({
 		queryKey: queryKeys.getBoard(boardId),
 		queryFn: () => ShoppingRequest.getBoard(boardId)
 	});
-	let membersQuery = fetchBoardMembers(boardId);
-
 	let standardItemsQuery = createQuery({
 		queryKey: queryKeys.getStandardItems,
 		queryFn: () => ShoppingRequest.getStandardItems('')
@@ -40,10 +39,14 @@
 </script>
 
 <AppLayout withName={false}>
-	{#if _permission === Permissions.UNAUTHORIZED}
-		<LockedList />
-	{:else}
-		<DetailsView {boardQuery} {user} {standardItemsQuery} {_permission} />
+	<LoaderError isLoading={$boardQuery?.isLoading} error={$boardQuery?.isError} />
+
+	{#if !$boardQuery?.isLoading && !$membersQuery?.isLoading && !$userQuery?.isLoading}
+		{#if _permission === Permissions.UNAUTHORIZED}
+			<LockedList />
+		{:else}
+			<DetailsView {boardQuery} {user} {standardItemsQuery} {_permission} />
+		{/if}
 	{/if}
 </AppLayout>
 
