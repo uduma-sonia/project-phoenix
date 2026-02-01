@@ -26,7 +26,6 @@ A small ecosystem of connected tools that combines expense tracking, shopping li
 - Add some text formatting options to text area component
 - Bi weekly budgeting
 - import last week meals
-- generate shopping list from meal planner
 - allow users set their beginning of the week
 - upgrade button and input component to accept size and variants to work together efficiently
 - make shopping list name editable

@@ -7,11 +7,18 @@
 	type Props = {
 		children: any;
 		withName?: boolean;
-		floatingLink?: string;
+		floatingBtnLink?: string;
 		tooltipText?: string;
+		floatingAction?: () => void;
 	};
 
-	let { children, withName = true, floatingLink = '', tooltipText = '' }: Props = $props();
+	let {
+		children,
+		withName = true,
+		floatingBtnLink = '',
+		tooltipText = '',
+		floatingAction
+	}: Props = $props();
 
 	let innerHeight = $state(typeof window !== 'undefined' ? window.innerHeight : 0);
 
@@ -34,8 +41,8 @@
 			{@render children()}
 		</div>
 
-		{#if floatingLink}
-			<FloatingButton {tooltipText} link={floatingLink} />
+		{#if floatingBtnLink || floatingAction}
+			<FloatingButton action={floatingAction} {tooltipText} link={floatingBtnLink} />
 		{/if}
 	</div>
 </div>
