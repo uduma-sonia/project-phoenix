@@ -37,6 +37,10 @@
 	z-index: 1;
 }
 
+.retro_block {
+	box-shadow: 2px 2px black;
+}
+
 .retro_ui_block {
 	position: relative;
 	z-index: 2;

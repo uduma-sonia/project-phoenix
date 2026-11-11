@@ -514,7 +514,7 @@
 						<p class="pt-4">Category</p>
 
 						<div class="flex items-center gap-3 pt-2">
-							{#each groupList as group}
+							{#each groupList as group (group._id)}
 								{@const isSelected = selectedGroupList?.find((item) => item.id === group._id)}
 								<button
 									class="font-lexend hover:bg-brand-rose relative inline-block rounded-md border bg-white px-4 py-2 text-[11px] font-light text-black capitalize"

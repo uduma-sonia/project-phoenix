@@ -30,5 +30,6 @@ A small ecosystem of connected tools that combines expense tracking, shopping li
 - upgrade button and input component to accept size and variants to work together efficiently
 - make shopping list name editable
 - add drag and drop to recipe form
+- Google login button
 
 <!-- https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/How_to/Share_data_between_apps -->

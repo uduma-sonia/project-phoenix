@@ -10,10 +10,10 @@
 </script>
 
 <div class="min-w-[280px] flex-1">
-	<div class="retro_wrapper">
+	<div class="retro_wrapper balanceCard">
 		<div class="retro_wrapper_inner_iwjd">
 			<div class="flex h-16 flex-col justify-center">
-				<p class="font-lexend mb-2 text-xs font-light opacity-70 md:text-sm">{title}</p>
+				<p class="font-lexend mb-1 text-xs font-normal md:text-sm">{title}</p>
 				<p class="font-lexend text-lg font-normal md:text-xl {balanceClass}">
 					{#if currency?.id}
 						{Helpers.currencyFormatter({
@@ -33,9 +33,17 @@
 		position: relative;
 		z-index: 10;
 		width: 100%;
-		border-radius: 8px;
+		border-radius: 14px !important;
 		border: 2px solid black;
 		background-color: #fff;
-		padding: 16px;
+		padding: 2px 14px;
+	}
+
+	.balanceCard {
+		border-radius: 14px !important;
+	}
+	.balanceCard::before,
+	.balanceCard::after {
+		border-radius: 14px !important;
 	}
 </style>
