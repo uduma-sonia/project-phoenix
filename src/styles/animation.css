@@ -42,6 +42,7 @@
 	animation-name: slideInUp;
 	animation-duration: 0.8s;
 	animation-fill-mode: forwards;
+	animation-timing-function: linear;
 }
 .slide_in_down {
 	animation-name: slideInDown;
@@ -123,6 +124,18 @@
 	animation-iteration-count: infinite;
 }
 
+.slide_in_right {
+	animation-name: slideInRight;
+	animation-duration: 0.8s;
+	animation-fill-mode: forwards;
+}
+
+.slide_in_left {
+	animation-name: slideInLeft;
+	animation-duration: 0.8s;
+	animation-fill-mode: forwards;
+}
+
 @keyframes pulse {
 	0% {
 		transform: scale(0.9);
@@ -179,11 +192,12 @@
 
 @keyframes slideInUp {
 	0% {
-		transform: translateY(30px);
+		transform: translateY(20px);
 	}
 
 	100% {
 		transform: translateY(0%);
+		opacity: 1;
 	}
 }
 
@@ -194,5 +208,25 @@
 
 	100% {
 		transform: translateY(0%);
+	}
+}
+
+@keyframes slideInRight {
+	0% {
+		transform: translateX(100px);
+	}
+
+	100% {
+		transform: translateX(0%);
+	}
+}
+
+@keyframes slideInLeft {
+	0% {
+		transform: translateX(-100px);
+	}
+
+	100% {
+		transform: translateX(0%);
 	}
 }

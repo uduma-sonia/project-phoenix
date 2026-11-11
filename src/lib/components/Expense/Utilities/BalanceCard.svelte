@@ -21,6 +21,8 @@
 							minimumFractionDigits: currency?.details.rounding,
 							maximumFractionDigits: currency?.details?.decimal_digits
 						}).format(value)}
+					{:else}
+						{'-'}
 					{/if}
 				</p>
 			</div>

@@ -40,3 +40,12 @@ export enum BudgetCycle {
 	QUARTERLY = 'QUARTERLY'
 	// BI_WEEKLY = 'BI_WEEKLY',
 }
+
+export interface TxnCardSortedItem {
+	budgetAmount: number;
+	name: string;
+	id: string;
+	count: number;
+	amount: number;
+	type: string;
+}

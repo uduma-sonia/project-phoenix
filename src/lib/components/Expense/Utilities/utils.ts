@@ -179,6 +179,35 @@ class ExpenseUtils {
 			return 'On track';
 		}
 	}
+
+	static getExpenseStats(expenseGroupLineData: any[], txnId?: string) {
+		return expenseGroupLineData?.find((expGroup) => expGroup?.categoryId === txnId);
+	}
+
+	static sortTxnList(
+		txnCategoriesList: TransactionCategory[],
+		expenseGroupLineData: any,
+		type: TransactionType
+	) {
+		if (!txnCategoriesList?.length) {
+			return [];
+		}
+		const filteredList = txnCategoriesList?.filter((cat) => cat.type === type);
+
+		const updateList = filteredList?.map((category) => {
+			const getStats = this.getExpenseStats(expenseGroupLineData, category?._id);
+			return {
+				budgetAmount: category?.budgetAmount,
+				name: category?.name,
+				id: category?._id,
+				count: getStats?.count || 0,
+				amount: getStats?.amount || 0,
+				type: category.type
+			};
+		});
+
+		return updateList;
+	}
 }
 
 export default ExpenseUtils;

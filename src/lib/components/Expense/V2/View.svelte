@@ -39,16 +39,26 @@
 		openTxnCategoryModal,
 		openTxnSettingsModal
 	} from '$lib/state/modal.svelte';
-	import { BudgetCycle } from '../../../../types/transaction';
+	import { BudgetCycle, TransactionType } from '../../../../types/transaction';
 	import ExpenseUtils from '../Utilities/utils';
 	import BudgetWarning from '../Utilities/BudgetWarning.svelte';
 	import DateScroller from '../Utilities/DateScroller.svelte';
 	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
 	import BalanceCard from '../Utilities/BalanceCard.svelte';
+	import TxnTable from '../Utilities/TxnTable.svelte';
+	import AddTxnModal from '$lib/components/Modals/AddTxnModal.svelte';
+	import EditTransaction from '$lib/components/Modals/EditTransaction.svelte';
+	import SetBudget from '$lib/components/Modals/SetBudget.svelte';
+	import TxnCategoryModal from '$lib/components/Modals/TxnCategoryModal.svelte';
+	import TxnSettingsModal from '$lib/components/Modals/TxnSettingsModal.svelte';
+	import ExpensesCard from './ExpensesCard.svelte';
+	import TabButton from '$lib/components/Common/TabButton.svelte';
+	import BreakdownInsight from '../Utilities/BreakdownInsight.svelte';
 	// import { BudgetCycle } from '../../../types/transaction';
 	// import CategoryBreakdown from './Utilities/CategoryBreakdown.svelte';
 	// import SetBudget from '../Modals/SetBudget.svelte';
 	// import EditTransaction from '../Modals/EditTransaction.svelte';
+	import Breakdown from '../Utilities/Breakdown.svelte';
 
 	let userQuery = useCurrentUser();
 	let user = $derived($userQuery?.data?.data?.user);
@@ -95,6 +105,8 @@
 	let budgetPercentage = $derived(
 		Helpers.getPercentage(txnAnalytics?.totalExpense, user?.budgetAmount)
 	);
+	let currentTab = $state(TransactionType.EXPENSE);
+	let openedCategoryId = $state('');
 
 	const moreOptions = [
 		{
@@ -108,6 +120,8 @@
 			action: openTxnSettingsModal
 		}
 	];
+
+	$effect(() => console.log(txnList));
 
 	const prevMonth = () => {
 		currentMonth = subMonths(currentMonth, 1);
@@ -124,6 +138,9 @@
 	const nextWeek = () => {
 		currentMonth = addWeeks(currentMonth, 1);
 	};
+	const getExpenseStats = (expenseGroupLineData: any[], txnId: string) => {
+		return expenseGroupLineData?.find((expGroup) => expGroup?.categoryId === txnId);
+	};
 
 	let showBudgetWarning = $derived(
 		user?.isBudgetMode &&
@@ -138,6 +155,25 @@
 	let getCurrency: any = $derived(
 		Helpers.transformObjectToList(currencies[0])?.find((item) => item.id === user?.currency)
 	);
+	let sortedList: any = $derived(
+		ExpenseUtils.sortTxnList(
+			transactionCategoriesList,
+			txnAnalytics?.expenseGroupLineData,
+			currentTab
+		)
+	);
+
+	function changeTab(arg: any) {
+		currentTab = arg;
+	}
+
+	function toggleCategory(id: string) {
+		if (id === openedCategoryId) {
+			openedCategoryId = '';
+		} else {
+			openedCategoryId = id;
+		}
+	}
 </script>
 
 <div class="pb-24">
@@ -160,18 +196,20 @@
 		</div>
 	{/if} -->
 
-	<div class="my-4 flex flex-col justify-between px-3 md:flex-row md:items-center">
-		<DateScroller
-			{nextMonth}
-			{prevMonth}
-			{currentMonth}
-			budgetCycle={user?.budgetCycle}
-			{nextWeek}
-			{prevWeek}
-		/>
+	<div class="my-4 flex flex-row items-center justify-end px-3 md:flex-row">
+		<div>
+			<DateScroller
+				{nextMonth}
+				{prevMonth}
+				{currentMonth}
+				budgetCycle={user?.budgetCycle}
+				{nextWeek}
+				{prevWeek}
+			/>
+		</div>
 
-		<div class="mt-4 flex w-full items-center justify-end gap-3 md:mt-0 md:w-fit">
-			<div>
+		<div>
+			<!-- <div>
 				<button
 					class="shadow_button_outline shadow_button_thin shadow_button_with_icon"
 					onclick={openAddTxnModal}
@@ -180,10 +218,26 @@
 
 					Add Transaction
 				</button>
-			</div>
+			</div> -->
 
 			<div>
-				<HamburgerDropdown variant="solid" options={moreOptions} />
+				<!-- <div class="no-scrollbar justifyend mt-4 flex items-center gap-3 overflow-x-auto px-3">
+					<button
+						class="h-8 rounded-lg border-2 px-3"
+						class:active_tab={currentTab === TransactionType.EXPENSE}
+						onclick={() => changeTab(TransactionType.EXPENSE)}
+					>
+						Expenses
+					</button>
+					<button
+						class="h-8 rounded-lg border-2 px-3"
+						class:active_tab={currentTab === TransactionType.INCOME}
+						onclick={() => changeTab(TransactionType.INCOME)}
+					>
+						Income
+					</button>
+				</div> -->
+				<!-- <HamburgerDropdown variant="solid" options={moreOptions} /> -->
 			</div>
 		</div>
 	</div>
@@ -205,4 +259,75 @@
 			balanceClass="text-brand-error"
 		/>
 	</div>
+
+	<!-- <TxnTable
+		txnLoading={$txnQuery?.isLoading}
+		isError={$txnQuery?.isError}
+		{txnList}
+		{start}
+		{end}
+		{getCurrency}
+	/> -->
+
+	<div class="no-scrollbar justifyend mt-4 flex items-center gap-3 overflow-x-auto px-3">
+		<button
+			class="h-8 rounded-lg border-2 px-3"
+			class:active_tab={currentTab === TransactionType.EXPENSE}
+			onclick={() => changeTab(TransactionType.EXPENSE)}
+		>
+			Expenses
+		</button>
+		<button
+			class="h-8 rounded-lg border-2 px-3"
+			class:active_tab={currentTab === TransactionType.INCOME}
+			onclick={() => changeTab(TransactionType.INCOME)}
+		>
+			Income
+		</button>
+	</div>
+
+	<div class="mt-6 grid grid-cols-1 gap-4 px-3">
+		{#each sortedList as item, index (item.id)}
+			<ExpensesCard
+				expense={item}
+				currency={user?.currency}
+				showTopExpensesTag={sortedList?.length > 3 && index <= 1}
+				{index}
+				{openedCategoryId}
+				{toggleCategory}
+			/>
+		{/each}
+	</div>
+
+	<!-- <div class="mt-10 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
+		<div>
+			<Breakdown
+				{breakdownList}
+				txnLoading={$txnQuery?.isLoading}
+				isError={$txnQuery?.isError}
+				{getCurrency}
+			/>
+		</div>
+
+		<div class="py-8">
+			{#if breakdownList?.length > 2}
+				<BreakdownInsight {insightsStrings} />
+			{/if}
+		</div>
+	</div> -->
 </div>
+
+<AddTxnModal {transactionCategoriesList} {start} {end} />
+<TxnCategoryModal {transactionCategoriesList} />
+<TxnSettingsModal />
+<SetBudget />
+<EditTransaction {transactionCategoriesList} {start} {end} />
+
+<style>
+	.active_tab {
+		background-color: var(--color-primary-biloba-950);
+		border: 1px solid var(--color-primary-biloba-950);
+		color: #ffffff;
+		font-size: 14px;
+	}
+</style>

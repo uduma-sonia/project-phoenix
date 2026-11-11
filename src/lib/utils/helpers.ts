@@ -99,7 +99,7 @@ class Helpers {
 	};
 
 	static capitalizeFirstLetter = (value: string) => {
-		return value.charAt(0).toUpperCase() + value.slice(1);
+		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
 	};
 
 	static getUserFirstNameAndLastName(user: { fname: string; lname: string }) {
@@ -251,6 +251,20 @@ class Helpers {
 		}
 	}
 
+	static getCurrency(amount: number, currency: string) {
+		// @ts-ignore
+		const _currency = currencies[0][currency];
+
+		if (_currency) {
+			return this.currencyFormatter({
+				currency: _currency.code,
+				minimumFractionDigits: _currency.rounding,
+				maximumFractionDigits: _currency.decimal_digits
+			}).format(amount);
+		}
+
+		return 0;
+	}
 	static generateYearRange(date: Date) {
 		const months = [
 			{ name: 'january', index: 0 },

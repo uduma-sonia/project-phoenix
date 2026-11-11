@@ -48,7 +48,7 @@
 	</div>
 
 	<div>
-		<p class="font-lexend font-light">
+		<p class="font-lexend text-sm font-normal">
 			{renderTime()}
 		</p>
 	</div>
