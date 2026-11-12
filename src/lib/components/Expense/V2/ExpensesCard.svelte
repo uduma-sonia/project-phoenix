@@ -30,8 +30,10 @@
 	let amount: any = $derived(Helpers.getCurrency(Number(expense?.amount || 0), currency));
 	let isOpened: any = $derived(expense?.id === openedCategoryId);
 	let usedPercentage = $derived(Helpers.getPercentage(expense?.amount, expense?.budgetAmount));
-	let _usedPercentage = $derived(usedPercentage >= 100 ? 100 : 0);
+	// let _usedPercentage = $derived(usedPercentage >= 100 ? 100 : 0);
 	let isBudgetMode = $derived(Boolean(expense?.budgetAmount));
+
+	// $effect(() => console.log(expense));
 </script>
 
 <div class="baseTxn relative h-auto w-full rounded-2xl border-2" class:openedExpense={isOpened}>
@@ -71,13 +73,13 @@
 						>
 							<div
 								class="bg-primary-biloba-900 absolute top-0 left-0 z-10 h-full"
-								style="width: {_usedPercentage}%; transition: width 0.4s linear;"
+								style="width: {usedPercentage}%; transition: width 0.4s linear;"
 							></div>
 
 							<p
 								class="font-lexend-deca text-brand-light relative z-20 text-[10px] font-bold mix-blend-difference"
 							>
-								{_usedPercentage}%
+								{usedPercentage}%
 							</p>
 						</div>
 					{/if}
@@ -116,7 +118,7 @@
 	</div>
 
 	{#if isOpened}
-		<CategoryDetails {currency} {start} {end} {openedCategoryId} />
+		<CategoryDetails {expense} {currency} {start} {end} {openedCategoryId} />
 	{/if}
 </div>
 

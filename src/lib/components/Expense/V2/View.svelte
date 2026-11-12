@@ -189,6 +189,8 @@
 			openedCategoryId = id;
 		}
 	}
+
+	// $effect(() => console.log(sortedList));
 </script>
 
 <div class="pb-24">
@@ -223,7 +225,7 @@
 			/>
 		</div>
 
-		<!-- <div>
+		<div>
 			<div>
 				<button
 					class="shadow_button_outline shadow_button_thin shadow_button_with_icon"
@@ -234,7 +236,7 @@
 					Add Transaction
 				</button>
 			</div>
-            </div> -->
+		</div>
 
 		<div>
 			<HamburgerDropdown variant="solid" options={moreOptions} />
@@ -303,11 +305,11 @@
 	</div>
 </div>
 
-<AddTxnModal {transactionCategoriesList} {start} {end} />
+<AddTxnModal currency={_currency} {start} {end} />
 <TxnCategoryModal {transactionCategoriesList} />
 <TxnSettingsModal />
 <SetBudget />
-<EditTransaction {transactionCategoriesList} {start} {end} />
+<EditTransaction {start} {end} />
 
 <style>
 	.active_tab {

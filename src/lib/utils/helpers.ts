@@ -251,6 +251,17 @@ class Helpers {
 		}
 	}
 
+	static getCurrencySymbol(currency: string) {
+		// @ts-ignore
+		const _currency = currencies[0][currency];
+
+		if (_currency) {
+			return _currency.symbol;
+		}
+
+		return 'N/A';
+	}
+
 	static getCurrency(amount: number, currency: string) {
 		// @ts-ignore
 		const _currency = currencies[0][currency];

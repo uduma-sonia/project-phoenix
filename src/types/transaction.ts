@@ -47,5 +47,5 @@ export interface TxnCardSortedItem {
 	id: string;
 	count: number;
 	amount: number;
-	type: string;
+	type: TransactionType;
 }

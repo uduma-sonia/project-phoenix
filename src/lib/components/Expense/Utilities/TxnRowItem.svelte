@@ -1,5 +1,4 @@
 <script lang="ts">
-	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
 	import Helpers from '$lib/utils/helpers';
 	import { SquarePen, Trash2 } from '@lucide/svelte';
 	import { format } from 'date-fns';
@@ -23,9 +22,8 @@
 
 <div class="flex w-full items-stretch justify-between border-b p-3">
 	<div>
-		<p class="font-lexend text-13 font-normal md:text-sm">{txn?.description || 'No description'}</p>
 		<div class="flex items-center gap-3">
-			<p class="font-lexend text-sm font-medium">
+			<p class="font-lexend text-base font-medium lg:text-lg">
 				{#if currency}
 					{Helpers.getCurrency(txn.amount, currency)}
 				{/if}
@@ -36,23 +34,22 @@
 				{/if}
 			</p>
 		</div>
+
+		<p class="font-lexend text-13 font-light md:text-sm">{txn?.description || 'No description'}</p>
 	</div>
 
-	<div>
-		<HamburgerDropdown
-			options={[
-				{
-					label: 'Edit',
-					icon: SquarePen,
-					action: _handleUpdate
-				},
-				{
-					label: 'Delete',
-					icon: Trash2,
-					iconColor: 'red',
-					action: _handleDelete
-				}
-			]}
-		/>
+	<div class="flex items-center gap-1">
+		<button
+			onclick={_handleDelete}
+			class="hover:bg-primary-biloba-950 focus:bg-primary-biloba-950 text-brand-error flex h-8 w-8 items-center justify-center rounded-full hover:text-white focus:text-white"
+		>
+			<Trash2 size="18" />
+		</button>
+		<button
+			onclick={_handleUpdate}
+			class="hover:bg-primary-biloba-950 focus:bg-primary-biloba-950 flex h-8 w-8 items-center justify-center rounded-full hover:text-white focus:text-white"
+		>
+			<SquarePen size="20" />
+		</button>
 	</div>
 </div>

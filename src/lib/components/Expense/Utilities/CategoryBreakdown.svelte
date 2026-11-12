@@ -2,8 +2,6 @@
 	import BreakdownCard from './BreakdownCard.svelte';
 
 	let { breakdownList, transactionCategoriesList, currency, budgetAlertThreshold } = $props();
-
-	$effect(() => console.log(breakdownList));
 </script>
 
 <div class="mt-10 px-3 pb-20">

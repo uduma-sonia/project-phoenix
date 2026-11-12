@@ -3,15 +3,14 @@
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
 	import BasicButton from '../Common/Form/BasicButton.svelte';
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
-	import Dropdown from '../Common/Form/Dropdown.svelte';
-	import { TransactionType, type TransactionCategory } from '../../../types/transaction';
+	import { TransactionType } from '../../../types/transaction';
 	import { addToast } from '$lib/store/toast';
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TransactionRequest } from '$lib/requests';
 	import DatePickerDropdown from '../Common/Form/DatePickerDropdown.svelte';
 
-	let { transactionCategoriesList, start, end } = $props();
+	let { start, end } = $props();
 
 	const queryClient = useQueryClient();
 
@@ -21,18 +20,6 @@
 	let amount = $derived('' + selectedTxnToEdit?.data?.amount);
 	let description = $derived(selectedTxnToEdit?.data?.description);
 
-	let transformedList = $derived(
-		transactionCategoriesList?.filter((item: TransactionCategory) => item.type === type)
-	);
-
-	let txnCategoriesOptions = $derived(
-		transformedList?.map((item: any) => {
-			return {
-				value: item.name,
-				id: item._id
-			};
-		})
-	);
 	let selectedCategory = $derived(
 		selectedTxnToEdit?.data?.categoryId
 			? { value: selectedTxnToEdit?.data?.categoryName, id: selectedTxnToEdit?.data?.categoryId }
@@ -64,7 +51,11 @@
 				await TransactionRequest.updateTransaction(selectedTxnToEdit?.data?._id, payload);
 				addToast('Transaction created', 'success');
 				queryClient.invalidateQueries({
-					queryKey: queryKeys.getTransactions({ startDate: start, endDate: end })
+					queryKey: queryKeys.getTransactions({
+						startDate: start,
+						endDate: end,
+						categoryId: selectedCategory?.id
+					})
 				});
 				queryClient.invalidateQueries({
 					queryKey: queryKeys.getTransactionAnalytics({ startDate: start, endDate: end })
@@ -90,7 +81,7 @@
 				<DatePickerDropdown bind:dateValue={startDateValue} label="Transaction Date" />
 			</div>
 
-			<div>
+			<!-- <div>
 				{#if txnCategoriesOptions?.length}
 					<Dropdown
 						label="Category"
@@ -101,7 +92,7 @@
 						withClearButton
 					/>
 				{/if}
-			</div>
+			</div> -->
 
 			<div>
 				<BasicInputField
