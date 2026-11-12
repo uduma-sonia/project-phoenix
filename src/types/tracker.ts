@@ -45,7 +45,7 @@ export enum HabitStatus {
 	START = 'START'
 }
 
-export type UpdateBuildLog = {
+type UpdateBuildLog = {
 	tracker: Habit;
 	status: HabitStatus;
 	type: string;

@@ -8,12 +8,10 @@
 
 	export let handleValueChange: Callback = () => {};
 	export let inputClass = '';
-	export let inputLabelClass = '';
 	export let currency = '';
 	export let label = '';
 	export let helperText = '';
 	export let required: boolean = false;
-	export let requiredIcon: boolean = false;
 	export let id = '';
 	export let bottomHelperText = '';
 	export let formattedInput = '';

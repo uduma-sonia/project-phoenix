@@ -2,7 +2,7 @@ import Helpers from '$lib/utils/helpers';
 import type { ReqConfig, Service } from '../../types/axios';
 import type { HabitStatus } from '../../types/tracker';
 
-export type CreateLog = {
+type CreateLog = {
 	ownerId: string;
 	trackerId: string;
 	date: string;

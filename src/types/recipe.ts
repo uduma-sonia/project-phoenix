@@ -105,21 +105,14 @@ export interface RecipeResponse extends Recipe {
 	isSaved: boolean;
 }
 
-export type ObjectId = string;
-export type ISODateString = string;
+type ObjectId = string;
+type ISODateString = string;
 
-export type DayOfWeek =
-	| 'monday'
-	| 'tuesday'
-	| 'wednesday'
-	| 'thursday'
-	| 'friday'
-	| 'saturday'
-	| 'sunday';
+type DayOfWeek = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
 
-export type TimeOfDay = 'breakfast' | 'lunch' | 'dinner' | 'snack';
+type TimeOfDay = 'breakfast' | 'lunch' | 'dinner' | 'snack';
 
-export type Difficulty = 'Easy' | 'Medium' | 'Hard';
+type Difficulty = 'Easy' | 'Medium' | 'Hard';
 
 export interface MealEntry {
 	_id: ObjectId;
@@ -143,12 +136,12 @@ export interface Time {
 	minutes: number;
 }
 
-export interface Direction {
+interface Direction {
 	_id: ObjectId;
 	name: string;
 }
 
-export interface SectionListItem {
+interface SectionListItem {
 	_id: ObjectId;
 	value: string;
 }
