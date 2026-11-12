@@ -227,14 +227,14 @@
 	</div>
 
 	<AnalyticsSection chartData={txnAnalytics} />
-	{#if user?.isBudgetMode}
+	<!-- {#if user?.isBudgetMode}
 		<CategoryBreakdown
 			{budgetAlertThreshold}
 			{getCurrency}
 			{breakdownList}
 			{transactionCategoriesList}
 		/>
-	{/if}
+	{/if} -->
 </div>
 
 <AddTxnModal {transactionCategoriesList} {start} {end} />

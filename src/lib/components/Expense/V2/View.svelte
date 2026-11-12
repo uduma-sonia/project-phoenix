@@ -61,6 +61,8 @@
 	import Breakdown from '../Utilities/Breakdown.svelte';
 	import LoaderError from '$lib/components/Common/LoaderError.svelte';
 	import ProgressLoader from '$lib/components/Common/ProgressLoader.svelte';
+	import StatsSections from '../Utilities/StatsSections.svelte';
+	import CategoryBreakdown from '../Utilities/CategoryBreakdown.svelte';
 
 	let userQuery = useCurrentUser();
 	let user = $derived($userQuery?.data?.data?.user);
@@ -100,10 +102,10 @@
 		queryFn: () => TransactionRequest.getTransactionCategories()
 	});
 	let transactionCategoriesList = $derived($txnCategoriesQuery?.data?.data?.transactionCategories);
-	// let breakdownList = $derived(ExpenseUtils.getBreakdownList(txnList, 'desc'));
-	// let insightsStrings = $derived(
-	// 	ExpenseUtils.getInsights(txnList, txnAnalytics?.totalIncome, txnAnalytics?.totalExpense)
-	// );
+	let breakdownList = $derived(ExpenseUtils.getBreakdownList(txnList, 'desc'));
+	let insightsStrings = $derived(
+		ExpenseUtils.getInsights(txnList, txnAnalytics?.totalIncome, txnAnalytics?.totalExpense)
+	);
 	let budgetPercentage = $derived(
 		Helpers.getPercentage(txnAnalytics?.totalExpense, user?.budgetAmount)
 	);
@@ -209,7 +211,7 @@
 		</div>
 	{/if} -->
 
-	<div class="my-4 flex flex-row items-center justify-end px-3 md:flex-row">
+	<div class="mt-4 flex flex-row items-center justify-end px-3 md:flex-row">
 		<div>
 			<DateScroller
 				{nextMonth}
@@ -232,11 +234,11 @@
 					Add Transaction
 				</button>
 			</div>
+            </div> -->
 
-			<div>
-				<HamburgerDropdown variant="solid" options={moreOptions} />
-			</div>
-		</div> -->
+		<div>
+			<HamburgerDropdown variant="solid" options={moreOptions} />
+		</div>
 	</div>
 
 	<div
@@ -273,6 +275,14 @@
 			Income
 		</button>
 	</div>
+	<!-- {#if user?.isBudgetMode}
+		<CategoryBreakdown
+			{budgetAlertThreshold}
+			currency={_currency}
+			{breakdownList}
+			{transactionCategoriesList}
+		/>
+	{/if} -->
 
 	<div class="mt-6 grid grid-cols-1 gap-4 px-3">
 		<ProgressLoader {isLoading} error={isError} />
@@ -286,6 +296,7 @@
 					{toggleCategory}
 					{start}
 					{end}
+					{budgetAlertThreshold}
 				/>
 			{/each}
 		{/if}

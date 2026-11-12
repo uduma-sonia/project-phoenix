@@ -40,6 +40,7 @@
 		min-width: max-content;
 		border-radius: 8px;
 		padding: 2px 6px;
+		min-height: 24px;
 	}
 
 	.default_tag {

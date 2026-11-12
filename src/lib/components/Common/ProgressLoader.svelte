@@ -2,7 +2,7 @@
 	import { onDestroy, onMount } from 'svelte';
 
 	let {
-		isLoading = false,
+		isLoading = true,
 		error,
 		errorText = 'Something went wrong, please try again',
 		heading = 'Oh no!',
