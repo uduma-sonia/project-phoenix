@@ -15,7 +15,10 @@ class TransactionService {
 		return await this.api.post(`${this.prefix}`, data, { ...reqConfig });
 	}
 
-	async getTransactions(params: { startDate: string; endDate: string }, reqConfig?: ReqConfig) {
+	async getTransactions(
+		params: { startDate: string; endDate: string; categoryId?: string },
+		reqConfig?: ReqConfig
+	) {
 		return await this.api.get(`${this.prefix}?${Helpers.formatQueryParams(params)}`, {
 			...reqConfig
 		});

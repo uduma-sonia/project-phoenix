@@ -1,24 +1,24 @@
 <script lang="ts">
 	import Tag from '$lib/components/Common/Tag.svelte';
 	import Helpers from '$lib/utils/helpers';
-	import { slide } from 'svelte/transition';
 	import type { TxnCardSortedItem } from '../../../../types/transaction';
 	import CategoryDetails from './CategoryDetails.svelte';
-	import { cubicOut } from 'svelte/easing';
 
 	let {
 		expense,
 		currency,
 		showTopExpensesTag,
-		index,
 		openedCategoryId,
-		toggleCategory
+		toggleCategory,
+		start,
+		end
 	}: {
 		expense: TxnCardSortedItem;
 		currency: string;
 		showTopExpensesTag: boolean;
-		index: number;
 		openedCategoryId?: string;
+		start?: any;
+		end?: any;
 		toggleCategory: (categoryId: string) => void;
 	} = $props();
 
@@ -27,41 +27,38 @@
 	let isOpened: any = $derived(expense?.id === openedCategoryId);
 </script>
 
-<div
-	class="baseTxn slide_in_u relative h-auto w-full rounded-2xl border-2 opacity-0animation_delay_{index}"
-	class:openedExpense={isOpened}
->
-	{#if showTopExpensesTag}
-		<div class="absolute -top-3 right-3 -rotate-3">
-			<p
-				class="font-lexend bg-primary-pink-700 inline-block rounded-lg border-2 border-black px-2 py-0.5 text-[10px] font-normal text-white"
-			>
-				Top {Helpers.capitalizeFirstLetter(expense.type)}
-			</p>
-		</div>
-	{/if}
-
+<div class="baseTxn relative h-auto w-full rounded-2xl border-2" class:openedExpense={isOpened}>
 	<div
 		class="snippetContainer flex items-center justify-between gap-4 p-3"
 		class:openedSnippetContainer={isOpened}
 	>
-		<div>
-			<p class="font-suez mb-0.5 text-base font-medium md:text-lg">{expense.name}</p>
-			<div class="font-lexend mb-0.5 flex items-center gap-2 text-sm font-normal md:text-sm">
-				Spent:
-				{amount}
+		<div class="flex flex-1 items-center justify-between gap-2">
+			<div>
+				<p class="font-suez mb-0.5 text-base font-medium md:text-lg">{expense.name}</p>
+				<div class="font-lexend mb-0.5 flex items-center gap-2 text-sm font-normal md:text-sm">
+					Spent:
+					{amount}
 
-				{#if expense?.count}
-					<Tag variant="biloba" text={`${expense?.count} time${Helpers.returnS(expense?.count)}`} />
-				{/if}
+					{#if expense?.count}
+						<Tag variant="biloba" text={`x ${expense?.count}`} />
+					{/if}
+				</div>
+				<div class="font-lexend mb-0.5 flex items-center gap-1 text-xs font-light md:text-xs">
+					Budget:
+					{budget}
+				</div>
 			</div>
-			<div class="font-lexend mb-0.5 flex items-center gap-1 text-xs font-light md:text-xs">
-				Budget:
-				{budget}
-			</div>
+
+			{#if showTopExpensesTag}
+				<p
+					class="font-lexend bg-primary-pink-700 inline-block rounded-lg border-2 border-black px-2 py-0.5 text-[10px] font-normal text-white"
+				>
+					Top {Helpers.capitalizeFirstLetter(expense.type)}
+				</p>
+			{/if}
 		</div>
 
-		<div>
+		<div class="min-w-max">
 			<button
 				aria-label={isOpened ? 'Close category' : 'Open category'}
 				aria-expanded={isOpened}
@@ -84,9 +81,7 @@
 	</div>
 
 	{#if isOpened}
-		<div transition:slide={{ duration: 400, easing: cubicOut }}>
-			<CategoryDetails {openedCategoryId} />
-		</div>
+		<CategoryDetails {currency} {start} {end} {openedCategoryId} />
 	{/if}
 </div>
 
@@ -96,7 +91,7 @@
 	}
 
 	.openedExpense {
-		background-color: var(--color-primary-biloba-800);
+		background-color: var(--color-primary-olive);
 	}
 
 	.snippetContainer {
@@ -104,6 +99,6 @@
 	}
 
 	.openedSnippetContainer {
-		color: #ffffff;
+		color: #111111;
 	}
 </style>

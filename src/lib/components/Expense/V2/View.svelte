@@ -59,6 +59,8 @@
 	// import SetBudget from '../Modals/SetBudget.svelte';
 	// import EditTransaction from '../Modals/EditTransaction.svelte';
 	import Breakdown from '../Utilities/Breakdown.svelte';
+	import LoaderError from '$lib/components/Common/LoaderError.svelte';
+	import ProgressLoader from '$lib/components/Common/ProgressLoader.svelte';
 
 	let userQuery = useCurrentUser();
 	let user = $derived($userQuery?.data?.data?.user);
@@ -98,15 +100,28 @@
 		queryFn: () => TransactionRequest.getTransactionCategories()
 	});
 	let transactionCategoriesList = $derived($txnCategoriesQuery?.data?.data?.transactionCategories);
-	let breakdownList = $derived(ExpenseUtils.getBreakdownList(txnList, 'desc'));
-	let insightsStrings = $derived(
-		ExpenseUtils.getInsights(txnList, txnAnalytics?.totalIncome, txnAnalytics?.totalExpense)
-	);
+	// let breakdownList = $derived(ExpenseUtils.getBreakdownList(txnList, 'desc'));
+	// let insightsStrings = $derived(
+	// 	ExpenseUtils.getInsights(txnList, txnAnalytics?.totalIncome, txnAnalytics?.totalExpense)
+	// );
 	let budgetPercentage = $derived(
 		Helpers.getPercentage(txnAnalytics?.totalExpense, user?.budgetAmount)
 	);
 	let currentTab = $state(TransactionType.EXPENSE);
 	let openedCategoryId = $state('');
+
+	let isLoading = $derived(
+		$txnCategoriesQuery?.status === 'pending' ||
+			$txnCategoriesQuery?.isLoading ||
+			$txnAnalyticsQuery?.status === 'pending' ||
+			$txnAnalyticsQuery?.isLoading
+	);
+	let isError = $derived(
+		$txnCategoriesQuery?.status === 'error' ||
+			$txnCategoriesQuery?.isError ||
+			$txnAnalyticsQuery?.status === 'error' ||
+			$txnAnalyticsQuery?.isError
+	);
 
 	const moreOptions = [
 		{
@@ -120,8 +135,6 @@
 			action: openTxnSettingsModal
 		}
 	];
-
-	$effect(() => console.log(txnList));
 
 	const prevMonth = () => {
 		currentMonth = subMonths(currentMonth, 1);
@@ -152,13 +165,13 @@
 			)
 	);
 
-	let getCurrency: any = $derived(
-		Helpers.transformObjectToList(currencies[0])?.find((item) => item.id === user?.currency)
-	);
+	let _currency: any = $derived(user?.currency);
 	let sortedList: any = $derived(
 		ExpenseUtils.sortTxnList(
 			transactionCategoriesList,
-			txnAnalytics?.expenseGroupLineData,
+			currentTab === TransactionType.EXPENSE
+				? txnAnalytics?.expenseGroupLineData
+				: txnAnalytics?.incomeGroupLineData,
 			currentTab
 		)
 	);
@@ -208,8 +221,8 @@
 			/>
 		</div>
 
-		<div>
-			<!-- <div>
+		<!-- <div>
+			<div>
 				<button
 					class="shadow_button_outline shadow_button_thin shadow_button_with_icon"
 					onclick={openAddTxnModal}
@@ -218,56 +231,31 @@
 
 					Add Transaction
 				</button>
-			</div> -->
+			</div>
 
 			<div>
-				<!-- <div class="no-scrollbar justifyend mt-4 flex items-center gap-3 overflow-x-auto px-3">
-					<button
-						class="h-8 rounded-lg border-2 px-3"
-						class:active_tab={currentTab === TransactionType.EXPENSE}
-						onclick={() => changeTab(TransactionType.EXPENSE)}
-					>
-						Expenses
-					</button>
-					<button
-						class="h-8 rounded-lg border-2 px-3"
-						class:active_tab={currentTab === TransactionType.INCOME}
-						onclick={() => changeTab(TransactionType.INCOME)}
-					>
-						Income
-					</button>
-				</div> -->
-				<!-- <HamburgerDropdown variant="solid" options={moreOptions} /> -->
+				<HamburgerDropdown variant="solid" options={moreOptions} />
 			</div>
-		</div>
+		</div> -->
 	</div>
 
 	<div
 		class="no-scrollbar flex w-full flex-nowrap items-center gap-3 overflow-x-auto px-3 py-3 md:gap-6"
 	>
-		<BalanceCard currency={getCurrency} title="Balance" value={txnAnalytics?.balance} />
+		<BalanceCard currency={_currency} title="Balance" value={txnAnalytics?.balance} />
 		<BalanceCard
-			currency={getCurrency}
+			currency={_currency}
 			title="Income"
 			value={txnAnalytics?.totalIncome || 0}
 			balanceClass="text-brand-green"
 		/>
 		<BalanceCard
-			currency={getCurrency}
+			currency={_currency}
 			title="Expense"
 			value={txnAnalytics?.totalExpense || 0}
 			balanceClass="text-brand-error"
 		/>
 	</div>
-
-	<!-- <TxnTable
-		txnLoading={$txnQuery?.isLoading}
-		isError={$txnQuery?.isError}
-		{txnList}
-		{start}
-		{end}
-		{getCurrency}
-	/> -->
 
 	<div class="no-scrollbar justifyend mt-4 flex items-center gap-3 overflow-x-auto px-3">
 		<button
@@ -287,34 +275,21 @@
 	</div>
 
 	<div class="mt-6 grid grid-cols-1 gap-4 px-3">
-		{#each sortedList as item, index (item.id)}
-			<ExpensesCard
-				expense={item}
-				currency={user?.currency}
-				showTopExpensesTag={sortedList?.length > 3 && index <= 1}
-				{index}
-				{openedCategoryId}
-				{toggleCategory}
-			/>
-		{/each}
+		<ProgressLoader {isLoading} error={isError} />
+		{#if !isLoading}
+			{#each sortedList as item, index (item.id)}
+				<ExpensesCard
+					expense={item}
+					currency={_currency}
+					showTopExpensesTag={sortedList?.length > 3 && index <= 1}
+					{openedCategoryId}
+					{toggleCategory}
+					{start}
+					{end}
+				/>
+			{/each}
+		{/if}
 	</div>
-
-	<!-- <div class="mt-10 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
-		<div>
-			<Breakdown
-				{breakdownList}
-				txnLoading={$txnQuery?.isLoading}
-				isError={$txnQuery?.isError}
-				{getCurrency}
-			/>
-		</div>
-
-		<div class="py-8">
-			{#if breakdownList?.length > 2}
-				<BreakdownInsight {insightsStrings} />
-			{/if}
-		</div>
-	</div> -->
 </div>
 
 <AddTxnModal {transactionCategoriesList} {start} {end} />

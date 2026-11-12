@@ -15,12 +15,8 @@
 			<div class="flex h-16 flex-col justify-center">
 				<p class="font-lexend mb-1 text-xs font-normal md:text-sm">{title}</p>
 				<p class="font-lexend text-lg font-normal md:text-xl {balanceClass}">
-					{#if currency?.id}
-						{Helpers.currencyFormatter({
-							currency: currency?.details?.code,
-							minimumFractionDigits: currency?.details.rounding,
-							maximumFractionDigits: currency?.details?.decimal_digits
-						}).format(value)}
+					{#if currency}
+						{Helpers.getCurrency(value, currency)}
 					{:else}
 						{'-'}
 					{/if}

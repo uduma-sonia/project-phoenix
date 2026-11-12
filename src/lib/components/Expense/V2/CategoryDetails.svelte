@@ -1,5 +1,34 @@
 <script lang="ts">
-	let { openedCategoryId } = $props();
+	import { TransactionRequest } from '$lib/requests';
+	import { queryKeys } from '$lib/utils/queryKeys';
+	import { createQuery } from '@tanstack/svelte-query';
+	import TxnTable from '../Utilities/TxnTable.svelte';
+
+	let { openedCategoryId, start, end, currency } = $props();
+
+	let txnQuery = $derived(
+		createQuery({
+			queryKey: queryKeys.getTransactions({
+				startDate: start,
+				endDate: end,
+				categoryId: openedCategoryId
+			}),
+			queryFn: () =>
+				TransactionRequest.getTransactions({
+					startDate: start,
+					endDate: end,
+					categoryId: openedCategoryId
+				})
+		})
+	);
+	let txnList = $derived($txnQuery?.data?.data?.transactions);
 </script>
 
-<div class="h-50 px-3 pb-3">CATEGORY DETAILS: {openedCategoryId}</div>
+<TxnTable
+	txnLoading={$txnQuery?.isLoading}
+	isError={$txnQuery?.isError}
+	{txnList}
+	{start}
+	{end}
+	{currency}
+/>

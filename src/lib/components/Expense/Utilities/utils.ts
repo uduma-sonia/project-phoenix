@@ -206,7 +206,9 @@ class ExpenseUtils {
 			};
 		});
 
-		return updateList;
+		const sortList = updateList?.sort((a, b) => b.amount - a.amount);
+
+		return sortList;
 	}
 }
 

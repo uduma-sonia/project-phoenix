@@ -3,14 +3,14 @@
 	import Helpers from '$lib/utils/helpers';
 	import { SquarePen, Trash2 } from '@lucide/svelte';
 	import { format } from 'date-fns';
-	import { TransactionType, type Transaction } from '../../../../types/transaction';
+	import { type Transaction } from '../../../../types/transaction';
 	import { openEditTxnModal } from '$lib/state/modal.svelte';
 
 	let {
 		txn,
 		handleDelete,
-		getCurrency
-	}: { txn: Transaction; handleDelete: (id: string) => void; getCurrency: any } = $props();
+		currency
+	}: { txn: Transaction; handleDelete: (id: string) => void; currency: string } = $props();
 
 	function _handleDelete() {
 		handleDelete(txn?._id);
@@ -21,62 +21,38 @@
 	}
 </script>
 
-<div class="flex h-14 min-w-[600px] items-stretch">
-	<div class="font-lexend flex h-full flex-1 flex-col justify-center border-b border-gray-300 pr-3">
-		<p class="text-[15px]">{txn?.categoryName}</p>
-	</div>
-
-	<div class="font-lexend flex h-full flex-1 flex-col justify-center border-b border-gray-300 pr-3">
-		<div class="font-lexend">
-			<p class="text-11 md:text-13 font-light">{txn?.description || '-'}</p>
+<div class="flex w-full items-stretch justify-between border-b p-3">
+	<div>
+		<p class="font-lexend text-13 font-normal md:text-sm">{txn?.description || 'No description'}</p>
+		<div class="flex items-center gap-3">
+			<p class="font-lexend text-sm font-medium">
+				{#if currency}
+					{Helpers.getCurrency(txn.amount, currency)}
+				{/if}
+			</p>
+			<p class="font-lexend text-xs font-light text-gray-600">
+				{#if txn?.date}
+					{format(new Date(txn.date), 'PP')}
+				{/if}
+			</p>
 		</div>
 	</div>
 
-	<div class="font-lexend flex h-full w-fit flex-col justify-center border-b border-gray-300 pr-3">
-		<p class="text-xs font-light text-gray-600">
-			{#if txn?.date}
-				{format(new Date(txn.date), 'PP')}
-			{/if}
-		</p>
-	</div>
-
-	<div class="font-lexend flex h-full flex-1 flex-col justify-center border-b border-gray-300">
-		<div class="flex items-center justify-end gap-3">
-			<div>
-				<p
-					class="font-lexend text-sm"
-					class:text-brand-error={txn.type === TransactionType.EXPENSE}
-					class:text-brand-green={txn.type === TransactionType.INCOME}
-				>
-					{#if txn.type === TransactionType.EXPENSE}
-						-
-					{/if}{#if getCurrency?.id}
-						{Helpers.currencyFormatter({
-							currency: getCurrency?.details?.code,
-							minimumFractionDigits: getCurrency?.details.rounding,
-							maximumFractionDigits: getCurrency?.details?.decimal_digits
-						}).format(txn.amount)}
-					{/if}
-				</p>
-			</div>
-
-			<div>
-				<HamburgerDropdown
-					options={[
-						{
-							label: 'Edit',
-							icon: SquarePen,
-							action: _handleUpdate
-						},
-						{
-							label: 'Delete',
-							icon: Trash2,
-							iconColor: 'red',
-							action: _handleDelete
-						}
-					]}
-				/>
-			</div>
-		</div>
+	<div>
+		<HamburgerDropdown
+			options={[
+				{
+					label: 'Edit',
+					icon: SquarePen,
+					action: _handleUpdate
+				},
+				{
+					label: 'Delete',
+					icon: Trash2,
+					iconColor: 'red',
+					action: _handleDelete
+				}
+			]}
+		/>
 	</div>
 </div>
