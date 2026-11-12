@@ -15,7 +15,7 @@
 		subWeeks
 	} from 'date-fns';
 	import useCurrentUser from '$lib/hooks/useCurrentUser';
-	import { openTxnCategoryModal, openTxnSettingsModal } from '$lib/state/modal.svelte';
+	import { openTxnSettingsModal } from '$lib/state/modal.svelte';
 	import { BudgetCycle, TransactionType } from '../../../../types/transaction';
 	import ExpenseUtils from '../Utilities/utils';
 	import DateScroller from '../Utilities/DateScroller.svelte';
@@ -80,19 +80,6 @@
 			$txnAnalyticsQuery?.isError
 	);
 
-	const moreOptions = [
-		{
-			label: 'Manage category',
-			icon: ClipboardList,
-			action: openTxnCategoryModal
-		},
-		{
-			label: 'Settings',
-			icon: Cog,
-			action: openTxnSettingsModal
-		}
-	];
-
 	const prevMonth = () => {
 		currentMonth = subMonths(currentMonth, 1);
 	};
@@ -107,9 +94,6 @@
 
 	const nextWeek = () => {
 		currentMonth = addWeeks(currentMonth, 1);
-	};
-	const getExpenseStats = (expenseGroupLineData: any[], txnId: string) => {
-		return expenseGroupLineData?.find((expGroup) => expGroup?.categoryId === txnId);
 	};
 
 	let showBudgetWarning = $derived(
@@ -156,17 +140,15 @@
 		<BudgetWarning {budgetAlertThreshold} {budgetPercentage} goalPeriod={user?.budgetCycle} />
 	{/if}
 
-	<div class="mt-4 mb-6 flex flex-row items-center justify-end md:flex-row">
-		<div>
-			<DateScroller
-				{nextMonth}
-				{prevMonth}
-				{currentMonth}
-				budgetCycle={user?.budgetCycle}
-				{nextWeek}
-				{prevWeek}
-			/>
-		</div>
+	<div class="mt-4 flex flex-row items-center justify-end pb-6 md:flex-row">
+		<DateScroller
+			{nextMonth}
+			{prevMonth}
+			{currentMonth}
+			budgetCycle={user?.budgetCycle}
+			{nextWeek}
+			{prevWeek}
+		/>
 	</div>
 
 	<div
@@ -187,7 +169,7 @@
 		/>
 	</div>
 
-	<div class="no-scrollbar mt-4 flex items-center justify-between gap-3 overflow-x-auto px-3">
+	<div class="mt-4 flex items-center justify-between gap-3 px-3">
 		<div class="flex items-center gap-3">
 			<button
 				class="h-8 rounded-lg border-2 px-3"
@@ -238,7 +220,7 @@
 					<ExpensesCard
 						expense={item}
 						currency={_currency}
-						showTopExpensesTag={sortedList?.length > 3 && index <= 1}
+						showTopExpensesTag={item?.amount > 0 && sortedList?.length > 3 && index <= 1}
 						{openedCategoryId}
 						{toggleCategory}
 						{start}

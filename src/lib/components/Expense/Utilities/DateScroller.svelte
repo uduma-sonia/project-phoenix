@@ -47,7 +47,7 @@
 		</button>
 	</div>
 
-	<div>
+	<div class="w-[120px] text-center">
 		<p class="font-lexend text-sm font-normal">
 			{renderTime()}
 		</p>
