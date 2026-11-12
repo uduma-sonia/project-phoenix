@@ -30,10 +30,7 @@
 	let amount: any = $derived(Helpers.getCurrency(Number(expense?.amount || 0), currency));
 	let isOpened: any = $derived(expense?.id === openedCategoryId);
 	let usedPercentage = $derived(Helpers.getPercentage(expense?.amount, expense?.budgetAmount));
-	// let _usedPercentage = $derived(usedPercentage >= 100 ? 100 : 0);
 	let isBudgetMode = $derived(Boolean(expense?.budgetAmount));
-
-	// $effect(() => console.log(expense));
 </script>
 
 <div class="baseTxn relative h-auto w-full rounded-2xl border-2" class:openedExpense={isOpened}>

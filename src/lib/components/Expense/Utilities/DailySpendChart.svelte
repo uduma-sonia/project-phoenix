@@ -1,99 +1,36 @@
 <script lang="ts">
-	import {
-		Chart,
-		LineController,
-		LineElement,
-		PointElement,
-		LinearScale,
-		CategoryScale,
-		Tooltip,
-		Title,
-		Legend,
-		Filler
-	} from 'chart.js';
 	import { format } from 'date-fns';
-	import Helpers from '$lib/utils/helpers';
+	import ChartCard from '$lib/components/Common/ChartCard.svelte';
+	import { BudgetCycle } from '../../../../types/transaction';
 
-	Chart.register(
-		LineController,
-		LineElement,
-		PointElement,
-		LinearScale,
-		CategoryScale,
-		Tooltip,
-		Filler,
-		Title,
-		Legend
-	);
+	let { chartData, goalPeriod } = $props();
 
-	let { chartData } = $props();
+	const chartLabel = $derived(chartData?.map((item: any) => format(new Date(item.date), 'MMM d')));
+	const chartAmount = $derived(chartData?.map((item: any) => item.amount));
 
-	let canvas: any = $state();
-	let chart: Chart | undefined = $state();
+	const getHelperText = () => {
+		let result = `How much you've spent`;
+		if (goalPeriod === BudgetCycle.MONTHLY) {
+			result = result + '<span class="font-semibold"> this month </span>';
+		}
+		if (goalPeriod === BudgetCycle.WEEKLY) {
+			result = result + '<span class="font-semibold"> this week </span>';
+		}
+		if (goalPeriod === BudgetCycle.YEARLY) {
+			result = result + '<span class="font-semibold"> this year </span>';
+		}
+		if (goalPeriod === BudgetCycle.QUARTERLY) {
+			result = result + '<span class="font-semibold"> this quarter </span>';
+		}
 
-	$effect(() => {
-		chart = new Chart(canvas, {
-			type: 'line',
-			data: {
-				labels: chartData?.map((d: { date: string }) => format(new Date(d.date), 'MMM d')),
-				datasets: [
-					{
-						label: 'Daily trend',
-						data: chartData?.map((d: { amount: number }) => d.amount),
-						backgroundColor: '#1eb564',
-						borderWidth: 1,
-						borderColor: '#1eb564',
-						tension: 0.12
-					}
-				]
-			},
-			options: {
-				responsive: true,
-				maintainAspectRatio: false,
-				scales: {
-					x: {
-						grid: { display: false }
-					},
-					y: {
-						beginAtZero: true,
-						ticks: {
-							callback: (value) => `${Helpers.convertNumber(Number(value))}`
-						}
-					}
-				}
-			}
-		});
-
-		return () => chart?.destroy();
-	});
+		return result;
+	};
 </script>
 
-<div class="mb-4">
-	<p class="text-lg font-medium md:text-xl">Daily Spending Trend</p>
-	<p class="font-lexend text-13 font-light">
-		Shows how much you spend each day and helps you spot spending patterns over time
-	</p>
-</div>
-
-<div class="retro_wrapper">
-	<div class="retro_wrapper_inner_ejf">
-		<div class="chart-wrapper">
-			<canvas bind:this={canvas}></canvas>
-		</div>
-	</div>
-</div>
-
-<style>
-	.chart-wrapper {
-		height: 400px;
-	}
-	.retro_wrapper_inner_ejf {
-		position: relative;
-		z-index: 10;
-		width: 100%;
-		border-radius: 8px;
-		border: 2px solid black;
-		background-color: #fff;
-		padding: 16px;
-	}
-</style>
+<ChartCard
+	chartType="bar"
+	chartLabelArray={chartLabel}
+	dataset={chartAmount}
+	datasetsLabel="Daily Spend Trend"
+	helperText={getHelperText()}
+/>

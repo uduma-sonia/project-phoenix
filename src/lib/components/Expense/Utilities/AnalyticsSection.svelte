@@ -2,7 +2,7 @@
 	import CategoryChart from './CategoryChart.svelte';
 	import DailySpendChart from './DailySpendChart.svelte';
 
-	let { chartData } = $props();
+	let { chartData, goalPeriod } = $props();
 
 	let currentView = $state('daily');
 
@@ -26,36 +26,24 @@
 	}
 </script>
 
-<div class="mt-10 px-3">
-	<div class="mb-6 flex items-center gap-3">
-		{#each viewList as item, index (index)}
-			<button
-				class:bg-brand-build={currentView === item.id}
-				onclick={() => changeView(item.id)}
-				class="button_active text-13 h-[45px] rounded-lg border px-2 shadow-sm md:text-sm"
-				type="button"
-			>
-				{item.label}
-			</button>
-		{/each}
-	</div>
+<div class="mt-10">
+	<DailySpendChart {goalPeriod} chartData={chartData?.dailyExpenseLineData} />
 
-	{#if currentView === 'daily'}
-		<DailySpendChart chartData={chartData?.dailyExpenseLineData} />
-	{/if}
+	<br />
+	<br />
+	<CategoryChart
+		chartData={chartData?.expenseGroupLineData}
+		title="Expenses"
+		chartType="pie"
+		description="Where your money goes across different categories"
+	/>
 
-	{#if currentView === 'expense'}
-		<CategoryChart
-			chartData={chartData?.expenseGroupLineData}
-			title="Expenses by Category"
-			description="Breaks down where your money goes across different spending categories"
-		/>
-	{/if}
-	{#if currentView === 'income'}
-		<CategoryChart
-			chartData={chartData?.incomeGroupLineData}
-			title="Income by Category"
-			description="Shows where your money comes from and how much each source contributes"
-		/>
-	{/if}
+	<br />
+	<br />
+	<CategoryChart
+		chartData={chartData?.incomeGroupLineData}
+		title="Income"
+		chartType="pie"
+		description="Where your money comes from and how much each source contributes"
+	/>
 </div>

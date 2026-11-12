@@ -223,10 +223,10 @@
 	</div>
 
 	<div class="mt-10 px-3">
-		<StatsSections {getCurrency} {txnList} {start} {end} />
+		<!-- <StatsSections {getCurrency} {txnList} {start} {end} /> -->
 	</div>
 
-	<AnalyticsSection chartData={txnAnalytics} />
+	<!-- <AnalyticsSection chartData={txnAnalytics} /> -->
 	<!-- {#if user?.isBudgetMode}
 		<CategoryBreakdown
 			{budgetAlertThreshold}
@@ -237,8 +237,8 @@
 	{/if} -->
 </div>
 
-<AddTxnModal {transactionCategoriesList} {start} {end} />
+<!-- <AddTxnModal {transactionCategoriesList} {start} {end} />
 <TxnCategoryModal {transactionCategoriesList} />
 <TxnSettingsModal />
 <SetBudget />
-<EditTransaction {transactionCategoriesList} {start} {end} />
+<EditTransaction {transactionCategoriesList} {start} {end} /> -->

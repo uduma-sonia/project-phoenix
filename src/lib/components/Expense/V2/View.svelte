@@ -3,7 +3,7 @@
 	// import TxnTable from './Utilities/TxnTable.svelte';
 	// import BalanceCard from './Utilities/BalanceCard.svelte';
 	// import Breakdown from './Utilities/Breakdown.svelte';
-	import { Cog, Plus, ClipboardList } from '@lucide/svelte';
+	import { Cog, Plus, ClipboardList, LineChart, ChartColumnIncreasing } from '@lucide/svelte';
 	// import AddTxnModal from '../Modals/AddTxnModal.svelte';
 	// import {
 	// 	openAddTxnModal,
@@ -63,6 +63,7 @@
 	import ProgressLoader from '$lib/components/Common/ProgressLoader.svelte';
 	import StatsSections from '../Utilities/StatsSections.svelte';
 	import CategoryBreakdown from '../Utilities/CategoryBreakdown.svelte';
+	import AnalyticsSection from '../Utilities/AnalyticsSection.svelte';
 
 	let userQuery = useCurrentUser();
 	let user = $derived($userQuery?.data?.data?.user);
@@ -109,6 +110,7 @@
 	let budgetPercentage = $derived(
 		Helpers.getPercentage(txnAnalytics?.totalExpense, user?.budgetAmount)
 	);
+	// let currentTab = $state(TransactionType.EXPENSE);
 	let currentTab = $state(TransactionType.EXPENSE);
 	let openedCategoryId = $state('');
 
@@ -226,19 +228,6 @@
 		</div>
 
 		<div>
-			<div>
-				<button
-					class="shadow_button_outline shadow_button_thin shadow_button_with_icon"
-					onclick={openAddTxnModal}
-				>
-					<Plus size="20px" />
-
-					Add Transaction
-				</button>
-			</div>
-		</div>
-
-		<div>
 			<HamburgerDropdown variant="solid" options={moreOptions} />
 		</div>
 	</div>
@@ -261,54 +250,65 @@
 		/>
 	</div>
 
-	<div class="no-scrollbar justifyend mt-4 flex items-center gap-3 overflow-x-auto px-3">
-		<button
-			class="h-8 rounded-lg border-2 px-3"
-			class:active_tab={currentTab === TransactionType.EXPENSE}
-			onclick={() => changeTab(TransactionType.EXPENSE)}
-		>
-			Expenses
-		</button>
-		<button
-			class="h-8 rounded-lg border-2 px-3"
-			class:active_tab={currentTab === TransactionType.INCOME}
-			onclick={() => changeTab(TransactionType.INCOME)}
-		>
-			Income
-		</button>
-	</div>
-	<!-- {#if user?.isBudgetMode}
-		<CategoryBreakdown
-			{budgetAlertThreshold}
-			currency={_currency}
-			{breakdownList}
-			{transactionCategoriesList}
-		/>
-	{/if} -->
+	<div class="no-scrollbar mt-4 flex items-center justify-between gap-3 overflow-x-auto px-3">
+		<div class="no-scrollbar flex items-center gap-3">
+			<button
+				class="h-8 rounded-lg border-2 px-3"
+				class:active_tab={currentTab === TransactionType.EXPENSE}
+				onclick={() => changeTab(TransactionType.EXPENSE)}
+			>
+				Expenses
+			</button>
+			<button
+				class="h-8 rounded-lg border-2 px-3"
+				class:active_tab={currentTab === TransactionType.INCOME}
+				onclick={() => changeTab(TransactionType.INCOME)}
+			>
+				Income
+			</button>
+		</div>
 
-	<div class="mt-6 grid grid-cols-1 gap-4 px-3">
-		<ProgressLoader {isLoading} error={isError} />
-		{#if !isLoading}
-			{#each sortedList as item, index (item.id)}
-				<ExpensesCard
-					expense={item}
-					currency={_currency}
-					showTopExpensesTag={sortedList?.length > 3 && index <= 1}
-					{openedCategoryId}
-					{toggleCategory}
-					{start}
-					{end}
-					{budgetAlertThreshold}
-				/>
-			{/each}
-		{/if}
+		<div>
+			<button
+				class="h-8 w-6 min-w-max rounded-lg border-2 px-3"
+				class:active_tab={currentTab === ('stats' as any)}
+				onclick={() => changeTab('stats')}
+			>
+				<ChartColumnIncreasing size="20" />
+			</button>
+		</div>
 	</div>
+
+	{#if currentTab === ('stats' as any)}
+		<div class="mt-6 px-3">
+			<StatsSections currency={_currency} {txnList} {start} {end} />
+			<AnalyticsSection goalPeriod={user?.budgetCycle} chartData={txnAnalytics} />
+		</div>
+	{:else}
+		<div class="mt-6 grid grid-cols-1 gap-4 px-3">
+			<ProgressLoader {isLoading} error={isError} />
+			{#if !isLoading}
+				{#each sortedList as item, index (item.id)}
+					<ExpensesCard
+						expense={item}
+						currency={_currency}
+						showTopExpensesTag={sortedList?.length > 3 && index <= 1}
+						{openedCategoryId}
+						{toggleCategory}
+						{start}
+						{end}
+						{budgetAlertThreshold}
+					/>
+				{/each}
+			{/if}
+		</div>
+	{/if}
 </div>
 
 <AddTxnModal currency={_currency} {start} {end} />
 <TxnCategoryModal {transactionCategoriesList} />
 <TxnSettingsModal />
-<SetBudget />
+<!-- <SetBudget /> -->
 <EditTransaction {start} {end} />
 
 <style>
