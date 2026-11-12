@@ -7,6 +7,9 @@
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import BasicButton from '../Common/Form/BasicButton.svelte';
+	import CurrencyInput from '../Common/CurrencyInput.svelte';
+
+	let { currency, start, end } = $props();
 
 	const queryClient = useQueryClient();
 
@@ -16,9 +19,14 @@
 	let isLoading = $state(false);
 
 	async function onSubmit() {
-		if (!selectedTxnCategory?.data?._id) {
+		if (!selectedTxnCategory?.data?.id) {
 			addToast('No category selected', 'error');
 			closeAddBudgetModal();
+			return;
+		}
+
+		if (!categoryName?.trim()) {
+			addToast('Category name cannot be empty', 'error');
 			return;
 		}
 		try {
@@ -29,12 +37,15 @@
 			};
 
 			const result = await TransactionRequest.updateTransactionCategory(
-				selectedTxnCategory?.data?._id,
+				selectedTxnCategory?.data?.id,
 				payload
 			);
 
 			if (result) {
 				queryClient.invalidateQueries({ queryKey: queryKeys.getTransactionCategories });
+				queryClient.invalidateQueries({
+					queryKey: queryKeys.getTransactionAnalytics({ startDate: start, endDate: end })
+				});
 				closeAddBudgetModal();
 			}
 		} catch (error: any) {
@@ -56,16 +67,18 @@
 				label="Category"
 				bind:value={categoryName}
 				type="text"
+				required
 				id="categoryName"
 				name="categoryName"
 			/>
-			<BasicInputField
-				label="Budget Amount"
-				bind:value={budgetAmount}
-				type="number"
+
+			<CurrencyInput
+				inputClass="bg-white"
 				id="amount"
-				name="amount"
-				inputMode="numeric"
+				label="Amount"
+				requiredIcon
+				{currency}
+				bind:value={budgetAmount}
 			/>
 		</div>
 

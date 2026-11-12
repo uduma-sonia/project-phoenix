@@ -12,11 +12,11 @@
 
 		{#if insightsStrings.isWithinIncome}
 			<div
-				class="bg-brand-lime mx-auto flex w-fit items-center gap-2 rounded-lg px-2 py-1 text-xs font-light"
+				class="bg-brand-lime mx-auto flex w-fit items-center gap-2 rounded-lg border px-2 py-1 text-xs font-light"
 			>
 				{insightsStrings.spendingMeansText}
 
-				<div class="bg-brand-green aspect-square w-fit rounded-full p-1">
+				<div class="bg-brand-green aspect-square w-fit rounded-full border p-1">
 					<Check size="14px" color="#ffffff" />
 				</div>
 			</div>

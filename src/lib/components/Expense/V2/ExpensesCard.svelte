@@ -31,16 +31,31 @@
 	let isOpened: any = $derived(expense?.id === openedCategoryId);
 	let usedPercentage = $derived(Helpers.getPercentage(expense?.amount, expense?.budgetAmount));
 	let isBudgetMode = $derived(Boolean(expense?.budgetAmount));
+
+	let currentWidth = $state(0);
+
+	$effect(() => {
+		if (isBudgetMode) {
+			setTimeout(() => {
+				currentWidth = usedPercentage;
+			}, 50);
+		} else {
+			currentWidth = 0;
+		}
+	});
 </script>
 
 <div class="baseTxn relative h-auto w-full rounded-2xl border-2" class:openedExpense={isOpened}>
-	<div
-		class="snippetContainer flex items-center justify-between gap-4 p-3"
+	<button
+		class="snippetContainer flex w-full items-center justify-between gap-4 p-3 text-left"
 		class:openedSnippetContainer={isOpened}
+		onclick={() => toggleCategory(expense.id)}
+		aria-label={isOpened ? 'Close category' : 'Open category'}
+		aria-expanded={isOpened}
 	>
 		<div class="flex flex-1 items-center justify-between gap-2">
 			<div>
-				<p class="font-suez mb-0.5 text-lg font-medium md:text-xl">{expense.name}</p>
+				<p class="font-lexend mb-1 text-lg font-medium md:text-xl">{expense.name}</p>
 				<div class="font-lexend mb-0.5 flex items-center gap-2 text-sm font-normal md:text-sm">
 					<strong> Spent: </strong>
 					{amount}
@@ -61,16 +76,16 @@
 
 				<div class="mt-2 flex items-center gap-2">
 					{#if expense?.count}
-						<Tag variant="biloba" text={`x ${expense?.count}`} />
+						<Tag variant="biloba" text={`x${expense?.count}`} />
 					{/if}
 
 					{#if isBudgetMode}
 						<div
-							class="relative isolate flex h-[24px] w-40 items-center justify-center overflow-hidden rounded-lg border bg-white"
+							class="border-primary-biloba-900 relative isolate flex h-[24px] w-40 items-center justify-center overflow-hidden rounded-lg border bg-white"
 						>
 							<div
 								class="bg-primary-biloba-900 absolute top-0 left-0 z-10 h-full"
-								style="width: {usedPercentage}%; transition: width 0.4s linear;"
+								style="width: {currentWidth}%; transition: width 1s linear;"
 							></div>
 
 							<p
@@ -93,10 +108,7 @@
 		</div>
 
 		<div class="min-w-max">
-			<button
-				aria-label={isOpened ? 'Close category' : 'Open category'}
-				aria-expanded={isOpened}
-				onclick={() => toggleCategory(expense.id)}
+			<div
 				class="flex aspect-square w-8 flex-col items-center justify-center gap-0.5 rounded-full border-2 border-black bg-black"
 			>
 				<div
@@ -110,9 +122,9 @@
 					class:-translate-y-[2.5px]={isOpened}
 					class="h-[2px] w-3 rounded-full bg-white transition-all duration-300 ease-in-out"
 				></div>
-			</button>
+			</div>
 		</div>
-	</div>
+	</button>
 
 	{#if isOpened}
 		<CategoryDetails {expense} {currency} {start} {end} {openedCategoryId} />

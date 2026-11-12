@@ -240,6 +240,7 @@ export function closeMealPlannerModal() {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function openAddBudgetModal(value: any) {
 	modalsState.data.isOpenAddBudget = true;
+	console.log('inside ec', value);
 	selectedTxnCategory.data = value;
 }
 export function closeAddBudgetModal() {

@@ -16,7 +16,7 @@
 	} = $props();
 
 	let countdownInterval: any;
-	let progress: number = $state(0);
+	let progress: number = $state(5);
 
 	function goToNext() {
 		if (!isLoading) {

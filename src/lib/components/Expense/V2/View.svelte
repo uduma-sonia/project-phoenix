@@ -1,17 +1,5 @@
 <script lang="ts">
-	// import DateScroller from './Utilities/DateScroller.svelte';
-	// import TxnTable from './Utilities/TxnTable.svelte';
-	// import BalanceCard from './Utilities/BalanceCard.svelte';
-	// import Breakdown from './Utilities/Breakdown.svelte';
-	import { Cog, Plus, ClipboardList, LineChart, ChartColumnIncreasing } from '@lucide/svelte';
-	// import AddTxnModal from '../Modals/AddTxnModal.svelte';
-	// import {
-	// 	openAddTxnModal,
-	// 	openTxnCategoryModal,
-	// 	openTxnSettingsModal
-	// } from '$lib/state/modal.svelte';
-	// import HamburgerDropdown from '../Common/HamburgerDropdown.svelte';
-	// import TxnCategoryModal from '../Modals/TxnCategoryModal.svelte';
+	import { Cog, ClipboardList, ChartColumnIncreasing } from '@lucide/svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TransactionRequest } from '$lib/requests';
@@ -26,44 +14,23 @@
 		subMonths,
 		subWeeks
 	} from 'date-fns';
-	// import ExpenseUtils from './Utilities/utils';
-	// import StatsSections from './Utilities/StatsSections.svelte';
-	// import BreakdownInsight from './Utilities/BreakdownInsight.svelte';
-	// import AnalyticsSection from './Utilities/AnalyticsSection.svelte';
-	// import TxnSettingsModal from '../Modals/TxnSettingsModal.svelte';
 	import useCurrentUser from '$lib/hooks/useCurrentUser';
-	// import BudgetWarning from './Utilities/BudgetWarning.svelte';
-	import { currencies } from '$lib/constants/currency';
-	import {
-		openAddTxnModal,
-		openTxnCategoryModal,
-		openTxnSettingsModal
-	} from '$lib/state/modal.svelte';
+	import { openTxnCategoryModal, openTxnSettingsModal } from '$lib/state/modal.svelte';
 	import { BudgetCycle, TransactionType } from '../../../../types/transaction';
 	import ExpenseUtils from '../Utilities/utils';
-	import BudgetWarning from '../Utilities/BudgetWarning.svelte';
 	import DateScroller from '../Utilities/DateScroller.svelte';
 	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
 	import BalanceCard from '../Utilities/BalanceCard.svelte';
-	import TxnTable from '../Utilities/TxnTable.svelte';
 	import AddTxnModal from '$lib/components/Modals/AddTxnModal.svelte';
 	import EditTransaction from '$lib/components/Modals/EditTransaction.svelte';
-	import SetBudget from '$lib/components/Modals/SetBudget.svelte';
 	import TxnCategoryModal from '$lib/components/Modals/TxnCategoryModal.svelte';
 	import TxnSettingsModal from '$lib/components/Modals/TxnSettingsModal.svelte';
 	import ExpensesCard from './ExpensesCard.svelte';
-	import TabButton from '$lib/components/Common/TabButton.svelte';
-	import BreakdownInsight from '../Utilities/BreakdownInsight.svelte';
-	// import { BudgetCycle } from '../../../types/transaction';
-	// import CategoryBreakdown from './Utilities/CategoryBreakdown.svelte';
-	// import SetBudget from '../Modals/SetBudget.svelte';
-	// import EditTransaction from '../Modals/EditTransaction.svelte';
-	import Breakdown from '../Utilities/Breakdown.svelte';
-	import LoaderError from '$lib/components/Common/LoaderError.svelte';
 	import ProgressLoader from '$lib/components/Common/ProgressLoader.svelte';
 	import StatsSections from '../Utilities/StatsSections.svelte';
-	import CategoryBreakdown from '../Utilities/CategoryBreakdown.svelte';
 	import AnalyticsSection from '../Utilities/AnalyticsSection.svelte';
+	import SetBudget from '$lib/components/Modals/SetBudget.svelte';
+	import BreakdownInsight from '../Utilities/BreakdownInsight.svelte';
 
 	let userQuery = useCurrentUser();
 	let user = $derived($userQuery?.data?.data?.user);
@@ -110,7 +77,6 @@
 	let budgetPercentage = $derived(
 		Helpers.getPercentage(txnAnalytics?.totalExpense, user?.budgetAmount)
 	);
-	// let currentTab = $state(TransactionType.EXPENSE);
 	let currentTab = $state(TransactionType.EXPENSE);
 	let openedCategoryId = $state('');
 
@@ -191,8 +157,6 @@
 			openedCategoryId = id;
 		}
 	}
-
-	// $effect(() => console.log(sortedList));
 </script>
 
 <div class="pb-24">
@@ -215,7 +179,7 @@
 		</div>
 	{/if} -->
 
-	<div class="mt-4 flex flex-row items-center justify-end px-3 md:flex-row">
+	<div class="mt-4 mb-6 flex flex-row items-center justify-end px-3 md:flex-row">
 		<div>
 			<DateScroller
 				{nextMonth}
@@ -233,7 +197,7 @@
 	</div>
 
 	<div
-		class="no-scrollbar flex w-full flex-nowrap items-center gap-3 overflow-x-auto px-3 py-3 md:gap-6"
+		class="no-scrollbar flex w-full flex-nowrap items-center gap-3 overflow-x-auto px-3 pb-4 md:gap-6"
 	>
 		<BalanceCard currency={_currency} title="Balance" value={txnAnalytics?.balance} />
 		<BalanceCard
@@ -251,7 +215,7 @@
 	</div>
 
 	<div class="no-scrollbar mt-4 flex items-center justify-between gap-3 overflow-x-auto px-3">
-		<div class="no-scrollbar flex items-center gap-3">
+		<div class="flex items-center gap-3">
 			<button
 				class="h-8 rounded-lg border-2 px-3"
 				class:active_tab={currentTab === TransactionType.EXPENSE}
@@ -268,13 +232,19 @@
 			</button>
 		</div>
 
-		<div>
+		<div class="flex items-center gap-3">
 			<button
 				class="h-8 w-6 min-w-max rounded-lg border-2 px-3"
 				class:active_tab={currentTab === ('stats' as any)}
 				onclick={() => changeTab('stats')}
 			>
-				<ChartColumnIncreasing size="20" />
+				<ChartColumnIncreasing size="20" strokeWidth={2.5} />
+			</button>
+			<button
+				class="h-8 w-6 min-w-max rounded-lg border-2 px-3"
+				onclick={() => openTxnSettingsModal()}
+			>
+				<Cog size="20" strokeWidth={2.5} />
 			</button>
 		</div>
 	</div>
@@ -282,6 +252,11 @@
 	{#if currentTab === ('stats' as any)}
 		<div class="mt-6 px-3">
 			<StatsSections currency={_currency} {txnList} {start} {end} />
+			<div class="pt-8 pb-4">
+				{#if breakdownList?.length > 2}
+					<BreakdownInsight {insightsStrings} />
+				{/if}
+			</div>
 			<AnalyticsSection goalPeriod={user?.budgetCycle} chartData={txnAnalytics} />
 		</div>
 	{:else}
@@ -308,7 +283,7 @@
 <AddTxnModal currency={_currency} {start} {end} />
 <TxnCategoryModal {transactionCategoriesList} />
 <TxnSettingsModal />
-<!-- <SetBudget /> -->
+<SetBudget {start} {end} currency={_currency} />
 <EditTransaction {start} {end} />
 
 <style>

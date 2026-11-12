@@ -3,7 +3,8 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { createQuery } from '@tanstack/svelte-query';
 	import TxnTable from '../Utilities/TxnTable.svelte';
-	import { openAddTxnModal } from '$lib/state/modal.svelte';
+	import { openAddBudgetModal, openAddTxnModal } from '$lib/state/modal.svelte';
+	import { Cog } from '@lucide/svelte';
 
 	let { openedCategoryId, start, end, currency, expense } = $props();
 
@@ -22,14 +23,19 @@
 				})
 		})
 	);
-	let amount = $state('');
 	let txnList = $derived($txnQuery?.data?.data?.transactions);
 </script>
 
-<div class="mt-3 flex justify-end px-3">
+<div class="mt-3 flex justify-end gap-3 px-3">
+	<button
+		onclick={() => openAddBudgetModal(expense)}
+		class="text-13 border-primary-biloba-950 h-[32px] rounded-lg border-2 bg-white px-2 text-black"
+	>
+		<Cog size="20" />
+	</button>
 	<button
 		onclick={() => openAddTxnModal(expense)}
-		class="border-primary-biloba-950 text-13 text-primary-biloba-950 h-[32px] rounded-lg border-2 px-4"
+		class="bg-primary-biloba-800 text-13 border-primary-biloba-950 h-[32px] rounded-lg border-2 px-4 text-white"
 	>
 		Record transaction
 	</button>

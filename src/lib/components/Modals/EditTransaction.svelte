@@ -74,6 +74,7 @@
 	isOpen={modalsState.data.isOpenEditTxn}
 	onClose={closeEditTxnModal}
 	label="Edit Transaction"
+	helperText={selectedCategory?.value}
 >
 	<div class="p-4">
 		<div class="space-y-4">
