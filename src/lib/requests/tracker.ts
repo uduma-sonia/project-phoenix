@@ -1,7 +1,7 @@
 import type { ReqConfig, Service } from '../../types/axios';
 import type { HabitStatus } from '../../types/tracker';
 
-export type CreateHabit = {
+type CreateHabit = {
 	createdAt?: Date;
 	updatedAt?: Date;
 	name: string;

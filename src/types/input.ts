@@ -30,8 +30,7 @@ export interface InputFieldProps {
 	[key: string]: any;
 }
 
-export interface InputFieldPropsExtended
-	extends Omit<HTMLInputElement, 'value' | 'type' | 'name' | 'id'> {
+interface InputFieldPropsExtended extends Omit<HTMLInputElement, 'value' | 'type' | 'name' | 'id'> {
 	label: string;
 	value: string;
 	id: string;
@@ -39,7 +38,7 @@ export interface InputFieldPropsExtended
 	type?: InputType;
 }
 
-export interface InputFieldPropsFromAttributes {
+interface InputFieldPropsFromAttributes {
 	label: string;
 	value: string;
 	id: string;

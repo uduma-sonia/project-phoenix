@@ -18,9 +18,9 @@ import UtilsService from './utils';
 import MealService from './meal';
 import TransactionService from './transaction';
 
-export const API_ENDPOINT = import.meta.env.VITE_API_URL;
-export const BUNNY_STORAGE_KEY = import.meta.env.VITE_BUNNY_STORAGE_KEY;
-export const BUNNY_STORAGE_NAME = import.meta.env.VITE_BUNNY_STORAGE_NAME;
+const API_ENDPOINT = import.meta.env.VITE_API_URL;
+const BUNNY_STORAGE_KEY = import.meta.env.VITE_BUNNY_STORAGE_KEY;
+const BUNNY_STORAGE_NAME = import.meta.env.VITE_BUNNY_STORAGE_NAME;
 
 class ApiService {
 	api: AxiosInstance;
