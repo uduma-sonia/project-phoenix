@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Tag from '$lib/components/Common/Tag.svelte';
 	import Helpers from '$lib/utils/helpers';
-	import { CircleCheck, TriangleAlert } from '@lucide/svelte';
 	import type { TxnCardSortedItem } from '../../../../types/transaction';
 	import ExpenseUtils from '../Utilities/utils';
 	import CategoryDetails from './CategoryDetails.svelte';
@@ -55,19 +54,23 @@
 	>
 		<div class="flex flex-1 items-center justify-between gap-2">
 			<div>
-				<p class="font-lexend mb-1 text-lg font-medium md:text-xl">{expense.name}</p>
+				<p class="font-lexend mb-1 text-base font-medium md:text-lg">{expense.name}</p>
 				<div class="font-lexend mb-0.5 flex items-center gap-2 text-sm font-normal md:text-sm">
 					<strong> Spent: </strong>
 					{amount}
 
-					<div class="font-lexend text-10 flex items-center gap-1 font-normal">
-						{ExpenseUtils.budgetText(usedPercentage, budgetAlertThreshold)}
-						{#if usedPercentage > budgetAlertThreshold}
-							<TriangleAlert color="#e7000b" size="14px" />
-						{:else}
-							<CircleCheck size="14px" color="#222" />
-						{/if}
-					</div>
+					{#if isBudgetMode}
+						<div class="font-lexend text-10 flex items-center gap-1 font-normal">
+							{ExpenseUtils.budgetText(usedPercentage, budgetAlertThreshold)}
+							{#if usedPercentage > budgetAlertThreshold}
+								<div class="h-3 w-3 rounded-full border bg-[#e7000b]"></div>
+							{:else}
+								<div class="h-3 w-3 rounded-full border bg-[#4e9a4c]"></div>
+							{/if}
+						</div>
+					{:else}
+						<div class="font-lexend text-10 flex items-center gap-1 font-normal">No budget</div>
+					{/if}
 				</div>
 				<div class="font-lexend mb-0.5 flex items-center gap-2 text-sm font-normal md:text-sm">
 					<strong> Budget: </strong>
@@ -75,9 +78,7 @@
 				</div>
 
 				<div class="mt-2 flex items-center gap-2">
-					{#if expense?.count}
-						<Tag variant="biloba" text={`x${expense?.count}`} />
-					{/if}
+					<Tag variant="biloba" text={`x ${expense?.count}`} />
 
 					{#if isBudgetMode}
 						<div
@@ -109,6 +110,7 @@
 
 		<div class="min-w-max">
 			<div
+				class:openedIcon={isOpened}
 				class="flex aspect-square w-8 flex-col items-center justify-center gap-0.5 rounded-full border-2 border-black bg-black"
 			>
 				<div
@@ -134,6 +136,10 @@
 <style>
 	.baseTxn {
 		background-color: var(--color-primary-biloba-400);
+	}
+
+	.openedIcon {
+		background-color: var(--color-brand-error);
 	}
 
 	.openedExpense {

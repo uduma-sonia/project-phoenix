@@ -581,12 +581,12 @@ class Helpers {
 				]
 			},
 			options: {
-				borderRadius: '10',
+				borderRadius: '6',
 				cutout: '0%',
 				maintainAspectRatio: false,
 				plugins: {
 					legend: {
-						position: 'right' as const,
+						position: 'bottom' as const,
 						display: true,
 						labels: {
 							usePointStyle: true,

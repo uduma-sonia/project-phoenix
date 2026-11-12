@@ -13,7 +13,6 @@
 		value={Helpers.getCurrency(ExpenseUtils.getDailySpending(txnList, start, end), currency)}
 		description="Daily average"
 	/>
-
 	<StatItem value={txnCounts?.total} description="Total Transactions" />
 	<StatItem value={txnCounts?.income} description="Total Income" />
 	<StatItem value={txnCounts?.expense} description="Total Expenses" />

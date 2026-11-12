@@ -20,6 +20,10 @@ class UserService {
 		return await this.api.get(`${this.prefix}/single/email/${id}`, { ...reqConfig });
 	}
 
+	async closeBudgetAlert(reqConfig?: ReqConfig) {
+		return await this.api.post(`${this.prefix}/close-budget-alert`, { ...reqConfig });
+	}
+
 	async getUsersByEmails(email: string, reqConfig?: ReqConfig) {
 		return await this.api.get(`${this.prefix}/multiple/email?emails=${email}`, { ...reqConfig });
 	}

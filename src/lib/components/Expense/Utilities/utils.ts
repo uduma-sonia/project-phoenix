@@ -143,22 +143,39 @@ class ExpenseUtils {
 		budgetPercentage: number,
 		budgetCycle: BudgetCycle,
 		currentMonth: string | number | Date,
-		budgetAlertThreshold: number
+		budgetAlertThreshold: number,
+		closeBudgetWarningDate?: string | number | Date
 	) {
 		const _isSameMonth = isSameMonth(formatISO(new Date()), currentMonth);
 		const _isSameWeek = isSameWeek(formatISO(new Date()), currentMonth);
 		const _isSameQuarter = isSameQuarter(formatISO(new Date()), currentMonth);
 		const _isSameYear = isSameYear(formatISO(new Date()), currentMonth);
 
+		let _isSameMonthBudget;
+		let _isSameWeekBudget;
+		let _isSameQuarterBudget;
+		let _isSameYearBudget;
+
+		if (closeBudgetWarningDate) {
+			_isSameMonthBudget = isSameMonth(formatISO(new Date()), closeBudgetWarningDate);
+			_isSameWeekBudget = isSameWeek(formatISO(new Date()), closeBudgetWarningDate);
+			_isSameQuarterBudget = isSameQuarter(formatISO(new Date()), closeBudgetWarningDate);
+			_isSameYearBudget = isSameYear(formatISO(new Date()), closeBudgetWarningDate);
+		}
+
 		if (budgetPercentage > budgetAlertThreshold) {
-			if (budgetCycle === BudgetCycle.WEEKLY) {
-				return _isSameWeek;
-			} else if (budgetCycle === BudgetCycle.QUARTERLY) {
-				return _isSameQuarter;
-			} else if (budgetCycle === BudgetCycle.YEARLY) {
-				return _isSameYear;
-			} else {
-				return _isSameMonth;
+			switch (budgetCycle) {
+				case BudgetCycle.WEEKLY:
+					return _isSameWeek && !_isSameWeekBudget;
+
+				case BudgetCycle.QUARTERLY:
+					return _isSameQuarter && !_isSameQuarterBudget;
+
+				case BudgetCycle.YEARLY:
+					return _isSameYear && !_isSameYearBudget;
+
+				default:
+					return _isSameMonth && !_isSameMonthBudget;
 			}
 		}
 		return false;

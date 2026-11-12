@@ -9,7 +9,7 @@
 		chartType = 'bar' as any
 	} = $props();
 
-	const chartLabel = $derived(chartData?.map((item: any) => item.category));
+	const chartLabel = $derived(chartData?.map((item: any) => item.categoryName));
 	const chartDataset = $derived(chartData?.map((item: any) => item.amount));
 </script>
 

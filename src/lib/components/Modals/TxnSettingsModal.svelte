@@ -105,7 +105,7 @@
 					placeholder="Select cycle"
 					options={budgetCycles}
 					bind:selectedOption={selectedCycle}
-					shouldSearch={true}
+					shouldSearch={false}
 					withClearButton={true}
 				/>
 			</div>

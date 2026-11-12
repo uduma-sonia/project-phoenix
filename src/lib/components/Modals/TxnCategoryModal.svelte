@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { closeTxnCategoryModal, modalsState } from '$lib/state/modal.svelte';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
-	import TxnCategoryItem from './Utilities/TxnCategoryItem.svelte';
 	import { TransactionType, type TransactionCategory } from '../../../types/transaction';
 	import { addToast } from '$lib/store/toast';
 	import { TransactionRequest } from '$lib/requests';
@@ -9,7 +8,7 @@
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import AddCategory from '../Expense/Utilities/AddCategory.svelte';
 
-	let { transactionCategoriesList } = $props();
+	let { transactionCategoriesList, currency } = $props();
 
 	const queryClient = useQueryClient();
 
@@ -70,41 +69,34 @@
 <ModalWrapper
 	isOpen={modalsState.data.isOpenTxnCategory}
 	onClose={closeTxnCategoryModal}
-	label="Manage Categories"
+	label="Add new transaction category"
 	maxWidth="max-w-[700px]"
 >
 	<div class="p-4">
 		<div class="space-y-4">
-			<div>
-				<div class="flex items-center gap-4">
-					<button
-						class:bg-brand-build={type === TransactionType.EXPENSE}
-						onclick={() => changeType(TransactionType.EXPENSE)}
-						class="button_active h-[35px] rounded-lg border px-4 text-sm"
-						type="button"
-					>
-						Expense
-					</button>
-					<button
-						class:bg-brand-build={type === TransactionType.INCOME}
-						onclick={() => changeType(TransactionType.INCOME)}
-						class="button_active h-[35px] rounded-lg border px-4 text-sm"
-						type="button"
-					>
-						Income
-					</button>
-				</div>
+			<div class="flex items-center gap-4">
+				<button
+					class:bg-brand-build={type === TransactionType.EXPENSE}
+					onclick={() => changeType(TransactionType.EXPENSE)}
+					class="button_active h-[35px] rounded-lg border px-4 text-sm"
+					type="button"
+				>
+					Expense
+				</button>
+				<button
+					class:bg-brand-build={type === TransactionType.INCOME}
+					onclick={() => changeType(TransactionType.INCOME)}
+					class="button_active h-[35px] rounded-lg border px-4 text-sm"
+					type="button"
+				>
+					Income
+				</button>
 			</div>
 
-			<div class="space-y-4">
-				{#each transformedList as item}
-					<TxnCategoryItem {type} {handleUpdateItem} {item} {handleItemDelete} />
-				{/each}
-			</div>
-
-			<div class="mt-12">
+			<div class="mt-6">
 				<AddCategory
 					{type}
+					{currency}
 					placeholder="Category name"
 					{isSubmitting}
 					handleItemAdd={handleAddCategory}

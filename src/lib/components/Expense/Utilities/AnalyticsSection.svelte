@@ -3,27 +3,6 @@
 	import DailySpendChart from './DailySpendChart.svelte';
 
 	let { chartData, goalPeriod } = $props();
-
-	let currentView = $state('daily');
-
-	let viewList = [
-		{
-			id: 'daily',
-			label: 'Daily spend'
-		},
-		{
-			id: 'expense',
-			label: 'Expense trend'
-		},
-		{
-			id: 'income',
-			label: 'Income trend'
-		}
-	];
-
-	function changeView(view: string) {
-		currentView = view;
-	}
 </script>
 
 <div class="mt-10">

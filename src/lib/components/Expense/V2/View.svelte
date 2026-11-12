@@ -19,7 +19,6 @@
 	import { BudgetCycle, TransactionType } from '../../../../types/transaction';
 	import ExpenseUtils from '../Utilities/utils';
 	import DateScroller from '../Utilities/DateScroller.svelte';
-	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
 	import BalanceCard from '../Utilities/BalanceCard.svelte';
 	import AddTxnModal from '$lib/components/Modals/AddTxnModal.svelte';
 	import EditTransaction from '$lib/components/Modals/EditTransaction.svelte';
@@ -27,10 +26,9 @@
 	import TxnSettingsModal from '$lib/components/Modals/TxnSettingsModal.svelte';
 	import ExpensesCard from './ExpensesCard.svelte';
 	import ProgressLoader from '$lib/components/Common/ProgressLoader.svelte';
-	import StatsSections from '../Utilities/StatsSections.svelte';
-	import AnalyticsSection from '../Utilities/AnalyticsSection.svelte';
 	import SetBudget from '$lib/components/Modals/SetBudget.svelte';
-	import BreakdownInsight from '../Utilities/BreakdownInsight.svelte';
+	import ExpensesStatsSection from './ExpensesStatsSection.svelte';
+	import BudgetWarning from '../Utilities/BudgetWarning.svelte';
 
 	let userQuery = useCurrentUser();
 	let user = $derived($userQuery?.data?.data?.user);
@@ -49,12 +47,6 @@
 				})
 	);
 
-	let txnQuery = $derived(
-		createQuery({
-			queryKey: queryKeys.getTransactions({ startDate: start, endDate: end }),
-			queryFn: () => TransactionRequest.getTransactions({ startDate: start, endDate: end })
-		})
-	);
 	let txnAnalyticsQuery = $derived(
 		createQuery({
 			queryKey: queryKeys.getTransactionAnalytics({ startDate: start, endDate: end }),
@@ -63,17 +55,12 @@
 	);
 
 	let txnAnalytics = $derived($txnAnalyticsQuery?.data?.data?.analytics);
-	let txnList = $derived($txnQuery?.data?.data?.transactions);
 
 	let txnCategoriesQuery = createQuery({
 		queryKey: queryKeys.getTransactionCategories,
 		queryFn: () => TransactionRequest.getTransactionCategories()
 	});
 	let transactionCategoriesList = $derived($txnCategoriesQuery?.data?.data?.transactionCategories);
-	let breakdownList = $derived(ExpenseUtils.getBreakdownList(txnList, 'desc'));
-	let insightsStrings = $derived(
-		ExpenseUtils.getInsights(txnList, txnAnalytics?.totalIncome, txnAnalytics?.totalExpense)
-	);
 	let budgetPercentage = $derived(
 		Helpers.getPercentage(txnAnalytics?.totalExpense, user?.budgetAmount)
 	);
@@ -131,7 +118,8 @@
 				budgetPercentage,
 				user?.budgetCycle,
 				currentMonth,
-				budgetAlertThreshold
+				budgetAlertThreshold,
+				user?.closeBudgetWarningDate
 			)
 	);
 
@@ -159,27 +147,16 @@
 	}
 </script>
 
-<div class="pb-24">
+<div class="pb-40">
 	<p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">
 		Manage and track all your financial transactions and budget
 	</p>
 
-	<!-- {#if showBudgetWarning}
-		<div class="hidde md:bloc">
-			<BudgetWarning
-				{budgetAlertThreshold}
-				{budgetPercentage}
-				userBudget={Helpers.currencyFormatter({
-					currency: getCurrency?.details?.code,
-					minimumFractionDigits: getCurrency?.details.rounding,
-					maximumFractionDigits: getCurrency?.details?.decimal_digits
-				}).format(user?.budgetAmount)}
-				goalPeriod={user?.budgetCycle}
-			/>
-		</div>
-	{/if} -->
+	{#if showBudgetWarning}
+		<BudgetWarning {budgetAlertThreshold} {budgetPercentage} goalPeriod={user?.budgetCycle} />
+	{/if}
 
-	<div class="mt-4 mb-6 flex flex-row items-center justify-end px-3 md:flex-row">
+	<div class="mt-4 mb-6 flex flex-row items-center justify-end md:flex-row">
 		<div>
 			<DateScroller
 				{nextMonth}
@@ -189,10 +166,6 @@
 				{nextWeek}
 				{prevWeek}
 			/>
-		</div>
-
-		<div>
-			<HamburgerDropdown variant="solid" options={moreOptions} />
 		</div>
 	</div>
 
@@ -250,15 +223,13 @@
 	</div>
 
 	{#if currentTab === ('stats' as any)}
-		<div class="mt-6 px-3">
-			<StatsSections currency={_currency} {txnList} {start} {end} />
-			<div class="pt-8 pb-4">
-				{#if breakdownList?.length > 2}
-					<BreakdownInsight {insightsStrings} />
-				{/if}
-			</div>
-			<AnalyticsSection goalPeriod={user?.budgetCycle} chartData={txnAnalytics} />
-		</div>
+		<ExpensesStatsSection
+			currency={_currency}
+			{start}
+			{end}
+			{txnAnalytics}
+			budgetCycle={user?.budgetCycle}
+		/>
 	{:else}
 		<div class="mt-6 grid grid-cols-1 gap-4 px-3">
 			<ProgressLoader {isLoading} error={isError} />
@@ -281,7 +252,7 @@
 </div>
 
 <AddTxnModal currency={_currency} {start} {end} />
-<TxnCategoryModal {transactionCategoriesList} />
+<TxnCategoryModal {transactionCategoriesList} currency={_currency} />
 <TxnSettingsModal />
 <SetBudget {start} {end} currency={_currency} />
 <EditTransaction {start} {end} />
