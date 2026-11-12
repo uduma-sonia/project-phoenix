@@ -2,7 +2,7 @@ import Helpers from '$lib/utils/helpers';
 import { SvelteDate } from 'svelte/reactivity';
 import type { Meal } from '../../types/meal';
 import type { TripActivity } from '../../types/trip';
-import type { Transaction } from '../../types/transaction';
+import type { Transaction, TxnCardSortedItem } from '../../types/transaction';
 
 export const modalsState = $state({
 	data: {
@@ -63,6 +63,9 @@ export const selectedTxnCategory = $state<{ data: any | null }>({
 });
 
 export const selectedTxnToEdit = $state<{ data: Transaction | null }>({
+	data: null
+});
+export const selectedTxnToAdd = $state<{ data: TxnCardSortedItem | null }>({
 	data: null
 });
 
@@ -204,11 +207,13 @@ export function closeLogValueModal() {
 	modalsState.data.isOpenLogValueModal = false;
 }
 
-export function openAddTxnModal() {
+export function openAddTxnModal(data?: any) {
+	selectedTxnToAdd.data = data;
 	modalsState.data.isOpenAddTxn = true;
 }
 export function closeAddTxnModal() {
 	modalsState.data.isOpenAddTxn = false;
+	selectedTxnToAdd.data = null;
 }
 
 export function openTxnCategoryModal() {
@@ -235,6 +240,7 @@ export function closeMealPlannerModal() {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function openAddBudgetModal(value: any) {
 	modalsState.data.isOpenAddBudget = true;
+	console.log('inside ec', value);
 	selectedTxnCategory.data = value;
 }
 export function closeAddBudgetModal() {

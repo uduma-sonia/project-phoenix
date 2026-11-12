@@ -1,11 +1,22 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 
-export const toasts: any = writable([]);
+export type ToastType = 'error' | 'success';
+
+export interface Toast {
+	id: number;
+	message: string;
+	type: ToastType;
+	imgLink?: string;
+	link?: string;
+	linkName?: string;
+	action?: () => void;
+}
+
+export const toasts: Writable<Toast[]> = writable([]);
 
 export function addToast(
-	message: any,
-	type: 'error' | 'success',
+	message: string,
+	type: ToastType,
 	options?: {
 		imgLink?: string;
 		withSound?: boolean;
@@ -13,10 +24,10 @@ export function addToast(
 		linkName?: string;
 		action?: () => void;
 	}
-) {
+): void {
 	const id = Date.now();
 
-	toasts.update((all: any) => [
+	toasts.update((all) => [
 		...all,
 		{
 			id,
@@ -24,15 +35,16 @@ export function addToast(
 			type,
 			imgLink: options?.imgLink,
 			link: options?.link,
-			linkName: options?.linkName
+			linkName: options?.linkName,
+			action: options?.action
 		}
 	]);
 
 	setTimeout(() => {
-		toasts.update((all: any) => all.filter((toast: any) => toast.id !== id));
+		toasts.update((all) => all.filter((toast) => toast.id !== id));
 	}, 5000);
 }
 
-export function removeToast(id: string) {
-	toasts.update((all: any) => all.filter((toast: any) => toast.id !== id));
+export function removeToast(id: number): void {
+	toasts.update((all) => all.filter((toast) => toast.id !== id));
 }

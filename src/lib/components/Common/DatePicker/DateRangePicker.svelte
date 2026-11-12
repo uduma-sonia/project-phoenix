@@ -79,7 +79,7 @@
 	<div class="date-picker-days">
 		{#each daysArray as _, i (i)}
 			<p class="rounded-md border-2 text-sm font-medium text-black">
-				{format(addDays(_startOfWeek, i), 'EEE')}{' '}
+				{format(addDays(_startOfWeek, i), 'EEE')}
 			</p>
 		{/each}
 	</div>

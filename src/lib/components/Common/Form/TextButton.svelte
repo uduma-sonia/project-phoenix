@@ -7,12 +7,14 @@
 		type,
 		RightIcon,
 		className,
+		rightIconProps,
 		...restProps
 	}: {
 		isLoading?: boolean;
 		variant?: string;
 		className?: string;
 		label?: string;
+		rightIconProps?: any;
 		action?: () => void;
 		type?: 'button' | 'reset' | 'submit' | null | undefined;
 		RightIcon?: any;
@@ -28,6 +30,6 @@
 	{label}
 
 	{#if RightIcon}
-		<RightIcon />
+		<RightIcon {...rightIconProps} />
 	{/if}
 </button>

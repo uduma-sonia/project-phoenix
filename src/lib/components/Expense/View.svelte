@@ -195,14 +195,15 @@
 		/>
 	</div>
 
-	<TxnTable
+	<!-- <TxnTable
 		txnLoading={$txnQuery?.isLoading}
 		isError={$txnQuery?.isError}
 		{txnList}
 		{start}
 		{end}
-		{getCurrency}
-	/>
+		// {getCurrency}
+		currency={}
+	/> -->
 
 	<div class="mt-10 grid grid-cols-1 px-3 md:grid-cols-[2fr_1fr] md:gap-4">
 		<div>
@@ -222,22 +223,22 @@
 	</div>
 
 	<div class="mt-10 px-3">
-		<StatsSections {getCurrency} {txnList} {start} {end} />
+		<!-- <StatsSections {getCurrency} {txnList} {start} {end} /> -->
 	</div>
 
-	<AnalyticsSection chartData={txnAnalytics} />
-	{#if user?.isBudgetMode}
+	<!-- <AnalyticsSection chartData={txnAnalytics} /> -->
+	<!-- {#if user?.isBudgetMode}
 		<CategoryBreakdown
 			{budgetAlertThreshold}
 			{getCurrency}
 			{breakdownList}
 			{transactionCategoriesList}
 		/>
-	{/if}
+	{/if} -->
 </div>
 
-<AddTxnModal {transactionCategoriesList} {start} {end} />
+<!-- <AddTxnModal {transactionCategoriesList} {start} {end} />
 <TxnCategoryModal {transactionCategoriesList} />
 <TxnSettingsModal />
 <SetBudget />
-<EditTransaction {transactionCategoriesList} {start} {end} />
+<EditTransaction {transactionCategoriesList} {start} {end} /> -->

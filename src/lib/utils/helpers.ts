@@ -99,7 +99,7 @@ class Helpers {
 	};
 
 	static capitalizeFirstLetter = (value: string) => {
-		return value.charAt(0).toUpperCase() + value.slice(1);
+		return value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
 	};
 
 	static getUserFirstNameAndLastName(user: { fname: string; lname: string }) {
@@ -251,6 +251,31 @@ class Helpers {
 		}
 	}
 
+	static getCurrencySymbol(currency: string) {
+		// @ts-ignore
+		const _currency = currencies[0][currency];
+
+		if (_currency) {
+			return _currency.symbol;
+		}
+
+		return 'N/A';
+	}
+
+	static getCurrency(amount: number, currency: string) {
+		// @ts-ignore
+		const _currency = currencies[0][currency];
+
+		if (_currency) {
+			return this.currencyFormatter({
+				currency: _currency.code,
+				minimumFractionDigits: _currency.rounding,
+				maximumFractionDigits: _currency.decimal_digits
+			}).format(amount);
+		}
+
+		return 0;
+	}
 	static generateYearRange(date: Date) {
 		const months = [
 			{ name: 'january', index: 0 },
@@ -469,6 +494,136 @@ class Helpers {
 				document.removeEventListener('click', handleClick, true);
 			}
 		};
+	}
+
+	static getBarChartConfig(chartLabelArray: any, datasetsLabel: any, dataset: any): any {
+		return {
+			type: 'bar',
+			data: {
+				labels: chartLabelArray,
+				datasets: [
+					{
+						label: datasetsLabel,
+						data: dataset,
+						backgroundColor: '#ffffff',
+						borderWidth: 1.5,
+						borderColor: '#000000',
+						borderRadius: 14,
+						hoverBackgroundColor: '#4f3b50'
+					}
+				]
+			},
+			options: {
+				maintainAspectRatio: false,
+				plugins: {
+					legend: {
+						display: false
+					}
+				},
+				scales: {
+					y: {
+						beginAtZero: true,
+						grid: {
+							display: true
+						},
+						ticks: {
+							callback: (value: any) => `${Helpers.convertNumber(Number(value))}`,
+							color: '#000000'
+						}
+					},
+					x: {
+						grid: {
+							display: false
+						},
+						ticks: {
+							color: '#000000'
+						}
+					}
+				}
+			}
+		};
+	}
+
+	static getPieChartConfig(chartLabelArray: any, datasetsLabel: any, dataset: any): any {
+		return {
+			type: 'pie',
+			data: {
+				labels: chartLabelArray,
+				datasets: [
+					{
+						label: datasetsLabel,
+						data: dataset,
+						backgroundColor: [
+							'#4e79a7',
+							'#f28e2b',
+							'#e15759',
+							'#76b7b2',
+							'#59a14f',
+							'#edc948',
+							'#b07aa1',
+							'#ff9da7',
+							'#9c755f',
+							'#bab0ab',
+							'#1f77b4',
+							'#ff7f0e',
+							'#2ca02c',
+							'#d62728',
+							'#9467bd',
+							'#8c564b',
+							'#e377c2',
+							'#7f7f7f',
+							'#bcbd22',
+							'#17becf'
+						],
+						borderWidth: 1,
+						borderColor: '#000000'
+					}
+				]
+			},
+			options: {
+				borderRadius: '6',
+				cutout: '0%',
+				maintainAspectRatio: false,
+				plugins: {
+					legend: {
+						position: 'bottom' as const,
+						display: true,
+						labels: {
+							usePointStyle: true,
+							padding: 10,
+							font: {
+								size: 12
+							}
+						}
+					},
+					title: { display: false }
+				},
+				scales: {
+					y: {
+						display: false,
+
+						ticks: { display: false },
+						grid: { drawOnChartArea: false }
+					},
+					x: {
+						display: false
+					}
+				}
+			}
+		};
+	}
+
+	static getChartConfig(chartType: string, chartLabelArray: any, datasetsLabel: any, dataset: any) {
+		// if (chartType === 'line') {
+		// 	return AnalyticsUtils.getLineChartConfig(chartLabelArray, datasetsLabel, dataset);
+		// }
+		if (chartType === 'bar') {
+			return this.getBarChartConfig(chartLabelArray, datasetsLabel, dataset);
+		}
+
+		if (chartType === 'pie') {
+			return this.getPieChartConfig(chartLabelArray, datasetsLabel, dataset);
+		}
 	}
 }
 

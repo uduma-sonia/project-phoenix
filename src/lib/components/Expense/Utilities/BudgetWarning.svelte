@@ -1,9 +1,16 @@
 <script lang="ts">
 	import TextButton from '$lib/components/Common/Form/TextButton.svelte';
-	import { TriangleAlert } from '@lucide/svelte';
+	import { TriangleAlert, X } from '@lucide/svelte';
 	import { BudgetCycle } from '../../../../types/transaction';
+	import { addToast } from '$lib/store/toast';
+	import { UserRequest } from '$lib/requests';
+	import { queryKeys } from '$lib/utils/queryKeys';
+	import { useQueryClient } from '@tanstack/svelte-query';
 
-	let { budgetPercentage, userBudget, goalPeriod, budgetAlertThreshold } = $props();
+	let { budgetPercentage, goalPeriod, budgetAlertThreshold } = $props();
+
+	let isSubmitting = $state(false);
+	const queryClient = useQueryClient();
 
 	const getTextFromPeriod = () => {
 		if (goalPeriod === BudgetCycle.MONTHLY) {
@@ -21,29 +28,62 @@
 	};
 	const getPrefixText = () => {
 		if (budgetPercentage > budgetAlertThreshold && budgetPercentage < 100) {
-			return "You're approaching your main budget limit for";
+			return 'Reaching main budget limit for';
 		} else {
-			return 'You have passed your main budget limit for';
+			return 'Budget limit passed for';
+		}
+	};
+
+	const handleCloseWrning = async () => {
+		try {
+			isSubmitting = true;
+			const result = await UserRequest.closeBudgetAlert();
+
+			if (result) {
+				queryClient.invalidateQueries({
+					queryKey: queryKeys.getCurrentUser
+				});
+			}
+		} catch (error: any) {
+			addToast(error?.message || 'An error occured', 'error');
+		} finally {
+			isSubmitting = false;
 		}
 	};
 </script>
 
 <div class="px-3">
 	<div
-		class="font-lexend text-10 border-brand-error relative flex max-w-lg items-center gap-4 rounded-xl border px-3 pt-2 pb-3.5 font-normal md:text-xs"
+		class="font-lexend border-brand-error retro_block relative flex max-w-lg items-center gap-4 rounded-xl border bg-red-300 p-3 text-sm font-normal"
 	>
 		<div class="pulsing">
 			<TriangleAlert color="#e7000b" size="30px" />
 		</div>
 
-		<p>
-			{getPrefixText()}
-			{getTextFromPeriod()}. You've spent {budgetPercentage}% of your main budget - {userBudget} already.
-			Keep an eye on your expenses.
-		</p>
+		<div>
+			<p>
+				{getPrefixText()}
+				{getTextFromPeriod()}. You've spent {budgetPercentage}% of your main budget already.
+			</p>
 
-		<div class="absolute right-3 bottom-1">
-			<TextButton label="Close" />
+			<div class="mt-2 flex items-center justify-end">
+				<TextButton
+					className="closeBtn_9oefk"
+					label="Close"
+					RightIcon={X}
+					isLoading={isSubmitting}
+					rightIconProps={{ size: '20px' }}
+					action={handleCloseWrning}
+				/>
+			</div>
 		</div>
 	</div>
 </div>
+
+<style>
+	:global(.closeBtn_9oefk) {
+		color: black;
+		font-weight: 600;
+		text-decoration: underline;
+	}
+</style>

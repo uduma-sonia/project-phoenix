@@ -37,6 +37,70 @@
 	--text-15: 15px;
 	--text-10: 10px;
 	--text-11: 11px;
+
+	/* Biloba */
+	--color-primary-biloba-50: #fafaff;
+	--color-primary-biloba-100: #f4f3fe;
+	--color-primary-biloba-200: #e8e6fd;
+	--color-primary-biloba-300: #d7d5fc;
+	--color-primary-biloba-400: #c2befb;
+	--color-primary-biloba: #a59ff9; /* MAIN COLOR */
+	--color-primary-biloba-600: #8b86d1;
+	--color-primary-biloba-700: #706ca9;
+	--color-primary-biloba-800: #565381;
+	--color-primary-biloba-900: #3b395a;
+	--color-primary-biloba-950: #242337;
+
+	--color-primary-pink-50: #fffafe;
+	--color-primary-pink-100: #fff2fc;
+	--color-primary-pink-200: #ffe2f9;
+	--color-primary-pink-300: #ffcff5;
+	--color-primary-pink-400: #ffb4ef;
+	--color-primary-pink: #ff91e8; /* MAIN COLOR */
+	--color-primary-pink-600: #d67ac3;
+	--color-primary-pink-700: #ad639e;
+	--color-primary-pink-800: #854b79;
+	--color-primary-pink-900: #5c3454;
+	--color-primary-pink-950: #382033;
+
+	/* Olive */
+	--color-primary-olive-50: #fcfdf9;
+	--color-primary-olive-100: #f7faf0;
+	--color-primary-olive-200: #edf3dd;
+	--color-primary-olive-300: #e1ebc6;
+	--color-primary-olive-400: #d0e0a7;
+	--color-primary-olive: #bad27e; /* MAIN COLOR */
+	--color-primary-olive-600: #9cb06a;
+	--color-primary-olive-700: #7e8f56;
+	--color-primary-olive-800: #616d42;
+	--color-primary-olive-900: #434c2d;
+	--color-primary-olive-950: #292e1c;
+
+	/* Plum */
+	--color-primary-plum-50: #fdfafd;
+	--color-primary-plum-100: #fbf4fb;
+	--color-primary-plum-200: #f6e8f7;
+	--color-primary-plum-300: #efd7f1;
+	--color-primary-plum-400: #e7c2e9;
+	--color-primary-plum: #dba5df; /* MAIN COLOR */
+	--color-primary-plum-600: #b88bbb;
+	--color-primary-plum-700: #957098;
+	--color-primary-plum-800: #725674;
+	--color-primary-plum-900: #4f3b50;
+	--color-primary-plum-950: #302431;
+
+	/* Orange */
+	--color-primary-orange-50: #fef8f5;
+	--color-primary-orange-100: #fdeee6;
+	--color-primary-orange-200: #fadbca;
+	--color-primary-orange-300: #f6c2a5;
+	--color-primary-orange-400: #f1a074;
+	--color-primary-orange: #eb7432; /* MAIN COLOR */
+	--color-primary-orange-600: #c5612a;
+	--color-primary-orange-700: #a04f22;
+	--color-primary-orange-800: #7a3c1a;
+	--color-primary-orange-900: #552a12;
+	--color-primary-orange-950: #341a0b;
 }
 
 * {

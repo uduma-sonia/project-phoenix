@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ReqConfig, Service } from '../../types/axios';
 
 class UtilsService {

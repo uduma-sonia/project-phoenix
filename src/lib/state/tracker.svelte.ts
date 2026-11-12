@@ -15,7 +15,6 @@ export const currentStatsYear = $state({
 	year: new Date()
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function updateSelectedDay(arg: any) {
 	trackerState.data.selectedDay = arg;
 }

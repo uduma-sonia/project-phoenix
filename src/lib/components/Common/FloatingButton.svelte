@@ -23,5 +23,3 @@
 		{/if}
 	</Tooltip>
 </div>
-
-<!-- <div class="slide_in_up fixed bottom-20 left-1/2 -translate-x-1/2 md:bottom-5"> -->

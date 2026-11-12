@@ -1,7 +1,9 @@
 <script lang="ts">
+	import CurrencyInput from '$lib/components/Common/CurrencyInput.svelte';
+	import BasicInputField from '$lib/components/Common/Form/BasicInputField.svelte';
 	import { TransactionType } from '../../../../types/transaction';
 
-	let { handleItemAdd, isSubmitting, placeholder = 'Type and enter', type } = $props();
+	let { handleItemAdd, isSubmitting, placeholder = 'Type and enter', type, currency } = $props();
 
 	let itemName = $state('');
 	let itemAmount = $state('');
@@ -17,19 +19,23 @@
 			itemAmount = '';
 		}}
 	>
-		<div class="flex gap-4">
-			<input
+		<div class="space-y-4">
+			<BasicInputField
+				label="Category name"
 				type="text"
+				id="categoryName"
+				name="categoryName"
 				bind:value={itemName}
-				class="h-[50px] w-full border-b border-b-gray-300 px-3 outline-none"
-				{placeholder}
 			/>
+
 			{#if type === TransactionType.EXPENSE}
-				<input
-					type="text"
+				<CurrencyInput
+					inputClass="bg-white"
+					required
+					label="Budget amount"
+					requiredIcon
+					{currency}
 					bind:value={itemAmount}
-					class="h-[50px] w-full border-b border-b-gray-300 px-3 outline-none"
-					placeholder="Budget amount"
 				/>
 			{/if}
 		</div>

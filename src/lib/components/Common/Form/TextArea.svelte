@@ -74,7 +74,6 @@
 		{disabled}
 		inputmode={inputMode}
 		{...restProps}
-		{...restProps}
 	>
 	</textarea>
 </div>

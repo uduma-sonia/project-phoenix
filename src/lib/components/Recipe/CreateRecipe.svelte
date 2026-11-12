@@ -393,7 +393,7 @@
 	bind:this={imageTwoEl}
 	onchange={() => handleFileChange('recipe-image-two')}
 />
-<!-- <input
+<input
 	type="file"
 	id="image_three"
 	name="image_three"
@@ -401,7 +401,7 @@
 	class="invisible absolute bottom-0 left-0"
 	bind:this={imageThreeEl}
 	onchange={() => handleFileChange('recipe-image-three')}
-/> -->
+/>
 
 <div id="createRecipe">
 	<div class="mx-auto w-full px-4 pt-3 md:max-w-[600px] md:px-0">
@@ -493,7 +493,7 @@
 						<p class="pt-4">Category</p>
 
 						<div class="flex items-center gap-3 pt-2">
-							{#each groupList as group}
+							{#each groupList as group, index (index)}
 								{@const isSelected = selectedGroupList?.find((item) => item.id === group._id)}
 								<button
 									class="font-lexend hover:bg-brand-rose relative inline-block rounded-md border bg-white px-4 py-2 text-[11px] font-light text-black capitalize"
@@ -545,7 +545,7 @@
 
 								{#if imageOneUrl}
 									<button
-										onclick={() => removeImage('image_two')}
+										onclick={() => removeImage('image_one')}
 										class="text-brand-error font-lexend absolute -bottom-7 left-1/2 -translate-x-1/2 text-sm font-medium"
 									>
 										<X />
