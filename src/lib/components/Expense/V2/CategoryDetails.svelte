@@ -4,9 +4,16 @@
 	import { createQuery } from '@tanstack/svelte-query';
 	import TxnTable from '../Utilities/TxnTable.svelte';
 	import { openAddBudgetModal, openAddTxnModal } from '$lib/state/modal.svelte';
-	import { Cog } from '@lucide/svelte';
+	import { Cog, Trash } from '@lucide/svelte';
+	import IconButton from '$lib/components/Common/IconButton.svelte';
+	import ButtonV2 from '$lib/components/Common/Form/ButtonV2.svelte';
+	import { addToast } from '$lib/store/toast';
+	import { useQueryClient } from '@tanstack/svelte-query';
 
 	let { openedCategoryId, start, end, currency, expense } = $props();
+
+	const queryClient = useQueryClient();
+	let isDeleting = $state(false);
 
 	let txnQuery = $derived(
 		createQuery({
@@ -24,21 +31,50 @@
 		})
 	);
 	let txnList = $derived($txnQuery?.data?.data?.transactions);
+
+	async function handleCategoryDelete(id: string) {
+		try {
+			isDeleting = true;
+			const result = await TransactionRequest.deleteTransactionCategory(id);
+
+			if (result) {
+				queryClient.invalidateQueries({ queryKey: queryKeys.getTransactionCategories });
+			}
+		} catch (error: any) {
+			addToast(error?.message || 'An error occured', 'error');
+		} finally {
+			isDeleting = false;
+		}
+	}
 </script>
 
-<div class="mt-3 flex justify-end gap-3 px-3">
-	<button
-		onclick={() => openAddBudgetModal(expense)}
-		class="text-13 border-primary-biloba-950 h-[32px] rounded-lg border-2 bg-white px-2 text-black"
-	>
-		<Cog size="20" />
-	</button>
-	<button
-		onclick={() => openAddTxnModal(expense)}
-		class="bg-primary-biloba-800 text-13 border-primary-biloba-950 h-[32px] rounded-lg border-2 px-4 text-white"
-	>
-		Record transaction
-	</button>
+<div class="mt-3 flex justify-between gap-3 px-3">
+	<div>
+		<IconButton
+			Icon={Trash}
+			iconProps={{ size: 20 }}
+			size="s"
+			action={() => handleCategoryDelete(expense.id)}
+			variant="danger"
+			isLoading={isDeleting}
+		/>
+	</div>
+
+	<div class="flex gap-3">
+		<IconButton
+			Icon={Cog}
+			iconProps={{ size: 20 }}
+			size="s"
+			action={() => openAddBudgetModal(expense)}
+		/>
+
+		<ButtonV2
+			label="Record transaction"
+			action={() => openAddTxnModal(expense)}
+			size="s"
+			variant="purple"
+		/>
+	</div>
 </div>
 
 <TxnTable
