@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Cog, ClipboardList, ChartColumnIncreasing } from '@lucide/svelte';
+	import { ChartColumnIncreasing, Wrench } from '@lucide/svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TransactionRequest } from '$lib/requests';
@@ -29,6 +29,8 @@
 	import SetBudget from '$lib/components/Modals/SetBudget.svelte';
 	import ExpensesStatsSection from './ExpensesStatsSection.svelte';
 	import BudgetWarning from '../Utilities/BudgetWarning.svelte';
+	import ButtonV2 from '$lib/components/Common/Form/ButtonV2.svelte';
+	import IconButton from '$lib/components/Common/IconButton.svelte';
 
 	let userQuery = useCurrentUser();
 	let user = $derived($userQuery?.data?.data?.user);
@@ -131,7 +133,7 @@
 	}
 </script>
 
-<div class="pb-40">
+<div class="overflow-x-hidden pb-40">
 	<p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">
 		Manage and track all your financial transactions and budget
 	</p>
@@ -140,67 +142,69 @@
 		<BudgetWarning {budgetAlertThreshold} {budgetPercentage} goalPeriod={user?.budgetCycle} />
 	{/if}
 
-	<div class="mt-4 flex flex-row items-center justify-end pb-6 md:flex-row">
-		<DateScroller
-			{nextMonth}
-			{prevMonth}
-			{currentMonth}
-			budgetCycle={user?.budgetCycle}
-			{nextWeek}
-			{prevWeek}
-		/>
-	</div>
+	<DateScroller
+		{nextMonth}
+		{prevMonth}
+		{currentMonth}
+		budgetCycle={user?.budgetCycle}
+		{nextWeek}
+		{prevWeek}
+	/>
 
 	<div
-		class="no-scrollbar flex w-full flex-nowrap items-center gap-3 overflow-x-auto px-3 pb-4 md:gap-6"
+		class="no-scrollbar mt-10 flex w-full flex-nowrap items-center gap-3 overflow-x-auto px-3 pb-4 md:gap-6"
 	>
-		<BalanceCard currency={_currency} title="Balance" value={txnAnalytics?.balance} />
+		<BalanceCard
+			currency={_currency}
+			title="Balance"
+			value={txnAnalytics?.balance || 0}
+			hoverBg="green"
+		/>
 		<BalanceCard
 			currency={_currency}
 			title="Income"
 			value={txnAnalytics?.totalIncome || 0}
 			balanceClass="text-brand-green"
+			hoverBg="orange"
 		/>
 		<BalanceCard
 			currency={_currency}
 			title="Expense"
 			value={txnAnalytics?.totalExpense || 0}
 			balanceClass="text-brand-error"
+			hoverBg="pink"
 		/>
 	</div>
 
-	<div class="mt-4 flex items-center justify-between gap-3 px-3">
+	<div class="mt-4 flex items-center justify-between gap-2 px-3">
 		<div class="flex items-center gap-3">
-			<button
-				class="h-8 rounded-lg border-2 px-3"
-				class:active_tab={currentTab === TransactionType.EXPENSE}
-				onclick={() => changeTab(TransactionType.EXPENSE)}
-			>
-				Expenses
-			</button>
-			<button
-				class="h-8 rounded-lg border-2 px-3"
-				class:active_tab={currentTab === TransactionType.INCOME}
-				onclick={() => changeTab(TransactionType.INCOME)}
-			>
-				Income
-			</button>
+			<ButtonV2
+				label="Expenses"
+				size="s"
+				variant={currentTab === TransactionType.EXPENSE ? 'purple' : 'primary'}
+				action={() => changeTab(TransactionType.EXPENSE)}
+			/>
+			<ButtonV2
+				label="Income"
+				size="s"
+				variant={currentTab === TransactionType.INCOME ? 'purple' : 'primary'}
+				action={() => changeTab(TransactionType.INCOME)}
+			/>
 		</div>
 
 		<div class="flex items-center gap-3">
-			<button
-				class="h-8 w-6 min-w-max rounded-lg border-2 px-3"
-				class:active_tab={currentTab === ('stats' as any)}
-				onclick={() => changeTab('stats')}
-			>
-				<ChartColumnIncreasing size="20" strokeWidth={2.5} />
-			</button>
-			<button
-				class="h-8 w-6 min-w-max rounded-lg border-2 px-3"
-				onclick={() => openTxnSettingsModal()}
-			>
-				<Cog size="20" strokeWidth={2.5} />
-			</button>
+			<IconButton
+				Icon={ChartColumnIncreasing}
+				iconProps={{ size: 20, strokeWidth: 2.5 }}
+				action={() => changeTab('stats')}
+				size="s"
+			/>
+			<IconButton
+				Icon={Wrench}
+				iconProps={{ size: 20, strokeWidth: 2.5 }}
+				action={() => openTxnSettingsModal()}
+				size="s"
+			/>
 		</div>
 	</div>
 
@@ -238,12 +242,3 @@
 <TxnSettingsModal />
 <SetBudget {start} {end} currency={_currency} />
 <EditTransaction {start} {end} />
-
-<style>
-	.active_tab {
-		background-color: var(--color-primary-biloba-950);
-		border: 1px solid var(--color-primary-biloba-950);
-		color: #ffffff;
-		font-size: 14px;
-	}
-</style>
