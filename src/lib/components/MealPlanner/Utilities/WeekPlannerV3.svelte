@@ -56,7 +56,6 @@
 
 	async function handleMealItemUpdate(data: any, mealId?: string) {
 		try {
-			console.log(data);
 			if (data?.name) {
 				if (mealId) {
 					await MealRequest.updateMeal(mealId, { ...data, mealPlanId: selectedPlan?.id });

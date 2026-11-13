@@ -36,29 +36,31 @@
 		}, 5);
 	}
 
-	let createPayload = $derived({
-		name: mealInput,
-		timeOfDay: timeOfDay,
-		mealPlanId: selectedPlan?.id,
-		date: format(currentDay, 'yyyy-MM-dd'),
-		day: format(currentDay, 'iiii'),
-		hasEaten: false
-	});
-
-	function handleBlur(event: any) {
+	function handleUpdate(mealId: string) {
 		if (!hasCreated) {
+			let payload = {
+				name: mealInput,
+				timeOfDay: timeOfDay,
+				mealPlanId: selectedPlan?.id,
+				date: format(currentDay, 'yyyy-MM-dd'),
+				day: format(currentDay, 'iiii'),
+				hasEaten: false
+			};
+
+			handleMealItemUpdate(payload as Meal, mealId);
 			hasCreated = true;
-			handleMealItemUpdate(createPayload as Meal, '');
+			isEditingName = false;
 		}
 	}
 
-	function handleKeyDown(event: KeyboardEvent) {
+	function handleBlur(_: any, mealId = '') {
+		handleUpdate(mealId);
+	}
+
+	function handleKeyDown(event: KeyboardEvent, mealId = '') {
 		switch (event.key) {
 			case 'Enter':
-				if (!hasCreated) {
-					hasCreated = true;
-					handleMealItemUpdate(createPayload as Meal, '');
-				}
+				handleUpdate(mealId);
 				break;
 			case 'Escape':
 				isEditingName = false;
@@ -70,6 +72,12 @@
 				break;
 		}
 	}
+
+	$effect(() => {
+		if (meal?.name) {
+			mealInput = meal.name;
+		}
+	});
 </script>
 
 <div class="mb-8 max-w-[550px] space-y-2">
@@ -87,13 +95,26 @@
 				<div class="h-auto py-2">
 					{#if mealName}
 						<div>
-							<p
-								class="font-lexend bg-primary-biloba-50 mb-1 inline-flex items-center gap-2 rounded-lg border px-2 text-base font-normal hover:bg-pink-100 md:text-lg"
-							>
-								{mealName}
+							{#if isEditingName}
+								<input
+									bind:value={mealInput}
+									bind:this={inputRef}
+									type="text"
+									class="font-lexend h-auto w-full rounded-lg border p-0 px-2 text-base font-normal outline-none md:text-lg"
+									placeholder="No meal recorded or planned"
+									onblur={(e) => handleBlur(e, meal?._id)}
+									onkeydown={(e) => handleKeyDown(e, meal?._id)}
+								/>
+							{:else}
+								<button
+									class="font-lexend bg-primary-biloba-50 mb-1 inline-flex items-center gap-2 rounded-lg border px-2 text-left text-base font-normal hover:bg-pink-100 md:text-lg"
+									onclick={toggleEdit}
+								>
+									{mealName}
 
-								<Pen size="13" />
-							</p>
+									<Pen size="13" />
+								</button>
+							{/if}
 						</div>
 
 						{#if _image}
@@ -147,8 +168,8 @@
 										type="text"
 										class="font-lexend h-auto w-full border-none p-0 text-base font-normal outline-none md:text-lg"
 										placeholder="No meal recorded or planned"
-										onblur={handleBlur}
-										onkeydown={handleKeyDown}
+										onblur={(e) => handleBlur(e, meal?._id)}
+										onkeydown={(e) => handleKeyDown(e, meal?._id)}
 									/>
 								</div>
 							{:else}
