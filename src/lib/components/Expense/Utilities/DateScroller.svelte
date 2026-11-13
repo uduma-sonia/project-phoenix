@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { Play } from '@lucide/svelte';
+	import { ArrowLeft, ArrowRight, Play } from '@lucide/svelte';
 	import { endOfWeek, format, formatISO, startOfWeek } from 'date-fns';
 	import { BudgetCycle } from '../../../../types/transaction';
+	import IconButton from '$lib/components/Common/IconButton.svelte';
 
 	let {
 		budgetCycle,
@@ -38,13 +39,9 @@
 	}
 </script>
 
-<div class="flex items-center gap-3 overflow-hidden pr-3">
+<div class="flex items-center justify-end px-4">
 	<div>
-		<button class="shadow_button shadow_button_sm" onclick={_prev}>
-			<span class="block rotate-180">
-				<Play />
-			</span>
-		</button>
+		<IconButton action={_prev} Icon={ArrowLeft} iconProps={{ size: '20px', strokeWidth: '3' }} />
 	</div>
 
 	<div class="min-w-[120px] text-center">
@@ -54,8 +51,6 @@
 	</div>
 
 	<div>
-		<button class="shadow_button shadow_button_sm" onclick={_next}>
-			<Play />
-		</button>
+		<IconButton action={_next} Icon={ArrowRight} iconProps={{ size: '20px', strokeWidth: '3' }} />
 	</div>
 </div>
