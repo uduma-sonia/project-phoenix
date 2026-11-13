@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { Sprout, ShoppingCart, ChefHat, WalletMinimal, Utensils } from '@lucide/svelte';
+	import { Sprout, ShoppingCart, ChefHat, WalletMinimal, Utensils, Triangle } from '@lucide/svelte';
 
 	const routeLinks = [
 		{
@@ -37,7 +37,7 @@
 </script>
 
 <div
-	class="bg-brand-light fixed bottom-0 left-0 z-[99] w-full rounded-t-3xl pt-2 pb-6 shadow-lg shadow-black md:hidden"
+	class="fixed bottom-0 left-0 z-[99] w-full rounded-t-3xl border-[1.5px] bg-[#f8e1a8] pt-2 pb-4 shadow-lg shadow-black md:hidden"
 >
 	<div class="grid h-full grid-cols-5">
 		{#each routeLinks as route, index (index)}
@@ -45,19 +45,21 @@
 				page.url.pathname.startsWith(route.route) || page.url.pathname.includes(route.keyword)}
 			<a
 				href={route.route}
-				class="relative flex flex-col items-center justify-center gap-1 opacity-50"
-				class:active={isActive}
+				class="opacity50 text-brand-grey-text relative flex flex-col items-center justify-center gap-0.5"
+				class:active_text={isActive}
 			>
 				<div>
 					<route.icon />
 				</div>
 
-				<p class="font-lexend-deca text-11">{route.label}</p>
+				<p class="font-lexend-deca text-11 font-light">{route.label}</p>
 
 				{#if isActive}
 					<div
-						class="absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-black"
-					></div>
+						class="text-primary-biloba-700 absolute -bottom-2.5 left-1/2 -translate-x-1/2 rounded-full"
+					>
+						<Triangle size="10" strokeWidth={4} />
+					</div>
 				{/if}
 			</a>
 		{/each}
@@ -65,7 +67,8 @@
 </div>
 
 <style>
-	.active {
-		opacity: 1;
+	.active_text {
+		color: black;
+		font-weight: 500;
 	}
 </style>

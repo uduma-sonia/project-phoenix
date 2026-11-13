@@ -140,7 +140,7 @@
 							</p>
 						{/if}
 						{#if helperText}
-							<p id="{modalId}-description" class="font-lexend text-xs font-light">
+							<p id="{modalId}-description" class="font-lexend text-xs font-normal">
 								{helperText}
 							</p>
 						{/if}

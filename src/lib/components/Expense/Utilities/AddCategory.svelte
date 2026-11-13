@@ -3,7 +3,7 @@
 	import BasicInputField from '$lib/components/Common/Form/BasicInputField.svelte';
 	import { TransactionType } from '../../../../types/transaction';
 
-	let { handleItemAdd, isSubmitting, placeholder = 'Type and enter', type, currency } = $props();
+	let { handleItemAdd, isSubmitting, type, currency } = $props();
 
 	let itemName = $state('');
 	let itemAmount = $state('');
@@ -25,15 +25,14 @@
 				type="text"
 				id="categoryName"
 				name="categoryName"
+				required
 				bind:value={itemName}
 			/>
 
 			{#if type === TransactionType.EXPENSE}
 				<CurrencyInput
 					inputClass="bg-white"
-					required
 					label="Budget amount"
-					requiredIcon
 					{currency}
 					bind:value={itemAmount}
 				/>
