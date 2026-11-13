@@ -29,8 +29,6 @@
 			}
 		};
 	}
-
-	$effect(() => console.log('dataset', dataset));
 </script>
 
 <div class="mb-4">

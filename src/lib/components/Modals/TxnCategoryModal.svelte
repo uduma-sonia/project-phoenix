@@ -35,37 +35,12 @@
 			isSubmitting = false;
 		}
 	}
-
-	async function handleItemDelete(id: string) {
-		try {
-			const result = await TransactionRequest.deleteTransactionCategory(id);
-
-			if (result) {
-				queryClient.invalidateQueries({ queryKey: queryKeys.getTransactionCategories });
-			}
-		} catch (error: any) {
-			addToast(error?.message || 'An error occured', 'error');
-		}
-	}
-
-	async function handleUpdateItem(itemId: string, name: string, budgetAmount: number) {
-		try {
-			const payload = {
-				name: name,
-				budgetAmount: budgetAmount
-			};
-
-			const result = await TransactionRequest.updateTransactionCategory(itemId, payload);
-		} catch (error: any) {
-			addToast(error?.message || 'An error occured', 'error');
-		}
-	}
 </script>
 
 <ModalWrapper
 	isOpen={modalsState.data.isOpenTxnCategory}
 	onClose={closeTxnCategoryModal}
-	label="Add new transaction category"
+	label="Add New Category"
 	maxWidth="max-w-[700px]"
 >
 	<div class="p-4">
@@ -90,13 +65,7 @@
 			</div>
 
 			<div class="mt-6">
-				<AddCategory
-					{type}
-					{currency}
-					placeholder="Category name"
-					{isSubmitting}
-					handleItemAdd={handleAddCategory}
-				/>
+				<AddCategory {type} {currency} {isSubmitting} handleItemAdd={handleAddCategory} />
 			</div>
 		</div>
 	</div>
