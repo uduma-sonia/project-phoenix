@@ -35,7 +35,8 @@
 	);
 	let _isError = $derived(isError || $mealsQuery?.status === 'error' || $mealsQuery?.isError);
 
-	let getRecipes = $derived(mealsList?.filter((meal: MealResponse) => meal.recipeDetails?.length));
+	// let getRecipes = $derived(mealsList?.filter((meal: MealResponse) => meal.recipeDetails?.length));
+
 	function updateSelectedDay(value: any) {
 		currentDay = value;
 	}
@@ -109,7 +110,7 @@
 
 	<div class="mt-4 px-3">
 		<p class="font-suez mb-4 inline-block text-lg font-medium md:text-xl">
-			{Helpers.getRelativeDate(currentMonth)}
+			{Helpers.getRelativeDate(currentDay)}
 		</p>
 
 		<ProgressLoader isLoading={_isLoading} error={_isError} />

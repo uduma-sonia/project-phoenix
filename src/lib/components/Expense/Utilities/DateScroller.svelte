@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ArrowLeft, ArrowRight, Play } from '@lucide/svelte';
+	import { ArrowLeft, ArrowRight } from '@lucide/svelte';
 	import { endOfWeek, format, formatISO, startOfWeek } from 'date-fns';
 	import { BudgetCycle } from '../../../../types/transaction';
 	import IconButton from '$lib/components/Common/IconButton.svelte';
@@ -13,14 +13,7 @@
 		currentMonth: any;
 	};
 
-	let {
-		budgetCycle,
-		prevMonth,
-		nextMonth,
-		prevWeek,
-		nextWeek,
-		currentMonth = $bindable()
-	}: Props = $props();
+	let { budgetCycle, prevMonth, nextMonth, prevWeek, nextWeek, currentMonth }: Props = $props();
 
 	const renderTime = () => {
 		if (budgetCycle === BudgetCycle.WEEKLY) {
@@ -39,6 +32,7 @@
 			nextMonth?.();
 		}
 	}
+
 	function _prev() {
 		if (budgetCycle === BudgetCycle.WEEKLY) {
 			prevWeek?.();
