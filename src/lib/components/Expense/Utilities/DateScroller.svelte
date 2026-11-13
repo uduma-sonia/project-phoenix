@@ -44,7 +44,7 @@
 		<IconButton action={_prev} Icon={ArrowLeft} iconProps={{ size: '20px', strokeWidth: '3' }} />
 	</div>
 
-	<div class="min-w-[120px] text-center">
+	<div class="min-w-[140px] text-center">
 		<p class="font-lexend text-sm font-normal">
 			{renderTime()}
 		</p>

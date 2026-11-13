@@ -28,4 +28,9 @@ export type ButtonProps = {
 	Icon?: any;
 	iconProps?: any;
 	IsDisabled?: boolean;
+	LeftIcon?: any;
+	leftIconProps?: any;
+	hasBadge?: boolean;
+	RightIcon?: any;
+	rightIconProps?: any;
 };

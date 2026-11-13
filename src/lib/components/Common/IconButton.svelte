@@ -99,8 +99,13 @@
 		background-color: #ffffff;
 	}
 
+	/* PURPLE */
 	.purple_btn {
 		background-color: #cecafc;
+	}
+	.purple_btn:hover,
+	.purple_btn:active {
+		background-color: var(--color-primary-biloba-400) !important;
 	}
 
 	.green_btn {
