@@ -40,10 +40,6 @@
 		queryKey: queryKeys.getRecipes,
 		queryFn: () => RecipeRequest.getRecipes()
 	});
-	// let uniqueMealsQuery = createQuery({
-	// 	queryKey: queryKeys.getUserUniqueMeals,
-	// 	queryFn: () => MealRequest.getUserUniqueMeals()
-	// });
 
 	let recipeList = $derived($recipeQuery?.data?.data?.recipes);
 	let selectedPlan = $derived(mealsOptions[0] || {});
@@ -116,7 +112,7 @@
 		What are you eating this {Helpers.getTimeOfDay()}?
 	</p>
 
-	<WeekPlannerV3 {isLoading} {isError} {moreOptions} {mealsOptions} {currentWeek} {selectedPlan} />
+	<WeekPlannerV3 {isLoading} {isError} {currentWeek} {selectedPlan} />
 </div>
 
 <AddMeal {recipeList} {selectedPlan} {currentWeek} />

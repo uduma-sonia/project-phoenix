@@ -81,7 +81,4 @@ class MealsUtils {
 	}
 }
 
-// const ids = new Set(); // temp variable to keep track of accepted ids
-// const uniqueSchedulesList = schedulesList.filter(({ id }) => !ids.has(id) && ids.add(id));
-
 export default MealsUtils;

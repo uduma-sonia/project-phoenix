@@ -15,15 +15,10 @@
 	import MealCard from './MealCard.svelte';
 	import TrackerUtils from '$lib/components/Habit/Utilities/utils';
 	import ProgressLoader from '$lib/components/Common/ProgressLoader.svelte';
+	import ButtonV2 from '$lib/components/Common/Form/ButtonV2.svelte';
+	// import { openGeneratedShoppingListModal } from '$lib/state/modal.svelte';
 
-	let {
-		selectedPlan,
-		currentWeek = $bindable(new Date()),
-		mealsOptions,
-		moreOptions,
-		isError,
-		isLoading
-	} = $props();
+	let { selectedPlan, currentWeek = $bindable(new Date()), isError, isLoading } = $props();
 
 	const queryClient = useQueryClient();
 
@@ -40,6 +35,7 @@
 	);
 	let _isError = $derived(isError || $mealsQuery?.status === 'error' || $mealsQuery?.isError);
 
+	let getRecipes = $derived(mealsList?.filter((meal: MealResponse) => meal.recipeDetails?.length));
 	function updateSelectedDay(value: any) {
 		currentDay = value;
 	}
@@ -157,6 +153,22 @@
 					{handleSaveNote}
 					{handleHasEaten}
 				/>
+
+				<div class="mt-8 w-fit">
+					<ButtonV2
+						action={() => {
+							addToast('Coming soon', 'success');
+							// if (getRecipes?.length > 0) {
+							// 	openGeneratedShoppingListModal();
+							// } else {
+							// 	addToast('Link atleast one recipe first', 'success');
+							// }
+						}}
+						label="Add to shopping list"
+						variant="purple"
+						size="xs"
+					/>
+				</div>
 			{/key}
 		{/if}
 	</div>

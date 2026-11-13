@@ -72,7 +72,7 @@
 						{#if isLoading}
 							<span class="spinner_white_sm border-2 border-black"></span>
 						{:else}
-							Save
+							Save to list
 						{/if}
 					</button>
 				</div>

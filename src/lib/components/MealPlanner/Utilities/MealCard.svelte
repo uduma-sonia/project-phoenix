@@ -244,7 +244,7 @@
 										bind:this={inputRef}
 										type="text"
 										class="font-lexend h-auto w-full border-none p-0 text-base font-normal outline-none md:text-lg"
-										placeholder="No meal recorded or planned"
+										placeholder="Start writing..."
 										onblur={(e) => handleBlur(e, meal?._id)}
 										onkeydown={(e) => handleKeyDown(e, meal?._id)}
 									/>
