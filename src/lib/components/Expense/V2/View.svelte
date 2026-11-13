@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Cog, ClipboardList, ChartColumnIncreasing, Wrench } from '@lucide/svelte';
+	import { ChartColumnIncreasing, Wrench } from '@lucide/svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { TransactionRequest } from '$lib/requests';
@@ -157,20 +157,20 @@
 		<BalanceCard
 			currency={_currency}
 			title="Balance"
-			value={txnAnalytics?.balance || '-'}
+			value={txnAnalytics?.balance || 0}
 			hoverBg="green"
 		/>
 		<BalanceCard
 			currency={_currency}
 			title="Income"
-			value={txnAnalytics?.totalIncome || '-'}
+			value={txnAnalytics?.totalIncome || 0}
 			balanceClass="text-brand-green"
 			hoverBg="orange"
 		/>
 		<BalanceCard
 			currency={_currency}
 			title="Expense"
-			value={txnAnalytics?.totalExpense || '-'}
+			value={txnAnalytics?.totalExpense || 0}
 			balanceClass="text-brand-error"
 			hoverBg="pink"
 		/>

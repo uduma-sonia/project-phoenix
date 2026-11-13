@@ -27,7 +27,7 @@
 			<div class="flex h-16 flex-col justify-center">
 				<p class="font-lexend mb-1 text-xs font-normal md:text-sm">{title}</p>
 				<p class="font-lexend text-lg font-normal md:text-xl {balanceClass}">
-					{#if currency}
+					{#if currency && value}
 						{Helpers.getCurrency(value, currency)}
 					{:else}
 						{'-'}
