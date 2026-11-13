@@ -11,7 +11,8 @@
 		openDeleteMealPlanModal,
 		openGeneratedShoppingListModal
 	} from '$lib/state/modal.svelte';
-	import WeekPlannerV2 from './Utilities/WeekPlannerV2.svelte';
+	import WeekPlannerV3 from './Utilities/WeekPlannerV3.svelte';
+	// import WeekPlannerV2 from './Utilities/WeekPlannerV2.svelte';
 	import AddMeal from '../Modals/AddMeal.svelte';
 	import { addToast } from '$lib/store/toast';
 	import Helpers from '$lib/utils/helpers';
@@ -112,7 +113,7 @@
 		What are you eating this {Helpers.getTimeOfDay()}?
 	</p>
 
-	<WeekPlannerV2 {moreOptions} {mealsOptions} {currentWeek} {selectedPlan} />
+	<WeekPlannerV3 {moreOptions} {mealsOptions} {currentWeek} {selectedPlan} />
 </div>
 
 <AddMeal {recipeList} {selectedPlan} {currentWeek} />
