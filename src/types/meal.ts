@@ -21,6 +21,8 @@ export interface MealResponse {
 	mealPlanId?: string;
 	date?: string;
 	createdAt?: string;
+	location?: string;
+	note?: string;
 	updatedAt?: string;
 	__v?: number;
 	recipeIdsObj?: string[];

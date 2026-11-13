@@ -20,6 +20,7 @@ class MealService {
 	async updateMealPlan(mealPlanId: string, data: MealPlan, reqConfig?: ReqConfig) {
 		return await this.api.put(`${this.mealPlanPrefix}/${mealPlanId}`, data, { ...reqConfig });
 	}
+
 	async deleteMealPlan(mealPlanId: string, reqConfig?: ReqConfig) {
 		return await this.api.delete(`${this.mealPlanPrefix}/${mealPlanId}`, { ...reqConfig });
 	}
@@ -34,6 +35,21 @@ class MealService {
 	}
 	async updateMeal(mealId: string, data: CreateMeal, reqConfig?: ReqConfig) {
 		return await this.api.put(`${this.mealPrefix}/${mealId}`, data, { ...reqConfig });
+	}
+	async updateMealLocation(mealId: string, data: { location: string }, reqConfig?: ReqConfig) {
+		return await this.api.put(`${this.mealPrefix}/update-meal-location/${mealId}`, data, {
+			...reqConfig
+		});
+	}
+	async updateMealNote(mealId: string, data: { note: string }, reqConfig?: ReqConfig) {
+		return await this.api.put(`${this.mealPrefix}/update-note/${mealId}`, data, {
+			...reqConfig
+		});
+	}
+	async updateHasEaten(mealId: string, reqConfig?: ReqConfig) {
+		return await this.api.put(`${this.mealPrefix}/update-hasEaten/${mealId}`, {
+			...reqConfig
+		});
 	}
 	async deleteMeal(mealId: string, reqConfig?: ReqConfig) {
 		return await this.api.delete(`${this.mealPrefix}/${mealId}`, { ...reqConfig });

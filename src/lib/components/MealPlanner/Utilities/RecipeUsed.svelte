@@ -1,11 +1,15 @@
 <script lang="ts">
+	import { addToast } from '$lib/store/toast';
 	import { Plus, Trash } from '@lucide/svelte';
 
 	let { recipeList } = $props();
 </script>
 
 <div class="mt-4">
-	<button class="font-lexend text-15 flex items-center gap-1 font-semibold">
+	<button
+		class="font-lexend text-15 flex items-center gap-1 font-semibold"
+		onclick={() => addToast('Coming soon', 'success')}
+	>
 		Add recipe <Plus size="18" strokeWidth={2.5} />
 	</button>
 	{#if recipeList?.length > 0}

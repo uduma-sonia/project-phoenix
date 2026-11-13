@@ -21,6 +21,9 @@
 		queryKey: queryKeys.getMealPlans,
 		queryFn: () => MealRequest.getMealPlans()
 	});
+	let isLoading = $derived($mealPlansQuery?.status === 'pending' || $mealPlansQuery?.isLoading);
+	let isError = $derived($mealPlansQuery?.status === 'error' || $mealPlansQuery?.isError);
+
 	let currentWeek = $state(new Date());
 
 	let mealPlansList = $derived($mealPlansQuery?.data?.data?.mealPlans);
@@ -113,7 +116,7 @@
 		What are you eating this {Helpers.getTimeOfDay()}?
 	</p>
 
-	<WeekPlannerV3 {moreOptions} {mealsOptions} {currentWeek} {selectedPlan} />
+	<WeekPlannerV3 {isLoading} {isError} {moreOptions} {mealsOptions} {currentWeek} {selectedPlan} />
 </div>
 
 <AddMeal {recipeList} {selectedPlan} {currentWeek} />
