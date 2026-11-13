@@ -150,5 +150,9 @@
 		font-size: var(--text-13) !important;
 		padding-left: 10px !important;
 		padding-right: 10px !important;
+
+		box-shadow:
+			1px 1px 0 black,
+			1px 1px 0 black !important;
 	}
 </style>

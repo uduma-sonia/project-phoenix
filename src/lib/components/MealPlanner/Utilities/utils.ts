@@ -3,9 +3,30 @@ import { eachDayOfInterval, endOfWeek, format, startOfWeek } from 'date-fns';
 import type { Meal } from '../../../../types/meal';
 import { mealsChart } from '$lib/constants/meals';
 import TrackerUtils from '$lib/components/Habit/Utilities/utils';
-import type { MealEntry } from '../../../../types/recipe';
+import type { MealEntry, Recipe } from '../../../../types/recipe';
 
 class MealsUtils {
+	static getFirstRecipeImage(recipes?: Recipe[]) {
+		if (!recipes?.length) return '';
+		for (const recipe of recipes) {
+			if (Array.isArray(recipe.images) && recipe.images.length > 0) {
+				return recipe.images[0];
+			}
+		}
+		return null;
+	}
+	static getRecipes(recipes?: Recipe[]) {
+		if (!recipes?.length) return [];
+
+		return recipes?.map((recipe) => {
+			return {
+				title: recipe.name,
+				link: `/recipe/${recipe?.slug}?owner=${recipe?.ownerId}`,
+				id: recipe._id
+			};
+		});
+	}
+
 	static getMeal(meal: Meal, mealsList: Meal[]) {
 		if (mealsList?.length > 0) {
 			const findMeal = mealsList?.find((item: Meal) => {
@@ -59,8 +80,5 @@ class MealsUtils {
 		return uniqueNames;
 	}
 }
-
-// const ids = new Set(); // temp variable to keep track of accepted ids
-// const uniqueSchedulesList = schedulesList.filter(({ id }) => !ids.has(id) && ids.add(id));
 
 export default MealsUtils;

@@ -2,12 +2,13 @@
 	import { handleSelectMeal, openMealPlannerModal } from '$lib/state/modal.svelte';
 	import { addToast } from '$lib/store/toast';
 	import { Check, Plus } from '@lucide/svelte';
+	import type { Recipe } from '../../../../types/recipe';
 
 	let { meal, mealData, handleMealItemUpdate, hasMealPlan } = $props();
 
 	let hasEaten = $derived(mealData?.hasEaten);
 
-	function getFirstRecipeImage(recipes: any) {
+	function getFirstRecipeImage(recipes: Recipe[]) {
 		if (!recipes?.length) return '';
 		for (const recipe of recipes) {
 			if (Array.isArray(recipe.images) && recipe.images.length > 0) {

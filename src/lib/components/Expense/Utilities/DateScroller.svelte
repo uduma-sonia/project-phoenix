@@ -1,17 +1,19 @@
 <script lang="ts">
-	import { ArrowLeft, ArrowRight, Play } from '@lucide/svelte';
+	import { ArrowLeft, ArrowRight } from '@lucide/svelte';
 	import { endOfWeek, format, formatISO, startOfWeek } from 'date-fns';
 	import { BudgetCycle } from '../../../../types/transaction';
 	import IconButton from '$lib/components/Common/IconButton.svelte';
 
-	let {
-		budgetCycle,
-		prevMonth,
-		nextMonth,
-		prevWeek,
-		nextWeek,
-		currentMonth = $bindable()
-	} = $props();
+	type Props = {
+		budgetCycle: BudgetCycle;
+		prevMonth?: () => void;
+		nextMonth?: () => void;
+		prevWeek?: () => void;
+		nextWeek?: () => void;
+		currentMonth: any;
+	};
+
+	let { budgetCycle, prevMonth, nextMonth, prevWeek, nextWeek, currentMonth }: Props = $props();
 
 	const renderTime = () => {
 		if (budgetCycle === BudgetCycle.WEEKLY) {
@@ -25,21 +27,22 @@
 
 	function _next() {
 		if (budgetCycle === BudgetCycle.WEEKLY) {
-			nextWeek();
+			nextWeek?.();
 		} else {
-			nextMonth();
+			nextMonth?.();
 		}
 	}
+
 	function _prev() {
 		if (budgetCycle === BudgetCycle.WEEKLY) {
-			prevWeek();
+			prevWeek?.();
 		} else {
-			prevMonth();
+			prevMonth?.();
 		}
 	}
 </script>
 
-<div class="flex items-center justify-end px-4">
+<div class="flex items-center justify-end">
 	<div>
 		<IconButton action={_prev} Icon={ArrowLeft} iconProps={{ size: '20px', strokeWidth: '3' }} />
 	</div>
