@@ -1,23 +1,19 @@
 <script lang="ts">
 	import { closeTxnCategoryModal, modalsState } from '$lib/state/modal.svelte';
 	import ModalWrapper from '../Common/ModalWrapper.svelte';
-	import { TransactionType, type TransactionCategory } from '../../../types/transaction';
+	import { TransactionType } from '../../../types/transaction';
 	import { addToast } from '$lib/store/toast';
 	import { TransactionRequest } from '$lib/requests';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import AddCategory from '../Expense/Utilities/AddCategory.svelte';
 
-	let { transactionCategoriesList, currency } = $props();
+	let { currency } = $props();
 
 	const queryClient = useQueryClient();
 
 	let isSubmitting = $state(false);
 	let type = $state(TransactionType.EXPENSE);
-
-	let transformedList = $derived(
-		transactionCategoriesList?.filter((item: TransactionCategory) => item.type === type)
-	);
 
 	function changeType(val: TransactionType) {
 		type = val;

@@ -81,7 +81,6 @@
 					inputClass="bg-white"
 					required
 					label="Amount"
-					requiredIcon
 					{currency}
 					bind:value={amount}
 				/>

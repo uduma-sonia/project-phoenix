@@ -1,5 +1,6 @@
 import {
 	differenceInDays,
+	format,
 	formatISO,
 	isSameMonth,
 	isSameQuarter,
@@ -53,7 +54,10 @@ class ExpenseUtils {
 	}
 
 	static getDailySpending(transactions: Transaction[], startDate: string, endDate: string) {
-		if (!transactions) return 0;
+		const expensesTransactions = transactions?.filter(
+			(txn) => txn.type === TransactionType.EXPENSE
+		);
+		if (!expensesTransactions?.length) return 0;
 
 		const start = parseISO(startDate);
 		const end = parseISO(endDate);
@@ -70,7 +74,6 @@ class ExpenseUtils {
 			(acc, tx) => {
 				acc.total++;
 				acc[tx.type.toLowerCase() as 'income' | 'expense']++;
-				// acc.byCategory[tx.categoryName] = (acc.byCategory[tx.categoryName] || 0) + 1;
 				return acc;
 			},
 			{ total: 0, income: 0, expense: 0 }
@@ -78,9 +81,10 @@ class ExpenseUtils {
 	}
 
 	static getExpenseByCategory(transactions: Transaction[]): Record<string, number> {
+		if (!transactions?.length) return {};
 		return transactions
-			.filter((tx) => tx.type === TransactionType.EXPENSE)
-			.reduce(
+			?.filter((tx) => tx?.type === TransactionType.EXPENSE)
+			?.reduce(
 				(acc, tx) => {
 					acc[tx.categoryName] = (acc[tx.categoryName] || 0) + tx.amount;
 					return acc;
@@ -93,7 +97,6 @@ class ExpenseUtils {
 		if (!transactions && !totalIncome && !totalExpense) return {};
 
 		const expensesByCategory = this.getExpenseByCategory(transactions);
-
 		const topCategory = Object.entries(expensesByCategory).sort((a, b) => b[1] - a[1])[0];
 
 		return {
@@ -103,14 +106,15 @@ class ExpenseUtils {
 				<br/>
 
 				 (${Math.round((topCategory[1] / totalExpense) * 100)}% of expenses)`
-				: null,
+				: 'No money spent yet',
 
 			spendingMeansText:
 				totalExpense > totalIncome
 					? 'You are spending more than you earn'
 					: 'You are within your income',
 
-			isWithinIncome: Boolean(totalIncome > totalExpense)
+			isWithinIncome: Boolean(totalIncome > totalExpense),
+			hasExpenses: totalExpense > 0
 		};
 	}
 
@@ -226,6 +230,50 @@ class ExpenseUtils {
 		const sortList = updateList?.sort((a, b) => b.amount - a.amount);
 
 		return sortList;
+	}
+
+	static dailySpendHelperText(goalPeriod: BudgetCycle) {
+		let result = `How much you've spent`;
+		if (goalPeriod === BudgetCycle.MONTHLY) {
+			result = result + '<span class="font-semibold"> this month </span>';
+		}
+		if (goalPeriod === BudgetCycle.WEEKLY) {
+			result = result + '<span class="font-semibold"> this week </span>';
+		}
+		if (goalPeriod === BudgetCycle.YEARLY) {
+			result = result + '<span class="font-semibold"> this year </span>';
+		}
+		if (goalPeriod === BudgetCycle.QUARTERLY) {
+			result = result + '<span class="font-semibold"> this quarter </span>';
+		}
+
+		return result;
+	}
+
+	static buildExpensesAnalyticsData(
+		chartData: { incomeGroupLineData: any; expenseGroupLineData: any; dailyExpenseLineData: any },
+		goalPeriod: BudgetCycle
+	) {
+		const incomeChartLabel = chartData?.incomeGroupLineData?.map((item: any) => item.categoryName);
+		const incomeChartDataset = chartData?.incomeGroupLineData?.map((item: any) => item.amount);
+		const expenseChartLabel = chartData?.expenseGroupLineData?.map(
+			(item: any) => item.categoryName
+		);
+		const expenseChartDataset = chartData?.expenseGroupLineData?.map((item: any) => item.amount);
+		const dailySpendChartLabel = chartData?.dailyExpenseLineData?.map((item: any) =>
+			format(new Date(item.date), 'MMM d')
+		);
+		const dailySpendChartDataset = chartData?.dailyExpenseLineData?.map((item: any) => item.amount);
+
+		return {
+			incomeChartLabel,
+			incomeChartDataset,
+			expenseChartLabel,
+			expenseChartDataset,
+			dailySpendChartLabel,
+			dailySpendChartDataset,
+			dailySpendHelperText: this.dailySpendHelperText(goalPeriod)
+		};
 	}
 }
 

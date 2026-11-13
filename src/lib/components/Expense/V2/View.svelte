@@ -198,6 +198,7 @@
 				iconProps={{ size: 20, strokeWidth: 2.5 }}
 				action={() => changeTab('stats')}
 				size="s"
+				variant={currentTab === ('stats' as any) ? 'purple' : 'primary'}
 			/>
 			<IconButton
 				Icon={Wrench}
@@ -238,7 +239,7 @@
 </div>
 
 <AddTxnModal currency={_currency} {start} {end} />
-<TxnCategoryModal {transactionCategoriesList} currency={_currency} />
+<TxnCategoryModal currency={_currency} />
 <TxnSettingsModal />
 <SetBudget {start} {end} currency={_currency} />
 <EditTransaction {start} {end} />

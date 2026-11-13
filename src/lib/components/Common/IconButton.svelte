@@ -49,7 +49,11 @@
 	onclick={() => action?.()}
 	{...restProps}
 >
-	<Icon {...iconProps} />
+	{#if isLoading}
+		<span class="spinner_white border-2 border-black"></span>
+	{:else}
+		<Icon {...iconProps} />
+	{/if}
 </button>
 
 <style>

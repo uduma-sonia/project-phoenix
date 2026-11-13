@@ -59,12 +59,12 @@
 <ModalWrapper
 	isOpen={modalsState.data.isOpenAddBudget}
 	onClose={closeAddBudgetModal}
-	label="Set Budget"
+	label="Category Setting"
 >
 	<div class="p-4">
 		<div class="space-y-4">
 			<BasicInputField
-				label="Category"
+				label="Name"
 				bind:value={categoryName}
 				type="text"
 				required
@@ -75,8 +75,7 @@
 			<CurrencyInput
 				inputClass="bg-white"
 				id="amount"
-				label="Amount"
-				requiredIcon
+				label="Budget Amount"
 				{currency}
 				bind:value={budgetAmount}
 			/>

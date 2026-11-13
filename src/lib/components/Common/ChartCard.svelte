@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Helpers from '$lib/utils/helpers';
+	import { ChartNoAxesCombined } from '@lucide/svelte';
 	import Chart from 'chart.js/auto';
 
 	let {
@@ -28,11 +29,13 @@
 			}
 		};
 	}
+
+	$effect(() => console.log('dataset', dataset));
 </script>
 
 <div class="mb-4">
 	{#if datasetsLabel}
-		<p class="font-suez border-l-2 px-2 text-lg font-medium md:text-xl">{datasetsLabel}</p>
+		<p class="font-suez border-l-3 px-2 text-lg font-medium md:text-xl">{datasetsLabel}</p>
 	{/if}
 	{#if helperText}
 		<p class="font-lexend text-13 font-light">
@@ -41,21 +44,28 @@
 	{/if}
 </div>
 
-{#if chartType === 'pie'}
-	<div class="h-[400px] md:h-[500px]">
-		<div class="z-10 h-full w-full">
-			<div class="h-full flex-1 px-2 py-4">
-				<canvas use:createChart></canvas>
+{#if dataset?.length}
+	{#if chartType === 'pie'}
+		<div class="h-[400px] md:h-[500px]">
+			<div class="z-10 h-full w-full">
+				<div class="h-full flex-1 px-2 py-4">
+					<canvas use:createChart></canvas>
+				</div>
 			</div>
 		</div>
-	</div>
+	{:else}
+		<div class="wrapper_8uef h-[400px] md:h-[500px]">
+			<div class="{bgClass} relative z-10 h-full w-full rounded-[18px] border-2 border-black">
+				<div class="h-full flex-1 px-2 py-4">
+					<canvas use:createChart></canvas>
+				</div>
+			</div>
+		</div>
+	{/if}
 {:else}
-	<div class="wrapper_8uef h-[400px] md:h-[500px]">
-		<div class="{bgClass} relative z-10 h-full w-full rounded-[18px] border-2 border-black">
-			<div class="h-full flex-1 px-2 py-4">
-				<canvas use:createChart></canvas>
-			</div>
-		</div>
+	<div class="flex flex-col items-center justify-center py-10">
+		<ChartNoAxesCombined size="40" />
+		<p class="font-lexend text-13 mt-6 text-center font-light">No analytics data yet</p>
 	</div>
 {/if}
 

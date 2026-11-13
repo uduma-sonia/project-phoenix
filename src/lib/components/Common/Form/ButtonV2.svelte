@@ -52,7 +52,8 @@
 	{...restProps}
 >
 	{#if isLoading}
-		<div class="spinner mx-auto"></div>
+		<!-- <div class="spinner mx-auto"></div> -->
+		<span class="spinner_white border-2 border-black"></span>
 	{:else}
 		{#if LeftIcon}
 			<LeftIcon {...leftIconProps} />

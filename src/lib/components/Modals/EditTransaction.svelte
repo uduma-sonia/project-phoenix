@@ -82,19 +82,6 @@
 				<DatePickerDropdown bind:dateValue={startDateValue} label="Transaction Date" />
 			</div>
 
-			<!-- <div>
-				{#if txnCategoriesOptions?.length}
-					<Dropdown
-						label="Category"
-						options={txnCategoriesOptions}
-						bind:selectedOption={selectedCategory}
-						shouldSearch={true}
-						placeholder="Select category"
-						withClearButton
-					/>
-				{/if}
-			</div> -->
-
 			<div>
 				<BasicInputField
 					inputMode="numeric"
