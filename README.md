@@ -21,7 +21,6 @@ A small ecosystem of connected tools that combines expense tracking, shopping li
 ## Backlogs
 
 - Cook mode
-- Fix close button in budget limit alert
 - Advanced search - search ingredients https://stackoverflow.com/questions/56134862/searching-through-multiple-properties-in-an-object-using-only-one-input-aka-glob https://stackoverflow.com/questions/54143107/string-search-with-all-fields-of-array-of-objects
 - Add some text formatting options to text area component
 - Bi weekly budgeting

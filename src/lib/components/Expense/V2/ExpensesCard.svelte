@@ -54,7 +54,11 @@
 	>
 		<div class="flex flex-1 items-center justify-between gap-2">
 			<div>
-				<p class="font-lexend mb-1 text-base font-medium md:text-lg">{expense.name}</p>
+				<p
+					class="font-lexend bg-primary-biloba-50 mb-1 inline-block rounded-lg border px-2 text-base font-medium hover:bg-pink-100 md:text-lg"
+				>
+					{expense.name}
+				</p>
 				<div class="font-lexend mb-0.5 flex items-center gap-2 text-sm font-normal md:text-sm">
 					<strong> Spent: </strong>
 					{amount}
