@@ -1,5 +1,6 @@
 import {
 	differenceInDays,
+	format,
 	formatISO,
 	isSameMonth,
 	isSameQuarter,
@@ -73,7 +74,6 @@ class ExpenseUtils {
 			(acc, tx) => {
 				acc.total++;
 				acc[tx.type.toLowerCase() as 'income' | 'expense']++;
-				// acc.byCategory[tx.categoryName] = (acc.byCategory[tx.categoryName] || 0) + 1;
 				return acc;
 			},
 			{ total: 0, income: 0, expense: 0 }
@@ -230,6 +230,50 @@ class ExpenseUtils {
 		const sortList = updateList?.sort((a, b) => b.amount - a.amount);
 
 		return sortList;
+	}
+
+	static dailySpendHelperText(goalPeriod: BudgetCycle) {
+		let result = `How much you've spent`;
+		if (goalPeriod === BudgetCycle.MONTHLY) {
+			result = result + '<span class="font-semibold"> this month </span>';
+		}
+		if (goalPeriod === BudgetCycle.WEEKLY) {
+			result = result + '<span class="font-semibold"> this week </span>';
+		}
+		if (goalPeriod === BudgetCycle.YEARLY) {
+			result = result + '<span class="font-semibold"> this year </span>';
+		}
+		if (goalPeriod === BudgetCycle.QUARTERLY) {
+			result = result + '<span class="font-semibold"> this quarter </span>';
+		}
+
+		return result;
+	}
+
+	static buildExpensesAnalyticsData(
+		chartData: { incomeGroupLineData: any; expenseGroupLineData: any; dailyExpenseLineData: any },
+		goalPeriod: BudgetCycle
+	) {
+		const incomeChartLabel = chartData?.incomeGroupLineData?.map((item: any) => item.categoryName);
+		const incomeChartDataset = chartData?.incomeGroupLineData?.map((item: any) => item.amount);
+		const expenseChartLabel = chartData?.expenseGroupLineData?.map(
+			(item: any) => item.categoryName
+		);
+		const expenseChartDataset = chartData?.expenseGroupLineData?.map((item: any) => item.amount);
+		const dailySpendChartLabel = chartData?.dailyExpenseLineData?.map((item: any) =>
+			format(new Date(item.date), 'MMM d')
+		);
+		const dailySpendChartDataset = chartData?.dailyExpenseLineData?.map((item: any) => item.amount);
+
+		return {
+			incomeChartLabel,
+			incomeChartDataset,
+			expenseChartLabel,
+			expenseChartDataset,
+			dailySpendChartLabel,
+			dailySpendChartDataset,
+			dailySpendHelperText: this.dailySpendHelperText(goalPeriod)
+		};
 	}
 }
 

@@ -198,6 +198,7 @@
 				iconProps={{ size: 20, strokeWidth: 2.5 }}
 				action={() => changeTab('stats')}
 				size="s"
+				variant={currentTab === ('stats' as any) ? 'purple' : 'primary'}
 			/>
 			<IconButton
 				Icon={Wrench}
