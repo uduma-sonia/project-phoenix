@@ -1,17 +1,35 @@
+import type { Recipe } from './recipe';
+
 export type Meal = {
 	day: string;
-	timeOfDay: string;
+	timeOfDay: TimeOfDay;
 	name?: string;
 	recipeLink?: string;
 	date?: string;
 	hasEaten?: boolean;
 	mealPlanId: string;
-	_id?: string;
 };
+
+export interface MealResponse {
+	_id: string;
+	ownerId?: string;
+	day?: string;
+	timeOfDay?: string;
+	name?: string;
+	recipeIds?: string[];
+	hasEaten?: boolean;
+	mealPlanId?: string;
+	date?: string;
+	createdAt?: string;
+	updatedAt?: string;
+	__v?: number;
+	recipeIdsObj?: string[];
+	recipeDetails?: Recipe[];
+}
 
 export type CreateMeal = {
 	day: string | undefined;
-	timeOfDay?: string;
+	timeOfDay?: TimeOfDay;
 	name?: string;
 	recipeId?: string;
 	recipeIds?: string[];
@@ -26,3 +44,10 @@ export type MealPlan = {
 	_id?: string;
 	description?: string;
 };
+
+export enum TimeOfDay {
+	breakfast = 'breakfast',
+	lunch = 'lunch',
+	dinner = 'dinner',
+	snack = 'snack'
+}

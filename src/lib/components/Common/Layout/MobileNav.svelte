@@ -37,7 +37,7 @@
 </script>
 
 <div
-	class="fixed bottom-0 left-0 z-[99] w-full rounded-t-3xl border-[1.5px] bg-[#f8e1a8] pt-2 pb-4 shadow-lg shadow-black md:hidden"
+	class="fixed bottom-0 left-0 z-[99] w-full rounded-t-3xl border-[1.5px] bg-[#f8e1a8] pt-2 pb-5 shadow-lg shadow-black md:hidden"
 >
 	<div class="grid h-full grid-cols-5">
 		{#each routeLinks as route, index (index)}
@@ -58,7 +58,7 @@
 					<div
 						class="text-primary-biloba-700 absolute -bottom-2.5 left-1/2 -translate-x-1/2 rounded-full"
 					>
-						<Triangle size="10" strokeWidth={4} />
+						<Triangle size="10" strokeWidth={5} />
 					</div>
 				{/if}
 			</a>

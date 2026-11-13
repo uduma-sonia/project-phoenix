@@ -40,10 +40,12 @@
 	async function handleMealItemUpdate(mealId: string, data: Meal) {
 		if (selectedPlan.id) {
 			try {
-				if (mealId) {
-					await MealRequest.updateMeal(mealId, { ...data, mealPlanId: selectedPlan?.id });
-				} else {
-					await MealRequest.createMeal({ ...data, mealPlanId: selectedPlan?.id });
+				if (data?.name) {
+					if (mealId) {
+						await MealRequest.updateMeal(mealId, { ...data, mealPlanId: selectedPlan?.id });
+					} else {
+						await MealRequest.createMeal({ ...data, mealPlanId: selectedPlan?.id });
+					}
 				}
 
 				queryClient.invalidateQueries({

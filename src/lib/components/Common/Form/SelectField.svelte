@@ -59,7 +59,6 @@
 	{/if}
 
 	<div class="relative">
-		<!-- class="basic_input appearancenone {inputClass}" -->
 		<select
 			{name}
 			{id}
@@ -68,6 +67,7 @@
 			{placeholder}
 			{required}
 			{disabled}
+			bind:value
 			{...restProps}
 		>
 			<option value="">Select</option>

@@ -142,17 +142,19 @@
 		<BudgetWarning {budgetAlertThreshold} {budgetPercentage} goalPeriod={user?.budgetCycle} />
 	{/if}
 
-	<DateScroller
-		{nextMonth}
-		{prevMonth}
-		{currentMonth}
-		budgetCycle={user?.budgetCycle}
-		{nextWeek}
-		{prevWeek}
-	/>
+	<div class="px-3">
+		<DateScroller
+			{nextMonth}
+			{prevMonth}
+			{currentMonth}
+			budgetCycle={user?.budgetCycle}
+			{nextWeek}
+			{prevWeek}
+		/>
+	</div>
 
 	<div
-		class="no-scrollbar mt-10 flex w-full flex-nowrap items-center gap-3 overflow-x-auto px-3 pb-4 md:gap-6"
+		class="no-scrollbar mt-6 flex w-full flex-nowrap items-center gap-3 overflow-x-auto px-3 pb-4 md:gap-6"
 	>
 		<BalanceCard
 			currency={_currency}

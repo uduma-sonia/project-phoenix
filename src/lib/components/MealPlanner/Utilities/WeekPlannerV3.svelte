@@ -1,21 +1,30 @@
 <script lang="ts">
 	import MealItem from './MealItem.svelte';
 	import MealsUtils from './utils';
-	import WeekScroller from './WeekScroller.svelte';
 	import { MealRequest } from '$lib/requests';
-	import { eachDayOfInterval, endOfWeek, format, isSameDay, startOfWeek } from 'date-fns';
-	import type { Meal } from '../../../../types/meal';
+	import {
+		addMonths,
+		eachDayOfInterval,
+		endOfWeek,
+		format,
+		isSameDay,
+		startOfWeek,
+		subMonths
+	} from 'date-fns';
+	import { TimeOfDay, type Meal, type MealResponse } from '../../../../types/meal';
 	import { addToast } from '$lib/store/toast';
 	import fetchMealsList from '$lib/hooks/fetchMealsList';
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { queryKeys } from '$lib/utils/queryKeys';
-	import Ylabels from './Ylabels.svelte';
-	import { Play } from '@lucide/svelte';
-	import Dropdown from '$lib/components/Common/Form/Dropdown.svelte';
-	import HamburgerDropdown from '$lib/components/Common/HamburgerDropdown.svelte';
 	import GeneratedShoppingList from '../GeneratedShoppingList.svelte';
 	import useCurrentUser from '$lib/hooks/useCurrentUser';
 	import SelectField from '$lib/components/Common/Form/SelectField.svelte';
+	import DateScroller from '$lib/components/Expense/Utilities/DateScroller.svelte';
+	import { BudgetCycle } from '../../../../types/transaction';
+	import MonthScroller from './MonthScroller.svelte';
+	import Helpers from '$lib/utils/helpers';
+	import MealCard from './MealCard.svelte';
+	import TrackerUtils from '$lib/components/Habit/Utilities/utils';
 
 	let { selectedPlan, currentWeek = $bindable(new Date()), mealsOptions, moreOptions } = $props();
 
@@ -23,6 +32,8 @@
 
 	let userQuery = useCurrentUser();
 	let meal_items_container: any;
+	let currentMonth = $state(new Date());
+	let currentDay = $derived(new Date());
 
 	const weekDates = $derived(
 		eachDayOfInterval({
@@ -30,7 +41,8 @@
 			end: endOfWeek(currentWeek)
 		})
 	);
-	let mealsQuery = $derived(fetchMealsList(selectedPlan?.id, currentWeek));
+
+	let mealsQuery = $derived(fetchMealsList(selectedPlan?.id, currentDay));
 	let mealsList = $derived($mealsQuery?.data?.data?.meals);
 	let user = $derived($userQuery?.data?.data?.user);
 
@@ -38,45 +50,46 @@
 		currentWeek = value;
 	}
 
-	async function handleMealItemUpdate(mealId: string, data: Meal) {
-		if (selectedPlan.id) {
-			try {
+	function updateSelectedDay(value: any) {
+		currentDay = value;
+	}
+
+	async function handleMealItemUpdate(data: any, mealId?: string) {
+		try {
+			console.log(data);
+			if (data?.name) {
 				if (mealId) {
 					await MealRequest.updateMeal(mealId, { ...data, mealPlanId: selectedPlan?.id });
 				} else {
 					await MealRequest.createMeal({ ...data, mealPlanId: selectedPlan?.id });
 				}
-
-				queryClient.invalidateQueries({
-					queryKey: queryKeys.getMeals({
-						mealPlanId: selectedPlan?.id,
-						days: MealsUtils.getDaysList(currentWeek)
-					})
-				});
-			} catch (error) {
-				addToast(`Meal could not be saved`, 'error');
 			}
-		} else {
-			addToast(`Create a meal plan first`, 'error');
+
+			queryClient.invalidateQueries({
+				queryKey: queryKeys.getMeals({
+					mealPlanId: selectedPlan?.id,
+					days: JSON.stringify([TrackerUtils.getISODate(currentDay)])
+				})
+			});
+		} catch (error) {
+			addToast(`Meal could not be saved`, 'error');
 		}
 	}
 
-	const handleScrollLeft = () => {
-		meal_items_container.scrollLeft -= 300;
-	};
-	const handleScrollRight = () => {
-		meal_items_container.scrollLeft += 300;
+	const prevMonth = () => {
+		currentMonth = subMonths(currentMonth, 1);
 	};
 
-	// onMount(() => {
-	// 	setTimeout(() => {
-	// 		const todayEl = document.getElementById('today-button');
-	// 		todayEl?.scrollIntoView({ behavior: 'instant', inline: 'center' });
-	// 	}, 0);
-	// });
+	const nextMonth = () => {
+		currentMonth = addMonths(currentMonth, 1);
+	};
 
-	$effect(() => console.log(selectedPlan));
-	$effect(() => console.log(mealsOptions));
+	const getMealDetails = (mealsList: MealResponse[], timeOfDay: TimeOfDay) => {
+		const meal = mealsList?.find(
+			(meal) => (meal?.timeOfDay || 'breakfast').toLowerCase() === timeOfDay.toLowerCase()
+		);
+		return meal as Meal;
+	};
 </script>
 
 {#snippet dayOfWeek(title: string, sub: string, isToday: boolean)}
@@ -96,28 +109,48 @@
 {/snippet}
 
 <div>
-	<div class="my-4 block justify-between px-3 md:flex">
-		<WeekScroller {currentWeek} {updateCurrentWeek} />
-
-		<div class="mt-4 flex items-center gap-4 md:mt-0">
-			<div class="w-full rounded-xl bg-white">
-				<SelectField
-					id="selectedPlan"
-					name="selectedPlan"
-					options={mealsOptions}
-					bind:value={selectedPlan}
-					defaultId={selectedPlan?.id}
-				/>
-				<!-- <Dropdown options={mealsOptions} shouldSearch={false} bind:selectedOption={selectedPlan} /> -->
-			</div>
-
-			<div>
-				<HamburgerDropdown variant="solid" options={moreOptions} />
-			</div>
-		</div>
+	<div class="my-4 px-3">
+		<DateScroller {nextMonth} {prevMonth} {currentMonth} budgetCycle={BudgetCycle.MONTHLY} />
 	</div>
 
-	<!-- <div class="px-3 pt-3">
+	<MonthScroller {currentDay} {updateSelectedDay} {currentMonth} />
+
+	<div class="mt-4 px-3">
+		<p class="font-suez mb-4 inline-block text-lg font-medium md:text-xl">
+			{Helpers.getRelativeDate(currentMonth)}
+		</p>
+
+		<MealCard
+			timeOfDay={TimeOfDay.breakfast}
+			meal={getMealDetails(mealsList, TimeOfDay.breakfast) as MealResponse}
+			{handleMealItemUpdate}
+			{currentDay}
+			{selectedPlan}
+		/>
+		<MealCard
+			timeOfDay={TimeOfDay.lunch}
+			meal={getMealDetails(mealsList, TimeOfDay.lunch) as MealResponse}
+			{handleMealItemUpdate}
+			{currentDay}
+			{selectedPlan}
+		/>
+		<MealCard
+			timeOfDay={TimeOfDay.dinner}
+			meal={getMealDetails(mealsList, TimeOfDay.dinner) as MealResponse}
+			{handleMealItemUpdate}
+			{currentDay}
+			{selectedPlan}
+		/>
+		<MealCard
+			timeOfDay={TimeOfDay.snack}
+			meal={getMealDetails(mealsList, TimeOfDay.snack) as MealResponse}
+			{handleMealItemUpdate}
+			{currentDay}
+			{selectedPlan}
+		/>
+	</div>
+
+	<!-- <div class="px-3 pt-50">
 		<div
 			class="relative overflow-hidden rounded-lg border bg-[#cfc4e7] pt-[0px] pl-[70px] md:pl-[75px]"
 		>
@@ -179,9 +212,9 @@
 
 <GeneratedShoppingList {mealsList} {user} />
 
-<style>
+<!-- <style>
 	.meal_items_container {
 		transition: all 0.3s linear;
 		scroll-behavior: smooth;
 	}
-</style>
+</style> -->
