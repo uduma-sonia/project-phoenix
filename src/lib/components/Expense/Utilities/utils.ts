@@ -53,7 +53,10 @@ class ExpenseUtils {
 	}
 
 	static getDailySpending(transactions: Transaction[], startDate: string, endDate: string) {
-		if (!transactions) return 0;
+		const expensesTransactions = transactions?.filter(
+			(txn) => txn.type === TransactionType.EXPENSE
+		);
+		if (!expensesTransactions?.length) return 0;
 
 		const start = parseISO(startDate);
 		const end = parseISO(endDate);
@@ -78,9 +81,10 @@ class ExpenseUtils {
 	}
 
 	static getExpenseByCategory(transactions: Transaction[]): Record<string, number> {
+		if (!transactions?.length) return {};
 		return transactions
-			.filter((tx) => tx.type === TransactionType.EXPENSE)
-			.reduce(
+			?.filter((tx) => tx?.type === TransactionType.EXPENSE)
+			?.reduce(
 				(acc, tx) => {
 					acc[tx.categoryName] = (acc[tx.categoryName] || 0) + tx.amount;
 					return acc;
@@ -93,7 +97,6 @@ class ExpenseUtils {
 		if (!transactions && !totalIncome && !totalExpense) return {};
 
 		const expensesByCategory = this.getExpenseByCategory(transactions);
-
 		const topCategory = Object.entries(expensesByCategory).sort((a, b) => b[1] - a[1])[0];
 
 		return {
@@ -103,14 +106,15 @@ class ExpenseUtils {
 				<br/>
 
 				 (${Math.round((topCategory[1] / totalExpense) * 100)}% of expenses)`
-				: null,
+				: 'No money spent yet',
 
 			spendingMeansText:
 				totalExpense > totalIncome
 					? 'You are spending more than you earn'
 					: 'You are within your income',
 
-			isWithinIncome: Boolean(totalIncome > totalExpense)
+			isWithinIncome: Boolean(totalIncome > totalExpense),
+			hasExpenses: totalExpense > 0
 		};
 	}
 

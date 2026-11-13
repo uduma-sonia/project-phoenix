@@ -1,7 +1,16 @@
 <script lang="ts">
 	import { Check, X } from '@lucide/svelte';
 
-	let { insightsStrings } = $props();
+	let {
+		insightsStrings
+	}: {
+		insightsStrings: {
+			topCategoryText?: string;
+			spendingMeansText?: string;
+			isWithinIncome?: boolean;
+			hasExpenses?: boolean;
+		};
+	} = $props();
 </script>
 
 {#if insightsStrings}
@@ -10,26 +19,28 @@
 			{@html insightsStrings.topCategoryText}
 		</h4>
 
-		{#if insightsStrings.isWithinIncome}
-			<div
-				class="bg-brand-lime mx-auto flex w-fit items-center gap-2 rounded-lg border px-2 py-1 text-xs font-light"
-			>
-				{insightsStrings.spendingMeansText}
+		{#if insightsStrings?.hasExpenses}
+			{#if insightsStrings.isWithinIncome}
+				<div
+					class="bg-brand-lime mx-auto flex w-fit items-center gap-2 rounded-lg border-2 px-2 py-1 text-xs font-light"
+				>
+					{insightsStrings.spendingMeansText}
 
-				<div class="bg-brand-green aspect-square w-fit rounded-full border p-1">
-					<Check size="14px" color="#ffffff" />
+					<div class="bg-brand-green aspect-square w-fit rounded-full border p-1">
+						<Check size="14px" color="#ffffff" />
+					</div>
 				</div>
-			</div>
-		{:else}
-			<div
-				class="bg-brand-logo mx-auto flex w-fit items-center gap-2 rounded-lg px-2 py-1 text-xs font-light"
-			>
-				{insightsStrings.spendingMeansText}
+			{:else}
+				<div
+					class="bg-brand-logo mx-auto flex w-fit items-center gap-2 rounded-lg border-2 px-2 py-1 text-xs font-light"
+				>
+					{insightsStrings.spendingMeansText}
 
-				<div class="bg-brand-error aspect-square w-fit rounded-full p-1">
-					<X size="14px" color="#ffffff" />
+					<div class="bg-brand-error aspect-square w-fit rounded-full p-1">
+						<X size="14px" color="#ffffff" />
+					</div>
 				</div>
-			</div>
+			{/if}
 		{/if}
 	</div>
 {/if}

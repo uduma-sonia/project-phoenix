@@ -17,7 +17,7 @@
 					<small class="text-sm font-medium">{smallText}</small>
 				{/if}
 			</p>
-			<p class="font-lexend text-13 font-light">{description}</p>
+			<p class="font-lexend text-13 font-normal">{description}</p>
 		</div>
 	</div>
 </div>
