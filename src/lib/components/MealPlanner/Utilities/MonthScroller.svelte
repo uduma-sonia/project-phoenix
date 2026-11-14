@@ -11,7 +11,11 @@
 		setTimeout(() => {
 			const middle_container = document.getElementById('middle_container');
 			const todayEl = middle_container?.querySelector('#today-button');
-			todayEl?.scrollIntoView({ behavior: 'smooth', inline: 'start' });
+			todayEl?.scrollIntoView({
+				behavior: 'smooth',
+				block: 'nearest',
+				inline: 'start'
+			});
 		}, 0);
 	});
 </script>

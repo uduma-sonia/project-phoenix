@@ -11,6 +11,7 @@
 	import EmptyState from '../Common/EmptyState.svelte';
 	import { onMount } from 'svelte';
 	import ManageRecipeGroup from '../Modals/ManageRecipeGroup.svelte';
+	import ProgressLoader from '../Common/ProgressLoader.svelte';
 
 	let searchQuery = $state('');
 	let currentTab = $state('All');
@@ -34,9 +35,11 @@
 	});
 
 	let groupList = $derived($groupQuery?.data?.data?.recipeGroups);
+	let isLoading = $derived($recipeQuery?.status === 'pending' || $recipeQuery?.isLoading);
+	let isError = $derived($recipeQuery?.status === 'error' || $recipeQuery?.isError);
 
-	let isLoading = $derived($recipeQuery?.isLoading);
-	let isError = $derived($recipeQuery?.isError);
+	// let isLoading = $derived($recipeQuery?.isLoading);
+	// let isError = $derived($recipeQuery?.isError);
 	let hasRecipes = $derived((filteredRecipeList ?? []).length > 0);
 
 	function handleChangeTab(tab: string) {
@@ -51,18 +54,31 @@
 
 <div class="pb-44">
 	<p class="font-lexend mb-4 px-3 text-xs font-normal text-wrap">
-		Manage and organize your recipes
+		Manage, organize and share your recipes
 	</p>
+	<div class="relative z-30 mt-5 flex items-center justify-between gap-3 px-3">
+		<HabitSearch bind:searchQuery placeholder="Search recipes..." />
+	</div>
 
-	<GroupScroller {groupList} {handleChangeTab} {currentTab} {user} />
+	<!-- <GroupScroller {groupList} {handleChangeTab} {currentTab} {user} />
 
 	<div class="relative z-30 mt-5 flex items-center justify-between gap-3 px-3">
 		<HabitSearch bind:searchQuery placeholder="Search recipe" />
-	</div>
+	</div> -->
 
-	<LoaderError {isLoading} error={isError} />
+	<ProgressLoader {isLoading} error={isError} />
 
 	{#if !isLoading && !isError}
+		<div class="mt-8 grid grid-cols-1 gap-3 px-3 sm:gap-6 md:mt-14 md:grid-cols-2">
+			{#if !$recipeQuery?.isLoading && filteredRecipeList?.length > 0}
+				{#each filteredRecipeList as recipe, index (index)}
+					<RecipeCard {recipe} />
+				{/each}
+			{/if}
+		</div>
+	{/if}
+
+	<!-- {#if !isLoading && !isError}
 		{#if hasRecipes}
 			<div class="mt-8 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:mt-14 md:grid-cols-3">
 				{#if !$recipeQuery?.isLoading && filteredRecipeList?.length > 0}
@@ -83,7 +99,7 @@
 				<LoaderError isLoading={true} />
 			{/if}
 		{/if}
-	{/if}
+	{/if} -->
 </div>
 
 <ManageRecipeGroup {groupList} />

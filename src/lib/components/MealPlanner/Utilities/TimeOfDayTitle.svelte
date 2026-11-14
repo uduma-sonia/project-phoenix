@@ -14,7 +14,7 @@
 
 <div class="flex items-center justify-between gap-4">
 	<p
-		class="font-lexend bg-primary-biloba-800 mb-1 inline-block rounded-lg px-4 py-1.5 text-sm font-medium text-white capitalize hover:bg-pink-100 md:text-base"
+		class="font-lexend bg-primary-biloba-800 mb-1 inline-block rounded-lg px-4 py-1.5 text-sm font-medium text-white capitalize md:text-base"
 	>
 		{timeOfDay}
 	</p>

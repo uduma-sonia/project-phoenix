@@ -1,74 +1,80 @@
 <script lang="ts">
-	import { Heart } from '@lucide/svelte';
+	import { AlarmClock, Flame, Heart, Utensils } from '@lucide/svelte';
 	import type { RecipeResponse } from '../../../../types/recipe';
 	import Image from '$lib/components/Common/Image.svelte';
+	import PrepTime from './PrepTime.svelte';
+	import Difficulty from './Difficulty.svelte';
 
 	let { recipe }: { recipe: RecipeResponse } = $props();
 
 	let recipeImage = $derived(recipe?.images ? recipe?.images[0] : '');
+	let groupsList = $derived(recipe?.groups?.map((item) => item.name));
 </script>
 
 <a
 	href={`/recipe/${recipe?.slug}?owner=${recipe.ownerId}`}
-	class="button_active relative cursor-pointer"
+	class="overflowhidden h-[100px]min-h-[100px] relative w-full rounded-2xl border-2"
 >
-	<div class="bg-brand-recipe relative h-6 w-16 rounded-tl-lg border-2 border-b-0">
-		<div class="bg-brand-recipe absolute top-2 -right-10 h-20 w-full -rotate-45 border-r-2"></div>
-	</div>
-
-	<div class="card_wrapper bg-brand-recipe rounded-lg rounded-tl-none">
-		<div
-			class="bg-brand-recipe relative z-10 h-[220px] w-full max-w-[350px] rounded-lg rounded-tl-none border-2"
-		>
-			{#if recipeImage}
-				<div class="h-[160px] overflow-hidden rounded-t-lg">
-					<Image
-						withLoadingAnimation={true}
-						src={recipeImage}
-						className="h-full w-full object-cover"
-					/>
-				</div>
-			{/if}
-			{#if !recipeImage}
-				<div
-					class="text-10 flex h-[160px] items-center justify-center overflow-hidden rounded-t-lg"
-				>
-					<p>No image available</p>
-				</div>
-			{/if}
-
-			<div class="h-[60px] p-2">
-				<p class="font-lexend line-clamp-2 text-sm font-light">
-					{recipe?.name}
-				</p>
-			</div>
-		</div>
-	</div>
-
 	{#if recipe.isSaved}
 		<div class="absolute right-3 bottom-3 z-50">
-			<Heart size="18px" fill="#101010" />
+			<Heart size="16px" fill="#ff91e8" />
 		</div>
 	{/if}
+
+	<div class="bg-primary-orange-100 flex h-full gap-2 rounded-2xl p-2.5">
+		<div
+			class="bg-primary-orange-300 flex h-[80px] w-[80px] min-w-[80px] items-center justify-center overflow-hidden rounded-lg border shadow-md"
+		>
+			<Image
+				noImgClassName="w-10"
+				withLoadingAnimation={true}
+				src={recipeImage}
+				className="h-full w-full max-h-full max-w-full object-cover"
+			/>
+		</div>
+
+		<div class="flex-1">
+			<p class="font-lexend text-15 line-clamp-2 font-medium">
+				{recipe?.name}
+			</p>
+
+			<div class="my-1.5 flex gap-4">
+				{#if recipe?.servings}
+					<div class="flex min-w-max items-center gap-1">
+						<p class="font-lexend-deca flex items-center gap-1 text-sm">
+							<Utensils size="16px" strokeWidth={2.5} />
+						</p>
+						<p class="font-lexend-deca text-xs font-light">{recipe.servings}</p>
+					</div>
+				{/if}
+				{#if recipe.cookTime || recipe.prepTime}
+					<PrepTime
+						data={{
+							hour:
+								Math.max(0, Number(recipe.cookTime?.hour || 0)) +
+								Math.max(0, Number(recipe.prepTime?.hour || 0)),
+							minutes:
+								Math.max(0, Number(recipe.cookTime?.minutes || 0)) +
+								Math.max(0, Number(recipe.prepTime?.minutes || 0))
+						}}
+						Icon={AlarmClock}
+						iconProps={{ strokeWidth: 2.5 }}
+					/>
+				{/if}
+				{#if recipe?.difficulty}
+					<Difficulty difficulty={recipe.difficulty} />
+				{/if}
+			</div>
+
+			{#if groupsList?.length}
+				<div class="flex items-center gap-2">
+					<p
+						class="font-lexend text-brand-grey-text line-clamp-1 min-w-fit rounded-sm text-xs font-normal"
+					>
+						{groupsList?.join(', ')}
+					</p>
+				</div>
+			{/if}
+		</div>
+	</div>
 </a>
-
-<style>
-	.card_wrapper {
-		position: relative;
-	}
-
-	.card_wrapper::before {
-		content: '';
-		position: absolute;
-		top: 3px;
-		left: 3px;
-		right: 0;
-		bottom: 0;
-		background-color: #000000;
-		border: 2px solid black;
-		z-index: 1;
-		border-radius: 8px;
-		width: 100%;
-		height: 100%;
-	}
-</style>

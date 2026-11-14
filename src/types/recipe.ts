@@ -84,7 +84,7 @@ export type Recipe = {
 	};
 	servings?: number;
 	yield?: string;
-	difficulty?: string;
+	difficulty?: RecipeDifficulty;
 	groups?: RecipeGroup[];
 	images?: string[];
 	isPrivate?: boolean;
@@ -113,7 +113,11 @@ type DayOfWeek = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 's
 
 type TimeOfDay = 'breakfast' | 'lunch' | 'dinner' | 'snack';
 
-type Difficulty = 'Easy' | 'Medium' | 'Hard';
+export enum RecipeDifficulty {
+	EASY = 'EASY',
+	MEDIUM = 'MEDIUM',
+	HARD = 'HARD'
+}
 
 export interface MealEntry {
 	_id: ObjectId;
@@ -135,14 +139,4 @@ export interface MealEntry {
 export interface Time {
 	hour: number;
 	minutes: number;
-}
-
-interface Direction {
-	_id: ObjectId;
-	name: string;
-}
-
-interface SectionListItem {
-	_id: ObjectId;
-	value: string;
 }

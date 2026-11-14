@@ -6,7 +6,12 @@
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import Dropdown from '../Common/Form/Dropdown.svelte';
-	import { SectionType, type Recipe, type RecipeSection } from '../../../types/recipe';
+	import {
+		RecipeDifficulty,
+		SectionType,
+		type Recipe,
+		type RecipeSection
+	} from '../../../types/recipe';
 	import TextArea from '../Common/Form/TextArea.svelte';
 	import TextButton from '../Common/Form/TextButton.svelte';
 	import { difficultyOptions, typeOptions } from '$lib/constants/recipe';
@@ -292,7 +297,7 @@
 				},
 				servings: servings ? Number(servings) : 0,
 				yield: yieldValue,
-				difficulty: selectedDifficulty.id,
+				difficulty: selectedDifficulty.id as RecipeDifficulty,
 				groups: $state.snapshot(selectedGroupList),
 				images: [imageOneUrl, imageTwoUrl].filter((item) => item),
 				isPrivate: isPrivate,
