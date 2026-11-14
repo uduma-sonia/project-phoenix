@@ -43,20 +43,16 @@
 </script>
 
 <div class="my-4 px-3">
-	<div class="flex items-center justify-between gap-4">
-		<div class="no-scrollbar flex items-center gap-4 overflow-x-auto">
-			<TabButton name={'All'} {changeTab} {currentTab} />
-			<TabButton name={'Saved'} {changeTab} {currentTab} LeftIcon={Heart} />
+	<div class="no-scrollbar flex items-center gap-3 overflow-x-auto py-1 pr-2">
+		<TabButton name={'All'} {changeTab} {currentTab} />
+		<TabButton name={'Saved'} {changeTab} {currentTab} LeftIcon={Heart} />
 
-			{#each groupList as group, index (index)}
-				<TabButton name={group?.name} {changeTab} {currentTab} />
-			{/each}
-		</div>
-
-		<div>
-			<div>
-				<HamburgerDropdown variant="solid" options={moreOptions} />
-			</div>
-		</div>
+		{#each groupList as group, index (index)}
+			<TabButton name={group?.name} {changeTab} {currentTab} />
+		{/each}
 	</div>
+
+	<!-- <div class="flex items-center justify-end">
+		<HamburgerDropdown variant="solid" options={moreOptions} />
+	</div> -->
 </div>

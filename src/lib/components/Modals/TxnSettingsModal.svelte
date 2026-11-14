@@ -13,6 +13,7 @@
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import BasicInputField from '../Common/Form/BasicInputField.svelte';
 	import { budgetCycles } from '$lib/constants/transaction';
+	import CurrencyInput from '../Common/CurrencyInput.svelte';
 
 	const queryClient = useQueryClient();
 	let isLoading = $state(false);
@@ -125,14 +126,12 @@
 
 			{#if isBudgetMode}
 				<div class="space-y-6">
-					<BasicInputField
-						label="Budget Amount"
-						bind:value={budgetAmount}
-						type="number"
+					<CurrencyInput
+						inputClass="bg-white"
 						id="amount"
-						name="amount"
-						required={isBudgetMode}
-						inputMode="numeric"
+						label="Budget Amount"
+						currency={user?.currency}
+						bind:value={budgetAmount}
 					/>
 					<BasicInputField
 						label="Alert threshold percentage"

@@ -5,11 +5,8 @@
 	import RecipeCard from './Utilities/RecipeCard.svelte';
 	import { queryKeys } from '$lib/utils/queryKeys';
 	import { RecipeRequest } from '$lib/requests';
-	import LoaderError from '../Common/LoaderError.svelte';
 	import RecipeUtils from './Utilities/utils';
 	import useCurrentUser from '$lib/hooks/useCurrentUser';
-	import EmptyState from '../Common/EmptyState.svelte';
-	import { onMount } from 'svelte';
 	import ManageRecipeGroup from '../Modals/ManageRecipeGroup.svelte';
 	import ProgressLoader from '../Common/ProgressLoader.svelte';
 
@@ -29,7 +26,7 @@
 		RecipeUtils.getlist(recipeList, currentTab, user?._id, searchQuery)
 	);
 
-	const groupQuery = createQuery({
+	let groupQuery = createQuery({
 		queryKey: queryKeys.getRecipeGroups,
 		queryFn: () => RecipeRequest.getRecipeGroups()
 	});
@@ -38,18 +35,9 @@
 	let isLoading = $derived($recipeQuery?.status === 'pending' || $recipeQuery?.isLoading);
 	let isError = $derived($recipeQuery?.status === 'error' || $recipeQuery?.isError);
 
-	// let isLoading = $derived($recipeQuery?.isLoading);
-	// let isError = $derived($recipeQuery?.isError);
-	let hasRecipes = $derived((filteredRecipeList ?? []).length > 0);
-
 	function handleChangeTab(tab: string) {
 		currentTab = tab;
 	}
-	let hasMount = $state(false);
-
-	onMount(() => {
-		hasMount = true;
-	});
 </script>
 
 <div class="pb-44">
@@ -60,16 +48,17 @@
 		<HabitSearch bind:searchQuery placeholder="Search recipes..." />
 	</div>
 
-	<!-- <GroupScroller {groupList} {handleChangeTab} {currentTab} {user} />
-
-	<div class="relative z-30 mt-5 flex items-center justify-between gap-3 px-3">
-		<HabitSearch bind:searchQuery placeholder="Search recipe" />
-	</div> -->
-
-	<ProgressLoader {isLoading} error={isError} />
+	<GroupScroller {groupList} {handleChangeTab} {currentTab} {user} />
+	<ProgressLoader
+		{isLoading}
+		error={isError}
+		isEmpty={!isLoading && !isError && recipeList?.length === 0}
+		emptyTitle="No recipes saved"
+		emptyDescription="Cooking inspiration starts here. Save your favorite recipes in one place."
+	/>
 
 	{#if !isLoading && !isError}
-		<div class="mt-8 grid grid-cols-1 gap-3 px-3 sm:gap-6 md:mt-14 md:grid-cols-2">
+		<div class="mt-6 grid grid-cols-1 gap-3 px-3 sm:gap-6 md:mt-8 md:grid-cols-2">
 			{#if !$recipeQuery?.isLoading && filteredRecipeList?.length > 0}
 				{#each filteredRecipeList as recipe, index (index)}
 					<RecipeCard {recipe} />
@@ -77,29 +66,6 @@
 			{/if}
 		</div>
 	{/if}
-
-	<!-- {#if !isLoading && !isError}
-		{#if hasRecipes}
-			<div class="mt-8 grid grid-cols-2 gap-3 px-3 sm:grid-cols-3 sm:gap-6 md:mt-14 md:grid-cols-3">
-				{#if !$recipeQuery?.isLoading && filteredRecipeList?.length > 0}
-					{#each filteredRecipeList as recipe, index (index)}
-						<RecipeCard {recipe} />
-					{/each}
-				{/if}
-			</div>
-		{:else if !isError}
-			{#if hasMount}
-				<EmptyState
-					buttonText="Add Recipe"
-					heading="No recipes saved"
-					text=" Cooking inspiration starts here. Save your favorite recipes in one place."
-					link="/recipe/create"
-				/>
-			{:else}
-				<LoaderError isLoading={true} />
-			{/if}
-		{/if}
-	{/if} -->
 </div>
 
 <ManageRecipeGroup {groupList} />

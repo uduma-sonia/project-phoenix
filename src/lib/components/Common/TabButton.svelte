@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Component } from 'svelte';
+	import ButtonV2 from './Form/ButtonV2.svelte';
 
 	type Props = {
 		currentTab: string;
@@ -13,20 +14,18 @@
 </script>
 
 <div class={`min-w-fit ${wrapperClass}`}>
-	<button
-		class="bg-brand-rose font-lexend button_active w-ful min-w-ma flex h-[50px] items-center justify-center gap-1 rounded-lg border-2 border-black px-3 text-sm font-normal sm:text-base"
-		onclick={() => changeTab(name)}
-		class:selected={currentTab === name}
-	>
-		{#if LeftIcon}
-			<LeftIcon
-				size="16px"
-				fill={currentTab === name ? 'black' : 'transparent'}
-				strokeWidth="2px"
-			/>
-		{/if}
-		{name}
-	</button>
+	<ButtonV2
+		label={name}
+		{LeftIcon}
+		action={() => changeTab(name)}
+		size="xs"
+		variant={currentTab === name ? 'purple' : 'primary'}
+		leftIconProps={{
+			size: '16px',
+			fill: currentTab === name ? 'black' : 'transparent',
+			strokeWidth: 2
+		}}
+	/>
 </div>
 
 <style>

@@ -6,13 +6,17 @@
 		error,
 		errorText = 'Something went wrong, please try again',
 		heading = 'Oh no!',
-		isEmpty
+		isEmpty,
+		emptyTitle = 'No data yet',
+		emptyDescription
 	}: {
 		isLoading?: boolean;
 		isEmpty?: boolean;
 		error?: any;
 		errorText?: string;
 		heading?: string;
+		emptyDescription?: string;
+		emptyTitle?: string;
 	} = $props();
 
 	let countdownInterval: any;
@@ -32,6 +36,7 @@
 	}
 
 	onMount(() => {
+		progress = 5;
 		if (!isEmpty) {
 			if (isLoading) {
 				countdownInterval = setInterval(goToNext, 150);
@@ -52,7 +57,10 @@
 {#if isEmpty}
 	<div class="flex flex-col items-center justify-center py-6">
 		<img src="/images/empty-box.svg" alt="sad emoji" class="w-9" />
-		<p class="font-lexend text-13 text-center font-normal">No data yet</p>
+		<p class="font-lexend text-13 text-center font-normal">{emptyTitle}</p>
+		{#if emptyDescription}
+			<p class="font-lexend text-13 mt-2 max-w-70 text-center font-light">{emptyDescription}</p>
+		{/if}
 	</div>
 {:else}
 	{#if isLoading}

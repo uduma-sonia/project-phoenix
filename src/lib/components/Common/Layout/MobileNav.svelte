@@ -37,30 +37,31 @@
 </script>
 
 <div
-	class="fixed bottom-0 left-0 z-[99] w-full rounded-t-3xl border-[1.5px] bg-[#f8e1a8] pt-2 pb-5 shadow-lg shadow-black md:hidden"
+	class="fixed bottom-0 left-0 z-[99] h-[80px] w-full rounded-t-4xl border-[1.5px] bg-[#f8e1a8] pb-3 shadow-lg"
 >
-	<div class="grid h-full grid-cols-5">
+	<div class="relative mx-auto grid h-full max-w-[1000px] grid-cols-5">
 		{#each routeLinks as route, index (index)}
 			{@const isActive =
 				page.url.pathname.startsWith(route.route) || page.url.pathname.includes(route.keyword)}
 			<a
 				href={route.route}
-				class="opacity50 text-brand-grey-text relative flex flex-col items-center justify-center gap-0.5"
+				class="text-brand-grey-text relative flex flex-col items-center justify-center gap-0.5"
 				class:active_text={isActive}
 			>
 				<div>
-					<route.icon />
+					<route.icon size="18" />
 				</div>
 
-				<p class="font-lexend-deca text-11 font-light">{route.label}</p>
-
-				{#if isActive}
-					<div
-						class="text-primary-biloba-700 absolute -bottom-2.5 left-1/2 -translate-x-1/2 rounded-full"
-					>
-						<Triangle size="10" strokeWidth={5} />
-					</div>
-				{/if}
+				<div class="font-lexend-deca relative text-xs font-light" class:active_text={isActive}>
+					{route.label}
+					{#if isActive}
+						<div
+							class="text-primary-biloba-700 absolute -bottom-3 left-1/2 -translate-x-1/2 rounded-full"
+						>
+							<Triangle size="10" strokeWidth={4} fill="#706ca9" />
+						</div>
+					{/if}
+				</div>
 			</a>
 		{/each}
 	</div>
